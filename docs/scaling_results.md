@@ -1,5 +1,7 @@
 # VeRA-Mem 扩样、稳定训练和冷启动：学生交接说明
 
+后续更新：已完成[数据增强与一致性训练的独立泛化对照](generalization_results.md)。本页保留扩样/冷启动实验的历史协议和结果，不与新协议混合统计。
+
 实验日期：2026-10-05。基座为固定版本的 Qwen3-4B-Instruct-2507，训练/推理在 H100 上完成。本页对应已完成的扩样实验；逐项数字、严格配对区间与来源 hash 见[完整汇总](results/scaling/report.md)，机器可读结果见[summary.json](results/scaling/summary.json)。上一轮失败记录保留在[初步报告](pilot_results.md)。
 
 ## 目前得到的结论

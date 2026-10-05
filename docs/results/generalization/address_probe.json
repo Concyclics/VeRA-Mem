@@ -1,0 +1,286 @@
+{
+  "diagnostic": "offline address-only training-style-subspace ablation; NOT full VeRA memory EM",
+  "complete": true,
+  "started_at": "2026-10-05T17:52:25.171832+00:00",
+  "cache_sha256": "00b94acb30450f31285c5268bb5709485a185c81327cf0dabcf02c1e1c66ab32",
+  "data_fingerprint": "12a299d6519fc60a664484581e5709cfbc17fe1317a1d354c27867b9d7c28f38",
+  "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+  "source_script_sha256": "695ebbea07b290f8c5c5d55152fd249d46a7e9a6c70e787d99efd930fdbc2d04",
+  "module_source_sha256": {
+    "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539",
+    "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8"
+  },
+  "device": "cpu",
+  "torch_threads": 4,
+  "torch_interop_threads": 1,
+  "torch_version": "2.9.0+cu128",
+  "python_version": "3.11.13",
+  "config": {
+    "steps": 400,
+    "batch_size": 128,
+    "seed": 42,
+    "learning_rate": 0.0001,
+    "contrastive_temperature": 0.1,
+    "clipping_norm": 1.0,
+    "optimizer": "Adam",
+    "training_facts": 4096,
+    "query_views": 8,
+    "support_views": 4,
+    "key_dimension": 64
+  },
+  "fitted_training_statistics": {
+    "q": {
+      "training_facts": 4096,
+      "training_views": 8,
+      "projection_rank": 7,
+      "singular_values": [
+        58.3926222121945,
+        45.340523265628114,
+        37.68965861532379,
+        34.212492047305474,
+        28.42906600238078,
+        24.938613964097996,
+        22.88265133100262,
+        1.3473066058555008e-05
+      ],
+      "singular_relative_cutoff": 1e-05,
+      "projected_fraction_of_training_centered_energy": 0.9528974063482089,
+      "style_mean_energy_fraction": 0.9405790402502302
+    },
+    "s": {
+      "training_facts": 4096,
+      "training_views": 4,
+      "projection_rank": 3,
+      "singular_values": [
+        24.603930146049244,
+        13.974908586396548,
+        12.12907270970408,
+        7.533765345668612e-06
+      ],
+      "singular_relative_cutoff": 1e-05,
+      "projected_fraction_of_training_centered_energy": 0.8151148413594523,
+      "style_mean_energy_fraction": 0.7993563738670957
+    }
+  },
+  "evaluated_splits": [
+    "dev"
+  ],
+  "confirmation_used": false,
+  "dev_selection": false,
+  "chance_recall_at_1": 0.015625,
+  "chance_recall_at_4": 0.0625,
+  "limitations": [
+    "Fixed final 400-step budget by default; development does not choose projection rank or checkpoint.",
+    "Two views of each domain are drawn independently; entity and view streams are matched across conditions.",
+    "Projection removes training-template mean directions, potentially also discarding useful identity information.",
+    "This probe omits the VeRA residual, value writer, language modeling and online token decoding.",
+    "Positive development addressing does not establish end-to-end generalization; negative results do not rule out other projections.",
+    "64 development facts and one initialization seed; no confirmation cases are evaluated."
+  ],
+  "runs": [
+    {
+      "method": "centered",
+      "fixed_final_step": 400,
+      "development": {
+        "train_query_00/train_support_00": {
+          "count": 64,
+          "correct_at_1": 47,
+          "correct_at_4": 63,
+          "recall_at_1": 0.734375,
+          "recall_at_4": 0.984375,
+          "contrastive_nll": 1.241103172302246
+        },
+        "train_query_00/dev_support_00": {
+          "count": 64,
+          "correct_at_1": 13,
+          "correct_at_4": 28,
+          "recall_at_1": 0.203125,
+          "recall_at_4": 0.4375,
+          "contrastive_nll": 3.2712314128875732
+        },
+        "train_query_00/dev_support_01": {
+          "count": 64,
+          "correct_at_1": 6,
+          "correct_at_4": 20,
+          "recall_at_1": 0.09375,
+          "recall_at_4": 0.3125,
+          "contrastive_nll": 3.6533141136169434
+        },
+        "dev_query_00/train_support_00": {
+          "count": 64,
+          "correct_at_1": 1,
+          "correct_at_4": 6,
+          "recall_at_1": 0.015625,
+          "recall_at_4": 0.09375,
+          "contrastive_nll": 6.431734561920166
+        },
+        "dev_query_00/dev_support_00": {
+          "count": 64,
+          "correct_at_1": 2,
+          "correct_at_4": 7,
+          "recall_at_1": 0.03125,
+          "recall_at_4": 0.109375,
+          "contrastive_nll": 4.0135626792907715
+        },
+        "dev_query_00/dev_support_01": {
+          "count": 64,
+          "correct_at_1": 1,
+          "correct_at_4": 4,
+          "recall_at_1": 0.015625,
+          "recall_at_4": 0.0625,
+          "contrastive_nll": 4.26623010635376
+        },
+        "dev_query_01/train_support_00": {
+          "count": 64,
+          "correct_at_1": 3,
+          "correct_at_4": 10,
+          "recall_at_1": 0.046875,
+          "recall_at_4": 0.15625,
+          "contrastive_nll": 5.392325401306152
+        },
+        "dev_query_01/dev_support_00": {
+          "count": 64,
+          "correct_at_1": 2,
+          "correct_at_4": 5,
+          "recall_at_1": 0.03125,
+          "recall_at_4": 0.078125,
+          "contrastive_nll": 4.107815742492676
+        },
+        "dev_query_01/dev_support_01": {
+          "count": 64,
+          "correct_at_1": 1,
+          "correct_at_4": 4,
+          "recall_at_1": 0.015625,
+          "recall_at_4": 0.0625,
+          "contrastive_nll": 4.15803861618042
+        }
+      },
+      "loss_history": [
+        {
+          "step": 100,
+          "loss": 4.738259315490723,
+          "elapsed_seconds": 3.5337543971836567
+        },
+        {
+          "step": 200,
+          "loss": 3.6661200523376465,
+          "elapsed_seconds": 4.18841908685863
+        },
+        {
+          "step": 300,
+          "loss": 2.8022446632385254,
+          "elapsed_seconds": 4.849165515042841
+        },
+        {
+          "step": 400,
+          "loss": 2.2830028533935547,
+          "elapsed_seconds": 5.570594649761915
+        }
+      ],
+      "elapsed_seconds": 5.582281874958426
+    },
+    {
+      "method": "template_mean_projection",
+      "fixed_final_step": 400,
+      "development": {
+        "train_query_00/train_support_00": {
+          "count": 64,
+          "correct_at_1": 64,
+          "correct_at_4": 64,
+          "recall_at_1": 1.0,
+          "recall_at_4": 1.0,
+          "contrastive_nll": 0.2065131515264511
+        },
+        "train_query_00/dev_support_00": {
+          "count": 64,
+          "correct_at_1": 30,
+          "correct_at_4": 54,
+          "recall_at_1": 0.46875,
+          "recall_at_4": 0.84375,
+          "contrastive_nll": 3.141317367553711
+        },
+        "train_query_00/dev_support_01": {
+          "count": 64,
+          "correct_at_1": 27,
+          "correct_at_4": 48,
+          "recall_at_1": 0.421875,
+          "recall_at_4": 0.75,
+          "contrastive_nll": 3.289489507675171
+        },
+        "dev_query_00/train_support_00": {
+          "count": 64,
+          "correct_at_1": 2,
+          "correct_at_4": 15,
+          "recall_at_1": 0.03125,
+          "recall_at_4": 0.234375,
+          "contrastive_nll": 4.19810152053833
+        },
+        "dev_query_00/dev_support_00": {
+          "count": 64,
+          "correct_at_1": 3,
+          "correct_at_4": 7,
+          "recall_at_1": 0.046875,
+          "recall_at_4": 0.109375,
+          "contrastive_nll": 4.01510763168335
+        },
+        "dev_query_00/dev_support_01": {
+          "count": 64,
+          "correct_at_1": 4,
+          "correct_at_4": 10,
+          "recall_at_1": 0.0625,
+          "recall_at_4": 0.15625,
+          "contrastive_nll": 4.058867454528809
+        },
+        "dev_query_01/train_support_00": {
+          "count": 64,
+          "correct_at_1": 4,
+          "correct_at_4": 10,
+          "recall_at_1": 0.0625,
+          "recall_at_4": 0.15625,
+          "contrastive_nll": 4.635421276092529
+        },
+        "dev_query_01/dev_support_00": {
+          "count": 64,
+          "correct_at_1": 4,
+          "correct_at_4": 6,
+          "recall_at_1": 0.0625,
+          "recall_at_4": 0.09375,
+          "contrastive_nll": 4.121050834655762
+        },
+        "dev_query_01/dev_support_01": {
+          "count": 64,
+          "correct_at_1": 3,
+          "correct_at_4": 5,
+          "recall_at_1": 0.046875,
+          "recall_at_4": 0.078125,
+          "contrastive_nll": 4.155008316040039
+        }
+      },
+      "loss_history": [
+        {
+          "step": 100,
+          "loss": 1.1740305423736572,
+          "elapsed_seconds": 3.785038982052356
+        },
+        {
+          "step": 200,
+          "loss": 0.7822698354721069,
+          "elapsed_seconds": 4.509786078240722
+        },
+        {
+          "step": 300,
+          "loss": 0.5534827709197998,
+          "elapsed_seconds": 5.251994652207941
+        },
+        {
+          "step": 400,
+          "loss": 0.48614051938056946,
+          "elapsed_seconds": 6.021661959122866
+        }
+      ],
+      "elapsed_seconds": 6.033349682111293
+    }
+  ],
+  "completed_at": "2026-10-05T17:52:43.433150+00:00",
+  "public_artifact": "Aggregate training/dev diagnostics only; no raw examples, feature cache, or probe weights."
+}

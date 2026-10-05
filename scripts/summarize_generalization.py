@@ -332,7 +332,21 @@ def collect(runs_root, samples=10000, seed=123):
             continue
         records.append(record)
         predictions[record["run"]] = groups
-    comparisons, refused = [], []
+    comparisons, refused, memory_effects = [], [], []
+    for record in records:
+        groups = predictions[record["run"]]
+        for quadrant, scores in record["quadrants"].items():
+            real = entity_scores(groups, quadrant, "real")
+            for control_method in ("shuffled", "empty"):
+                estimate = paired_bootstrap(real, entity_scores(groups, quadrant, control_method), samples, seed)
+                memory_effects.append(dict(
+                    run=record["run"], condition=record["condition"], quadrant=quadrant,
+                    contrast="real_minus_" + control_method,
+                    first_method="real", second_method=control_method,
+                    first_em=scores["real"]["em"], second_em=scores[control_method]["em"],
+                    interpretation="Same-checkpoint paired memory intervention; a between-training-condition gain alone is insufficient evidence of memory use",
+                    **estimate,
+                ))
     for first_condition, second_condition in (("augment", "canonical"), ("invariant", "canonical"), ("invariant", "augment")):
         for first in [record for record in records if record["condition"] == first_condition]:
             for second in [record for record in records if record["condition"] == second_condition]:
@@ -350,6 +364,7 @@ def collect(runs_root, samples=10000, seed=123):
                     refused.append(dict(contrast, reason=str(error)))
     return dict(generated_at=datetime.now(timezone.utc).isoformat(), schema_version=1,
                 completed_run_count=len(records), runs=records, paired_comparisons=comparisons,
+                within_run_memory_effects=memory_effects,
                 refused_comparisons=refused, skipped_runs=skipped, bootstrap_samples=samples,
                 bootstrap_seed=seed, limitations=[
                     "Only completed suites and runs with prediction-level verification enter summaries.",
@@ -358,6 +373,8 @@ def collect(runs_root, samples=10000, seed=123):
                     "Equal optimizer updates/exposures do not imply equal prompt-token counts or FLOPs; paired-view consistency adds work.",
                     "Single-seed confidence intervals exclude training randomness and have no multiplicity correction.",
                     "Finite 16-word synthetic labels and authored format stress tests are not a natural-language benchmark.",
+                    "Uniform guessing among 16 labels has expected EM 6.25%; emitting any fixed vocabulary word also scores 6.25% on the balanced confirmation facts. Improvement toward this level need not indicate fact-specific memory use.",
+                    "Memory-use evidence compares real reads against both shuffled values and zero-residual reads within the same checkpoint and facts, separately from between-condition training gains; a positive real-minus-empty effect alone may reflect output-vocabulary adaptation.",
                     "The historical failed paraphrase is now a training view, not confirmation evidence.",
                     "Forced-correct-value oracle changes the per-token read distribution and is not a mathematical upper bound.",
                     "Empty means zero memory residual; shuffled values can accidentally preserve the answer category.",
@@ -394,6 +411,17 @@ def render(summary):
     for row in summary["paired_comparisons"]:
         lo, hi = row["ci95"]
         lines.append(f"| {row['contrast']} | {row['quadrant']} | {100 * row['delta_em']:.2f} | [{100 * lo:.2f}, {100 * hi:.2f}] | {row['n_paired_facts']} |")
+    lines.extend(["", "同一 checkpoint 的记忆干预差值（百分点；事实聚类 95% CI）：", "",
+                  "16 个候选词上的均匀猜测期望为 6.25%；在本轮平衡事实中，始终输出同一个候选词也会得到 6.25%。"
+                  "因此，训练条件之间从 0% 提升到约 6% 不能单独证明记忆泛化。应同时检查真实检索相对打乱 value 和零残差的差值；"
+                  "只优于零残差而不优于打乱 value，仍可能只是学会输出候选词。CI 反映事实抽样波动，不涵盖训练种子变化。", "",
+                  "| Condition | Quadrant | Control | Real / control EM | Δ EM (pp) | 95% CI (pp) |",
+                  "| --- | --- | --- | --- | ---: | --- |"])
+    for row in summary.get("within_run_memory_effects", []):
+        lo, hi = row["ci95"]
+        lines.append(f"| {row['condition']} | {row['quadrant']} | {row['second_method']} | "
+                     f"{row['first_em']:.1%} / {row['second_em']:.1%} | {100 * row['delta_em']:.2f} | "
+                     f"[{100 * lo:.2f}, {100 * hi:.2f}] |")
     lines.extend(["", "限制：", "", *["- " + limitation for limitation in summary["limitations"]]])
     if summary["skipped_runs"] or summary["refused_comparisons"]:
         lines.extend(["", "未纳入的运行或比较：", ""])

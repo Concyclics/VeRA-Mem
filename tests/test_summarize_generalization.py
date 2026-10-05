@@ -93,6 +93,9 @@ def test_complete_evidence_has_four_quadrants_and_no_private_payload(tmp_path):
     assert "PRIVATE PROMPT" not in serialized and str(tmp_path) not in serialized
     assert "fact_0" not in serialized and "APPLE!" not in serialized
     assert aggregate["completed_run_count"] == 1
+    assert len(aggregate["within_run_memory_effects"]) == 8
+    assert all(effect["n_paired_facts"] == 128 and effect["delta_em"] == 1.
+               and effect["ci95"] == [1., 1.] for effect in aggregate["within_run_memory_effects"])
     assert "新查询+新观测" in summary.render(aggregate)
 
 
@@ -171,3 +174,39 @@ def test_matched_conditions_compare_but_changed_training_seed_refuses(tmp_path):
     result = summary.collect(tmp_path, samples=10)
     assert not result["paired_comparisons"]
     assert len(result["refused_comparisons"]) == 1
+
+
+@pytest.mark.parametrize("zero_empty", [False, True])
+def test_six_percent_word_guessing_is_not_reported_as_memory_improvement(tmp_path, zero_empty):
+    run = create_run(tmp_path, "augment")
+    rows = summary.read_rows(run / "predictions.jsonl")
+    for row in rows:
+        if "/" in row["phase"] and row["method"] in ("real", "shuffled", "empty"):
+            # The same eight of 128 facts are guessed correctly regardless of
+            # whether stored values are correct, permuted, or suppressed.
+            correct = int(row["id"].split("_")[-1]) < 8 and not (zero_empty and row["method"] == "empty")
+            row.update(prediction="apple" if correct else "banana", em=int(correct))
+    write_rows(run / "predictions.jsonl", rows)
+    metrics = summary.read_json(run / "metrics.json")
+    for bank in summary.BANKS:
+        for template in summary.QUERIES:
+            for method in summary.METHODS:
+                phase_rows = [row for row in rows if row["phase"] == bank + "/" + template and row["method"] == method]
+                metrics["conditions"][bank]["scores"][template][method] = summary.summarize_phase(phase_rows)
+    write_json(run / "metrics.json", metrics)
+    aggregate = summary.collect(tmp_path, samples=100)
+    assert aggregate["completed_run_count"] == 1
+    effects = aggregate["within_run_memory_effects"]
+    assert len(effects) == 8
+    assert all(effect["first_em"] == .0625 for effect in effects)
+    for effect in effects:
+        if zero_empty and effect["second_method"] == "empty":
+            # A positive zero-residual contrast alone would falsely attribute
+            # output-vocabulary learning to fact-specific memory retrieval.
+            assert effect["second_em"] == 0 and effect["delta_em"] == .0625
+        else:
+            assert effect["second_em"] == .0625
+            assert effect["delta_em"] == 0 and effect["ci95"] == [0., 0.]
+    assert {effect["contrast"] for effect in effects} == {"real_minus_shuffled", "real_minus_empty"}
+    assert "6.25%" in summary.render(aggregate)
+    assert "不能单独证明记忆泛化" in summary.render(aggregate)

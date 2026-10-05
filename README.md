@@ -4,9 +4,10 @@ VeRA-Mem 是基于 **Qwen3-4B-Instruct-2507** 的可写向量记忆研究原型�
 
 主方法扩展了 [VeRA](https://arxiv.org/abs/2310.11454) 的冻结随机矩阵参数化。研究重点是寻址、读出、连续写入与成本的关系；LoRA bank、文本 RAG 和加性 latent reader 属于对照，不能代替主方法的结果。
 
-当前初步结果：接口与因果协议已验证，尚未获得可靠的新事实记忆。三轮诊断分别暴露 value 饱和、联合训练中的寻址退化和读出不足；失败实验同样保留，详见结果报告。
+当前结果：稳定版在 4096 条离线事实、1536 次 batch-8 LM 更新后，128 个新实体的写入后真实检索答对 **127/128**；同 checkpoint 置换 value 为 **2/128**，零记忆增量为 **0/128**。但改写问句仍为 **0/128**，结果限于同模板、16 词表的受控记忆任务。早期 value 饱和、寻址退化和读出失败记录均保留。
 
-- [初步实验结果与限制](docs/pilot_results.md)：具体效果、运行规模与已完成条件以该报告及运行记录为准。
+- [历史初步实验与失败诊断](docs/pilot_results.md)：保留扩样之前的三轮小样本结果，不能代替最新结论。
+- [扩样、初始化与学生交接结论](docs/scaling_results.md)：9 个正式训练/复评运行、数据规模与训练预算对照、冷启动 2×2、当前泛化限制。
 - [详细文献与实验设计](docs/literature_and_design.md)：相关工作、机制、预算对照、指标与后续实验计划。
 - [数据和无泄漏协议](docs/data_protocol.md)：输入权限、实体划分、先读后写及结论边界。
 - [向量参数记忆契约](docs/vector_memory_contract.md)：逐 token VDB–VeRA 读写、稳定版本和扩样/冷启动对照。
@@ -161,9 +162,10 @@ MedMCQA 的具体处理样本以每次运行记录为准。复用已训练的读
 
 新入口 `vera_mem.scaling_run` 在同一组嵌套的 128/1024/4096 条训练事实和固定评估实体上比较数据规模。主矩阵保持 512 次 batch-8 LM 更新；地址预热 400 次 batch-128 更新另计。`raw` 是旧中心化、oracle reader 配方，`stable` 是中心化/RMS、较低学习率及 oracle→真实检索课程的组合变体。两者不能作为单变量非线性消融解释。
 
-先在已确认空闲的 GPU 准备固定特征，再运行 suite：
+先在已安装依赖的环境、已确认空闲的 GPU 上准备固定特征，再运行 suite。`env_deps` 可为空目录；本次远端将特定 Jinja2 版本单独放在其中：
 
 ```bash
+mkdir -p ../env_deps
 CUDA_VISIBLE_DEVICES="$GPU_UUID" OMP_NUM_THREADS=4 \
 python -m vera_mem.scaling_run --prepare-only \
   --model ../models/Qwen3-4B-Instruct-2507 \
@@ -187,6 +189,9 @@ VeRA-Mem-Workspace/
 │   │   ├── vector_store.py    # CPU 精确 VDB、upsert、快照
 │   │   ├── backend.py         # Qwen 模板、层 hook、生成与评分
 │   │   ├── vector_run.py      # 主方法离线训练与在线评测
+│   │   ├── stable_vector_vera.py # 中心化和 RMS value
+│   │   ├── scaling_backend.py # 批训练与逐 token 诊断
+│   │   ├── scaling_run.py     # 扩样、冷启动及长训练
 │   │   ├── run.py             # 文本/LoRA 等对照
 │   │   └── data.py, metrics.py
 │   ├── configs/
@@ -204,7 +209,7 @@ VeRA-Mem-Workspace/
 
 ## 当前边界
 
-代码提供从数据、离线接口训练、在线向量写入到评测的完整研究原型；真实运行的完成状态和结论见[结果报告](docs/pilot_results.md)。单 seed、小词表、少量写入不能证明长期通用记忆或可靠的方法优势。静态 VeRA 的参数效率结论不能直接套用到增加 Wq/Wk/Wv 的本方法，应计入全部共享参数、随机矩阵、VDB 与查询成本。
+代码提供从数据、离线接口训练、在线向量写入到评测的完整研究原型；最新结论见[扩样与学生交接报告](docs/scaling_results.md)，早期记录见[历史报告](docs/pilot_results.md)。单 seed、小词表、少量写入不能证明长期通用记忆或可靠的方法优势。静态 VeRA 的参数效率结论不能直接套用到增加 Wq/Wk/Wv 的本方法，应计入全部共享参数、随机矩阵、VDB 与查询成本。
 
 LongMemEval、LoCoMo、多 seed 确认性实验、大规模 ANN/CPU offload 性能以及完整历史版本管理，仍是后续验证内容。当前精确 CPU VDB 不是并发生产数据库。负结果与 oracle/真实检索差距都应保留，用于决定下一步改进。
 

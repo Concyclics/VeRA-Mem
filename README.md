@@ -9,6 +9,8 @@ VeRA-Mem 是基于 **Qwen3-4B-Instruct-2507** 的可写向量记忆研究原型�
 - [初步实验结果与限制](docs/pilot_results.md)：具体效果、运行规模与已完成条件以该报告及运行记录为准。
 - [详细文献与实验设计](docs/literature_and_design.md)：相关工作、机制、预算对照、指标与后续实验计划。
 - [数据和无泄漏协议](docs/data_protocol.md)：输入权限、实体划分、先读后写及结论边界。
+- [向量参数记忆契约](docs/vector_memory_contract.md)：逐 token VDB–VeRA 读写、稳定版本和扩样/冷启动对照。
+- [TTT 训练规模核验](docs/ttt_scaling_review.md)与 [Engram / Qwen 初始化核验](docs/hash_initialization_review.md)：原论文和官方代码支持的设计依据。
 
 ## 方法
 
@@ -41,6 +43,8 @@ value_new = tanh(Wv · norm(support_x))
 ```
 
 中心化诊断将 Wv 的输入改为 `norm(support_x) - mean_offline_train`，均值作为固定 buffer 随 checkpoint 保存。它不改变 Wq/Wk 输入。
+
+新增 `StableVectorVeRA` 分别对 query/support 做训练集中心化后重新 RMS 归一化，value 使用线性投影后的 RMSNorm；它保留同一动态 VeRA 分支。旧 tanh 版本留作诊断对照，不覆盖历史 checkpoint。
 
 `support_x` 来自完整已观察文本在同一层的输入。写入特征提取时关闭记忆增量，保持表示来源稳定。主读取路径在层 hook 内为每个 token 更新 query，prefill 与 decode 都检索；一次回答只固定 VDB 快照，检索结果可以随 token 变化。
 
@@ -114,7 +118,7 @@ python -m vera_mem.vector_run \
 | 条件 | 含义 |
 | --- | --- |
 | `vdb_real` | 从实际层输入逐 token 查询 CPU VDB |
-| `vdb_oracle` | 选择已合法写入的正确证据向量，仅作读出诊断上界 |
+| `vdb_oracle` | 强制读取已合法写入的正确证据向量；改变读取分布，仅作诊断，不保证准确率上界 |
 | `vdb_shuffled` | 保持 key，置换 value，检查模型是否依赖记忆内容 |
 | `vdb_empty` | 令记忆增量为零，检查无记忆行为 |
 
@@ -152,6 +156,26 @@ python scripts/prepare_data.py --output ../data/medmcqa --seed 42
 MedMCQA 的具体处理样本以每次运行记录为准。复用已训练的读写接口可向 `vera_mem.vector_run` 传入 `--checkpoint <vector_vera.pt>`；跨数据集使用应标记为迁移实验，并确认层号、rank、key 维数及基座匹配。
 
 `scripts/run_suite.py` 提供串行单 GPU 实验编排，要求显式传入 `--gpu <UUID>`，记录源码快照、日志和退出码；其运行前占用检查不能替代资源预约。单条入口适合先验证环境和配置。
+
+## 扩样与初始化实验
+
+新入口 `vera_mem.scaling_run` 在同一组嵌套的 128/1024/4096 条训练事实和固定评估实体上比较数据规模。主矩阵保持 512 次 batch-8 LM 更新；地址预热 400 次 batch-128 更新另计。`raw` 是旧中心化、oracle reader 配方，`stable` 是中心化/RMS、较低学习率及 oracle→真实检索课程的组合变体。两者不能作为单变量非线性消融解释。
+
+先在已确认空闲的 GPU 准备固定特征，再运行 suite：
+
+```bash
+CUDA_VISIBLE_DEVICES="$GPU_UUID" OMP_NUM_THREADS=4 \
+python -m vera_mem.scaling_run --prepare-only \
+  --model ../models/Qwen3-4B-Instruct-2507 \
+  --cache ../data/scaling/features_v1.pt
+
+python scripts/run_scaling_suite.py --workspace .. --gpu "$GPU_UUID" \
+  --name scaling_example --profile stable --cache ../data/scaling/features_v1.pt
+```
+
+该受控入口要求模型清单的 revision 为 `cdbee75f17c01a7cc42f958dc650907174af0554`。Suite 使用隔离源码快照、`../env_deps` 依赖目录与显式退出码；目录必须预先准备。可选 `raw`、`stable`、`cold`、`extended`、`smoke` profile。`cold` 将 128 条离线训练观测经 writer 编码为初始 VDB，额外执行同 checkpoint 的空库复评；`stable` 也执行同 checkpoint 的有初始库复评，区分训练因素和部署初始化因素。
+
+线上只读评测严格使用冻结共享权重，完成新观测后写入新向量。这里的初始库是训练观测经学习后 writer 生成的快照，不是独立自由训练的 prototype 参数表。Smoke 使用独立的在线实体，不进入主结果表。
 
 ## 目录与实验产物
 

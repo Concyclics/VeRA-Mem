@@ -1,0 +1,24 @@
+{
+  "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+  "seed": 42,
+  "layer": 20,
+  "stream_size": 4,
+  "control_size": 2,
+  "priming_size": 4,
+  "block_size": 4,
+  "write_steps": 2,
+  "learning_rate": 0.0005,
+  "max_new_tokens": 8,
+  "max_input_tokens": 1024,
+  "cpu_threads": 4,
+  "latent_rank": 32,
+  "latent_train_size": 128,
+  "latent_dev_size": 32,
+  "latent_epochs": 3,
+  "latent_learning_rate": 0.003,
+  "methods": [
+    "frozen",
+    "text_tfidf",
+    "lora1_r4"
+  ]
+}

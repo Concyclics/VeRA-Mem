@@ -1,0 +1,32 @@
+{
+  "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+  "seed": 42,
+  "layer": 20,
+  "rank": 64,
+  "key_dim": 64,
+  "top_k": 4,
+  "temperature": 0.2,
+  "stream_size": 32,
+  "control_size": 16,
+  "priming_size": 32,
+  "block_size": 8,
+  "max_new_tokens": 8,
+  "max_input_tokens": 1024,
+  "cpu_threads": 4,
+  "offline_train_size": 128,
+  "offline_dev_size": 32,
+  "offline_epochs": 3,
+  "alignment_steps": 200,
+  "episode_size": 16,
+  "learning_rate": 0.001,
+  "output_scale_learning_rate": 0.03,
+  "alignment_weight": 0.1,
+  "methods": [
+    "vdb_real",
+    "vdb_oracle",
+    "vdb_shuffled",
+    "vdb_empty"
+  ],
+  "value_centering": true,
+  "eval_seed": 43
+}

@@ -1,0 +1,237 @@
+{
+  "diagnosed_at": "2026-10-05T15:34:10.698956+00:00",
+  "bank": {
+    "name": "vdb.pt",
+    "sha256": "6a9a71cce173406c7a445ad4ff7b6a746d112a9814583819642de7b4a495b364"
+  },
+  "keys": {
+    "shape": [
+      64,
+      64
+    ],
+    "numeric_bytes": 16384,
+    "unique_rows_exact": 64,
+    "dimension_std": {
+      "count": 64,
+      "nonfinite_count": 0,
+      "min": 0.0402313694357872,
+      "p25": 0.07292427122592926,
+      "median": 0.10205018520355225,
+      "p75": 0.11964169144630432,
+      "max": 0.1758953481912613,
+      "mean": 0.09805074572796002
+    },
+    "constant_dimensions_exact": 0,
+    "dimensions_std_below_1e_6": 0,
+    "row_l2_norm": {
+      "count": 64,
+      "nonfinite_count": 0,
+      "min": 1.0,
+      "p25": 1.0,
+      "median": 1.0,
+      "p75": 1.0,
+      "max": 1.0000001192092896,
+      "mean": 1.000000013038516
+    },
+    "zero_norm_rows": 0,
+    "pairwise_scope": {
+      "rows": 64,
+      "all_rows": true,
+      "selection": "evenly_spaced_in_storage_order",
+      "valid_pairs": 2016
+    },
+    "pair_cosine": {
+      "count": 2016,
+      "nonfinite_count": 0,
+      "min": -0.6765161156654358,
+      "p25": 0.05540074408054352,
+      "median": 0.3432556837797165,
+      "p75": 0.5740766525268555,
+      "max": 0.9543614983558655,
+      "mean": 0.31116281833859943
+    },
+    "pair_cosine_fraction_ge_0.999": 0.0,
+    "centered_spectrum": {
+      "total_energy": 43.396746629629,
+      "effective_rank": 6.294966885420093,
+      "leading_5_variance_share": [
+        0.3353045452205905,
+        0.20834153897382865,
+        0.1694256477431501,
+        0.11126225609804118,
+        0.074395183505286
+      ]
+    }
+  },
+  "values": {
+    "shape": [
+      64,
+      64
+    ],
+    "numeric_bytes": 16384,
+    "unique_rows_exact": 1,
+    "dimension_std": {
+      "count": 64,
+      "nonfinite_count": 0,
+      "min": 0.0,
+      "p25": 0.0,
+      "median": 0.0,
+      "p75": 0.0,
+      "max": 0.0,
+      "mean": 0.0
+    },
+    "constant_dimensions_exact": 64,
+    "dimensions_std_below_1e_6": 64,
+    "row_l2_norm": {
+      "count": 64,
+      "nonfinite_count": 0,
+      "min": 8.0,
+      "p25": 8.0,
+      "median": 8.0,
+      "p75": 8.0,
+      "max": 8.0,
+      "mean": 8.0
+    },
+    "zero_norm_rows": 0,
+    "pairwise_scope": {
+      "rows": 64,
+      "all_rows": true,
+      "selection": "evenly_spaced_in_storage_order",
+      "valid_pairs": 2016
+    },
+    "pair_cosine": {
+      "count": 2016,
+      "nonfinite_count": 0,
+      "min": 1.0,
+      "p25": 1.0,
+      "median": 1.0,
+      "p75": 1.0,
+      "max": 1.0,
+      "mean": 1.0
+    },
+    "pair_cosine_fraction_ge_0.999": 1.0,
+    "centered_spectrum": {
+      "total_energy": 0.0,
+      "effective_rank": 0.0,
+      "leading_5_variance_share": []
+    },
+    "saturation_threshold": 0.999,
+    "saturation_fraction": 1.0,
+    "fully_saturated_rows": 64,
+    "tanh_derivative_from_output": {
+      "count": 4096,
+      "nonfinite_count": 0,
+      "min": 0.0,
+      "p25": 0.0,
+      "median": 0.0,
+      "p75": 0.0,
+      "max": 0.0,
+      "mean": 0.0
+    },
+    "all_rows_identical": true
+  },
+  "checkpoint": {
+    "name": "vector_vera.pt",
+    "sha256": "06034daa7854d71c25f5d45e7d282e1ab0e11f9423577975c3cedd10e6cd1535",
+    "selected_epoch": 3,
+    "parameters": {
+      "Wq.weight": {
+        "shape": [
+          64,
+          9728
+        ],
+        "l2_norm": 28.498437881469727,
+        "absolute_elements": {
+          "count": 622592,
+          "nonfinite_count": 0,
+          "min": 2.4740772985865078e-08,
+          "p25": 0.005794315016828477,
+          "median": 0.01296459324657917,
+          "p75": 0.026421283837407827,
+          "max": 0.4057031571865082,
+          "mean": 0.02196754852355166
+        },
+        "row_l2_norm": {
+          "count": 64,
+          "nonfinite_count": 0,
+          "min": 1.933113932609558,
+          "p25": 2.540576696395874,
+          "median": 3.101962447166443,
+          "p75": 4.187066197395325,
+          "max": 5.781348705291748,
+          "mean": 3.412142714485526
+        }
+      },
+      "Wk.weight": {
+        "shape": [
+          64,
+          9728
+        ],
+        "l2_norm": 28.858230590820312,
+        "absolute_elements": {
+          "count": 622592,
+          "nonfinite_count": 0,
+          "min": 1.0206813527702252e-07,
+          "p25": 0.005919022019952536,
+          "median": 0.013179761357605457,
+          "p75": 0.026306381914764643,
+          "max": 0.4254390299320221,
+          "mean": 0.022238076754449814
+        },
+        "row_l2_norm": {
+          "count": 64,
+          "nonfinite_count": 0,
+          "min": 1.9432752132415771,
+          "p25": 2.541469693183899,
+          "median": 3.411796808242798,
+          "p75": 4.307149291038513,
+          "max": 5.7298383712768555,
+          "mean": 3.4655621740967035
+        }
+      },
+      "Wv.weight": {
+        "shape": [
+          64,
+          9728
+        ],
+        "l2_norm": 6.3918681144714355,
+        "absolute_elements": {
+          "count": 622592,
+          "nonfinite_count": 0,
+          "min": 7.022486481211843e-10,
+          "p25": 0.002542966220062226,
+          "median": 0.005610292078927159,
+          "p75": 0.010668162954971194,
+          "max": 0.01792399026453495,
+          "mean": 0.006619334714472055
+        },
+        "row_l2_norm": {
+          "count": 64,
+          "nonfinite_count": 0,
+          "min": 0.7796474695205688,
+          "p25": 0.7954886257648468,
+          "median": 0.7993426620960236,
+          "p75": 0.8015591949224472,
+          "max": 0.828349769115448,
+          "mean": 0.7989552216604352
+        }
+      },
+      "b": {
+        "shape": [
+          2560
+        ],
+        "l2_norm": 69.96940612792969,
+        "absolute_elements": {
+          "count": 2560,
+          "nonfinite_count": 0,
+          "min": 0.0004744354519061744,
+          "p25": 0.48060109466314316,
+          "median": 1.0074953436851501,
+          "p75": 1.6647855043411255,
+          "max": 4.432943820953369,
+          "mean": 1.1320274273765563
+        }
+      }
+    }
+  }
+}

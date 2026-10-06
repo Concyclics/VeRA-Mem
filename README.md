@@ -8,6 +8,7 @@ VeRA-Mem 是基于 **Qwen3-4B-Instruct-2507** 的可写向量记忆研究原型�
 
 - [数据增强与一致性训练结果](docs/generalization_results.md)：三组同预算实验、保留格式四象限、记忆干预对照、表示诊断与学生交接。
 - [事实级训练调整](docs/factcentric_training.md)：三组缓存编码器探针；原问句读取两种新观测的 R@1 从 31/64、25/64 提升到 39/64、38/64，新问法仍未解决。这不是生成准确率提升。
+- [有上下文 teacher 的蒸馏方案](docs/context_distillation_protocol.md)：冻结原始模型看到观测原文，VDB–VeRA student 仅通过向量读取；分别检验输出蒸馏、最终 hidden 对齐与 on-policy 轨迹，保留明确的寻址监督和记忆干预对照。
 - [历史初步实验与失败诊断](docs/pilot_results.md)：保留扩样之前的三轮小样本结果，不能代替最新结论。
 - [扩样、初始化与学生交接结论](docs/scaling_results.md)：9 个正式训练/复评运行、数据规模与训练预算对照、冷启动 2×2、当前泛化限制。
 - [详细文献与实验设计](docs/literature_and_design.md)：相关工作、机制、预算对照、指标与后续实验计划。

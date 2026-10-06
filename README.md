@@ -8,6 +8,7 @@ VeRA-Mem 是基于 **Qwen3-4B-Instruct-2507** 的可写向量记忆研究原型�
 
 上一轮表述泛化对照中，相同更新预算下，单模板、多模板增强、增强加一致性三组的原模板 EM 为 **100.0% / 24.2% / 33.6%**；保留 XML/CSV/对话问法、原观测 bank 的 EM 为 **0.0% / 4.2% / 3.9%**。后两组打乱 value 后仍为 **4.2% / 3.9%**。历史同模板127/128及全部失败记录均保留；不同数据、预算和初始化的实验不能直接横比。
 
+- [反事实上下文蒸馏协议](docs/counterfactual_protocol.md)：单条记忆 A/B 替换、同事实改写 P、四组同初始化对照与独立新格式确认集。
 - [Context-aware 蒸馏结果与后续训练设计](docs/context_distillation_results.md)：五臂真实 Qwen 实验、teacher 验收、逐题诊断、成本及学生交接。
 - [最近相关工作](docs/context_distillation_related_work.md)：OPCD、GKD、SADA、Doc-to-LoRA、可检索 LoRA 记忆和 Cartridges 的支持与区别。
 - [数据增强与一致性训练结果](docs/generalization_results.md)：三组同预算实验、保留格式四象限、记忆干预对照、表示诊断与学生交接。

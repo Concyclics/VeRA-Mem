@@ -56,12 +56,12 @@ def test_A_B_have_equal_token_lengths_balanced_marginals_and_multiple_alternativ
 def test_fresh_confirmation_is_disjoint_from_all_declared_historical_sets(packet):
     old = historical.datasets()
     forbidden = {row.metadata["entity"] for rows in old.values() for row in rows}
-    for seed, count, control in ((2042, 64, 0), (7042, 128, 64), (8042, 32, 16)):
+    for seed, count, control in ((2042, 64, 0), (7042, 128, 64), (8042, 32, 16), (27042, 64, 0)):
         extra = synthetic_dataset(seed, count, control)
         forbidden.update(row.metadata["entity"] for rows in extra.values() for row in rows)
     entities = {pair.entity for pair in packet["confirmation"]}
     assert len(entities) == 64 and entities.isdisjoint(forbidden)
-    assert all(pair.a.metadata["seed"] == 27042 for pair in packet["confirmation"])
+    assert all(pair.a.metadata["seed"] == 37042 for pair in packet["confirmation"])
     assert all(pair.a.metadata["reserved_for_confirmation"] is True for pair in packet["confirmation"])
     ids = {split: {pair.id for pair in packet[split]} for split in ("train", "dev", "confirmation")}
     for split in ids:
@@ -181,7 +181,7 @@ def test_same_answer_wrong_entities_remain_explicit_negative_addresses(packet):
 
 def test_manifest_preserves_seeds_balanced_tables_freshness_and_no_raw_fact_ids(packet):
     manifest = data.protocol_manifest(32)
-    assert manifest["seeds"]["confirmation_entities"] == 27042
+    assert manifest["seeds"]["confirmation_entities"] == 37042
     assert manifest["counts"] == {"train": 32, "dev": 64, "confirmation": 64}
     assert manifest["reserved_confirmation_families"] == ["JSON object", "Markdown table"]
     for world, labels in manifest["confirmation_answer_style_crosstab"].items():

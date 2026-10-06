@@ -28,7 +28,7 @@ from .data import Example
 from .factcentric_losses import style_block_retrieval_loss
 from .run import json_write, tensor_digest
 
-PROTOCOL = "counterfactual-context-v1"
+PROTOCOL = "counterfactual-context-v2"
 METHODS = ("base", "behavior", "hidden", "mixed")
 
 

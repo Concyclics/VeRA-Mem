@@ -34,7 +34,7 @@ def main():
     suite = w/"runs"/a.name
     suite.mkdir(parents=True, exist_ok=False)
     source = suite/"source"
-    manifest = dict(protocol="counterfactual-context-v1", complete=False, status="preparing",
+    manifest = dict(protocol="counterfactual-context-v2", complete=False, status="preparing",
                     started_at=utc_now(), launcher_pid=os.getpid(), gpu_uuid=a.gpu,
                     plan_sha256=sha256(a.plan), jobs=[])
     persist = lambda: atomic_json(suite/"suite.json", manifest)

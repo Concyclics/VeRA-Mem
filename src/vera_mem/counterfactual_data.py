@@ -26,11 +26,11 @@ from . import augmentation_data as historical
 from .data import Example, MEMORY_WORDS, synthetic_dataset
 
 
-PROTOCOL_VERSION = "counterfactual-memory-pairs-v1"
+PROTOCOL_VERSION = "counterfactual-memory-pairs-v2"
 MAX_TRAIN_SIZE = 4096
 DEV_SIZE = 64
 CONFIRMATION_SIZE = 64
-CONFIRMATION_SEED = 27042
+CONFIRMATION_SEED = 37042
 ALTERNATIVE_SEEDS = {"train": 31042, "dev": 32042, "confirmation": 33042}
 CONFIRMATION_STYLE_SEED = 34042
 MODEL_REVISION = "cdbee75f17c01a7cc42f958dc650907174af0554"
@@ -221,7 +221,7 @@ def _make_pairs(rows, seed):
 def _historical_entities(base):
     excluded = {row.metadata["entity"] for rows in base.values() for row in rows}
     # Also keep the older scaling-development/online/smoke entities untouched.
-    for seed, stream_size, control_size in ((2042, 64, 0), (7042, 128, 64), (8042, 32, 16)):
+    for seed, stream_size, control_size in ((2042, 64, 0), (7042, 128, 64), (8042, 32, 16), (27042, 64, 0)):
         extra = synthetic_dataset(seed, stream_size, control_size)
         excluded.update(row.metadata["entity"] for rows in extra.values() for row in rows)
     return excluded
@@ -422,7 +422,7 @@ def protocol_manifest(train_size=MAX_TRAIN_SIZE):
         confirmation_assignment_sha256=_fingerprint(packet["confirmation_view_assignments"]),
         historical_entity_exclusion_sha256=_fingerprint(sorted(_historical_entities(historical_packet))),
         historical_exclusion_sources=["generalization train/dev/test/control", "scaling dev seed2042",
-                                       "scaling online seed7042", "scaling smoke seed8042"],
+                                       "scaling online seed7042", "scaling smoke seed8042", "invalid counterfactual v1 seed27042"],
         template_ids=packet["template_ids"], canonical_template_ids=packet["canonical_template_ids"],
         templates=[asdict(template) for template in _HISTORICAL_TEMPLATES+_RESERVED_TEMPLATES],
         reserved_confirmation_families=["JSON object", "Markdown table"],

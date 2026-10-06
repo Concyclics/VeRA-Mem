@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-06T09:40:30.629590+00:00",
+  "task": "Wikipedia 冷启动 VeRA / 基础向量集合的文献与实验协议支撑",
+  "scope": {
+    "primary_sources_only": true,
+    "web_browsed": true,
+    "ssh": false,
+    "training": false,
+    "repository_files_modified": false,
+    "skill": "hugging-face:huggingface-papers",
+    "retrieval": "优先尝试五篇 HF papers .md，web 工具均报不可访问，随后阅读 arXiv HTML、ACL 原始 PDF 和作者官方 repositories。未使用第三方摘要作为证据。"
+  },
+  "papers": [
+    {
+      "id": "1907.05242",
+      "title": "Large Memory Layers with Product Keys",
+      "authors": "Lample et al.",
+      "year": 2019,
+      "primary_url": "https://arxiv.org/html/1907.05242",
+      "official_repo": "https://github.com/facebookresearch/XLM",
+      "sections": [
+        "3.1 Memory design",
+        "3.3 Multi-head memory attention",
+        "4.1 Dataset",
+        "4.3 Training details",
+        "4.5 Query Batch Normalization"
+      ],
+      "corpus": "Common Crawl 新闻，28 billion words / 140GB；不是 Wikipedia，也不能把 words 改写为 tokenizer tokens。",
+      "mechanism": "query 检索两个可训练 sub-key codebook 的乘积；top-k 权重混合可训练 value；只选中的 value 获得该输入的梯度。多头共享 value。",
+      "initialization_and_gradients": "随机 key；query BatchNorm 增加覆盖，稀疏 value 使用较高 Adam 学习率 1e-3。没有 dense-backward 或语义聚类合并方案。",
+      "concrete_evidence": "Table 2：1M slots 的 usage 从 25.8314% 到 80.3043%，PPL 从 19.7913 到 17.9819（query BN 对照）。",
+      "relevance": "直接支持大语料学习基础 K/V 字典和测 usage；不证明冻结 Qwen 的单层 rank64 VeRA 可等价实现，不提供逐事实写入/覆写保证。"
+    },
+    {
+      "id": "2010.03881",
+      "title": "Large Product Key Memory for Pretrained Language Models",
+      "authors": "Kim and Jung",
+      "year": 2020,
+      "primary_url": "https://aclanthology.org/2020.findings-emnlp.362.pdf",
+      "landing_url": "https://aclanthology.org/2020.findings-emnlp.362/",
+      "official_repo": "https://github.com/clovaai/pkm-transformers",
+      "sections": [
+        "3.1 Catastrophic Drift",
+        "3.2 Memory Utilization Metrics",
+        "4.1 Initialization from Pretrained Weights",
+        "4.2 Residual Memory Layer",
+        "5.2 Pretraining",
+        "6 Pretraining Results"
+      ],
+      "corpus": "English Wikipedia + BookCorpus，17GB；BERTBASE MLM，500,000 steps，batch 1024 sequences。",
+      "mechanism": "先无 memory 预训练，再初始化带 memory 模型；ResM 保留原 FFN 并加 PKM 残差，而非替换 FFN。",
+      "initialization_and_gradients": "value 稀疏更新 LR1e-3，其他 Adam LR1e-4。讨论 stale slot 与 backbone 漂移；未改成 dense value 梯度。",
+      "concrete_evidence": "第4层 top-32 usage 可接近100%而 top-1 约2%；初始化+ResM 后 top-1 超95%。因此只看 top-k 命中过会隐藏退化。",
+      "relevance": "最直接对应冷启动与稀疏使用退化；其 backbone 联合训练，当前冻结 backbone 的 generated VDB 记录并非同一机制，不能直接诊断现有失败就是 catastrophic drift。"
+    },
+    {
+      "id": "2412.09764",
+      "title": "Memory Layers at Scale",
+      "authors": "Berges et al.",
+      "year": 2024,
+      "primary_url": "https://arxiv.org/html/2412.09764v2",
+      "official_repo": "https://github.com/facebookresearch/memory",
+      "sections": [
+        "3 Memory Augmented Architectures",
+        "3.1.3 Shared memory",
+        "3.1.4 Performance and stability improvements",
+        "4 Experimental setup",
+        "5.4 Model ablations"
+      ],
+      "corpus": "Llama-like 从头预训练：最多1T tokens，base134M–8B，memory 最多128B参数；不是用少量 Wikipedia 微调即复现。",
+      "mechanism": "可训练 product-key sparse lookup；Memory+ 用多个层共享 values，加 SiLU 输入门与输出投影；大层训练不稳定时采用 qk-normalization。",
+      "initialization_and_gradients": "论文仍是 selected K/V sparse read/update，不宣称所有 values 都获梯度；官方实现初始化另列于 official_code_check。",
+      "concrete_evidence": "固定参数量的多层 memory 改善至约3层，再替换更多FFN反而退化。",
+      "relevance": "支持先训练有用的共享基础字典，研究多层读出与门控；不等于事实向量在线写入，也不支持单层 VeRA 容量充分的结论。"
+    },
+    {
+      "id": "2602.06358",
+      "title": "SHINE: A Scalable In-Context Hypernetwork for Mapping Context to LoRA in a Single Pass",
+      "authors": "Liu et al.",
+      "year": 2026,
+      "primary_url": "https://arxiv.org/html/2602.06358",
+      "observed_version": "v3 (2026-07-04)",
+      "official_repo": "https://github.com/MuLabPKU/SHINE",
+      "sections": [
+        "3.3 Memory Extraction",
+        "3.4 M2P Transformer",
+        "4.1 Pretraining",
+        "4.2 Instruction Fine-Tuning",
+        "5.1 Pretraining"
+      ],
+      "corpus": "TransMLA 6B-token corpus，1 epoch；Wikitext-2 仅 reconstruction/completion 评测，不能说预训练用了 Wikipedia 6B。",
+      "mechanism": "冻结 Qwen3-8B，通过 Meta LoRA/memory tokens 提取跨层状态，再用 Transformer 生成 LoRA；先 reconstruction+completion，再 QA instruction tuning。",
+      "initialization_and_gradients": "预训练是 context-conditioned 参数生成的全序列 CE；无 top-k VDB，故无 sparse-slot coverage 解法。",
+      "concrete_evidence": "4.1：等概率 reconstruction 与 completion；后者 writer 仅见前70–90% context，目标仍是全文。",
+      "relevance": "强支持先学文本→参数→文本接口，再学 QA；其跨层多 token 容量远大于单个 pooled rank64 value，不能只归功数据规模。"
+    },
+    {
+      "id": "2210.09461",
+      "title": "Token Merging: Your ViT But Faster",
+      "authors": "Bolya et al.",
+      "year": 2022,
+      "primary_url": "https://arxiv.org/html/2210.09461",
+      "official_repo": "https://github.com/facebookresearch/ToMe",
+      "sections": [
+        "3 Token Merging: Bipartite Soft Matching",
+        "3 Tracking Token Size",
+        "3 Training with Merging",
+        "4.1 Design Choices"
+      ],
+      "corpus": "视觉/视频/音频 Transformer，包括 ImageNet；不是 Wikipedia 或语言参数记忆。",
+      "mechanism": "按 key 相似度做 bipartite matching，按 token size 加权合并，attention 加 log(size) 保持重复 token 权重；合并按 pooling 反传。",
+      "initialization_and_gradients": "无需 Gumbel/ST；没有可学习长期 memory slot 的 dense gradient 或 dead-slot 恢复证明。",
+      "concrete_evidence": "Table 2 比较 k-means 与 matching；所以“有聚类便更好”不是论文结论。",
+      "relevance": "只支持谨慎设计可微压缩和保留质量/计数；不可作为合并实体事实保持精确覆写、稀疏梯度不退化的证据。"
+    }
+  ],
+  "official_code_check": {
+    "url": "https://raw.githubusercontent.com/facebookresearch/memory/main/lingua/product_key/memory.py",
+    "section": "HashingMemory.reset_parameters lines 211–243; forward/get_indices lines 246–355 (observed main, not immutable commit)",
+    "observations": [
+      "keys uniform[-1/sqrt(key_dim),+1/sqrt(key_dim)]；values Normal(0,value_dim^-0.5)；query 第一层 Xavier uniform。",
+      "top-k 后 softmax，values(indices,scores) 聚合；默认独立 value_fixed_lr=0.001。不是 k-means 初始化，也不是 unselected values 的 dense-backward。",
+      "query BN 默认关闭且代码警告 padding 会污染统计；论文 qk-normalization 与此仓库单文件未必完全对应。实施需 pin commit 和配置，不能仅照论文名假定实现。"
+    ]
+  },
+  "synthesis": {
+    "strongest_support": "Wikipedia/通用语料先训练稳定的 memory 接口与基础字典，再训练任务，有直接先例；当前只是模块冷启动，Qwen 基座仍是预训练模型。",
+    "not_established": "查到的文献不能保证增大语料、提高槽覆盖或做聚类就解决可编辑 VeRA 记忆的语义泛化。没有据此确认当前失败由稀疏梯度单独导致。",
+    "three_distinct_targets": [
+      "基础 codebook：离线训练的共享 K/V 参数，可通过 BP 持久改变。",
+      "episodic VDB：新文档由 writer 前向生成、逐记录独立编辑，测试时不更新共享参数。",
+      "writer/reader：把文档和 key/value 参数接口接起来；通用 LM codebook 的进步不自动证明新文档可写入。"
+    ]
+  },
+  "gradient_design": {
+    "status": "以下为代数推导和建议的诊断控制，不是上述论文已经验证的 recipe。",
+    "sparse": "p_s=softmax(logits[topk]) scattered into N；y_s=p_s @ V。forward 与 backward 均仅 selected value 行有任务梯度（共享生成 Wv 的情况另论）。",
+    "routing_only_st": "p_ST=p_d+stopgrad(p_s-p_d); y=p_ST@V。forward sparse；router 梯度来自 dense p_d，但 dL/dV 仍乘 forward p_ST=p_s，因此不能声称所有 value 都有梯度。",
+    "output_level_st": "y_d=p_d@V; y_ST=y_d+stopgrad(y_s-y_d)。forward 数值为 y_s；对 K/query/V 的 backward 使用 dense y_d Jacobian，因此可覆盖所有 value。",
+    "caveats": [
+      "output-level ST 是有偏 surrogate，梯度不等于实际 top-k 目标的真梯度。",
+      "dense softmax 的极小权重可下溢或几乎零；非零覆盖不等于有效学习。",
+      "dense backward 需要 O(N*rank) 聚合成本，不能宣传训练也稀疏；训练和部署成本分别记录。",
+      "若 value=Wv(feature)，共享 Wv 的一次梯度会影响所有记录将来的生成值；不能把 generated slot 当独立 embedding parameter 推断冻结/更新覆盖。",
+      "Adam momentum/weight decay 可令无本步梯度的行仍改变；分别记录 gradient norm、parameter delta、实际读取权重，不能互相替代。"
+    ]
+  },
+  "proposed_minimal_design": {
+    "status": "建议，由 root 决定实施；本审阅未固定实际预算或启动任何任务。",
+    "data": [
+      "以固定 Wikipedia snapshot 按 article_id/title/page hash 分 train/dev/test，先划分后分块、聚类和建基础字典；留出近重复条目。",
+      "记录实际唯一文章数、唯一 token 数与训练曝光 token 数；WikiText 子集不能标为全 Wikipedia 或等价6B预训练。"
+    ],
+    "initialization": [
+      "新 VeRA/writer/codebook 从头初始化，不加载旧16词合成任务 adapter；保留冻结 Qwen 与原FFN，用残差分支。",
+      "先验证冷初始化时 base NLL/输出不被破坏以及 K/V/router 都有有限有效梯度。若 gate/输出矩阵/values 同时置零，会造成梯度阻断；一次只零一处，并记录首步路径。",
+      "均匀随机 keys 与 train-token query-space 的 k-means++ keys 做相同 N/rank 的初始对照；不能用 support raw-feature centroid 冒充已经对齐的 query key。"
+    ],
+    "routing_controls": [
+      "R0：普通 top-k forward/backward，作为真实稀疏基线。",
+      "R1：dense softmax 训练早段，固定日程 anneal 至相同 top-k；最终只用稀疏推理。若好于R0，仅说明优化日程有影响。",
+      "R2：output-level ST，始终 sparse forward、dense surrogate backward；使用同数据/token曝光，另外记录额外计算。",
+      "先固定初始化比较R0/R1/R2，再对最小可信方案增加聚类；避免同时换 writer、basis、层数、loss 后无法归因。"
+    ],
+    "memory_merge_controls": [
+      "先做 train-only centroid 初始化与固定 N 学习，不直接在线合并事实，便于隔离优化效应。",
+      "若额外测试合并，保留 slot mass 与原成员映射；相同key合并时考虑log mass的权重修正，并核对 top-k 排序是否改变。",
+      "按相似 hidden 合并不同实体/关系可能丢失区分信息；key相似不保证 value 功能相同，要求任务损失或行为校验。",
+      "真实 merge 改了总容量/参数数/softmax mass，须与同最终slot数的随机/均匀压缩及不合并基线比较，不能把 usage 分母变小当改进。",
+      "基础 codebook 可聚类；可独立覆写的 episodic facts 先不不可逆合并，或保留原始记录可重建。"
+    ],
+    "objectives": [
+      "基础字典阶段：因果 Wikipedia next-token CE 只允许前缀可见信息，检验 heldout NLL 与 base遗忘。",
+      "动态 writer 阶段：显式 context reconstruction/continuation，reader无原文，通过参数向量传递；若 writer 见完整目标，这是定义明确的 autoencoding，不得当纯 causal LM perplexity 与base公平比较。",
+      "随后用新文章的 QA/paraphrase 和反事实 A/B 写入，检验真实 bank / shuffled values / empty、同事实改写和无关问题保持；teacher 必须在封存前用train实体验收格式。"
+    ]
+  },
+  "required_measurements": [
+    "hard top1 coverage / top-k coverage：固定 token 窗口、按层/头与全部训练累计分别统计。",
+    "实际读权重分布 entropy、effective slots exp(H)、最大slot质量、top1%质量；不要只奖励均匀。",
+    "每slot value 梯度范数分布、超过固定epsilon的比例、更新时间间隔、parameter delta、未访问窗口数。",
+    "query/key/value norm、cosine分布、残差注入强度、训练/heldout NLL、基础模型任务保持。",
+    "teacher-validated新文章问答的完整 EM/F1、bank对比提升、严格 A/B 两边正确且随值切换、无关事实保持。",
+    "独立记录 support写入backbone tokens、训练读backbone tokens、dense聚合与聚类成本、checkpoint大小、CPU-VDB稀疏部署吞吐。"
+  ],
+  "decision_rule": "若 usage 上升但 dev NLL/真实新事实读出不变，不能宣称稀疏退化被解决；若 dense训练明显胜 sparse且same sparse eval仍收益，再支持优化覆盖假设。若所有策略均失败，转而检验低秩/单层reader容量与writer信息瓶颈。",
+  "reporting_limits": [
+    "所有建议是新的假设检验；不得把理论可行或他人全模型大规模预训练结果当作本项目已实现。",
+    "不把前三轮失败直接归因于样本量、稀疏度或模板之一，新的试验需保留能区分这些因素的对照。"
+  ],
+  "public_record_note": "This preserves the original primary-source reading log before implementation. Proposal entries are literature-review suggestions, not claims about the executed experiment. See docs/coldstart_protocol.md for the fixed eight-arm pilot.",
+  "executed_protocol_document": "docs/coldstart_protocol.md"
+}

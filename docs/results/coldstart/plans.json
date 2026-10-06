@@ -1,0 +1,2094 @@
+{
+  "note": "Historical completed suite plans, with original absolute paths. Remap inputs to a new workspace and choose new suite/output names after checking resources. Excluded suites are omitted; preparation and smoke are explicitly named and are not formal outcome evidence.",
+  "suites": [
+    {
+      "suite": "coldstart_dictionary_a_20261006",
+      "source_plan_sha256": "66ce7fa7ba70f37aee481c16ad5d4ff6390e4ecc7b5161a4a44dbc6a286c303f",
+      "source_manifest_sha256": "d88fc7ddfd4a6bed5b9aadf84a9a6d5891be461a522ed709c05c5e58da220100",
+      "plan": [
+        {
+          "name": "fixed",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "train",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "fixed",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_a_v2_20261006/wiki_prototypes/last.pt",
+            "--updates",
+            "512",
+            "--alpha-base",
+            "0.25",
+            "--routing",
+            "sparse",
+            "--domain",
+            "synthetic"
+          ]
+        },
+        {
+          "name": "learned_sparse",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "train",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "learned_sparse",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_a_v2_20261006/wiki_prototypes/last.pt",
+            "--updates",
+            "512",
+            "--alpha-base",
+            "0.25",
+            "--base-trainable",
+            "--routing",
+            "sparse",
+            "--domain",
+            "synthetic"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_dictionary_b_20261006",
+      "source_plan_sha256": "09d0fa58027284044301a5737e43511cc3b3322a0a512eac36186c16916388cd",
+      "source_manifest_sha256": "013843a4d5237cf1f755c91046e48c3828657fec26fc64a3bda4c25fc6b53d66",
+      "plan": [
+        {
+          "name": "dense_warm",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "train",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "dense_warm",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_a_v2_20261006/wiki_prototypes/last.pt",
+            "--updates",
+            "512",
+            "--alpha-base",
+            "0.25",
+            "--base-trainable",
+            "--routing",
+            "dense_warm",
+            "--domain",
+            "synthetic"
+          ]
+        },
+        {
+          "name": "straight_through",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "train",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "straight_through",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_a_v2_20261006/wiki_prototypes/last.pt",
+            "--updates",
+            "512",
+            "--alpha-base",
+            "0.25",
+            "--base-trainable",
+            "--routing",
+            "straight_through",
+            "--domain",
+            "synthetic"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_eval_confirm_a_20261006",
+      "source_plan_sha256": "3ef1caaaa4257d0d175f386573efd0bc178a24c5024eba07fe7a5223a223fe8e",
+      "source_manifest_sha256": "f23e1afa41e1c0643d684bdc69d6f8e4956a708686fb7a1f68ebb218e79c2c69",
+      "plan": [
+        {
+          "name": "no_warm_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_b_20261006/no_warm/last.pt",
+            "--arm",
+            "no_warm",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042",
+            "--teacher"
+          ]
+        },
+        {
+          "name": "matched_warm_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_b_20261006/matched_warm_transfer/last.pt",
+            "--arm",
+            "matched_warm",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "fixed_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_a_20261006/fixed/last.pt",
+            "--arm",
+            "fixed",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "learned_sparse_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_a_20261006/learned_sparse/last.pt",
+            "--arm",
+            "learned_sparse",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "wiki_joint_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_c_v2_20261006/wiki_joint/last.pt",
+            "--arm",
+            "wiki_joint",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_wikipedia_random256",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "random256",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042",
+            "--merge-count",
+            "256"
+          ]
+        },
+        {
+          "name": "straight_through_synthetic_cluster256",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "cluster256",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042",
+            "--merge-count",
+            "256"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_eval_confirm_b_20261006",
+      "source_plan_sha256": "f050f592e5d0644e5a0b926ec1d384bb78ed23e22f66686168b2a5ae81525772",
+      "source_manifest_sha256": "b5d2f8316cd8baad88843ea54bc4efd6488193419b70fd804585a8c44d1f5f48",
+      "plan": [
+        {
+          "name": "no_warm_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_b_20261006/no_warm/last.pt",
+            "--arm",
+            "no_warm",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042",
+            "--teacher"
+          ]
+        },
+        {
+          "name": "wiki_warm_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_a_v2_20261006/wiki_warm_transfer/last.pt",
+            "--arm",
+            "wiki_warm",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "fixed_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_a_20261006/fixed/last.pt",
+            "--arm",
+            "fixed",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "dense_warm_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/dense_warm/last.pt",
+            "--arm",
+            "dense_warm",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_wikipedia_off",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "off",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_synthetic_random256",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "random256",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042",
+            "--merge-count",
+            "256"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_eval_confirm_c_20261006",
+      "source_plan_sha256": "85d3b2a20c722d0124b6237f896799cbb69d4569bfb11091da90a50667ce8591",
+      "source_manifest_sha256": "b9d42e670b303695ca24848264b7862a473f5aa9a7c63e4523f0775984eab973",
+      "plan": [
+        {
+          "name": "matched_warm_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_b_20261006/matched_warm_transfer/last.pt",
+            "--arm",
+            "matched_warm",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "wiki_warm_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_a_v2_20261006/wiki_warm_transfer/last.pt",
+            "--arm",
+            "wiki_warm",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "learned_sparse_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_a_20261006/learned_sparse/last.pt",
+            "--arm",
+            "learned_sparse",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "dense_warm_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/dense_warm/last.pt",
+            "--arm",
+            "dense_warm",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "wiki_joint_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_c_v2_20261006/wiki_joint/last.pt",
+            "--arm",
+            "wiki_joint",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_synthetic_off",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "off",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_wikipedia_cluster256",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "cluster256",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042",
+            "--merge-count",
+            "256"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_eval_dev_a_20261006",
+      "source_plan_sha256": "65697a5aca57344b4d7cdd03de4f5cbc25c599989b1a0c03888773fab90a54a8",
+      "source_manifest_sha256": "fd912dbfe489389ec8cc15e6fa20f033c30e76b209c0b69306706d5342d94077",
+      "plan": [
+        {
+          "name": "fixed_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_a_20261006/fixed/last.pt",
+            "--arm",
+            "fixed",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "learned_sparse_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_a_20261006/learned_sparse/last.pt",
+            "--arm",
+            "learned_sparse",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "wiki_joint_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_c_v2_20261006/wiki_joint/last.pt",
+            "--arm",
+            "wiki_joint",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_wikipedia_random256",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "random256",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042",
+            "--merge-count",
+            "256"
+          ]
+        },
+        {
+          "name": "straight_through_synthetic_cluster256",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "cluster256",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042",
+            "--merge-count",
+            "256"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_eval_dev_b_20261006",
+      "source_plan_sha256": "9119173380a3d2f2ce3612d5ed36f0e14bf7baaaeffb78bd00c89dfe966a84a7",
+      "source_manifest_sha256": "076a4d10428de04a5e18002d7a930b9d09367ef42c8822c10aa6a273a56c0a0f",
+      "plan": [
+        {
+          "name": "wiki_warm_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_a_v2_20261006/wiki_warm_transfer/last.pt",
+            "--arm",
+            "wiki_warm",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "fixed_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_a_20261006/fixed/last.pt",
+            "--arm",
+            "fixed",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "dense_warm_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/dense_warm/last.pt",
+            "--arm",
+            "dense_warm",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_wikipedia_off",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "off",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_synthetic_random256",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "random256",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042",
+            "--merge-count",
+            "256"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_eval_dev_c_20261006",
+      "source_plan_sha256": "221adb72a3ee0492000e157d49c3f3f8faa58ad1e46a49d583f54d61db26452a",
+      "source_manifest_sha256": "dd5ddb01d44edfd93d32850265d08d086dc24b0c0427b06b805b016f00d7a252",
+      "plan": [
+        {
+          "name": "wiki_warm_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_a_v2_20261006/wiki_warm_transfer/last.pt",
+            "--arm",
+            "wiki_warm",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "learned_sparse_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_a_20261006/learned_sparse/last.pt",
+            "--arm",
+            "learned_sparse",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "dense_warm_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/dense_warm/last.pt",
+            "--arm",
+            "dense_warm",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "wiki_joint_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_c_v2_20261006/wiki_joint/last.pt",
+            "--arm",
+            "wiki_joint",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_synthetic_off",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "off",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_wikipedia_cluster256",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "cluster256",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042",
+            "--merge-count",
+            "256"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_eval_reused_dev_v2_20261006",
+      "source_plan_sha256": "e779757541d972762cd6bd47109fbf7507e77f2525e06da55a336469c7f28171",
+      "source_manifest_sha256": "acdb520f84f42964979d3cb77ce6b492c841a2b6479d4e9899108cd0ba71cafb",
+      "plan": [
+        {
+          "name": "no_warm_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_b_20261006/no_warm/last.pt",
+            "--arm",
+            "no_warm",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042",
+            "--teacher"
+          ]
+        },
+        {
+          "name": "matched_warm_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_b_20261006/matched_warm_transfer/last.pt",
+            "--arm",
+            "matched_warm",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "no_warm_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_b_20261006/no_warm/last.pt",
+            "--arm",
+            "no_warm",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042",
+            "--teacher"
+          ]
+        },
+        {
+          "name": "matched_warm_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_b_20261006/matched_warm_transfer/last.pt",
+            "--arm",
+            "matched_warm",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "no_warm_train_probe_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/data/coldstart_wiki_20261006/synthetic_train_probe.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_b_20261006/no_warm/last.pt",
+            "--arm",
+            "no_warm",
+            "--domain",
+            "synthetic_train_probe",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "8",
+            "--seed",
+            "63042",
+            "--teacher"
+          ]
+        },
+        {
+          "name": "matched_warm_train_probe_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/data/coldstart_wiki_20261006/synthetic_train_probe.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_b_20261006/matched_warm_transfer/last.pt",
+            "--arm",
+            "matched_warm",
+            "--domain",
+            "synthetic_train_probe",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "8",
+            "--seed",
+            "63042"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_prepare_matched_20261006",
+      "source_plan_sha256": "4af217dc2a0fb87c9e9c95c49be9e1e7497bff8863bc02d74405f116bff43e9b",
+      "source_manifest_sha256": "ea74f164ed448cbac0001a75e8cbf38a42419011c1ee36624c98cb97d23b2678",
+      "plan": [
+        {
+          "name": "features",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "prepare",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--data-dir",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/data/coldstart_wiki_20261006",
+            "--domain",
+            "matched"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_prepare_synthetic_20261006",
+      "source_plan_sha256": "36c46af6083caa5ea9d76bf2904f66509c573e564d29e52420651a3de4df9fe2",
+      "source_manifest_sha256": "71c0d6cb8ec34944acd6c397f2d1bf1f968fefaff207104c95a0efa3f4966b5c",
+      "plan": [
+        {
+          "name": "features",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "prepare",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--data-dir",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/data/coldstart_wiki_20261006",
+            "--domain",
+            "synthetic"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_prepare_wikipedia_20261006",
+      "source_plan_sha256": "01720fd358b9013ab67e6f69bd9766f5163acdfc32f40eda3ba2f5375d96ccd2",
+      "source_manifest_sha256": "28c258cb3f8c186d09ab2186468b3527e624bc495d24c3570add410c709f2732",
+      "plan": [
+        {
+          "name": "features",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "prepare",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--data-dir",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/data/coldstart_wiki_20261006",
+            "--domain",
+            "wikipedia"
+          ]
+        },
+        {
+          "name": "initial",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "init",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/train.pt"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_probe_a_v2_20261006",
+      "source_plan_sha256": "710b41fa8c4896f7b989923493e0cb153fceb06ab4b0bc38c93b7ce06baa95bc",
+      "source_manifest_sha256": "bcafea3274accab4e7e37353e754c7f4783ea1ccdffb71f1ec3088f4b0472f14",
+      "plan": [
+        {
+          "name": "fixed_train_probe_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/data/coldstart_wiki_20261006/synthetic_train_probe.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_a_20261006/fixed/last.pt",
+            "--arm",
+            "fixed",
+            "--domain",
+            "synthetic_train_probe",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "8",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "straight_through_train_probe_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/data/coldstart_wiki_20261006/synthetic_train_probe.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/straight_through/last.pt",
+            "--arm",
+            "straight_through",
+            "--domain",
+            "synthetic_train_probe",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "8",
+            "--seed",
+            "63042"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_probe_b_v2_20261006",
+      "source_plan_sha256": "407c82f06d40405b3294acd93df1a63db74f55164d27cccc3f48df0e3b67db9c",
+      "source_manifest_sha256": "d9668bdf4de4ff93bf7f03bf0cdd0d0f146021bda682cf6a97011610f006b389",
+      "plan": [
+        {
+          "name": "learned_sparse_train_probe_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/data/coldstart_wiki_20261006/synthetic_train_probe.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_a_20261006/learned_sparse/last.pt",
+            "--arm",
+            "learned_sparse",
+            "--domain",
+            "synthetic_train_probe",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "8",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "wiki_joint_train_probe_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/data/coldstart_wiki_20261006/synthetic_train_probe.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_c_v2_20261006/wiki_joint/last.pt",
+            "--arm",
+            "wiki_joint",
+            "--domain",
+            "synthetic_train_probe",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "8",
+            "--seed",
+            "63042"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_probe_c_20261006",
+      "source_plan_sha256": "6732d64083654e86c8e394421ff8c97d78b236e2a17ddad1f2dca535e1c95697",
+      "source_manifest_sha256": "9938be8a93052c960a85ce7dd548e55ce29a84d899b99c99e9fcef0e87a902fd",
+      "plan": [
+        {
+          "name": "wiki_warm_train_probe_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/data/coldstart_wiki_20261006/synthetic_train_probe.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_a_v2_20261006/wiki_warm_transfer/last.pt",
+            "--arm",
+            "wiki_warm",
+            "--domain",
+            "synthetic_train_probe",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "8",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "dense_warm_train_probe_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/data/coldstart_wiki_20261006/synthetic_train_probe.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_dictionary_b_20261006/dense_warm/last.pt",
+            "--arm",
+            "dense_warm",
+            "--domain",
+            "synthetic_train_probe",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "8",
+            "--seed",
+            "63042"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_smoke_20261006",
+      "source_plan_sha256": "50b30e2150acb6d29a8c9cda529474eb21b64a4428644919e2d445b403905d28",
+      "source_manifest_sha256": "3756d1910e7e6dd65ad75e0ff4a5071cfaf1c4c2693c5a33ba92b70286433ded",
+      "plan": [
+        {
+          "name": "initial",
+          "entry": "coldstart",
+          "arguments": [
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--stage",
+            "init",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/train.pt",
+            "--cluster-init"
+          ]
+        },
+        {
+          "name": "train",
+          "entry": "coldstart",
+          "arguments": [
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--stage",
+            "train",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/train.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_smoke_20261006/initial/last.pt",
+            "--updates",
+            "4",
+            "--alpha-base",
+            ".25",
+            "--base-trainable",
+            "--routing",
+            "straight_through"
+          ]
+        },
+        {
+          "name": "eval",
+          "entry": "coldstart",
+          "arguments": [
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--stage",
+            "eval",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_smoke_20261006/train/last.pt",
+            "--max-cases",
+            "2",
+            "--teacher"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_teacher_repair_20261006",
+      "source_plan_sha256": "d3a68767937c335cc6598bcd35747b47ae6398465c380acdb40656b4618b3837",
+      "source_manifest_sha256": "8a31175cc3ecd456a620e9147ed3714ad69f11c377ed6ee2e7eb84b9c6d7ffed",
+      "plan": [
+        {
+          "name": "wiki_teacher_warm",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "train",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_repair_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "wiki_teacher_warm",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/initial/last.pt",
+            "--domain",
+            "wikipedia",
+            "--updates",
+            "1024",
+            "--teacher-strategy",
+            "gold_annotated"
+          ]
+        },
+        {
+          "name": "teacher_prototypes",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "init",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_repair_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "teacher_prototypes",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_teacher_repair_20261006/wiki_teacher_warm/last.pt",
+            "--domain",
+            "wikipedia",
+            "--cluster-init"
+          ]
+        },
+        {
+          "name": "wiki_teacher_repair",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "train",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "wiki_teacher_repair",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_teacher_repair_20261006/teacher_prototypes/last.pt",
+            "--domain",
+            "synthetic",
+            "--updates",
+            "512",
+            "--alpha-base",
+            "0.25",
+            "--base-trainable",
+            "--routing",
+            "straight_through"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_teacher_repair_eval_confirm_20261006",
+      "source_plan_sha256": "e5a2e2d19f11743e4f4a3746f42f198ea29d21cea23c57ef9bedf8c204ea6234",
+      "source_manifest_sha256": "6b6b9ef2cbbc98b570b4dda2329196a0e7098db9607ee4d1b3cec217d8da254e",
+      "plan": [
+        {
+          "name": "wiki_teacher_repair_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/confirm.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "wiki_teacher_repair",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_teacher_repair_20261006/wiki_teacher_repair/last.pt",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "wiki_teacher_repair_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/confirm.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "wiki_teacher_repair",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_teacher_repair_20261006/wiki_teacher_repair/last.pt",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "64",
+            "--seed",
+            "63042"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_teacher_repair_eval_dev_20261006",
+      "source_plan_sha256": "7199018976f5df534988b05b6f6aec55e817b265d4722dc7494c4ea69617ac8c",
+      "source_manifest_sha256": "b61fe73bb89099d5709a6f8ccc166ca7abc21fa53da0246483346605196e4650",
+      "plan": [
+        {
+          "name": "wiki_teacher_repair_wikipedia_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/features/dev.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "wiki_teacher_repair",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_teacher_repair_20261006/wiki_teacher_repair/last.pt",
+            "--domain",
+            "wikipedia",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        },
+        {
+          "name": "wiki_teacher_repair_synthetic_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/dev.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "wiki_teacher_repair",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_teacher_repair_20261006/wiki_teacher_repair/last.pt",
+            "--domain",
+            "synthetic",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "16",
+            "--seed",
+            "63042"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_teacher_repair_eval_probe_20261006",
+      "source_plan_sha256": "62767c84506110b3ddfa8d6e593f3e665765118636d7db734754cc8f27068101",
+      "source_manifest_sha256": "7634edcba80a98d6a8d20e2e873bcd3625d4268bd3127806fb66a00a083912b8",
+      "plan": [
+        {
+          "name": "wiki_teacher_repair_synthetic_train_probe_full",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/data/coldstart_wiki_20261006/synthetic_train_probe.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "wiki_teacher_repair",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_teacher_repair_20261006/wiki_teacher_repair/last.pt",
+            "--domain",
+            "synthetic_train_probe",
+            "--base-mode",
+            "full",
+            "--max-cases",
+            "8",
+            "--seed",
+            "63042"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_warm_a_v2_20261006",
+      "source_plan_sha256": "d9d8ce3a3e1bf09200d16c4bd85fad2926be812cea908770d2bd5f73f61557af",
+      "source_manifest_sha256": "b46b66775f0b460621f3d14334699ae3dac688fd3f32652229d1b3f65d85bf39",
+      "plan": [
+        {
+          "name": "wiki_warm",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "train",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_repair_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "wiki_warm",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/initial/last.pt",
+            "--updates",
+            "1024",
+            "--domain",
+            "wikipedia"
+          ]
+        },
+        {
+          "name": "wiki_prototypes",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "init",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_repair_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "wiki_prototypes",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_a_v2_20261006/wiki_warm/last.pt",
+            "--cluster-init",
+            "--domain",
+            "wikipedia"
+          ]
+        },
+        {
+          "name": "wiki_warm_transfer",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "train",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "wiki_warm_transfer",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_a_v2_20261006/wiki_warm/last.pt",
+            "--updates",
+            "512",
+            "--domain",
+            "synthetic"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_warm_b_20261006",
+      "source_plan_sha256": "5f78e9d3df7faaae13e79b86eab4e92d4b6a2f962af942ec2f6fdc484f5d6a49",
+      "source_manifest_sha256": "91491926d5169808d17c0fe5a0a1955912ae22f7b51e03a6076e83550cbbf784",
+      "plan": [
+        {
+          "name": "matched_warm",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "train",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_matched_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "matched_warm",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/initial/last.pt",
+            "--updates",
+            "1024",
+            "--domain",
+            "matched"
+          ]
+        },
+        {
+          "name": "matched_warm_transfer",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "train",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "matched_warm_transfer",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_b_20261006/matched_warm/last.pt",
+            "--updates",
+            "512",
+            "--domain",
+            "synthetic"
+          ]
+        },
+        {
+          "name": "no_warm",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "train",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "no_warm",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/initial/last.pt",
+            "--updates",
+            "512",
+            "--domain",
+            "synthetic"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "coldstart_warm_c_v2_20261006",
+      "source_plan_sha256": "8d9114da277f92fc3953a323818a92f43d103f748493a406ed963f3862bac5b4",
+      "source_manifest_sha256": "44ebaff4748512fc3052b250c3ba2857bbb8bcc47762f23adae3537755d82fea",
+      "plan": [
+        {
+          "name": "fresh_prototypes",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "init",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_repair_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "fresh_prototypes",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_wikipedia_20261006/initial/last.pt",
+            "--cluster-init",
+            "--domain",
+            "wikipedia"
+          ]
+        },
+        {
+          "name": "wiki_joint_warm",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "train",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_repair_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "wiki_joint_warm",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_c_v2_20261006/fresh_prototypes/last.pt",
+            "--updates",
+            "1024",
+            "--alpha-base",
+            "0.25",
+            "--base-trainable",
+            "--routing",
+            "straight_through",
+            "--domain",
+            "wikipedia"
+          ]
+        },
+        {
+          "name": "wiki_joint",
+          "entry": "coldstart",
+          "arguments": [
+            "--stage",
+            "train",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_prepare_synthetic_20261006/features/train.pt",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--arm",
+            "wiki_joint",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_warm_c_v2_20261006/wiki_joint_warm/last.pt",
+            "--updates",
+            "512",
+            "--alpha-base",
+            "0.25",
+            "--base-trainable",
+            "--routing",
+            "straight_through",
+            "--domain",
+            "synthetic"
+          ]
+        }
+      ]
+    }
+  ],
+  "teacher_selection": {
+    "source_sha256": "cf9a2585a327755aab0d3372bb17c3ef244671f4337a317e9bbc3bbaeca9c69a",
+    "evidence": {
+      "selected_strategy": "gold_annotated",
+      "rule": "quote>=0.9 else annotated>=0.9 else none",
+      "protocol_document_sha256": "54247b1b6bb5ecc29fcccf0033d6c04c3660da45256f2b8c7bd21db084e4a0f4",
+      "source_split": "train",
+      "validation": {
+        "baseline": {
+          "strategy": "baseline",
+          "question_unchanged": true,
+          "source_context_preserved": true,
+          "extra_gold_localization": false,
+          "source_only": true,
+          "interpretation": "Original source context and question, with no appended answer label.",
+          "count": 64,
+          "predictions": 128,
+          "a_correct": 3,
+          "b_correct": 10,
+          "both_correct": 1,
+          "paired_em": 0.015625,
+          "teacher_pair_reaches_90_percent": false,
+          "exact_literal_pair_correct": 1,
+          "paired_containment": 0.484375,
+          "answer_token_nll": 1.2747202202782306,
+          "budget_hits": 5,
+          "three_word_outputs": 21
+        },
+        "quote_instruction": {
+          "strategy": "quote_instruction",
+          "question_unchanged": true,
+          "source_context_preserved": true,
+          "extra_gold_localization": false,
+          "source_only": true,
+          "interpretation": "Original source context and question, with no appended answer label.",
+          "count": 64,
+          "predictions": 128,
+          "a_correct": 0,
+          "b_correct": 4,
+          "both_correct": 0,
+          "paired_em": 0.0,
+          "teacher_pair_reaches_90_percent": false,
+          "exact_literal_pair_correct": 0,
+          "paired_containment": 0.46875,
+          "answer_token_nll": 1.4021927105687937,
+          "budget_hits": 9,
+          "three_word_outputs": 15
+        },
+        "gold_annotated": {
+          "strategy": "gold_annotated",
+          "question_unchanged": true,
+          "source_context_preserved": true,
+          "extra_gold_localization": true,
+          "source_only": false,
+          "interpretation": "Explicit answer-label localization supervision; not an original raw-context teacher.",
+          "count": 64,
+          "predictions": 128,
+          "a_correct": 61,
+          "b_correct": 63,
+          "both_correct": 60,
+          "paired_em": 0.9375,
+          "teacher_pair_reaches_90_percent": true,
+          "exact_literal_pair_correct": 58,
+          "paired_containment": 0.9375,
+          "answer_token_nll": 0.05224311257054912,
+          "budget_hits": 0,
+          "three_word_outputs": 124
+        }
+      },
+      "probe_manifest": {
+        "path": "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_teacher_probe_v2_20261006/probe/manifest.json",
+        "sha256": "72ae1942a2d0904ca7e7f285b23ae554bfcad10f2c70ba2432456ce703341eae"
+      },
+      "probe_metrics": {
+        "path": "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_teacher_probe_v2_20261006/probe/metrics.json",
+        "sha256": "070d6e72e4323304058209247a60fee3870b66010e0230bbdc8e6a666f6a7529"
+      },
+      "probe_predictions": {
+        "path": "/ssd3/chenhan/VeRA-Mem-Workspace/runs/coldstart_teacher_probe_v2_20261006/probe/predictions.jsonl",
+        "sha256": "c41ab7608c444c96f10fb2e5b703cccb7c29169cb862bd252b7f4d2fcb7283e9"
+      }
+    }
+  }
+}

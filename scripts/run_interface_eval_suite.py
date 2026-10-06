@@ -204,8 +204,8 @@ def run_jobs(manifest, persist, gpu, env, source, *, workers=2, poll_seconds=1.,
     Injectable process/GPU/clock hooks permit a fully offline lifecycle test.
     PIDs are authorized only while their own Popen object still polls as alive.
     """
-    if type(workers) is not int or workers not in (1, 2):
-        raise ValueError("At most two evaluation workers may share the GPU")
+    if type(workers) is not int or not 1 <= workers <= 4:
+        raise ValueError("At most four evaluation workers may share the GPU")
     active: list[_Child] = []
     next_job = 0
     failure = False

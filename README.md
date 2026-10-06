@@ -4,7 +4,9 @@ VeRA-Mem 是基于 **Qwen3-4B-Instruct-2507** 的可写向量记忆研究原型�
 
 主方法扩展了 [VeRA](https://arxiv.org/abs/2310.11454) 的冻结随机矩阵参数化。研究重点是寻址、读出、连续写入与成本的关系；LoRA bank、文本 RAG 和加性 latent reader 属于对照，不能代替主方法的结果。
 
-最新四步接口实验已完成：四银行干预表明更换 key 或 value 都会退化；三个 seed 的已选 writer 在新观测确认条件均 **0/128**。扩展为四关系、三词答案后，key 一致性对照的六组和蒸馏五臂在四种表达条件均 **0/256**，原文 teacher 均 **256/256**。11 个模型的 22,528 条真实检索输出也全部未包含完整正确答案；on-policy 多处理约43%的输入位置，没有完整答案收益。本轮支持暂停给当前固定单层随机读出继续叠加损失，先检验读写接口的表达能力；三词任务连原格式也未学会，不能只归为格式泛化失败。详见[四步结果与学生交接](docs/interface_results.md)。
+最新 Wikipedia 冷启动实验已完成：八个主方案与一个教师修复补充方案，覆盖无热身、匹配模板、自然段落、可学习基础向量、稠密热身、straight-through 和聚类压缩。32K 候选中的 8,192 个目标参与语料热身，全部 32K 用于原型初始化。答案 NLL 与梯度覆盖有所改善，但教师合格的合成确认任务中，九个模型四种表达条件均 **0/64**，已见事实小探针均 **0/8**；尚未获得完整多词事实读出或泛化收益。原始 Wiki 教师本身失败，不能把该域零分单独归因于学生。33,216 次正式生成和 9,960 次单条更新通过独立审计。详见[冷启动结果与下一步](docs/coldstart_results.md)、[固定协议](docs/coldstart_protocol.md)及[文献依据](docs/coldstart_literature.md)。
+
+此前四步接口实验已完成：四银行干预表明更换 key 或 value 都会退化；三个 seed 的已选 writer 在新观测确认条件均 **0/128**。扩展为四关系、三词答案后，key 一致性对照的六组和蒸馏五臂在四种表达条件均 **0/256**，原文 teacher 均 **256/256**。11 个模型的 22,528 条真实检索输出也全部未包含完整正确答案；on-policy 多处理约43%的输入位置，没有完整答案收益。本轮支持暂停给当前固定单层随机读出继续叠加损失，先检验读写接口的表达能力；三词任务连原格式也未学会，不能只归为格式泛化失败。详见[四步结果与学生交接](docs/interface_results.md)。
 
 上一轮反事实上下文蒸馏中，同一问题下替换一条记忆，原格式的 A/B 双边正确数为配对基线 **57/64**、行为差分 **60/64**、hidden 差分 **58/64**、混合学生轨迹 **59/64**。在“新观测格式＋原问句”中 teacher 为 **64/64**，四组均 **0/64**，尚未解决这部分泛化。新问句条件的 teacher 本身存在格式遵循与截断问题，不能将其零分单独归因于 VeRA。有效 v2 已修复 writer 前缀遗漏，并从原初始化重训；无效 v1 全部保留并标记。388项测试通过，12,288条预测通过严格审计。
 
@@ -12,6 +14,7 @@ VeRA-Mem 是基于 **Qwen3-4B-Instruct-2507** 的可写向量记忆研究原型�
 
 上一轮表述泛化对照中，相同更新预算下，单模板、多模板增强、增强加一致性三组的原模板 EM 为 **100.0% / 24.2% / 33.6%**；保留 XML/CSV/对话问法、原观测 bank 的 EM 为 **0.0% / 4.2% / 3.9%**。后两组打乱 value 后仍为 **4.2% / 3.9%**。历史同模板127/128及全部失败记录均保留；不同数据、预算和初始化的实验不能直接横比。
 
+- [Wikipedia 冷启动与可学习基础向量](docs/coldstart_results.md)：八臂主实验、教师修复、向量利用率、压缩、确认结果和审计证据。
 - [四步接口实验结果](docs/interface_results.md)与[固定协议](docs/interface_protocol.md)：四银行、三种writer、key一致性、多词答案、五臂蒸馏及完整失败诊断。
 - [反事实蒸馏结果与学生交接](docs/counterfactual_results.md)：四组正式对照、teacher验收、严格成对指标、原始预测审计与下一步方案。
 - [反事实上下文蒸馏协议](docs/counterfactual_protocol.md)：单条记忆 A/B 替换、同事实改写 P、四组同初始化对照与独立新格式确认集。
@@ -192,6 +195,27 @@ python scripts/run_scaling_suite.py --workspace .. --gpu "$GPU_UUID" \
 该受控入口要求模型清单的 revision 为 `cdbee75f17c01a7cc42f958dc650907174af0554`。Suite 使用隔离源码快照、`../env_deps` 依赖目录与显式退出码；目录必须预先准备。可选 `raw`、`stable`、`cold`、`extended`、`smoke` profile。`cold` 将 128 条离线训练观测经 writer 编码为初始 VDB，额外执行同 checkpoint 的空库复评；`stable` 也执行同 checkpoint 的有初始库复评，区分训练因素和部署初始化因素。
 
 线上只读评测严格使用冻结共享权重，完成新观测后写入新向量。这里的初始库是训练观测经学习后 writer 生成的快照，不是独立自由训练的 prototype 参数表。Smoke 使用独立的在线实体，不进入主结果表。
+
+## Wikipedia 冷启动与可学习基础库
+
+`DictionaryVeRA` 增加独立的共享基础 key/value 参数表，与新观测生成的事实库各检索 top-4。离线可选择冻结基础向量、普通稀疏更新、前密后疏，或输出级 straight-through；在线统一使用 CPU VDB 稀疏查询并冻结共享参数。基础库聚类不合并可独立替换的新事实。
+
+本轮固定八个主臂，另有教师资格检查触发的一个补充臂。精确预算、数据与监督边界见[协议](docs/coldstart_protocol.md)，结论和学生建议见[结果报告](docs/coldstart_results.md)，文献适用范围见[文献映射](docs/coldstart_literature.md)。这只是 32K 候选观测的单 seed pilot，不是完整 Wikipedia 预训练；自然语料热身只监督其中 8192 个不同目标一次。
+
+实验入口为 `python -m vera_mem.coldstart_run --stage prepare|init|train|eval`，每个阶段要求新的输出目录。`scripts/run_coldstart_suite.py` 冻结源码后执行显式计划；`scripts/run_coldstart_eval_suite.py` 只运行独立只读评测。[实际执行计划](docs/results/coldstart/plans.json)保存了原机器绝对路径，复用时需在新计划中明确映射工作区，并重新检查资源，不能直接覆盖原目录。
+
+已有完整备份时，可以不加载基座重新核验结果：
+
+```bash
+python scripts/summarize_coldstart.py \
+  --runs-root ../runs/xtrah100 --output ../coldstart_summary_new.json
+python scripts/audit_coldstart.py \
+  --runs-root ../runs/xtrah100 --output ../coldstart_audit_new --require-complete
+python scripts/replay_coldstart_banks.py \
+  --runs-root ../runs/xtrah100 --output ../coldstart_banks_new.json
+```
+
+这些检查重算原始计数并重建持久化银行，不重新执行 CUDA 编码或语言模型生成。`analysis_excluded.json` 标记的旧运行保留，但不进入有效结果。教师答案标注补充臂、smoke、废弃计算和主实验分别统计。
 
 ## 目录与实验产物
 

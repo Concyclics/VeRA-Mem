@@ -482,7 +482,7 @@ def discover(root):
             else:
                 # Preparations/calibrations are evidence, not performance arms.
                 # Legacy counterfactual entries remain visibly outside this new protocol.
-                record=dict(kind=kind,split="train" if kind=="prepare" else "dev" if kind=="calibrate" else "not_applicable",
+                record=dict(kind=kind,split="train" if kind in {"prepare", "calibrate"} else "not_applicable",
                             result=manifest.get("result"),costs={},artifacts=artifacts(run_dir,["manifest.json","calibration.json"]))
             scope,step=classify(directory.name,name,config,record["kind"])
             record.update(run_id=directory.name+"/"+name,suite=directory.name,job=name,directory=str(run_dir),

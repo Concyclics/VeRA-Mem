@@ -1,0 +1,56 @@
+{
+  "protocol": "interface-step1-bank-coverage-audit-v1",
+  "audited_at": "2026-10-06T09:26:12.925357+00:00",
+  "complete": true,
+  "passed": true,
+  "coverage": "partial_replay_and_log_consistency",
+  "device": "cpu",
+  "cuda_initialized": false,
+  "source_directory": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_diagnostic_20261006/four_bank",
+  "facts": 64,
+  "base_records": 64,
+  "base_hash": "a371878955a626f29ba1aca5825f5a77acf0cc481bcff92d3fbed5e59a9db3bc",
+  "base_tensor_shapes": {
+    "keys": [
+      64,
+      64
+    ],
+    "values": [
+      64,
+      64
+    ]
+  },
+  "base_snapshot_roundtrip_bitwise_equal": true,
+  "source_features_shape": [
+    64,
+    2,
+    3,
+    9728
+  ],
+  "feature_metadata_ids_match_base": true,
+  "raw_rows": 1280,
+  "teacher_rows": 256,
+  "logged_vector_bank_reads": 1024,
+  "exact_reconstructed_read_hashes": 128,
+  "exact_reconstruction_scope": "KcVc world A, 64 facts x 2 styles; only timestamp changes from canonical saved base",
+  "missing_encoded_patch_replay_reads": 896,
+  "value_only_fixed_prefix_route_equality_checks": 512,
+  "canonical_bank_hash_across_styles_checks": 128,
+  "all_logged_bank_unchanged_flags_true": true,
+  "limitations": [
+    "Step1 is not covered by audit_interface_banks.py, which selects stage=eval.",
+    "Step1 did not persist intervention write_key/key/value tensors. The remaining 896 logged vector bank hashes cannot be reconstructed exactly from persisted banks without recomputing CUDA encoder outputs.",
+    "This audit does not rerun encoders or generation; recorded routing equality and bank_unchanged flags are log consistency checks, not independent replay of model execution.",
+    "No query vectors or full decoding traces were persisted, so routing weights/search cannot be independently recomputed."
+  ],
+  "artifacts_sha256": {
+    "suite.json": "edd561352ab3e7705b21f0083fe81248f498518fee7579471c7f5224acedeab9",
+    "four_bank/base_bank": "aad315d90757e5b55b691659f02b15fc3acfb5820dbeb7c9cd9ac114305bc3e5",
+    "four_bank/features.pt": "4f2ba7675a7fdbdb1e4a2e4266c2c0a8b7ecf5faa42cfd49db8ce6118f01fa1a",
+    "four_bank/manifest.json": "f3b0c05094ca1783eaa4f282d732a0465163f7b1d0438a5bec8e9bdb8fe9d116",
+    "four_bank/results.json": "1502e9048bf1b56aaa9e0713dc1368b7fdacc58c46148e0ae58512452b5a9f98",
+    "four_bank/predictions.jsonl": "f0f1e920d18e17af34e554139ac5b44af1bf83d522c1fd33b1eb28e3253ebcc6",
+    "source/src/vera_mem/interface_diagnostic.py": "a763b5e821261350b4632f9983a4b8b293990a7520c1cc58274545533dc4c5b3",
+    "source/src/vera_mem/vector_store.py": "4a278b7fa647d9d762c5ac970ada86f2c29722f7e557c1bf796f1f559e214fa9"
+  }
+}

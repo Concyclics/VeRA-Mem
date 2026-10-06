@@ -1,0 +1,3257 @@
+{
+  "protocol": "interface-supplementary-diagnostics-v1",
+  "scope": "Post-hoc CPU and log diagnostics. No model selection or new training. Final generated-answer audit is summary.json.",
+  "sources": {
+    "writer_geometry": {
+      "local_relative_path": "../plans/interface_writer_geometry_20261006.json",
+      "sha256": "f96a6ed997294b355e95842d26685569b966f07f3502f231409086d40ae65674"
+    },
+    "training_cost": {
+      "local_relative_path": "../plans/interface_final_training_cost_audit_20261006.json",
+      "sha256": "0a813eeaee5a9480f41b129af056e70c09c4121a38bdf05ffb29a31bb66fa642"
+    },
+    "training_routes": {
+      "local_relative_path": "../runs/local/interface_training_route_proxy_all_20261006.json",
+      "sha256": "43af1f74ad8fbd095c3a243194938bcc490dc6e21dda7f3197320cfa5900fdd4"
+    },
+    "data": {
+      "local_relative_path": "../plans/interface_extended_data_final_audit_20261006.json",
+      "sha256": "4e1a03e03c60ddb2f7713e789151782e321a245d346753021c9d6471fdaec9cd"
+    },
+    "step12": {
+      "local_relative_path": "../plans/interface_step12_final_audit_20261006.json",
+      "sha256": "405c034eeb9b7bec952e92f21d795dc23a08249a55f53cc57460a4c813d21856"
+    }
+  },
+  "writer_geometry": {
+    "protocol": "interface-writer-geometry-v1",
+    "complete": true,
+    "sampling": "Predeclared cache order: train first256; dev all128. No confirmation files opened.",
+    "target": "Original frozen base writer applied to the SAME fact/world canonical support (sindex0). No LM inference.",
+    "definitions": {
+      "encoded_value_mse": "mean_d (v_writer-v_old_canonical)^2; both are architecture RMS-normalized outputs, with original epsilon",
+      "rms_renormalized_mse": "mean_d (v/RMS(v)-target/RMS(target))^2 = 2-2*cosine (up to rounding)",
+      "cosine": "Cosine across rank64 coordinates, summarized over facts in each fixed world/style cell",
+      "uncertainty": "Descriptive sample statistics, no independent replication or significance claim"
+    },
+    "limitations": [
+      "Writer geometry is not free-generation accuracy and does not modify predeclared selection/gating.",
+      "Canonical target comes from the old writer, not an ideal memory representation or performance upper bound.",
+      "Wq/Wk and their centers are frozen: address geometry cannot improve between writer variants.",
+      "Train first256 are not a random training sample and these means need not equal the final logged minibatch loss.",
+      "Value cosine and RMS-normalized MSE are geometrically redundant, not independent evidence.",
+      "The full-dev128 geometry differs from the fixed32 query subset used for development generation; compare like subsets."
+    ],
+    "base_module_unchanged": true,
+    "key_geometry_shared_across_all_nine_writers": true,
+    "summary_by_family": {
+      "last": {
+        "train": {
+          "cosine_seed_mean": 0.9438646562533298,
+          "cosine_seed_min": 0.9429857309714862,
+          "cosine_seed_max": 0.9444633639814128
+        },
+        "dev": {
+          "cosine_seed_mean": 0.4326115913617185,
+          "cosine_seed_min": 0.4270332904610162,
+          "cosine_seed_max": 0.43748292998134275
+        }
+      },
+      "mean": {
+        "train": {
+          "cosine_seed_mean": 0.9479282539147486,
+          "cosine_seed_min": 0.947548249447209,
+          "cosine_seed_max": 0.9481608372516348
+        },
+        "dev": {
+          "cosine_seed_mean": 0.3981792642476244,
+          "cosine_seed_min": 0.39162699699894193,
+          "cosine_seed_max": 0.40391261384866084
+        }
+      },
+      "mlp": {
+        "train": {
+          "cosine_seed_mean": 0.9800077599162856,
+          "cosine_seed_min": 0.9799265487527009,
+          "cosine_seed_max": 0.9800987635098863
+        },
+        "dev": {
+          "cosine_seed_mean": 0.5705168786060111,
+          "cosine_seed_min": 0.5687757775055312,
+          "cosine_seed_max": 0.5735323968886709
+        }
+      }
+    },
+    "matched_dev32": {
+      "assignment_path": "../runs/xtrah100/interface_writer_a_20261006/baseline_dev/assignments.json",
+      "assignment_sha256": "3bb30d20476f7faa71f98411ea54ec379e7a2965f0e1f92f334961651baef3d4",
+      "facts": 32,
+      "writers": {
+        "last_42": {
+          "canonical": {
+            "cosine": {
+              "mean": 0.9865294536575675,
+              "min": 0.9645338654518127,
+              "max": 0.9947022199630737,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 0.026940776020637713,
+              "min": 0.01059554424136877,
+              "max": 0.07093141227960587,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 0.02694112750759814,
+              "min": 0.010595644824206829,
+              "max": 0.07093221694231033,
+              "n": 64
+            }
+          },
+          "heldout": {
+            "cosine": {
+              "mean": 0.12464125012047589,
+              "min": -0.3026437759399414,
+              "max": 0.7301047444343567,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 1.7506915926933289,
+              "min": 0.5397841334342957,
+              "max": 2.6052582263946533,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 1.7507174704223871,
+              "min": 0.539790689945221,
+              "max": 2.605287551879883,
+              "n": 64
+            }
+          }
+        },
+        "mean_42": {
+          "canonical": {
+            "cosine": {
+              "mean": 0.9578934330493212,
+              "min": 0.8637627363204956,
+              "max": 0.9874318242073059,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 0.08421174992690794,
+              "min": 0.02513630874454975,
+              "max": 0.2724679112434387,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 0.08421318247565068,
+              "min": 0.02513660490512848,
+              "max": 0.2724745571613312,
+              "n": 64
+            }
+          },
+          "heldout": {
+            "cosine": {
+              "mean": 0.05854303063824773,
+              "min": -0.546359121799469,
+              "max": 0.7076903581619263,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 1.8828957648947835,
+              "min": 0.5846169590950012,
+              "max": 3.0926904678344727,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 1.8829138902947307,
+              "min": 0.5846190452575684,
+              "max": 3.0927183628082275,
+              "n": 64
+            }
+          }
+        },
+        "mlp_42": {
+          "canonical": {
+            "cosine": {
+              "mean": 0.996818064711988,
+              "min": 0.9932554960250854,
+              "max": 0.998907744884491,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 0.006363836320815608,
+              "min": 0.002184444572776556,
+              "max": 0.013488594442605972,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 0.006363904838508461,
+              "min": 0.0021844557486474514,
+              "max": 0.013488847762346268,
+              "n": 64
+            }
+          },
+          "heldout": {
+            "cosine": {
+              "mean": 0.32803811004851013,
+              "min": -0.19606631994247437,
+              "max": 0.7315312623977661,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 1.3439071802422404,
+              "min": 0.5369324684143066,
+              "max": 2.3921070098876953,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 1.3439237857237458,
+              "min": 0.5369376540184021,
+              "max": 2.392132520675659,
+              "n": 64
+            }
+          }
+        },
+        "last_43": {
+          "canonical": {
+            "cosine": {
+              "mean": 0.9861258193850517,
+              "min": 0.9540717005729675,
+              "max": 0.9962257146835327,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 0.0277480418808409,
+              "min": 0.0075485012494027615,
+              "max": 0.09185566753149033,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 0.02774840391066391,
+              "min": 0.007548617199063301,
+              "max": 0.0918566882610321,
+              "n": 64
+            }
+          },
+          "heldout": {
+            "cosine": {
+              "mean": 0.13469000873737969,
+              "min": -0.329440176486969,
+              "max": 0.741542398929596,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 1.7305946964770555,
+              "min": 0.516908586025238,
+              "max": 2.6588518619537354,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 1.730619958601892,
+              "min": 0.5169150829315186,
+              "max": 2.6588804721832275,
+              "n": 64
+            }
+          }
+        },
+        "mean_43": {
+          "canonical": {
+            "cosine": {
+              "mean": 0.9609530996531248,
+              "min": 0.8710006475448608,
+              "max": 0.9876498579978943,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 0.07809249850106426,
+              "min": 0.024699939414858818,
+              "max": 0.25799304246902466,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 0.07809383579296991,
+              "min": 0.024700205773115158,
+              "max": 0.2579987347126007,
+              "n": 64
+            }
+          },
+          "heldout": {
+            "cosine": {
+              "mean": 0.06613117417145986,
+              "min": -0.5594682097434998,
+              "max": 0.7079557180404663,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 1.8677194025367498,
+              "min": 0.5840863585472107,
+              "max": 3.118908643722534,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 1.8677376313135028,
+              "min": 0.5840885043144226,
+              "max": 3.118936538696289,
+              "n": 64
+            }
+          }
+        },
+        "mlp_43": {
+          "canonical": {
+            "cosine": {
+              "mean": 0.9963755896314979,
+              "min": 0.9903032779693604,
+              "max": 0.9990485906600952,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 0.007248791680467548,
+              "min": 0.0019029902759939432,
+              "max": 0.019393302500247955,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 0.0072488698751840275,
+              "min": 0.0019030054099857807,
+              "max": 0.019393526017665863,
+              "n": 64
+            }
+          },
+          "heldout": {
+            "cosine": {
+              "mean": 0.33577800750208553,
+              "min": -0.09988942742347717,
+              "max": 0.752173125743866,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 1.3284275480546057,
+              "min": 0.4956493675708771,
+              "max": 2.1997528076171875,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 1.328443981707096,
+              "min": 0.4956538677215576,
+              "max": 2.1997787952423096,
+              "n": 64
+            }
+          }
+        },
+        "last_44": {
+          "canonical": {
+            "cosine": {
+              "mean": 0.9828216349706054,
+              "min": 0.9557512998580933,
+              "max": 0.9938434362411499,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 0.03435632689797785,
+              "min": 0.012313157320022583,
+              "max": 0.08849649131298065,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 0.03435679356334731,
+              "min": 0.012313254177570343,
+              "max": 0.08849752694368362,
+              "n": 64
+            }
+          },
+          "heldout": {
+            "cosine": {
+              "mean": 0.12047272748895921,
+              "min": -0.3503708839416504,
+              "max": 0.7308295965194702,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 1.7590293027460575,
+              "min": 0.5383344292640686,
+              "max": 2.7007148265838623,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 1.7590544717386365,
+              "min": 0.5383407473564148,
+              "max": 2.7007415294647217,
+              "n": 64
+            }
+          }
+        },
+        "mean_44": {
+          "canonical": {
+            "cosine": {
+              "mean": 0.957963390275836,
+              "min": 0.8697351217269897,
+              "max": 0.9850545525550842,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 0.08407183142844588,
+              "min": 0.029890524223446846,
+              "max": 0.26052388548851013,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 0.0840732681681402,
+              "min": 0.029890865087509155,
+              "max": 0.2605297863483429,
+              "n": 64
+            }
+          },
+          "heldout": {
+            "cosine": {
+              "mean": 0.05071245078579523,
+              "min": -0.5638855695724487,
+              "max": 0.7149927020072937,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 1.8985567381605506,
+              "min": 0.5700125694274902,
+              "max": 3.1277434825897217,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 1.8985750656574965,
+              "min": 0.5700146555900574,
+              "max": 3.1277709007263184,
+              "n": 64
+            }
+          }
+        },
+        "mlp_44": {
+          "canonical": {
+            "cosine": {
+              "mean": 0.9966257736086845,
+              "min": 0.992581844329834,
+              "max": 0.9992485046386719,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 0.006748424859324587,
+              "min": 0.0015029279747977853,
+              "max": 0.014836315996944904,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 0.006748497953594779,
+              "min": 0.0015029354253783822,
+              "max": 0.014836490154266357,
+              "n": 64
+            }
+          },
+          "heldout": {
+            "cosine": {
+              "mean": 0.3417688917252235,
+              "min": -0.11525756120681763,
+              "max": 0.7439576983451843,
+              "n": 64
+            },
+            "encoded_value_mse": {
+              "mean": 1.3164457017555833,
+              "min": 0.5120798945426941,
+              "max": 2.2304847240448,
+              "n": 64
+            },
+            "rms_renormalized_mse": {
+              "mean": 1.3164621787145734,
+              "min": 0.5120845437049866,
+              "max": 2.2305150032043457,
+              "n": 64
+            }
+          }
+        }
+      }
+    }
+  },
+  "training_cost": {
+    "checks": {
+      "all_manifests_complete_and_backbone_unchanged": true,
+      "all_log_totals_recomputed": true,
+      "all_final_checkpoint_adam_steps_match": true,
+      "stage3_each_seed_coupled_decoupled_same_initial_file_and_schedule": true,
+      "stage4_all_five_same_512_step_parent_file": true,
+      "stage4_all_five_resume_adam_to_768": true,
+      "stage4_all_256_actual_samples_exactly_equal": true,
+      "stage4_sampler_continuation_independently_reconstructed": true,
+      "stage4_all_questions_contexts_gold_tokens_exactly_equal": true,
+      "stage4_first_preupdate_common_objectives_bit_equal": true,
+      "normalized_and_onpolicy_first_three_log_records_equal_excluding_wall": true,
+      "all_snapshots_relevant_runtime_sources_bit_equal": true,
+      "fixed_basis_and_centers_bit_equal_all_eleven_checkpoints": true,
+      "only_onpolicy_has_64_sampling_updates": true,
+      "trajectory_token_sums_match_logs": true,
+      "train_cache_sha256_matches_all_eleven": true
+    },
+    "train_cache": {
+      "sha256": "3882ed326acff0808a97eb3dc330968bb92618159f19613c354d579dcf3c595b",
+      "split": "train",
+      "task": "extended",
+      "data_protocol": "interface-multirelation-v2",
+      "records": 4096,
+      "entities": 1024,
+      "query_views": 8,
+      "support_views": 4
+    },
+    "jobs": [
+      {
+        "name": "coupled_42",
+        "stage": 3,
+        "method": "base",
+        "seed": 42,
+        "directory": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_a_20261006/coupled_42",
+        "files_sha256": {
+          "manifest.json": "eb0739aa7c931b291c4a4fd25eae3806bb34f2bbc30d607047b23f16db24515a",
+          "training_status.json": "c83145e259df8247d932339de412708cd6732c3195ff1b60c4ed7298a0bd46af",
+          "training.jsonl": "11196da420676b3a27b155bc7c2b105884c64743b4a0f49d62d9536331031f12",
+          "trajectories.jsonl": "7ce49c15c71d7f0e10ceb275d7edec51b06f7f5d71995cbc8afbc9ec938110f9",
+          "last.pt": "414abf7d721610235d710e1abc7caeecfeaadbc91e93339c307d06f01b585b90"
+        },
+        "source_suite_manifest": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_a_20261006/suite.json",
+        "gpu_uuid": "GPU-2aea6294-c3e6-5b4a-65e8-c5ce6985fe39",
+        "parent_checkpoint": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_writer_a_20261006/mean_42/last.pt",
+        "parent_checkpoint_sha256": "11dcceb71d8bbca7ca4da1d8e807a5e8b82fca80d4083181442c9817d05f4192",
+        "optimizer_resumed": false,
+        "start_step": 0,
+        "end_step": 512,
+        "adam_state_entries": 4,
+        "adam_all_parameter_steps": 512,
+        "optimizer_group_learning_rates": [
+          0.0001,
+          0.005,
+          1e-05
+        ],
+        "updates": 512,
+        "target_pair_exposures": 4096,
+        "distinct_target_records": 2554,
+        "distinct_target_entities": 1005,
+        "bank_records_per_target": 72,
+        "gold_world_sequence_exposures": 12288,
+        "schedule_sha256": "f3e28efa61d5f6e9939ba5a5013b8e6f8d2575543f2b519a50096122a5e254ef",
+        "verified_against_reconstructed_sampler": true,
+        "key_consistency_weight": 0.0,
+        "margin_scale": 71.015625,
+        "trainable_parameters": 1870336,
+        "on_policy_updates": 0,
+        "sampled_trajectories": 0,
+        "sampled_world_counts": {},
+        "sampled_length_counts": {},
+        "totals": {
+          "student_input_tokens": 1061579,
+          "teacher_input_tokens": 1506000,
+          "target_tokens": 64412,
+          "gold_target_tokens": 64412,
+          "distillation_target_tokens": 64412,
+          "student_forward_calls": 1536,
+          "teacher_forward_calls": 1536,
+          "sampled_tokens": 0,
+          "rollout_input_tokens": 0,
+          "rollout_padded_input_tokens": 0,
+          "rollout_forward_calls": 0,
+          "replay_target_tokens": 0
+        },
+        "all_backbone_forward_calls": 3072,
+        "all_unpadded_input_positions": 2567579,
+        "training_loop_seconds": 161.74212496355176,
+        "process_wall_seconds": 196.8444193340838,
+        "process_started_at": "2026-10-06T08:34:37.468737+00:00",
+        "process_finished_at": "2026-10-06T08:37:54.314485+00:00",
+        "legacy_margin_clipped_pairs": 4096,
+        "behavior_valid_pairs": 4096
+      },
+      {
+        "name": "decoupled_42",
+        "stage": 3,
+        "method": "base",
+        "seed": 42,
+        "directory": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_a_20261006/decoupled_42",
+        "files_sha256": {
+          "manifest.json": "6a69051cd0778a8d1db566d1ba42863b115d34c50b2d3d935db8f7a4e22cd886",
+          "training_status.json": "4e816201f68727f9e83a264eb5c0e9d89fcd1b2463d2e6de335ac6e8508816db",
+          "training.jsonl": "a1e7adc79c8dbb40f26df95f056d94f1f736aba920755e8c99d21962c6962e0b",
+          "trajectories.jsonl": "7ce49c15c71d7f0e10ceb275d7edec51b06f7f5d71995cbc8afbc9ec938110f9",
+          "last.pt": "eece64bc9ed4002b5cef7456ada8343f26859b2a69dcb7b53c39358e702304f4"
+        },
+        "source_suite_manifest": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_a_20261006/suite.json",
+        "gpu_uuid": "GPU-2aea6294-c3e6-5b4a-65e8-c5ce6985fe39",
+        "parent_checkpoint": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_writer_a_20261006/mean_42/last.pt",
+        "parent_checkpoint_sha256": "11dcceb71d8bbca7ca4da1d8e807a5e8b82fca80d4083181442c9817d05f4192",
+        "optimizer_resumed": false,
+        "start_step": 0,
+        "end_step": 512,
+        "adam_state_entries": 4,
+        "adam_all_parameter_steps": 512,
+        "optimizer_group_learning_rates": [
+          0.0001,
+          0.005,
+          1e-05
+        ],
+        "updates": 512,
+        "target_pair_exposures": 4096,
+        "distinct_target_records": 2554,
+        "distinct_target_entities": 1005,
+        "bank_records_per_target": 72,
+        "gold_world_sequence_exposures": 12288,
+        "schedule_sha256": "f3e28efa61d5f6e9939ba5a5013b8e6f8d2575543f2b519a50096122a5e254ef",
+        "verified_against_reconstructed_sampler": true,
+        "key_consistency_weight": 0.05,
+        "margin_scale": 71.015625,
+        "trainable_parameters": 1870336,
+        "on_policy_updates": 0,
+        "sampled_trajectories": 0,
+        "sampled_world_counts": {},
+        "sampled_length_counts": {},
+        "totals": {
+          "student_input_tokens": 1061579,
+          "teacher_input_tokens": 1506000,
+          "target_tokens": 64412,
+          "gold_target_tokens": 64412,
+          "distillation_target_tokens": 64412,
+          "student_forward_calls": 1536,
+          "teacher_forward_calls": 1536,
+          "sampled_tokens": 0,
+          "rollout_input_tokens": 0,
+          "rollout_padded_input_tokens": 0,
+          "rollout_forward_calls": 0,
+          "replay_target_tokens": 0
+        },
+        "all_backbone_forward_calls": 3072,
+        "all_unpadded_input_positions": 2567579,
+        "training_loop_seconds": 158.99788936972618,
+        "process_wall_seconds": 193.1458041779697,
+        "process_started_at": "2026-10-06T08:37:54.477936+00:00",
+        "process_finished_at": "2026-10-06T08:41:07.625506+00:00",
+        "legacy_margin_clipped_pairs": 4096,
+        "behavior_valid_pairs": 4096
+      },
+      {
+        "name": "coupled_43",
+        "stage": 3,
+        "method": "base",
+        "seed": 43,
+        "directory": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_b_20261006/coupled_43",
+        "files_sha256": {
+          "manifest.json": "8c2eddcee3815b8ffedf9445a91148fa892685e48db360657867eda3020fc0d4",
+          "training_status.json": "0de2d6dfda42a70e9d45e219d45adc5d7ec4159513eddccc491449f31948690b",
+          "training.jsonl": "772f439c86df7ccd0bc6f9b53a4918417a2a8eccaf07c2c96d13533d7ed391b4",
+          "trajectories.jsonl": "3c67e5c361e2dc3a6016d5f0ea96a838b997c89f670751a868328bc1c179eec1",
+          "last.pt": "91842164875febb790957a42f0cd2c5b793b10561a8c77527693972b121dbfd9"
+        },
+        "source_suite_manifest": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_b_20261006/suite.json",
+        "gpu_uuid": "GPU-d128ba8f-52fc-77f3-76c4-c238e94e40df",
+        "parent_checkpoint": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_writer_b_20261006/mean_43/last.pt",
+        "parent_checkpoint_sha256": "b6aa8324b278f162491d45a35f0e48da7c68a23270f9c5d7148499e51d4e6d8c",
+        "optimizer_resumed": false,
+        "start_step": 0,
+        "end_step": 512,
+        "adam_state_entries": 4,
+        "adam_all_parameter_steps": 512,
+        "optimizer_group_learning_rates": [
+          0.0001,
+          0.005,
+          1e-05
+        ],
+        "updates": 512,
+        "target_pair_exposures": 4096,
+        "distinct_target_records": 2607,
+        "distinct_target_entities": 1010,
+        "bank_records_per_target": 72,
+        "gold_world_sequence_exposures": 12288,
+        "schedule_sha256": "2d0bd82e9d689d879048781255593b4dc743dc8fec8c19843373cd0eb9da738c",
+        "verified_against_reconstructed_sampler": true,
+        "key_consistency_weight": 0.0,
+        "margin_scale": 71.015625,
+        "trainable_parameters": 1870336,
+        "on_policy_updates": 0,
+        "sampled_trajectories": 0,
+        "sampled_world_counts": {},
+        "sampled_length_counts": {},
+        "totals": {
+          "student_input_tokens": 1061118,
+          "teacher_input_tokens": 1506038,
+          "target_tokens": 64443,
+          "gold_target_tokens": 64443,
+          "distillation_target_tokens": 64443,
+          "student_forward_calls": 1536,
+          "teacher_forward_calls": 1536,
+          "sampled_tokens": 0,
+          "rollout_input_tokens": 0,
+          "rollout_padded_input_tokens": 0,
+          "rollout_forward_calls": 0,
+          "replay_target_tokens": 0
+        },
+        "all_backbone_forward_calls": 3072,
+        "all_unpadded_input_positions": 2567156,
+        "training_loop_seconds": 165.01233273744583,
+        "process_wall_seconds": 199.71957786846906,
+        "process_started_at": "2026-10-06T08:39:38.276954+00:00",
+        "process_finished_at": "2026-10-06T08:42:57.997707+00:00",
+        "legacy_margin_clipped_pairs": 4096,
+        "behavior_valid_pairs": 4096
+      },
+      {
+        "name": "decoupled_43",
+        "stage": 3,
+        "method": "base",
+        "seed": 43,
+        "directory": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_b_20261006/decoupled_43",
+        "files_sha256": {
+          "manifest.json": "ab4a73947fc872fc69c002e600403a8e631750962c875935518193921ca647b5",
+          "training_status.json": "f8cb70c8ed794a4cacd2b25aebd744dbe19f9dae31c9a52dd8b89714c8d58ba7",
+          "training.jsonl": "13d85af9354c8b96b91bfc0c8cee071ddba8909d642570311f021cf02df105c9",
+          "trajectories.jsonl": "3c67e5c361e2dc3a6016d5f0ea96a838b997c89f670751a868328bc1c179eec1",
+          "last.pt": "f7007951b46091b900fc4b4ce248bc986bf7bc1650242ecc90642f3672056a94"
+        },
+        "source_suite_manifest": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_b_20261006/suite.json",
+        "gpu_uuid": "GPU-d128ba8f-52fc-77f3-76c4-c238e94e40df",
+        "parent_checkpoint": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_writer_b_20261006/mean_43/last.pt",
+        "parent_checkpoint_sha256": "b6aa8324b278f162491d45a35f0e48da7c68a23270f9c5d7148499e51d4e6d8c",
+        "optimizer_resumed": false,
+        "start_step": 0,
+        "end_step": 512,
+        "adam_state_entries": 4,
+        "adam_all_parameter_steps": 512,
+        "optimizer_group_learning_rates": [
+          0.0001,
+          0.005,
+          1e-05
+        ],
+        "updates": 512,
+        "target_pair_exposures": 4096,
+        "distinct_target_records": 2607,
+        "distinct_target_entities": 1010,
+        "bank_records_per_target": 72,
+        "gold_world_sequence_exposures": 12288,
+        "schedule_sha256": "2d0bd82e9d689d879048781255593b4dc743dc8fec8c19843373cd0eb9da738c",
+        "verified_against_reconstructed_sampler": true,
+        "key_consistency_weight": 0.05,
+        "margin_scale": 71.015625,
+        "trainable_parameters": 1870336,
+        "on_policy_updates": 0,
+        "sampled_trajectories": 0,
+        "sampled_world_counts": {},
+        "sampled_length_counts": {},
+        "totals": {
+          "student_input_tokens": 1061118,
+          "teacher_input_tokens": 1506038,
+          "target_tokens": 64443,
+          "gold_target_tokens": 64443,
+          "distillation_target_tokens": 64443,
+          "student_forward_calls": 1536,
+          "teacher_forward_calls": 1536,
+          "sampled_tokens": 0,
+          "rollout_input_tokens": 0,
+          "rollout_padded_input_tokens": 0,
+          "rollout_forward_calls": 0,
+          "replay_target_tokens": 0
+        },
+        "all_backbone_forward_calls": 3072,
+        "all_unpadded_input_positions": 2567156,
+        "training_loop_seconds": 157.54090540856123,
+        "process_wall_seconds": 191.85012064967304,
+        "process_started_at": "2026-10-06T08:42:58.166856+00:00",
+        "process_finished_at": "2026-10-06T08:46:10.018102+00:00",
+        "legacy_margin_clipped_pairs": 4096,
+        "behavior_valid_pairs": 4096
+      },
+      {
+        "name": "coupled_44",
+        "stage": 3,
+        "method": "base",
+        "seed": 44,
+        "directory": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_c_20261006/coupled_44",
+        "files_sha256": {
+          "manifest.json": "0e0d5f0976e5f153dbf3239e92b3347d5d1d7a235fc83c494baa4dc908ef1788",
+          "training_status.json": "3b8a45ac5c8bcc364573c44be6425d9d8933dd2a0732f762269f8dbf71116e10",
+          "training.jsonl": "4a424313d300d9e98026b36762abfcf97037ab9eccfc545662744b13f0310e62",
+          "trajectories.jsonl": "602deb1110f592902583ee39c250838c1ff1e2ad2f8f0fe2cd29d09108c3e913",
+          "last.pt": "30bf9195d47e8281bd4f658e59f1779de6ab080792fbeaff850d7156e9601ecf"
+        },
+        "source_suite_manifest": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_c_20261006/suite.json",
+        "gpu_uuid": "GPU-b39c5755-644d-a3b3-8e76-75beb4142100",
+        "parent_checkpoint": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_writer_b_20261006/mean_44/last.pt",
+        "parent_checkpoint_sha256": "ba43c39111e0389ce069bfc8bd9754ef4fafab87e7d190739160bd2d00bcd7a4",
+        "optimizer_resumed": false,
+        "start_step": 0,
+        "end_step": 512,
+        "adam_state_entries": 4,
+        "adam_all_parameter_steps": 512,
+        "optimizer_group_learning_rates": [
+          0.0001,
+          0.005,
+          1e-05
+        ],
+        "updates": 512,
+        "target_pair_exposures": 4096,
+        "distinct_target_records": 2612,
+        "distinct_target_entities": 1006,
+        "bank_records_per_target": 72,
+        "gold_world_sequence_exposures": 12288,
+        "schedule_sha256": "d9c0609c721c1263fbc465246f262d4955c4f6d4ba629a603f1f01f284d6d1e9",
+        "verified_against_reconstructed_sampler": true,
+        "key_consistency_weight": 0.0,
+        "margin_scale": 71.015625,
+        "trainable_parameters": 1870336,
+        "on_policy_updates": 0,
+        "sampled_trajectories": 0,
+        "sampled_world_counts": {},
+        "sampled_length_counts": {},
+        "totals": {
+          "student_input_tokens": 1062457,
+          "teacher_input_tokens": 1507487,
+          "target_tokens": 64603,
+          "gold_target_tokens": 64603,
+          "distillation_target_tokens": 64603,
+          "student_forward_calls": 1536,
+          "teacher_forward_calls": 1536,
+          "sampled_tokens": 0,
+          "rollout_input_tokens": 0,
+          "rollout_padded_input_tokens": 0,
+          "rollout_forward_calls": 0,
+          "replay_target_tokens": 0
+        },
+        "all_backbone_forward_calls": 3072,
+        "all_unpadded_input_positions": 2569944,
+        "training_loop_seconds": 163.48274601995945,
+        "process_wall_seconds": 198.28354243002832,
+        "process_started_at": "2026-10-06T08:39:38.480625+00:00",
+        "process_finished_at": "2026-10-06T08:42:56.765274+00:00",
+        "legacy_margin_clipped_pairs": 4096,
+        "behavior_valid_pairs": 4096
+      },
+      {
+        "name": "decoupled_44",
+        "stage": 3,
+        "method": "base",
+        "seed": 44,
+        "directory": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_c_20261006/decoupled_44",
+        "files_sha256": {
+          "manifest.json": "5fc1db32388e05ec96cda8687a897950e29fe1aa04e6f289176176db7d95f605",
+          "training_status.json": "bff5168a6edffcc62f1e128bba93c2dc9f5e716bc4a49945e5455b1eb607d377",
+          "training.jsonl": "156e29eefe5a96e4c1e6b9daea0590dfbaf2c06f9d84add079ccaad43122302f",
+          "trajectories.jsonl": "602deb1110f592902583ee39c250838c1ff1e2ad2f8f0fe2cd29d09108c3e913",
+          "last.pt": "4529a53b014b55b9f35238ebf7e5cc2eb69733b40b899f01077dd766705dd46b"
+        },
+        "source_suite_manifest": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_c_20261006/suite.json",
+        "gpu_uuid": "GPU-b39c5755-644d-a3b3-8e76-75beb4142100",
+        "parent_checkpoint": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_writer_b_20261006/mean_44/last.pt",
+        "parent_checkpoint_sha256": "ba43c39111e0389ce069bfc8bd9754ef4fafab87e7d190739160bd2d00bcd7a4",
+        "optimizer_resumed": false,
+        "start_step": 0,
+        "end_step": 512,
+        "adam_state_entries": 4,
+        "adam_all_parameter_steps": 512,
+        "optimizer_group_learning_rates": [
+          0.0001,
+          0.005,
+          1e-05
+        ],
+        "updates": 512,
+        "target_pair_exposures": 4096,
+        "distinct_target_records": 2612,
+        "distinct_target_entities": 1006,
+        "bank_records_per_target": 72,
+        "gold_world_sequence_exposures": 12288,
+        "schedule_sha256": "d9c0609c721c1263fbc465246f262d4955c4f6d4ba629a603f1f01f284d6d1e9",
+        "verified_against_reconstructed_sampler": true,
+        "key_consistency_weight": 0.05,
+        "margin_scale": 71.015625,
+        "trainable_parameters": 1870336,
+        "on_policy_updates": 0,
+        "sampled_trajectories": 0,
+        "sampled_world_counts": {},
+        "sampled_length_counts": {},
+        "totals": {
+          "student_input_tokens": 1062457,
+          "teacher_input_tokens": 1507487,
+          "target_tokens": 64603,
+          "gold_target_tokens": 64603,
+          "distillation_target_tokens": 64603,
+          "student_forward_calls": 1536,
+          "teacher_forward_calls": 1536,
+          "sampled_tokens": 0,
+          "rollout_input_tokens": 0,
+          "rollout_padded_input_tokens": 0,
+          "rollout_forward_calls": 0,
+          "replay_target_tokens": 0
+        },
+        "all_backbone_forward_calls": 3072,
+        "all_unpadded_input_positions": 2569944,
+        "training_loop_seconds": 155.81934505701065,
+        "process_wall_seconds": 190.58095833007246,
+        "process_started_at": "2026-10-06T08:42:56.908249+00:00",
+        "process_finished_at": "2026-10-06T08:46:07.491003+00:00",
+        "legacy_margin_clipped_pairs": 4096,
+        "behavior_valid_pairs": 4096
+      },
+      {
+        "name": "base_42",
+        "stage": 4,
+        "method": "base",
+        "seed": 42,
+        "directory": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step4_train_a_20261006/base_42",
+        "files_sha256": {
+          "manifest.json": "5d42c0349f7e23c79b3eab2d740bb3d94b89ecfea6bfd9ba82d1a215300bd38a",
+          "training_status.json": "fd6b0a09ae272f8ba43194a2eccf2e0c960340b4642b5d218e8f572ddf0fa6db",
+          "training.jsonl": "70aebbf8aa834ffa5b8a1f0637c300a0c4e87a8d3f9c515fa01a593901cbe42d",
+          "trajectories.jsonl": "eef790adc387b05335ccff81dcd5add6418e243fc435c1e0b588176c28e8261f",
+          "last.pt": "56749c1070b85741a7c99f4d6de803ad302fb4bbea8e867c49ba5bbc74f71e56"
+        },
+        "source_suite_manifest": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step4_train_a_20261006/suite.json",
+        "gpu_uuid": "GPU-2aea6294-c3e6-5b4a-65e8-c5ce6985fe39",
+        "parent_checkpoint": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_a_20261006/decoupled_42/last.pt",
+        "parent_checkpoint_sha256": "eece64bc9ed4002b5cef7456ada8343f26859b2a69dcb7b53c39358e702304f4",
+        "optimizer_resumed": true,
+        "start_step": 512,
+        "end_step": 768,
+        "adam_state_entries": 4,
+        "adam_all_parameter_steps": 768,
+        "optimizer_group_learning_rates": [
+          0.0001,
+          0.005,
+          1e-05
+        ],
+        "updates": 256,
+        "target_pair_exposures": 2048,
+        "distinct_target_records": 1637,
+        "distinct_target_entities": 882,
+        "bank_records_per_target": 72,
+        "gold_world_sequence_exposures": 6144,
+        "schedule_sha256": "e340c2dc893502bb47e2f49da045675beb37e8c8b222eeb38ae5589d794594a2",
+        "verified_against_reconstructed_sampler": true,
+        "key_consistency_weight": 0.05,
+        "margin_scale": 71.015625,
+        "trainable_parameters": 1870336,
+        "on_policy_updates": 0,
+        "sampled_trajectories": 0,
+        "sampled_world_counts": {},
+        "sampled_length_counts": {},
+        "totals": {
+          "student_input_tokens": 531052,
+          "teacher_input_tokens": 753365,
+          "target_tokens": 32404,
+          "gold_target_tokens": 32404,
+          "distillation_target_tokens": 32404,
+          "student_forward_calls": 768,
+          "teacher_forward_calls": 768,
+          "sampled_tokens": 0,
+          "rollout_input_tokens": 0,
+          "rollout_padded_input_tokens": 0,
+          "rollout_forward_calls": 0,
+          "replay_target_tokens": 0
+        },
+        "all_backbone_forward_calls": 1536,
+        "all_unpadded_input_positions": 1284417,
+        "training_loop_seconds": 86.39410799462348,
+        "process_wall_seconds": 122.72300961520523,
+        "process_started_at": "2026-10-06T08:46:45.065932+00:00",
+        "process_finished_at": "2026-10-06T08:48:47.792872+00:00",
+        "legacy_margin_clipped_pairs": 2048,
+        "behavior_valid_pairs": 2048,
+        "inherited_warm_once_plus_tail": {
+          "updates": 768,
+          "target_pair_exposures": 6144,
+          "gold_world_sequence_exposures": 18432,
+          "all_backbone_forward_calls": 4608,
+          "all_unpadded_input_positions": 3851996,
+          "training_loop_seconds": 245.39199736434966,
+          "process_wall_seconds_sum": 315.8688137931749,
+          "distinct_target_records": 3159
+        }
+      },
+      {
+        "name": "hidden_42",
+        "stage": 4,
+        "method": "hidden",
+        "seed": 42,
+        "directory": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step4_train_a_20261006/hidden_42",
+        "files_sha256": {
+          "manifest.json": "8c0335fd54c315f79fda7731d31a63e7daff3aae9c3ff4f85db85cba913ff3ec",
+          "training_status.json": "b0c6bfa95b4e98aed5717d7de62b053f101327da8bbbf2152e18efe93ff8f03e",
+          "training.jsonl": "09a874519bbe473844a30717de7f79f93f98242c3288ed7ccc283d0d98606172",
+          "trajectories.jsonl": "eef790adc387b05335ccff81dcd5add6418e243fc435c1e0b588176c28e8261f",
+          "last.pt": "29b8d6b38d3eb6f096dcb0421bfc783a56627530e6325652caa5ef08cb28ab1e"
+        },
+        "source_suite_manifest": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step4_train_a_20261006/suite.json",
+        "gpu_uuid": "GPU-2aea6294-c3e6-5b4a-65e8-c5ce6985fe39",
+        "parent_checkpoint": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_a_20261006/decoupled_42/last.pt",
+        "parent_checkpoint_sha256": "eece64bc9ed4002b5cef7456ada8343f26859b2a69dcb7b53c39358e702304f4",
+        "optimizer_resumed": true,
+        "start_step": 512,
+        "end_step": 768,
+        "adam_state_entries": 4,
+        "adam_all_parameter_steps": 768,
+        "optimizer_group_learning_rates": [
+          0.0001,
+          0.005,
+          1e-05
+        ],
+        "updates": 256,
+        "target_pair_exposures": 2048,
+        "distinct_target_records": 1637,
+        "distinct_target_entities": 882,
+        "bank_records_per_target": 72,
+        "gold_world_sequence_exposures": 6144,
+        "schedule_sha256": "e340c2dc893502bb47e2f49da045675beb37e8c8b222eeb38ae5589d794594a2",
+        "verified_against_reconstructed_sampler": true,
+        "key_consistency_weight": 0.05,
+        "margin_scale": 71.015625,
+        "trainable_parameters": 1870336,
+        "on_policy_updates": 0,
+        "sampled_trajectories": 0,
+        "sampled_world_counts": {},
+        "sampled_length_counts": {},
+        "totals": {
+          "student_input_tokens": 531052,
+          "teacher_input_tokens": 753365,
+          "target_tokens": 32404,
+          "gold_target_tokens": 32404,
+          "distillation_target_tokens": 32404,
+          "student_forward_calls": 768,
+          "teacher_forward_calls": 768,
+          "sampled_tokens": 0,
+          "rollout_input_tokens": 0,
+          "rollout_padded_input_tokens": 0,
+          "rollout_forward_calls": 0,
+          "replay_target_tokens": 0
+        },
+        "all_backbone_forward_calls": 1536,
+        "all_unpadded_input_positions": 1284417,
+        "training_loop_seconds": 79.90146676171571,
+        "process_wall_seconds": 114.10579297319055,
+        "process_started_at": "2026-10-06T08:48:48.035021+00:00",
+        "process_finished_at": "2026-10-06T08:50:42.142533+00:00",
+        "legacy_margin_clipped_pairs": 2048,
+        "behavior_valid_pairs": 2048,
+        "inherited_warm_once_plus_tail": {
+          "updates": 768,
+          "target_pair_exposures": 6144,
+          "gold_world_sequence_exposures": 18432,
+          "all_backbone_forward_calls": 4608,
+          "all_unpadded_input_positions": 3851996,
+          "training_loop_seconds": 238.8993561314419,
+          "process_wall_seconds_sum": 307.25159715116024,
+          "distinct_target_records": 3159
+        }
+      },
+      {
+        "name": "clip_42",
+        "stage": 4,
+        "method": "clip",
+        "seed": 42,
+        "directory": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step4_train_b_20261006/clip_42",
+        "files_sha256": {
+          "manifest.json": "b1c39459de1a56c8c6e4f40d3d4f3240afcc75a0966b03245be7b197eb09a850",
+          "training_status.json": "fab7282499f81763c4d6c79fff6eb040edffbb97412c459301c5619efccd0c62",
+          "training.jsonl": "741efa62870802a27f8e2bbe76cb4dccc29eb619fc9e719b4757805766353e40",
+          "trajectories.jsonl": "eef790adc387b05335ccff81dcd5add6418e243fc435c1e0b588176c28e8261f",
+          "last.pt": "af1b873dae261345e168e537f9b69df9d454d2a872969d43de5ca7635677793e"
+        },
+        "source_suite_manifest": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step4_train_b_20261006/suite.json",
+        "gpu_uuid": "GPU-d128ba8f-52fc-77f3-76c4-c238e94e40df",
+        "parent_checkpoint": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_a_20261006/decoupled_42/last.pt",
+        "parent_checkpoint_sha256": "eece64bc9ed4002b5cef7456ada8343f26859b2a69dcb7b53c39358e702304f4",
+        "optimizer_resumed": true,
+        "start_step": 512,
+        "end_step": 768,
+        "adam_state_entries": 4,
+        "adam_all_parameter_steps": 768,
+        "optimizer_group_learning_rates": [
+          0.0001,
+          0.005,
+          1e-05
+        ],
+        "updates": 256,
+        "target_pair_exposures": 2048,
+        "distinct_target_records": 1637,
+        "distinct_target_entities": 882,
+        "bank_records_per_target": 72,
+        "gold_world_sequence_exposures": 6144,
+        "schedule_sha256": "e340c2dc893502bb47e2f49da045675beb37e8c8b222eeb38ae5589d794594a2",
+        "verified_against_reconstructed_sampler": true,
+        "key_consistency_weight": 0.05,
+        "margin_scale": 71.015625,
+        "trainable_parameters": 1870336,
+        "on_policy_updates": 0,
+        "sampled_trajectories": 0,
+        "sampled_world_counts": {},
+        "sampled_length_counts": {},
+        "totals": {
+          "student_input_tokens": 531052,
+          "teacher_input_tokens": 753365,
+          "target_tokens": 32404,
+          "gold_target_tokens": 32404,
+          "distillation_target_tokens": 32404,
+          "student_forward_calls": 768,
+          "teacher_forward_calls": 768,
+          "sampled_tokens": 0,
+          "rollout_input_tokens": 0,
+          "rollout_padded_input_tokens": 0,
+          "rollout_forward_calls": 0,
+          "replay_target_tokens": 0
+        },
+        "all_backbone_forward_calls": 1536,
+        "all_unpadded_input_positions": 1284417,
+        "training_loop_seconds": 86.34995703306049,
+        "process_wall_seconds": 121.58560816477984,
+        "process_started_at": "2026-10-06T08:46:45.541152+00:00",
+        "process_finished_at": "2026-10-06T08:48:47.130083+00:00",
+        "legacy_margin_clipped_pairs": 2048,
+        "behavior_valid_pairs": 2048,
+        "inherited_warm_once_plus_tail": {
+          "updates": 768,
+          "target_pair_exposures": 6144,
+          "gold_world_sequence_exposures": 18432,
+          "all_backbone_forward_calls": 4608,
+          "all_unpadded_input_positions": 3851996,
+          "training_loop_seconds": 245.34784640278667,
+          "process_wall_seconds_sum": 314.73141234274954,
+          "distinct_target_records": 3159
+        }
+      },
+      {
+        "name": "on_policy_42",
+        "stage": 4,
+        "method": "on_policy",
+        "seed": 42,
+        "directory": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step4_train_b_20261006/on_policy_42",
+        "files_sha256": {
+          "manifest.json": "cf34a5b9ff2fb0291bfd241563fa194e677d36a284db72789e430b546025ee08",
+          "training_status.json": "24152855e86b4f59b91596503bef80a5b79455d1064c9d29657da1c5a346daa5",
+          "training.jsonl": "db8c52e12fbb1cb9f0e2fc34e8fe803e62aec3ca81dfcccb5e4c3875a9f01bfe",
+          "trajectories.jsonl": "48eec904760801fc2bfe0b8e2cd3c59b8d8a8758ebbe077c5ffea450bb78ffc7",
+          "last.pt": "15f032b6bdfea4e549883dcdc82521faf4ffd5d72933080ad9b11d3bc8656ce9"
+        },
+        "source_suite_manifest": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step4_train_b_20261006/suite.json",
+        "gpu_uuid": "GPU-d128ba8f-52fc-77f3-76c4-c238e94e40df",
+        "parent_checkpoint": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_a_20261006/decoupled_42/last.pt",
+        "parent_checkpoint_sha256": "eece64bc9ed4002b5cef7456ada8343f26859b2a69dcb7b53c39358e702304f4",
+        "optimizer_resumed": true,
+        "start_step": 512,
+        "end_step": 768,
+        "adam_state_entries": 4,
+        "adam_all_parameter_steps": 768,
+        "optimizer_group_learning_rates": [
+          0.0001,
+          0.005,
+          1e-05
+        ],
+        "updates": 256,
+        "target_pair_exposures": 2048,
+        "distinct_target_records": 1637,
+        "distinct_target_entities": 882,
+        "bank_records_per_target": 72,
+        "gold_world_sequence_exposures": 6144,
+        "schedule_sha256": "e340c2dc893502bb47e2f49da045675beb37e8c8b222eeb38ae5589d794594a2",
+        "verified_against_reconstructed_sampler": true,
+        "key_consistency_weight": 0.05,
+        "margin_scale": 71.015625,
+        "trainable_parameters": 1870336,
+        "on_policy_updates": 64,
+        "sampled_trajectories": 512,
+        "sampled_world_counts": {
+          "B": 259,
+          "A": 253
+        },
+        "sampled_length_counts": {
+          "5": 190,
+          "7": 63,
+          "6": 108,
+          "4": 121,
+          "8": 29,
+          "3": 1
+        },
+        "totals": {
+          "student_input_tokens": 664027,
+          "teacher_input_tokens": 941997,
+          "target_tokens": 40678,
+          "gold_target_tokens": 32404,
+          "distillation_target_tokens": 32520,
+          "student_forward_calls": 960,
+          "teacher_forward_calls": 960,
+          "sampled_tokens": 2758,
+          "rollout_input_tokens": 230310,
+          "rollout_padded_input_tokens": 230310,
+          "rollout_forward_calls": 2758,
+          "replay_target_tokens": 0
+        },
+        "all_backbone_forward_calls": 4678,
+        "all_unpadded_input_positions": 1836334,
+        "training_loop_seconds": 169.82807240635157,
+        "process_wall_seconds": 204.21119496040046,
+        "process_started_at": "2026-10-06T08:48:47.263464+00:00",
+        "process_finished_at": "2026-10-06T08:52:11.476486+00:00",
+        "legacy_margin_clipped_pairs": 2048,
+        "behavior_valid_pairs": 2048,
+        "inherited_warm_once_plus_tail": {
+          "updates": 768,
+          "target_pair_exposures": 6144,
+          "gold_world_sequence_exposures": 18432,
+          "all_backbone_forward_calls": 7750,
+          "all_unpadded_input_positions": 4403913,
+          "training_loop_seconds": 328.82596177607775,
+          "process_wall_seconds_sum": 397.35699913837016,
+          "distinct_target_records": 3159
+        }
+      },
+      {
+        "name": "normalized_42",
+        "stage": 4,
+        "method": "normalized",
+        "seed": 42,
+        "directory": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step4_train_c_20261006/normalized_42",
+        "files_sha256": {
+          "manifest.json": "8623d10d1ce92ad1523b2b61cbe9534f70b26ac65ee7ed33b5bd59c5418213ff",
+          "training_status.json": "383620256f40296288cee1b0c0a2a48df204017524714ae726293f763c880a40",
+          "training.jsonl": "fadcd222f943fe7013ffe7cf9ee9c685074bef0c585398e8b0a53b91bfe0e80c",
+          "trajectories.jsonl": "eef790adc387b05335ccff81dcd5add6418e243fc435c1e0b588176c28e8261f",
+          "last.pt": "4f3edf2e5eec65b560f7471b86376d5fc1f7970990bd2d19624ed5f615206aca"
+        },
+        "source_suite_manifest": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step4_train_c_20261006/suite.json",
+        "gpu_uuid": "GPU-b39c5755-644d-a3b3-8e76-75beb4142100",
+        "parent_checkpoint": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_step3_train_a_20261006/decoupled_42/last.pt",
+        "parent_checkpoint_sha256": "eece64bc9ed4002b5cef7456ada8343f26859b2a69dcb7b53c39358e702304f4",
+        "optimizer_resumed": true,
+        "start_step": 512,
+        "end_step": 768,
+        "adam_state_entries": 4,
+        "adam_all_parameter_steps": 768,
+        "optimizer_group_learning_rates": [
+          0.0001,
+          0.005,
+          1e-05
+        ],
+        "updates": 256,
+        "target_pair_exposures": 2048,
+        "distinct_target_records": 1637,
+        "distinct_target_entities": 882,
+        "bank_records_per_target": 72,
+        "gold_world_sequence_exposures": 6144,
+        "schedule_sha256": "e340c2dc893502bb47e2f49da045675beb37e8c8b222eeb38ae5589d794594a2",
+        "verified_against_reconstructed_sampler": true,
+        "key_consistency_weight": 0.05,
+        "margin_scale": 71.015625,
+        "trainable_parameters": 1870336,
+        "on_policy_updates": 0,
+        "sampled_trajectories": 0,
+        "sampled_world_counts": {},
+        "sampled_length_counts": {},
+        "totals": {
+          "student_input_tokens": 531052,
+          "teacher_input_tokens": 753365,
+          "target_tokens": 32404,
+          "gold_target_tokens": 32404,
+          "distillation_target_tokens": 32404,
+          "student_forward_calls": 768,
+          "teacher_forward_calls": 768,
+          "sampled_tokens": 0,
+          "rollout_input_tokens": 0,
+          "rollout_padded_input_tokens": 0,
+          "rollout_forward_calls": 0,
+          "replay_target_tokens": 0
+        },
+        "all_backbone_forward_calls": 1536,
+        "all_unpadded_input_positions": 1284417,
+        "training_loop_seconds": 86.3619418637827,
+        "process_wall_seconds": 122.45366591960192,
+        "process_started_at": "2026-10-06T08:46:45.565058+00:00",
+        "process_finished_at": "2026-10-06T08:48:48.021509+00:00",
+        "legacy_margin_clipped_pairs": 2048,
+        "behavior_valid_pairs": 2048,
+        "inherited_warm_once_plus_tail": {
+          "updates": 768,
+          "target_pair_exposures": 6144,
+          "gold_world_sequence_exposures": 18432,
+          "all_backbone_forward_calls": 4608,
+          "all_unpadded_input_positions": 3851996,
+          "training_loop_seconds": 245.35983123350888,
+          "process_wall_seconds_sum": 315.5994700975716,
+          "distinct_target_records": 3159
+        }
+      }
+    ],
+    "source_runtime_sha256": {
+      "src/vera_mem/interface_run.py": "261eff85484fe42397b5cb07006b51aa958b392bbbb6eae1151c46b204335838",
+      "src/vera_mem/interface_training.py": "f69730b76ae1834b4a44defee4b71f7ed5d23d1729d662ac776c6c6f022f4ac0",
+      "src/vera_mem/interface_losses.py": "52ad91621b8537aeacf1bd889aa9dc05496a189e4b5c0f28160f7a94f204964a",
+      "src/vera_mem/counterfactual_backend.py": "fb1cf6d04227ef32307b3dd3880156a36ae121b07f85aa44721a5826c0437d30",
+      "src/vera_mem/context_distillation.py": "32f043d24df845749f1cf170225e13b8aedfde618495f12fb1cb118e601d252f",
+      "src/vera_mem/backend.py": "0e577deabdeae59f10b0b003293ef003219c167fdb65603b8ee222ca0dedbf0c"
+    },
+    "stage4_lineage": {
+      "parent_name": "decoupled_42",
+      "parent_sha256": "eece64bc9ed4002b5cef7456ada8343f26859b2a69dcb7b53c39358e702304f4",
+      "schedule_sha256": "e340c2dc893502bb47e2f49da045675beb37e8c8b222eeb38ae5589d794594a2",
+      "adam_start_step": 512,
+      "adam_end_step": 768,
+      "common_first_step_objectives": {
+        "main_loss": 4.811364650726318,
+        "gold_forward_kl": 3.2110393047332764,
+        "full_sequence_ce": 3.200650691986084,
+        "first_token_ce": 3.488117218017578,
+        "actual_address_loss": 4.222167491912842,
+        "style_address_loss": 2.8521926403045654,
+        "key_consistency_loss": 0.1788037121295929,
+        "student_behavior_delta_mean": -0.03125,
+        "hidden_loss": 1.0033537149429321,
+        "paraphrase_loss": 0.012621347792446613
+      },
+      "verification_strength": "各臂 manifest 引用相同已校验 checkpoint 字节；快照代码执行 load_state_dict，最终四个 Adam 参数状态均 step=768；首步共同目标数值完全一致。未另保存恢复瞬间 optimizer 内存快照。"
+    },
+    "aggregate_costs": {
+      "stage3_six_training_jobs": {
+        "updates": 3072,
+        "target_pair_exposures": 24576,
+        "gold_world_sequence_exposures": 73728,
+        "sampled_trajectories": 0,
+        "all_backbone_forward_calls": 18432,
+        "all_unpadded_input_positions": 15409358,
+        "training_loop_seconds": 962.5953435562551,
+        "process_wall_seconds": 1170.4244227902964,
+        "totals": {
+          "student_input_tokens": 6370308,
+          "teacher_input_tokens": 9039050,
+          "target_tokens": 386916,
+          "gold_target_tokens": 386916,
+          "distillation_target_tokens": 386916,
+          "student_forward_calls": 9216,
+          "teacher_forward_calls": 9216,
+          "sampled_tokens": 0,
+          "rollout_input_tokens": 0,
+          "rollout_padded_input_tokens": 0,
+          "rollout_forward_calls": 0,
+          "replay_target_tokens": 0
+        },
+        "earliest_process_start": "2026-10-06T08:34:37.468737+00:00",
+        "latest_process_finish": "2026-10-06T08:46:10.018102+00:00",
+        "elapsed_span_seconds": 692.549365
+      },
+      "stage4_five_incremental_arms": {
+        "updates": 1280,
+        "target_pair_exposures": 10240,
+        "gold_world_sequence_exposures": 30720,
+        "sampled_trajectories": 512,
+        "all_backbone_forward_calls": 10822,
+        "all_unpadded_input_positions": 6974002,
+        "training_loop_seconds": 508.83554605953395,
+        "process_wall_seconds": 685.079271633178,
+        "totals": {
+          "student_input_tokens": 2788235,
+          "teacher_input_tokens": 3955457,
+          "target_tokens": 170294,
+          "gold_target_tokens": 162020,
+          "distillation_target_tokens": 162136,
+          "student_forward_calls": 4032,
+          "teacher_forward_calls": 4032,
+          "sampled_tokens": 2758,
+          "rollout_input_tokens": 230310,
+          "rollout_padded_input_tokens": 230310,
+          "rollout_forward_calls": 2758,
+          "replay_target_tokens": 0
+        },
+        "earliest_process_start": "2026-10-06T08:46:45.065932+00:00",
+        "latest_process_finish": "2026-10-06T08:52:11.476486+00:00",
+        "elapsed_span_seconds": 326.410554
+      },
+      "actual_eleven_unique_jobs": {
+        "updates": 4352,
+        "target_pair_exposures": 34816,
+        "gold_world_sequence_exposures": 104448,
+        "sampled_trajectories": 512,
+        "all_backbone_forward_calls": 29254,
+        "all_unpadded_input_positions": 22383360,
+        "training_loop_seconds": 1471.430889615789,
+        "process_wall_seconds": 1855.5036944234744,
+        "totals": {
+          "student_input_tokens": 9158543,
+          "teacher_input_tokens": 12994507,
+          "target_tokens": 557210,
+          "gold_target_tokens": 548936,
+          "distillation_target_tokens": 549052,
+          "student_forward_calls": 13248,
+          "teacher_forward_calls": 13248,
+          "sampled_tokens": 2758,
+          "rollout_input_tokens": 230310,
+          "rollout_padded_input_tokens": 230310,
+          "rollout_forward_calls": 2758,
+          "replay_target_tokens": 0
+        },
+        "earliest_process_start": "2026-10-06T08:34:37.468737+00:00",
+        "latest_process_finish": "2026-10-06T08:52:11.476486+00:00",
+        "elapsed_span_seconds": 1054.007749
+      },
+      "stage4_comparison_including_common_warm_exactly_once": {
+        "updates": 1792,
+        "target_pair_exposures": 14336,
+        "gold_world_sequence_exposures": 43008,
+        "sampled_trajectories": 512,
+        "all_backbone_forward_calls": 13894,
+        "all_unpadded_input_positions": 9541581,
+        "training_loop_seconds": 667.8334354292601,
+        "process_wall_seconds": 878.2250758111477,
+        "totals": {
+          "student_input_tokens": 3849814,
+          "teacher_input_tokens": 5461457,
+          "target_tokens": 234706,
+          "gold_target_tokens": 226432,
+          "distillation_target_tokens": 226548,
+          "student_forward_calls": 5568,
+          "teacher_forward_calls": 5568,
+          "sampled_tokens": 2758,
+          "rollout_input_tokens": 230310,
+          "rollout_padded_input_tokens": 230310,
+          "rollout_forward_calls": 2758,
+          "replay_target_tokens": 0
+        },
+        "earliest_process_start": "2026-10-06T08:37:54.477936+00:00",
+        "latest_process_finish": "2026-10-06T08:52:11.476486+00:00",
+        "elapsed_span_seconds": 856.99855
+      }
+    },
+    "opd_relative_to_base_incremental": {
+      "forward_calls_ratio": 3.0455729166666665,
+      "unpadded_input_positions_ratio": 1.429702347446351,
+      "training_loop_wall_ratio_observational": 1.9657367423357202,
+      "process_wall_ratio_observational": 1.6640008715618961,
+      "sampled_updates": 64,
+      "sampled_sequences": 512,
+      "sampled_tokens": 2758
+    },
+    "interpretation": [
+      "五臂匹配目标事实曝光、A/B/P gold 分支、bank 与问答样式日程、Adam warm 起点；OPD 增加采样与额外 teacher/student scoring，计算量不匹配。",
+      "512 步 × 8 = 4096 次 target-pair 曝光，并非 4096 个不重复事实或一个 epoch；256 步 × 8 = 2048 次增量曝光。每次 target 包含 A/B/P 三个 gold 序列。",
+      "stage4 五臂均从同一份已经执行一次的 512-step warm 分叉；总实验成本中只能把 warm 计一次，不能五臂各重复收取再相加。单臂完整 lineage 可单独展示 768 steps / 6144 曝光。",
+      "成本边界是 stage3 与 stage4 十一项训练；不包含 writer 预训练、feature 缓存生成、校准/验收、数据准备、smoke、评估、旧轮或失败轮。不能称全项目总成本。",
+      "input token positions 来自实际轨迹长度和 logger 的未 padding 输入统计，逐步日志和汇总已独立求和；本地无模型 tokenizer，未独立重新 tokenization 核验所有 prompt 长度。teacher/student padded positions 未记录，不能将本数当精确 FLOPs。",
+      "forward calls 计实际 backbone 调用：gold/sample scoring 一次通常批量 8，而逐独立银行 rollout 一次批量 1；调用数不能直接当 FLOPs 或等价训练量。",
+      "训练循环时间包含前后向、优化器、逐步日志和周期检查点；process wall 还包括模型/数据加载和初始化。并发不同 GPU、共享 CPU/IO 及运行时状态可能影响耗时，不宣称纯独占延迟。",
+      "sum process wall 是各进程持续时间之和；earliest-to-latest span 是观测调度跨度，可能含空档和其他工作，不等于 GPU 忙碌时间。",
+      "warm 与五臂使用固定 mean writer、rank64、固定 random basis；stage4 仅 seed42、256-step 诊断预算，不支持三种子稳健性或最终方法胜出声明。"
+    ]
+  },
+  "training_routes": {
+    "protocol": "interface-training-first-position-route-proxy-v1",
+    "proxy": true,
+    "train_only": true,
+    "no_full_sequence_gradient_claim": true,
+    "completed_runs": 11,
+    "pending_training_jobs": [],
+    "cache": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/interface_extended_prepare_20261006/prepare/train.pt",
+    "cache_sha256": "3882ed326acff0808a97eb3dc330968bb92618159f19613c354d579dcf3c595b",
+    "audited_window_updates": 128,
+    "limitations": [
+      "Only completed train stages and their train cache are read; no confirmation predictions or scores are consulted.",
+      "Final-checkpoint routing on the last 128 logged episodes is not the route realized at those historical updates.",
+      "Frozen cached first-position inputs are a proxy: BF16 batching/rounding may change marginal top-k membership relative to actual forwards.",
+      "Both-world target misses indicate no direct target-value edge at this single sparse mixture, not full-sequence gradient starvation.",
+      "Earlier prompt positions may retrieve the target; later-layer causal attention can propagate those residuals to the prediction position. Later continuation positions can also retrieve it.",
+      "Shared Wv can change through other selected values. Dense address supervision has gradients to candidate keys even when a candidate is outside sparse top-k.",
+      "This is a routing diagnostic hypothesis, not evidence that a whole behavior/hidden objective has zero gradient or that routing causally explains final exact match."
+    ],
+    "runs": [
+      {
+        "run_id": "interface_step3_train_a_20261006/coupled_42",
+        "seed": 42,
+        "method": "base",
+        "key_consistency": 0.0,
+        "final_checkpoint_step": 512,
+        "replayed_steps": [
+          385,
+          512
+        ],
+        "replayed_updates": 128,
+        "proxy": true,
+        "no_full_sequence_gradient_claim": true,
+        "independent_single_target_replacement_verified": true,
+        "summary": {
+          "exposures": 1024,
+          "unique_facts": 898,
+          "unique_entities": 647,
+          "counts": {
+            "a_r1": 124,
+            "a_r4": 295,
+            "b_r1": 131,
+            "b_r4": 311,
+            "both_miss4": 666,
+            "both_hit4": 248,
+            "either_hit4": 358
+          },
+          "rates": {
+            "a_r1": 0.12109375,
+            "a_r4": 0.2880859375,
+            "b_r1": 0.1279296875,
+            "b_r4": 0.3037109375,
+            "both_miss4": 0.650390625,
+            "both_hit4": 0.2421875,
+            "either_hit4": 0.349609375
+          },
+          "a_top4_boundary_margin": {
+            "mean": -0.08642896756646223,
+            "p05": -0.3082398399710655,
+            "p50": -0.08735549449920654,
+            "p95": 0.14947176873683882,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "b_top4_boundary_margin": {
+            "mean": -0.08612917913706042,
+            "p05": -0.3154451817274094,
+            "p50": -0.08878779411315918,
+            "p95": 0.14090556502342216,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "by_relation": {
+            "arrival phrase": {
+              "exposures": 274,
+              "both_miss4": 188
+            },
+            "departure phrase": {
+              "exposures": 243,
+              "both_miss4": 156
+            },
+            "dispatch phrase": {
+              "exposures": 244,
+              "both_miss4": 157
+            },
+            "inspection phrase": {
+              "exposures": 263,
+              "both_miss4": 165
+            }
+          }
+        },
+        "sample_schedule_sha256": "f3e28efa61d5f6e9939ba5a5013b8e6f8d2575543f2b519a50096122a5e254ef",
+        "source_sha256": {
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539"
+        },
+        "checkpoint_sha256": "414abf7d721610235d710e1abc7caeecfeaadbc91e93339c307d06f01b585b90",
+        "manifest_sha256": "eb0739aa7c931b291c4a4fd25eae3806bb34f2bbc30d607047b23f16db24515a",
+        "training_log_sha256": "11196da420676b3a27b155bc7c2b105884c64743b4a0f49d62d9536331031f12"
+      },
+      {
+        "run_id": "interface_step3_train_a_20261006/decoupled_42",
+        "seed": 42,
+        "method": "base",
+        "key_consistency": 0.05,
+        "final_checkpoint_step": 512,
+        "replayed_steps": [
+          385,
+          512
+        ],
+        "replayed_updates": 128,
+        "proxy": true,
+        "no_full_sequence_gradient_claim": true,
+        "independent_single_target_replacement_verified": true,
+        "summary": {
+          "exposures": 1024,
+          "unique_facts": 898,
+          "unique_entities": 647,
+          "counts": {
+            "a_r1": 133,
+            "a_r4": 360,
+            "b_r1": 145,
+            "b_r4": 373,
+            "both_miss4": 574,
+            "both_hit4": 283,
+            "either_hit4": 450
+          },
+          "rates": {
+            "a_r1": 0.1298828125,
+            "a_r4": 0.3515625,
+            "b_r1": 0.1416015625,
+            "b_r4": 0.3642578125,
+            "both_miss4": 0.560546875,
+            "both_hit4": 0.2763671875,
+            "either_hit4": 0.439453125
+          },
+          "a_top4_boundary_margin": {
+            "mean": -0.055612592535908334,
+            "p05": -0.25597238540649414,
+            "p50": -0.04711209237575531,
+            "p95": 0.12716450691223138,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "b_top4_boundary_margin": {
+            "mean": -0.05517471945495345,
+            "p05": -0.25558132231235503,
+            "p50": -0.053327277302742004,
+            "p95": 0.12489574998617164,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "by_relation": {
+            "arrival phrase": {
+              "exposures": 274,
+              "both_miss4": 162
+            },
+            "departure phrase": {
+              "exposures": 243,
+              "both_miss4": 131
+            },
+            "dispatch phrase": {
+              "exposures": 244,
+              "both_miss4": 131
+            },
+            "inspection phrase": {
+              "exposures": 263,
+              "both_miss4": 150
+            }
+          }
+        },
+        "sample_schedule_sha256": "f3e28efa61d5f6e9939ba5a5013b8e6f8d2575543f2b519a50096122a5e254ef",
+        "source_sha256": {
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539"
+        },
+        "checkpoint_sha256": "eece64bc9ed4002b5cef7456ada8343f26859b2a69dcb7b53c39358e702304f4",
+        "manifest_sha256": "6a69051cd0778a8d1db566d1ba42863b115d34c50b2d3d935db8f7a4e22cd886",
+        "training_log_sha256": "a1e7adc79c8dbb40f26df95f056d94f1f736aba920755e8c99d21962c6962e0b"
+      },
+      {
+        "run_id": "interface_step3_train_b_20261006/coupled_43",
+        "seed": 43,
+        "method": "base",
+        "key_consistency": 0.0,
+        "final_checkpoint_step": 512,
+        "replayed_steps": [
+          385,
+          512
+        ],
+        "replayed_updates": 128,
+        "proxy": true,
+        "no_full_sequence_gradient_claim": true,
+        "independent_single_target_replacement_verified": true,
+        "summary": {
+          "exposures": 1024,
+          "unique_facts": 914,
+          "unique_entities": 674,
+          "counts": {
+            "a_r1": 135,
+            "a_r4": 345,
+            "b_r1": 150,
+            "b_r4": 345,
+            "both_miss4": 605,
+            "both_hit4": 271,
+            "either_hit4": 419
+          },
+          "rates": {
+            "a_r1": 0.1318359375,
+            "a_r4": 0.3369140625,
+            "b_r1": 0.146484375,
+            "b_r4": 0.3369140625,
+            "both_miss4": 0.5908203125,
+            "both_hit4": 0.2646484375,
+            "either_hit4": 0.4091796875
+          },
+          "a_top4_boundary_margin": {
+            "mean": -0.07542206867947243,
+            "p05": -0.31788797676563263,
+            "p50": -0.06673234701156616,
+            "p95": 0.1503814935684202,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "b_top4_boundary_margin": {
+            "mean": -0.07677916425745934,
+            "p05": -0.31921678483486177,
+            "p50": -0.07397952675819397,
+            "p95": 0.15567780286073685,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "by_relation": {
+            "arrival phrase": {
+              "exposures": 277,
+              "both_miss4": 169
+            },
+            "departure phrase": {
+              "exposures": 264,
+              "both_miss4": 166
+            },
+            "dispatch phrase": {
+              "exposures": 241,
+              "both_miss4": 149
+            },
+            "inspection phrase": {
+              "exposures": 242,
+              "both_miss4": 121
+            }
+          }
+        },
+        "sample_schedule_sha256": "2d0bd82e9d689d879048781255593b4dc743dc8fec8c19843373cd0eb9da738c",
+        "source_sha256": {
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539"
+        },
+        "checkpoint_sha256": "91842164875febb790957a42f0cd2c5b793b10561a8c77527693972b121dbfd9",
+        "manifest_sha256": "8c2eddcee3815b8ffedf9445a91148fa892685e48db360657867eda3020fc0d4",
+        "training_log_sha256": "772f439c86df7ccd0bc6f9b53a4918417a2a8eccaf07c2c96d13533d7ed391b4"
+      },
+      {
+        "run_id": "interface_step3_train_b_20261006/decoupled_43",
+        "seed": 43,
+        "method": "base",
+        "key_consistency": 0.05,
+        "final_checkpoint_step": 512,
+        "replayed_steps": [
+          385,
+          512
+        ],
+        "replayed_updates": 128,
+        "proxy": true,
+        "no_full_sequence_gradient_claim": true,
+        "independent_single_target_replacement_verified": true,
+        "summary": {
+          "exposures": 1024,
+          "unique_facts": 914,
+          "unique_entities": 674,
+          "counts": {
+            "a_r1": 188,
+            "a_r4": 459,
+            "b_r1": 190,
+            "b_r4": 469,
+            "both_miss4": 438,
+            "both_hit4": 342,
+            "either_hit4": 586
+          },
+          "rates": {
+            "a_r1": 0.18359375,
+            "a_r4": 0.4482421875,
+            "b_r1": 0.185546875,
+            "b_r4": 0.4580078125,
+            "both_miss4": 0.427734375,
+            "both_hit4": 0.333984375,
+            "either_hit4": 0.572265625
+          },
+          "a_top4_boundary_margin": {
+            "mean": -0.02892688322754111,
+            "p05": -0.22862463891506196,
+            "p50": -0.01271212100982666,
+            "p95": 0.1497512072324753,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "b_top4_boundary_margin": {
+            "mean": -0.03211537441529799,
+            "p05": -0.24003585800528524,
+            "p50": -0.015713483095169067,
+            "p95": 0.15183672457933417,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "by_relation": {
+            "arrival phrase": {
+              "exposures": 277,
+              "both_miss4": 116
+            },
+            "departure phrase": {
+              "exposures": 264,
+              "both_miss4": 114
+            },
+            "dispatch phrase": {
+              "exposures": 241,
+              "both_miss4": 112
+            },
+            "inspection phrase": {
+              "exposures": 242,
+              "both_miss4": 96
+            }
+          }
+        },
+        "sample_schedule_sha256": "2d0bd82e9d689d879048781255593b4dc743dc8fec8c19843373cd0eb9da738c",
+        "source_sha256": {
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539"
+        },
+        "checkpoint_sha256": "f7007951b46091b900fc4b4ce248bc986bf7bc1650242ecc90642f3672056a94",
+        "manifest_sha256": "ab4a73947fc872fc69c002e600403a8e631750962c875935518193921ca647b5",
+        "training_log_sha256": "13d85af9354c8b96b91bfc0c8cee071ddba8909d642570311f021cf02df105c9"
+      },
+      {
+        "run_id": "interface_step3_train_c_20261006/coupled_44",
+        "seed": 44,
+        "method": "base",
+        "key_consistency": 0.0,
+        "final_checkpoint_step": 512,
+        "replayed_steps": [
+          385,
+          512
+        ],
+        "replayed_updates": 128,
+        "proxy": true,
+        "no_full_sequence_gradient_claim": true,
+        "independent_single_target_replacement_verified": true,
+        "summary": {
+          "exposures": 1024,
+          "unique_facts": 902,
+          "unique_entities": 648,
+          "counts": {
+            "a_r1": 159,
+            "a_r4": 425,
+            "b_r1": 167,
+            "b_r4": 438,
+            "both_miss4": 463,
+            "both_hit4": 302,
+            "either_hit4": 561
+          },
+          "rates": {
+            "a_r1": 0.1552734375,
+            "a_r4": 0.4150390625,
+            "b_r1": 0.1630859375,
+            "b_r4": 0.427734375,
+            "both_miss4": 0.4521484375,
+            "both_hit4": 0.294921875,
+            "either_hit4": 0.5478515625
+          },
+          "a_top4_boundary_margin": {
+            "mean": -0.03529195206647273,
+            "p05": -0.21381831988692285,
+            "p50": -0.026015102863311768,
+            "p95": 0.1355358213186264,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "b_top4_boundary_margin": {
+            "mean": -0.0361140267632436,
+            "p05": -0.23346026986837387,
+            "p50": -0.022123262286186218,
+            "p95": 0.12826984077692022,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "by_relation": {
+            "arrival phrase": {
+              "exposures": 257,
+              "both_miss4": 140
+            },
+            "departure phrase": {
+              "exposures": 259,
+              "both_miss4": 114
+            },
+            "dispatch phrase": {
+              "exposures": 234,
+              "both_miss4": 90
+            },
+            "inspection phrase": {
+              "exposures": 274,
+              "both_miss4": 119
+            }
+          }
+        },
+        "sample_schedule_sha256": "d9c0609c721c1263fbc465246f262d4955c4f6d4ba629a603f1f01f284d6d1e9",
+        "source_sha256": {
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539"
+        },
+        "checkpoint_sha256": "30bf9195d47e8281bd4f658e59f1779de6ab080792fbeaff850d7156e9601ecf",
+        "manifest_sha256": "0e0d5f0976e5f153dbf3239e92b3347d5d1d7a235fc83c494baa4dc908ef1788",
+        "training_log_sha256": "4a424313d300d9e98026b36762abfcf97037ab9eccfc545662744b13f0310e62"
+      },
+      {
+        "run_id": "interface_step3_train_c_20261006/decoupled_44",
+        "seed": 44,
+        "method": "base",
+        "key_consistency": 0.05,
+        "final_checkpoint_step": 512,
+        "replayed_steps": [
+          385,
+          512
+        ],
+        "replayed_updates": 128,
+        "proxy": true,
+        "no_full_sequence_gradient_claim": true,
+        "independent_single_target_replacement_verified": true,
+        "summary": {
+          "exposures": 1024,
+          "unique_facts": 902,
+          "unique_entities": 648,
+          "counts": {
+            "a_r1": 100,
+            "a_r4": 291,
+            "b_r1": 112,
+            "b_r4": 309,
+            "both_miss4": 643,
+            "both_hit4": 219,
+            "either_hit4": 381
+          },
+          "rates": {
+            "a_r1": 0.09765625,
+            "a_r4": 0.2841796875,
+            "b_r1": 0.109375,
+            "b_r4": 0.3017578125,
+            "both_miss4": 0.6279296875,
+            "both_hit4": 0.2138671875,
+            "either_hit4": 0.3720703125
+          },
+          "a_top4_boundary_margin": {
+            "mean": -0.09180866949463962,
+            "p05": -0.32908275425434114,
+            "p50": -0.08385701477527618,
+            "p95": 0.12658136188983904,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "b_top4_boundary_margin": {
+            "mean": -0.08983977032039547,
+            "p05": -0.33396805822849274,
+            "p50": -0.08723011612892151,
+            "p95": 0.1420730307698246,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "by_relation": {
+            "arrival phrase": {
+              "exposures": 257,
+              "both_miss4": 187
+            },
+            "departure phrase": {
+              "exposures": 259,
+              "both_miss4": 153
+            },
+            "dispatch phrase": {
+              "exposures": 234,
+              "both_miss4": 144
+            },
+            "inspection phrase": {
+              "exposures": 274,
+              "both_miss4": 159
+            }
+          }
+        },
+        "sample_schedule_sha256": "d9c0609c721c1263fbc465246f262d4955c4f6d4ba629a603f1f01f284d6d1e9",
+        "source_sha256": {
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539"
+        },
+        "checkpoint_sha256": "4529a53b014b55b9f35238ebf7e5cc2eb69733b40b899f01077dd766705dd46b",
+        "manifest_sha256": "5fc1db32388e05ec96cda8687a897950e29fe1aa04e6f289176176db7d95f605",
+        "training_log_sha256": "156e29eefe5a96e4c1e6b9daea0590dfbaf2c06f9d84add079ccaad43122302f"
+      },
+      {
+        "run_id": "interface_step4_train_a_20261006/base_42",
+        "seed": 42,
+        "method": "base",
+        "key_consistency": 0.05,
+        "final_checkpoint_step": 768,
+        "replayed_steps": [
+          641,
+          768
+        ],
+        "replayed_updates": 128,
+        "proxy": true,
+        "no_full_sequence_gradient_claim": true,
+        "independent_single_target_replacement_verified": true,
+        "summary": {
+          "exposures": 1024,
+          "unique_facts": 919,
+          "unique_entities": 638,
+          "counts": {
+            "a_r1": 287,
+            "a_r4": 572,
+            "b_r1": 259,
+            "b_r4": 559,
+            "both_miss4": 357,
+            "both_hit4": 464,
+            "either_hit4": 667
+          },
+          "rates": {
+            "a_r1": 0.2802734375,
+            "a_r4": 0.55859375,
+            "b_r1": 0.2529296875,
+            "b_r4": 0.5458984375,
+            "both_miss4": 0.3486328125,
+            "both_hit4": 0.453125,
+            "either_hit4": 0.6513671875
+          },
+          "a_top4_boundary_margin": {
+            "mean": 0.0014568474725820124,
+            "p05": -0.21280952766537667,
+            "p50": 0.0,
+            "p95": 0.18847654759883856,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "b_top4_boundary_margin": {
+            "mean": -0.0019130633954773657,
+            "p05": -0.20736690610647202,
+            "p50": 0.0,
+            "p95": 0.18636281192302703,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "by_relation": {
+            "arrival phrase": {
+              "exposures": 241,
+              "both_miss4": 106
+            },
+            "departure phrase": {
+              "exposures": 255,
+              "both_miss4": 82
+            },
+            "dispatch phrase": {
+              "exposures": 275,
+              "both_miss4": 74
+            },
+            "inspection phrase": {
+              "exposures": 253,
+              "both_miss4": 95
+            }
+          }
+        },
+        "sample_schedule_sha256": "e340c2dc893502bb47e2f49da045675beb37e8c8b222eeb38ae5589d794594a2",
+        "source_sha256": {
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539"
+        },
+        "checkpoint_sha256": "56749c1070b85741a7c99f4d6de803ad302fb4bbea8e867c49ba5bbc74f71e56",
+        "manifest_sha256": "5d42c0349f7e23c79b3eab2d740bb3d94b89ecfea6bfd9ba82d1a215300bd38a",
+        "training_log_sha256": "70aebbf8aa834ffa5b8a1f0637c300a0c4e87a8d3f9c515fa01a593901cbe42d"
+      },
+      {
+        "run_id": "interface_step4_train_a_20261006/hidden_42",
+        "seed": 42,
+        "method": "hidden",
+        "key_consistency": 0.05,
+        "final_checkpoint_step": 768,
+        "replayed_steps": [
+          641,
+          768
+        ],
+        "replayed_updates": 128,
+        "proxy": true,
+        "no_full_sequence_gradient_claim": true,
+        "independent_single_target_replacement_verified": true,
+        "summary": {
+          "exposures": 1024,
+          "unique_facts": 919,
+          "unique_entities": 638,
+          "counts": {
+            "a_r1": 230,
+            "a_r4": 500,
+            "b_r1": 228,
+            "b_r4": 485,
+            "both_miss4": 440,
+            "both_hit4": 401,
+            "either_hit4": 584
+          },
+          "rates": {
+            "a_r1": 0.224609375,
+            "a_r4": 0.48828125,
+            "b_r1": 0.22265625,
+            "b_r4": 0.4736328125,
+            "both_miss4": 0.4296875,
+            "both_hit4": 0.3916015625,
+            "either_hit4": 0.5703125
+          },
+          "a_top4_boundary_margin": {
+            "mean": -0.031003117925138213,
+            "p05": -0.2998674988746643,
+            "p50": -0.004043325781822205,
+            "p95": 0.18794032335281355,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "b_top4_boundary_margin": {
+            "mean": -0.03352550431736745,
+            "p05": -0.3011857748031616,
+            "p50": -0.011468455195426941,
+            "p95": 0.183699871599674,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "by_relation": {
+            "arrival phrase": {
+              "exposures": 241,
+              "both_miss4": 114
+            },
+            "departure phrase": {
+              "exposures": 255,
+              "both_miss4": 105
+            },
+            "dispatch phrase": {
+              "exposures": 275,
+              "both_miss4": 117
+            },
+            "inspection phrase": {
+              "exposures": 253,
+              "both_miss4": 104
+            }
+          }
+        },
+        "sample_schedule_sha256": "e340c2dc893502bb47e2f49da045675beb37e8c8b222eeb38ae5589d794594a2",
+        "source_sha256": {
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539"
+        },
+        "checkpoint_sha256": "29b8d6b38d3eb6f096dcb0421bfc783a56627530e6325652caa5ef08cb28ab1e",
+        "manifest_sha256": "8c0335fd54c315f79fda7731d31a63e7daff3aae9c3ff4f85db85cba913ff3ec",
+        "training_log_sha256": "09a874519bbe473844a30717de7f79f93f98242c3288ed7ccc283d0d98606172"
+      },
+      {
+        "run_id": "interface_step4_train_b_20261006/clip_42",
+        "seed": 42,
+        "method": "clip",
+        "key_consistency": 0.05,
+        "final_checkpoint_step": 768,
+        "replayed_steps": [
+          641,
+          768
+        ],
+        "replayed_updates": 128,
+        "proxy": true,
+        "no_full_sequence_gradient_claim": true,
+        "independent_single_target_replacement_verified": true,
+        "summary": {
+          "exposures": 1024,
+          "unique_facts": 919,
+          "unique_entities": 638,
+          "counts": {
+            "a_r1": 202,
+            "a_r4": 508,
+            "b_r1": 209,
+            "b_r4": 487,
+            "both_miss4": 430,
+            "both_hit4": 401,
+            "either_hit4": 594
+          },
+          "rates": {
+            "a_r1": 0.197265625,
+            "a_r4": 0.49609375,
+            "b_r1": 0.2041015625,
+            "b_r4": 0.4755859375,
+            "both_miss4": 0.419921875,
+            "both_hit4": 0.3916015625,
+            "either_hit4": 0.580078125
+          },
+          "a_top4_boundary_margin": {
+            "mean": -0.021033140568761155,
+            "p05": -0.2476821444928646,
+            "p50": -0.0010411590337753296,
+            "p95": 0.18941611796617497,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "b_top4_boundary_margin": {
+            "mean": -0.024562152480939403,
+            "p05": -0.2575427085161209,
+            "p50": -0.009332254528999329,
+            "p95": 0.19146126806735989,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "by_relation": {
+            "arrival phrase": {
+              "exposures": 241,
+              "both_miss4": 123
+            },
+            "departure phrase": {
+              "exposures": 255,
+              "both_miss4": 98
+            },
+            "dispatch phrase": {
+              "exposures": 275,
+              "both_miss4": 99
+            },
+            "inspection phrase": {
+              "exposures": 253,
+              "both_miss4": 110
+            }
+          }
+        },
+        "sample_schedule_sha256": "e340c2dc893502bb47e2f49da045675beb37e8c8b222eeb38ae5589d794594a2",
+        "source_sha256": {
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539"
+        },
+        "checkpoint_sha256": "af1b873dae261345e168e537f9b69df9d454d2a872969d43de5ca7635677793e",
+        "manifest_sha256": "b1c39459de1a56c8c6e4f40d3d4f3240afcc75a0966b03245be7b197eb09a850",
+        "training_log_sha256": "741efa62870802a27f8e2bbe76cb4dccc29eb619fc9e719b4757805766353e40"
+      },
+      {
+        "run_id": "interface_step4_train_b_20261006/on_policy_42",
+        "seed": 42,
+        "method": "on_policy",
+        "key_consistency": 0.05,
+        "final_checkpoint_step": 768,
+        "replayed_steps": [
+          641,
+          768
+        ],
+        "replayed_updates": 128,
+        "proxy": true,
+        "no_full_sequence_gradient_claim": true,
+        "independent_single_target_replacement_verified": true,
+        "summary": {
+          "exposures": 1024,
+          "unique_facts": 919,
+          "unique_entities": 638,
+          "counts": {
+            "a_r1": 253,
+            "a_r4": 591,
+            "b_r1": 251,
+            "b_r4": 578,
+            "both_miss4": 322,
+            "both_hit4": 467,
+            "either_hit4": 702
+          },
+          "rates": {
+            "a_r1": 0.2470703125,
+            "a_r4": 0.5771484375,
+            "b_r1": 0.2451171875,
+            "b_r4": 0.564453125,
+            "both_miss4": 0.314453125,
+            "both_hit4": 0.4560546875,
+            "either_hit4": 0.685546875
+          },
+          "a_top4_boundary_margin": {
+            "mean": 0.004526775112026371,
+            "p05": -0.18475512862205504,
+            "p50": 0.00106850266456604,
+            "p95": 0.18900277912616725,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "b_top4_boundary_margin": {
+            "mean": 0.0020361628849059343,
+            "p05": -0.20093671604990956,
+            "p50": 0.0,
+            "p95": 0.19476298838853834,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "by_relation": {
+            "arrival phrase": {
+              "exposures": 241,
+              "both_miss4": 97
+            },
+            "departure phrase": {
+              "exposures": 255,
+              "both_miss4": 82
+            },
+            "dispatch phrase": {
+              "exposures": 275,
+              "both_miss4": 66
+            },
+            "inspection phrase": {
+              "exposures": 253,
+              "both_miss4": 77
+            }
+          }
+        },
+        "sample_schedule_sha256": "e340c2dc893502bb47e2f49da045675beb37e8c8b222eeb38ae5589d794594a2",
+        "source_sha256": {
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539"
+        },
+        "checkpoint_sha256": "15f032b6bdfea4e549883dcdc82521faf4ffd5d72933080ad9b11d3bc8656ce9",
+        "manifest_sha256": "cf34a5b9ff2fb0291bfd241563fa194e677d36a284db72789e430b546025ee08",
+        "training_log_sha256": "db8c52e12fbb1cb9f0e2fc34e8fe803e62aec3ca81dfcccb5e4c3875a9f01bfe"
+      },
+      {
+        "run_id": "interface_step4_train_c_20261006/normalized_42",
+        "seed": 42,
+        "method": "normalized",
+        "key_consistency": 0.05,
+        "final_checkpoint_step": 768,
+        "replayed_steps": [
+          641,
+          768
+        ],
+        "replayed_updates": 128,
+        "proxy": true,
+        "no_full_sequence_gradient_claim": true,
+        "independent_single_target_replacement_verified": true,
+        "summary": {
+          "exposures": 1024,
+          "unique_facts": 919,
+          "unique_entities": 638,
+          "counts": {
+            "a_r1": 257,
+            "a_r4": 561,
+            "b_r1": 250,
+            "b_r4": 542,
+            "both_miss4": 357,
+            "both_hit4": 436,
+            "either_hit4": 667
+          },
+          "rates": {
+            "a_r1": 0.2509765625,
+            "a_r4": 0.5478515625,
+            "b_r1": 0.244140625,
+            "b_r4": 0.529296875,
+            "both_miss4": 0.3486328125,
+            "both_hit4": 0.42578125,
+            "either_hit4": 0.6513671875
+          },
+          "a_top4_boundary_margin": {
+            "mean": -0.010438247860292904,
+            "p05": -0.23996588587760925,
+            "p50": 0.0,
+            "p95": 0.1768448144197464,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "b_top4_boundary_margin": {
+            "mean": -0.013215665800089482,
+            "p05": -0.25271042436361313,
+            "p50": 0.0,
+            "p95": 0.18721278160810467,
+            "note": "Target cosine minus fourth-largest cosine. Near-zero values can be sensitive to BF16 numerical differences; no BF16 error bound is inferred."
+          },
+          "by_relation": {
+            "arrival phrase": {
+              "exposures": 241,
+              "both_miss4": 94
+            },
+            "departure phrase": {
+              "exposures": 255,
+              "both_miss4": 90
+            },
+            "dispatch phrase": {
+              "exposures": 275,
+              "both_miss4": 91
+            },
+            "inspection phrase": {
+              "exposures": 253,
+              "both_miss4": 82
+            }
+          }
+        },
+        "sample_schedule_sha256": "e340c2dc893502bb47e2f49da045675beb37e8c8b222eeb38ae5589d794594a2",
+        "source_sha256": {
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539"
+        },
+        "checkpoint_sha256": "4f3edf2e5eec65b560f7471b86376d5fc1f7970990bd2d19624ed5f615206aca",
+        "manifest_sha256": "8623d10d1ce92ad1523b2b61cbe9534f70b26ac65ee7ed33b5bd59c5418213ff",
+        "training_log_sha256": "fadcd222f943fe7013ffe7cf9ee9c685074bef0c585398e8b0a53b91bfe0e80c"
+      }
+    ]
+  },
+  "data": {
+    "protocol": "interface-extended-cache-final-audit-v1",
+    "complete": true,
+    "audited_at": "2026-10-06T08:59:14.170377+00:00",
+    "device": "cpu",
+    "cpu_threads": 4,
+    "cuda_initialized": false,
+    "scope": "Actual locally backed-up train/dev/confirm cache metadata only; no confirmation predictions/scores, SSH, GPU, model inference, or source modification.",
+    "preexisting_equivalent_audit_found": false,
+    "checks": {
+      "entity_record_complete_answer_splits_disjoint": true,
+      "all_queries_exclude_full_answers_and_stable_record_ids": true,
+      "actual_original_A_bank_has_both_world_answer_negatives": true,
+      "every_fact_has_same_entity_other_relation_negatives": true,
+      "groups_inferred_independently_of_cache_row_order": true,
+      "each_group_four_entities_sixteen_facts": true,
+      "per_relation_original_A_answer_orientation_two_vs_two": true,
+      "feature_axis_shapes_match_metadata": true
+    },
+    "cross_split": [
+      {
+        "splits": [
+          "train",
+          "dev"
+        ],
+        "record_id_overlap": 0,
+        "entity_overlap": 0,
+        "complete_answer_overlap": 0,
+        "word_overlap_count": 64,
+        "shared_words": [
+          "amber",
+          "apple",
+          "basket",
+          "birch",
+          "candle",
+          "cedar",
+          "cloud",
+          "cobalt",
+          "crimson",
+          "crystal",
+          "daisy",
+          "delta",
+          "dune",
+          "elm",
+          "feather",
+          "fern",
+          "flint",
+          "forest",
+          "frost",
+          "garden",
+          "granite",
+          "harbor",
+          "hazel",
+          "heather",
+          "island",
+          "ivory",
+          "jade",
+          "juniper",
+          "lagoon",
+          "lantern",
+          "lemon",
+          "lilac",
+          "lotus",
+          "maple",
+          "marble",
+          "meadow",
+          "mint",
+          "mirror",
+          "moss",
+          "opal",
+          "orange",
+          "orchid",
+          "otter",
+          "pebble",
+          "pencil",
+          "pine",
+          "plum",
+          "quartz",
+          "rabbit",
+          "reed",
+          "river",
+          "robin",
+          "ruby",
+          "sage",
+          "shell",
+          "silver",
+          "sparrow",
+          "spruce",
+          "stone",
+          "tiger",
+          "violet",
+          "willow",
+          "window",
+          "wren"
+        ],
+        "first_word_overlap_count": 16,
+        "tail_word_overlap_count": 48,
+        "token_id_overlap_count": 90
+      },
+      {
+        "splits": [
+          "train",
+          "confirm"
+        ],
+        "record_id_overlap": 0,
+        "entity_overlap": 0,
+        "complete_answer_overlap": 0,
+        "word_overlap_count": 64,
+        "shared_words": [
+          "amber",
+          "apple",
+          "basket",
+          "birch",
+          "candle",
+          "cedar",
+          "cloud",
+          "cobalt",
+          "crimson",
+          "crystal",
+          "daisy",
+          "delta",
+          "dune",
+          "elm",
+          "feather",
+          "fern",
+          "flint",
+          "forest",
+          "frost",
+          "garden",
+          "granite",
+          "harbor",
+          "hazel",
+          "heather",
+          "island",
+          "ivory",
+          "jade",
+          "juniper",
+          "lagoon",
+          "lantern",
+          "lemon",
+          "lilac",
+          "lotus",
+          "maple",
+          "marble",
+          "meadow",
+          "mint",
+          "mirror",
+          "moss",
+          "opal",
+          "orange",
+          "orchid",
+          "otter",
+          "pebble",
+          "pencil",
+          "pine",
+          "plum",
+          "quartz",
+          "rabbit",
+          "reed",
+          "river",
+          "robin",
+          "ruby",
+          "sage",
+          "shell",
+          "silver",
+          "sparrow",
+          "spruce",
+          "stone",
+          "tiger",
+          "violet",
+          "willow",
+          "window",
+          "wren"
+        ],
+        "first_word_overlap_count": 16,
+        "tail_word_overlap_count": 48,
+        "token_id_overlap_count": 90
+      },
+      {
+        "splits": [
+          "dev",
+          "confirm"
+        ],
+        "record_id_overlap": 0,
+        "entity_overlap": 0,
+        "complete_answer_overlap": 0,
+        "word_overlap_count": 64,
+        "shared_words": [
+          "amber",
+          "apple",
+          "basket",
+          "birch",
+          "candle",
+          "cedar",
+          "cloud",
+          "cobalt",
+          "crimson",
+          "crystal",
+          "daisy",
+          "delta",
+          "dune",
+          "elm",
+          "feather",
+          "fern",
+          "flint",
+          "forest",
+          "frost",
+          "garden",
+          "granite",
+          "harbor",
+          "hazel",
+          "heather",
+          "island",
+          "ivory",
+          "jade",
+          "juniper",
+          "lagoon",
+          "lantern",
+          "lemon",
+          "lilac",
+          "lotus",
+          "maple",
+          "marble",
+          "meadow",
+          "mint",
+          "mirror",
+          "moss",
+          "opal",
+          "orange",
+          "orchid",
+          "otter",
+          "pebble",
+          "pencil",
+          "pine",
+          "plum",
+          "quartz",
+          "rabbit",
+          "reed",
+          "river",
+          "robin",
+          "ruby",
+          "sage",
+          "shell",
+          "silver",
+          "sparrow",
+          "spruce",
+          "stone",
+          "tiger",
+          "violet",
+          "willow",
+          "window",
+          "wren"
+        ],
+        "first_word_overlap_count": 16,
+        "tail_word_overlap_count": 48,
+        "token_id_overlap_count": 90
+      }
+    ],
+    "development_confirmation_lexical_novelty": {
+      "dev": {
+        "words_absent_from_train": [],
+        "first_words_absent_from_train": [],
+        "tail_words_absent_from_train": [],
+        "token_ids_absent_from_train": []
+      },
+      "confirm": {
+        "words_absent_from_train": [],
+        "first_words_absent_from_train": [],
+        "tail_words_absent_from_train": [],
+        "token_ids_absent_from_train": []
+      }
+    },
+    "interpretations": [
+      "The actual A bank is indexed from row[a], including when the target is counterfactually updated to B. Other records are never treated as if their B alternatives were installed.",
+      "Each fact has one same-relation/same-A-answer different-entity original-bank negative, two for its B answer, and three other relations for the same entity.",
+      "Complete-answer novelty is combinatorial, not a claim of new words, arbitrary documents or open-vocabulary semantics.",
+      "Confirmation has256 facts but64 entity clusters and16 four-entity construction groups; these group dependencies matter for uncertainty.",
+      "Feature tensor metadata/shapes were checked; this data audit does not recompute feature extraction, query/key embeddings, VDB tensors or generations."
+    ],
+    "elapsed_seconds": 16.092858329880983,
+    "splits": {
+      "train": {
+        "cache_path": "../runs/xtrah100/interface_extended_prepare_20261006/prepare/train.pt",
+        "cache_sha256": "3882ed326acff0808a97eb3dc330968bb92618159f19613c354d579dcf3c595b",
+        "cache_bytes": 3836362959,
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "data_protocol": "interface-multirelation-v2",
+        "facts": 4096,
+        "entities": 1024,
+        "relations": [
+          "arrival phrase",
+          "departure phrase",
+          "dispatch phrase",
+          "inspection phrase"
+        ],
+        "unique_complete_answers": 2048,
+        "unique_original_bank_answers": 2048,
+        "constructed_four_entity_groups": 256,
+        "facts_per_group": 16,
+        "negative_count_distributions": {
+          "A": {
+            "1": 4096
+          },
+          "B": {
+            "2": 4096
+          },
+          "same_entity_other_relation": {
+            "3": 4096
+          }
+        },
+        "lexical_vocabulary": {
+          "all_count": 64,
+          "all_words": [
+            "amber",
+            "apple",
+            "basket",
+            "birch",
+            "candle",
+            "cedar",
+            "cloud",
+            "cobalt",
+            "crimson",
+            "crystal",
+            "daisy",
+            "delta",
+            "dune",
+            "elm",
+            "feather",
+            "fern",
+            "flint",
+            "forest",
+            "frost",
+            "garden",
+            "granite",
+            "harbor",
+            "hazel",
+            "heather",
+            "island",
+            "ivory",
+            "jade",
+            "juniper",
+            "lagoon",
+            "lantern",
+            "lemon",
+            "lilac",
+            "lotus",
+            "maple",
+            "marble",
+            "meadow",
+            "mint",
+            "mirror",
+            "moss",
+            "opal",
+            "orange",
+            "orchid",
+            "otter",
+            "pebble",
+            "pencil",
+            "pine",
+            "plum",
+            "quartz",
+            "rabbit",
+            "reed",
+            "river",
+            "robin",
+            "ruby",
+            "sage",
+            "shell",
+            "silver",
+            "sparrow",
+            "spruce",
+            "stone",
+            "tiger",
+            "violet",
+            "willow",
+            "window",
+            "wren"
+          ],
+          "first_count": 16,
+          "first_words": [
+            "apple",
+            "basket",
+            "candle",
+            "cloud",
+            "forest",
+            "garden",
+            "island",
+            "lemon",
+            "mirror",
+            "orange",
+            "pencil",
+            "rabbit",
+            "river",
+            "silver",
+            "tiger",
+            "window"
+          ],
+          "tail_count": 48,
+          "tail_words": [
+            "amber",
+            "birch",
+            "cedar",
+            "cobalt",
+            "crimson",
+            "crystal",
+            "daisy",
+            "delta",
+            "dune",
+            "elm",
+            "feather",
+            "fern",
+            "flint",
+            "frost",
+            "granite",
+            "harbor",
+            "hazel",
+            "heather",
+            "ivory",
+            "jade",
+            "juniper",
+            "lagoon",
+            "lantern",
+            "lilac",
+            "lotus",
+            "maple",
+            "marble",
+            "meadow",
+            "mint",
+            "moss",
+            "opal",
+            "orchid",
+            "otter",
+            "pebble",
+            "pine",
+            "plum",
+            "quartz",
+            "reed",
+            "robin",
+            "ruby",
+            "sage",
+            "shell",
+            "sparrow",
+            "spruce",
+            "stone",
+            "violet",
+            "willow",
+            "wren"
+          ],
+          "token_id_count": 90
+        },
+        "answer_token_length_counts": {
+          "3": 1632,
+          "4": 3516,
+          "5": 2424,
+          "6": 620
+        },
+        "unequal_AB_token_length_pairs": 2824,
+        "qids": [
+          "if_train_query_00",
+          "if_train_query_01",
+          "if_train_query_02",
+          "if_train_query_03",
+          "if_train_query_04",
+          "if_train_query_05",
+          "if_train_query_06",
+          "if_train_query_07"
+        ],
+        "sids": [
+          "if_train_support_00",
+          "if_train_support_01",
+          "if_train_support_02",
+          "if_train_support_03"
+        ],
+        "feature_shapes": {
+          "q": [
+            4096,
+            8,
+            9728
+          ],
+          "last": [
+            4096,
+            2,
+            4,
+            9728
+          ],
+          "pool": [
+            4096,
+            2,
+            4,
+            9728
+          ]
+        },
+        "entity_sha256": "2a1f5812db99c4710eb717e30f39e0ece2870a3f5c625d7e04167ae4c20085c4",
+        "complete_answer_sha256": "8790a649d82be81ec3cbc512bebbfbc6a04ed7002aadbb4e04dc6b1f3cb9814e",
+        "metadata_sha256": "b569c5787273fc99d9316595c7c01ac396040094c7c7a76163c37914db3e1224",
+        "constructed_group_sha256": "02a0ab29600509ebfb677ba391c2eb7f1420a263f50d5f35802545c70184a5fe",
+        "answer_and_stable_record_ids_absent_from_all_queries": true,
+        "current_world_answers_present_in_all_supports": true
+      },
+      "dev": {
+        "cache_path": "../runs/xtrah100/interface_extended_prepare_20261006/prepare/dev.pt",
+        "cache_sha256": "09eea74ea97b86e6282f71f99b51293d60fb506d23c2fe9228b5daf44449e37a",
+        "cache_bytes": 149785085,
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "data_protocol": "interface-multirelation-v2",
+        "facts": 256,
+        "entities": 64,
+        "relations": [
+          "arrival phrase",
+          "departure phrase",
+          "dispatch phrase",
+          "inspection phrase"
+        ],
+        "unique_complete_answers": 128,
+        "unique_original_bank_answers": 128,
+        "constructed_four_entity_groups": 16,
+        "facts_per_group": 16,
+        "negative_count_distributions": {
+          "A": {
+            "1": 256
+          },
+          "B": {
+            "2": 256
+          },
+          "same_entity_other_relation": {
+            "3": 256
+          }
+        },
+        "lexical_vocabulary": {
+          "all_count": 64,
+          "all_words": [
+            "amber",
+            "apple",
+            "basket",
+            "birch",
+            "candle",
+            "cedar",
+            "cloud",
+            "cobalt",
+            "crimson",
+            "crystal",
+            "daisy",
+            "delta",
+            "dune",
+            "elm",
+            "feather",
+            "fern",
+            "flint",
+            "forest",
+            "frost",
+            "garden",
+            "granite",
+            "harbor",
+            "hazel",
+            "heather",
+            "island",
+            "ivory",
+            "jade",
+            "juniper",
+            "lagoon",
+            "lantern",
+            "lemon",
+            "lilac",
+            "lotus",
+            "maple",
+            "marble",
+            "meadow",
+            "mint",
+            "mirror",
+            "moss",
+            "opal",
+            "orange",
+            "orchid",
+            "otter",
+            "pebble",
+            "pencil",
+            "pine",
+            "plum",
+            "quartz",
+            "rabbit",
+            "reed",
+            "river",
+            "robin",
+            "ruby",
+            "sage",
+            "shell",
+            "silver",
+            "sparrow",
+            "spruce",
+            "stone",
+            "tiger",
+            "violet",
+            "willow",
+            "window",
+            "wren"
+          ],
+          "first_count": 16,
+          "first_words": [
+            "apple",
+            "basket",
+            "candle",
+            "cloud",
+            "forest",
+            "garden",
+            "island",
+            "lemon",
+            "mirror",
+            "orange",
+            "pencil",
+            "rabbit",
+            "river",
+            "silver",
+            "tiger",
+            "window"
+          ],
+          "tail_count": 48,
+          "tail_words": [
+            "amber",
+            "birch",
+            "cedar",
+            "cobalt",
+            "crimson",
+            "crystal",
+            "daisy",
+            "delta",
+            "dune",
+            "elm",
+            "feather",
+            "fern",
+            "flint",
+            "frost",
+            "granite",
+            "harbor",
+            "hazel",
+            "heather",
+            "ivory",
+            "jade",
+            "juniper",
+            "lagoon",
+            "lantern",
+            "lilac",
+            "lotus",
+            "maple",
+            "marble",
+            "meadow",
+            "mint",
+            "moss",
+            "opal",
+            "orchid",
+            "otter",
+            "pebble",
+            "pine",
+            "plum",
+            "quartz",
+            "reed",
+            "robin",
+            "ruby",
+            "sage",
+            "shell",
+            "sparrow",
+            "spruce",
+            "stone",
+            "violet",
+            "willow",
+            "wren"
+          ],
+          "token_id_count": 90
+        },
+        "answer_token_length_counts": {
+          "3": 108,
+          "4": 208,
+          "5": 164,
+          "6": 32
+        },
+        "unequal_AB_token_length_pairs": 176,
+        "qids": [
+          "if_train_query_00",
+          "if_dev_query_00",
+          "if_dev_query_01"
+        ],
+        "sids": [
+          "if_train_support_00",
+          "if_dev_support_00",
+          "if_dev_support_01"
+        ],
+        "feature_shapes": {
+          "q": [
+            256,
+            3,
+            9728
+          ],
+          "last": [
+            256,
+            2,
+            3,
+            9728
+          ],
+          "pool": [
+            256,
+            2,
+            3,
+            9728
+          ]
+        },
+        "entity_sha256": "0bf8bf37d8e9d268e58c3c2d02ae7cae3292dfc554a5fa29306db94a5ce3209e",
+        "complete_answer_sha256": "b0aab92ba6a00291d96e462b90db405b520200913987577cd680f73a5886dc12",
+        "metadata_sha256": "8bddba3eba00e0ebd5084813031a8b0a0f38797347c4ff7fa0e184515bfb23b8",
+        "constructed_group_sha256": "74957a773a8b31b4808e6568a1df4df3ce208d5bbd4d0e9d181dd650a00f7eac",
+        "answer_and_stable_record_ids_absent_from_all_queries": true,
+        "current_world_answers_present_in_all_supports": true
+      },
+      "confirm": {
+        "cache_path": "../runs/xtrah100/interface_extended_prepare_20261006/prepare/confirm.pt",
+        "cache_sha256": "d9deb7585877c5050d23937b29650610b13711d4827994727deb0131842842cb",
+        "cache_bytes": 249655457,
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "data_protocol": "interface-multirelation-v2",
+        "facts": 256,
+        "entities": 64,
+        "relations": [
+          "arrival phrase",
+          "departure phrase",
+          "dispatch phrase",
+          "inspection phrase"
+        ],
+        "unique_complete_answers": 128,
+        "unique_original_bank_answers": 128,
+        "constructed_four_entity_groups": 16,
+        "facts_per_group": 16,
+        "negative_count_distributions": {
+          "A": {
+            "1": 256
+          },
+          "B": {
+            "2": 256
+          },
+          "same_entity_other_relation": {
+            "3": 256
+          }
+        },
+        "lexical_vocabulary": {
+          "all_count": 64,
+          "all_words": [
+            "amber",
+            "apple",
+            "basket",
+            "birch",
+            "candle",
+            "cedar",
+            "cloud",
+            "cobalt",
+            "crimson",
+            "crystal",
+            "daisy",
+            "delta",
+            "dune",
+            "elm",
+            "feather",
+            "fern",
+            "flint",
+            "forest",
+            "frost",
+            "garden",
+            "granite",
+            "harbor",
+            "hazel",
+            "heather",
+            "island",
+            "ivory",
+            "jade",
+            "juniper",
+            "lagoon",
+            "lantern",
+            "lemon",
+            "lilac",
+            "lotus",
+            "maple",
+            "marble",
+            "meadow",
+            "mint",
+            "mirror",
+            "moss",
+            "opal",
+            "orange",
+            "orchid",
+            "otter",
+            "pebble",
+            "pencil",
+            "pine",
+            "plum",
+            "quartz",
+            "rabbit",
+            "reed",
+            "river",
+            "robin",
+            "ruby",
+            "sage",
+            "shell",
+            "silver",
+            "sparrow",
+            "spruce",
+            "stone",
+            "tiger",
+            "violet",
+            "willow",
+            "window",
+            "wren"
+          ],
+          "first_count": 16,
+          "first_words": [
+            "apple",
+            "basket",
+            "candle",
+            "cloud",
+            "forest",
+            "garden",
+            "island",
+            "lemon",
+            "mirror",
+            "orange",
+            "pencil",
+            "rabbit",
+            "river",
+            "silver",
+            "tiger",
+            "window"
+          ],
+          "tail_count": 48,
+          "tail_words": [
+            "amber",
+            "birch",
+            "cedar",
+            "cobalt",
+            "crimson",
+            "crystal",
+            "daisy",
+            "delta",
+            "dune",
+            "elm",
+            "feather",
+            "fern",
+            "flint",
+            "frost",
+            "granite",
+            "harbor",
+            "hazel",
+            "heather",
+            "ivory",
+            "jade",
+            "juniper",
+            "lagoon",
+            "lantern",
+            "lilac",
+            "lotus",
+            "maple",
+            "marble",
+            "meadow",
+            "mint",
+            "moss",
+            "opal",
+            "orchid",
+            "otter",
+            "pebble",
+            "pine",
+            "plum",
+            "quartz",
+            "reed",
+            "robin",
+            "ruby",
+            "sage",
+            "shell",
+            "sparrow",
+            "spruce",
+            "stone",
+            "violet",
+            "willow",
+            "wren"
+          ],
+          "token_id_count": 90
+        },
+        "answer_token_length_counts": {
+          "3": 96,
+          "4": 244,
+          "5": 140,
+          "6": 32
+        },
+        "unequal_AB_token_length_pairs": 176,
+        "qids": [
+          "if_train_query_00",
+          "if_confirm_query_json",
+          "if_confirm_query_markdown",
+          "if_confirm_query_yaml",
+          "if_confirm_query_ini"
+        ],
+        "sids": [
+          "if_train_support_00",
+          "if_confirm_support_json",
+          "if_confirm_support_markdown",
+          "if_confirm_support_yaml",
+          "if_confirm_support_ini"
+        ],
+        "feature_shapes": {
+          "q": [
+            256,
+            5,
+            9728
+          ],
+          "last": [
+            256,
+            2,
+            5,
+            9728
+          ],
+          "pool": [
+            256,
+            2,
+            5,
+            9728
+          ]
+        },
+        "entity_sha256": "c712a20729feada472e7970964415d02eaa85ade754d8b49f013afe522a7c1ad",
+        "complete_answer_sha256": "d84e99482b966fa6e649d70390dd465559643e887ab8818c260630a7c4b98262",
+        "metadata_sha256": "4770ced587600b10efe60f4ed99001900366d8a30f4870b03576cdf88b2a2e67",
+        "constructed_group_sha256": "a8e9f8233446ac514d538990bb08623c1e3b2fbd9830134a91a2d2ccf233a777",
+        "answer_and_stable_record_ids_absent_from_all_queries": true,
+        "current_world_answers_present_in_all_supports": true
+      }
+    }
+  },
+  "step12_checks": {
+    "completed_suites": true,
+    "all_14_evaluations_raw_recomputed": true,
+    "selection_artifact_hashes_verified": true,
+    "selected_writer_confirm_lineage_verified": true,
+    "confirmation_case_ids_content_styles_bank_background_model_budget_equal": true,
+    "teacher_four_phases_128_joint_and_each_single_correct": true,
+    "first_real_retrieval_identical_across_four_confirmation_models": true,
+    "raw_decode_hits_and_denominators_recomputed": true,
+    "logged_summary_matches": true,
+    "bank_tensor_replay": "deferred to later full audit"
+  }
+}

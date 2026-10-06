@@ -1,0 +1,1056 @@
+{
+  "protocol": "block-training-convergence-v1",
+  "partial": false,
+  "sources": {
+    "summary_sha256": "3617cda40da9e59fa0589bc4524892aee87c1f6d3dacc22d6c8be36ca6aaff30",
+    "script_sha256": "b93d2c9f7e5a7e28f6c8a7c8361fce0706a2de4c6d9826e5b6c85836391e576d",
+    "helper_sha256": "f484c0bf955f5590eec48a0931fb10e0410d048ed70b2a918d72635631605b69"
+  },
+  "records": [
+    {
+      "arm": "rebind_block_outer",
+      "seed": 91042,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/rebind_block_outer_seed91042",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 4.543406987562776,
+            "minimum": 2.4906415939331055,
+            "maximum": 9.380950927734375,
+            "last": 2.5548667907714844
+          },
+          "address": {
+            "mean": 1.6618774244561791,
+            "minimum": 0.4775952696800232,
+            "maximum": 4.219670295715332,
+            "last": 0.6968088150024414
+          },
+          "loss": {
+            "mean": 4.87578247115016,
+            "minimum": 2.635491371154785,
+            "maximum": 10.071965217590332,
+            "last": 2.6942286491394043
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.10390193237253698,
+            "minimum": 0.007698656991124153,
+            "maximum": 0.32431691884994507,
+            "last": 0.08016377687454224
+          },
+          "address": {
+            "mean": 0.05930015716876369,
+            "minimum": 0.013508113101124763,
+            "maximum": 0.1455872505903244,
+            "last": 0.07573547959327698
+          },
+          "loss": {
+            "mean": 0.11576196415990125,
+            "minimum": 0.012615267187356949,
+            "maximum": 0.34816643595695496,
+            "last": 0.09531087428331375
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2576688,
+        "backbone_calls": 2048,
+        "training_process_seconds": 191.68458913825452
+      },
+      "training_jsonl_sha256": "7b09c467ede724da362398936b8972b41240064a76d59d0b5e9bc53a4591525f"
+    },
+    {
+      "arm": "rebind_diagonal",
+      "seed": 91042,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/rebind_diagonal_seed91042",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 7.202294502407312,
+            "minimum": 4.473699569702148,
+            "maximum": 10.058441162109375,
+            "last": 5.116085052490234
+          },
+          "address": {
+            "mean": 1.6618774281814694,
+            "minimum": 0.4775952696800232,
+            "maximum": 4.219670295715332,
+            "last": 0.6968088150024414
+          },
+          "loss": {
+            "mean": 7.534669987857342,
+            "minimum": 4.618549346923828,
+            "maximum": 10.591547966003418,
+            "last": 5.255446910858154
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.12889764296414796,
+            "minimum": 0.016652142629027367,
+            "maximum": 0.46137452125549316,
+            "last": 0.1013253778219223
+          },
+          "address": {
+            "mean": 0.05930015716876369,
+            "minimum": 0.013508113101124763,
+            "maximum": 0.1455872505903244,
+            "last": 0.07573547959327698
+          },
+          "loss": {
+            "mean": 0.1407576744677499,
+            "minimum": 0.023091163486242294,
+            "maximum": 0.4868583083152771,
+            "last": 0.11647247523069382
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2576688,
+        "backbone_calls": 2048,
+        "training_process_seconds": 183.83775575552136
+      },
+      "training_jsonl_sha256": "edf7cbd3a9801213709d5d6be4402c89eab730ae34cb47479f019776bf146c54"
+    },
+    {
+      "arm": "rebind_pooled_outer",
+      "seed": 91042,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/rebind_pooled_outer_seed91042",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 5.15315948985517,
+            "minimum": 2.8403701782226562,
+            "maximum": 9.714836120605469,
+            "last": 2.8403701782226562
+          },
+          "address": {
+            "mean": 1.6618774263188243,
+            "minimum": 0.4775952696800232,
+            "maximum": 4.219670295715332,
+            "last": 0.6968088150024414
+          },
+          "loss": {
+            "mean": 5.485534997656941,
+            "minimum": 2.979732036590576,
+            "maximum": 10.247942924499512,
+            "last": 2.979732036590576
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.10199462992750341,
+            "minimum": 0.010908902622759342,
+            "maximum": 0.37099364399909973,
+            "last": 0.07253758609294891
+          },
+          "address": {
+            "mean": 0.05930015716876369,
+            "minimum": 0.013508113101124763,
+            "maximum": 0.1455872505903244,
+            "last": 0.07573547959327698
+          },
+          "loss": {
+            "mean": 0.11385466133651789,
+            "minimum": 0.016363969072699547,
+            "maximum": 0.3929271996021271,
+            "last": 0.08768468350172043
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2576688,
+        "backbone_calls": 2048,
+        "training_process_seconds": 190.9677686970681
+      },
+      "training_jsonl_sha256": "3283037250516512db65cbcdfa261f2ec7d06a6d00b23ecbd0addea69405001a"
+    },
+    {
+      "arm": "static_block_outer",
+      "seed": 91042,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/static_block_outer_seed91042",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 4.480330673977733,
+            "minimum": 2.3621551990509033,
+            "maximum": 9.430200576782227,
+            "last": 2.608792304992676
+          },
+          "address": {
+            "mean": 1.3146877490216866,
+            "minimum": 0.24440596997737885,
+            "maximum": 4.910396575927734,
+            "last": 0.4193882346153259
+          },
+          "loss": {
+            "mean": 4.743268236517906,
+            "minimum": 2.4711124897003174,
+            "maximum": 10.412280082702637,
+            "last": 2.6926698684692383
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.013860961320460774,
+            "minimum": 0.0012174516450613737,
+            "maximum": 0.21112363040447235,
+            "last": 0.007335876114666462
+          },
+          "address": {
+            "mean": 0.0153837835205195,
+            "minimum": 0.0014174714451655746,
+            "maximum": 0.06872247159481049,
+            "last": 0.008351655676960945
+          },
+          "loss": {
+            "mean": 0.01693771812824707,
+            "minimum": 0.002108421176671982,
+            "maximum": 0.21749316155910492,
+            "last": 0.009006206877529621
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2578896,
+        "backbone_calls": 2048,
+        "training_process_seconds": 189.5628902874887
+      },
+      "training_jsonl_sha256": "650d1c245d39532e3533607c3c99db9898fd6668cd76ddc950f1ab1b50653686"
+    },
+    {
+      "arm": "static_diagonal",
+      "seed": 91042,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/static_diagonal_seed91042",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 6.981235299259424,
+            "minimum": 4.576416015625,
+            "maximum": 9.764781951904297,
+            "last": 4.576416015625
+          },
+          "address": {
+            "mean": 1.3146877490216866,
+            "minimum": 0.24440596997737885,
+            "maximum": 4.910396575927734,
+            "last": 0.4193882346153259
+          },
+          "loss": {
+            "mean": 7.244172848761082,
+            "minimum": 4.6602935791015625,
+            "maximum": 10.678194999694824,
+            "last": 4.6602935791015625
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.01665038789906248,
+            "minimum": 0.0027931721415370703,
+            "maximum": 0.34155386686325073,
+            "last": 0.006319272331893444
+          },
+          "address": {
+            "mean": 0.0153837835205195,
+            "minimum": 0.0014174714451655746,
+            "maximum": 0.06872247159481049,
+            "last": 0.008351655676960945
+          },
+          "loss": {
+            "mean": 0.019727144743228564,
+            "minimum": 0.00435909628868103,
+            "maximum": 0.3479233980178833,
+            "last": 0.007989603094756603
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2578896,
+        "backbone_calls": 2048,
+        "training_process_seconds": 192.69703066721559
+      },
+      "training_jsonl_sha256": "e2e47c9ec19935c1a70027a5014f7d9582a0915588e977c4840ec8f9fdaf3698"
+    },
+    {
+      "arm": "static_pooled_outer",
+      "seed": 91042,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/static_pooled_outer_seed91042",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 4.773661715909839,
+            "minimum": 2.525585889816284,
+            "maximum": 9.611306190490723,
+            "last": 2.595653533935547
+          },
+          "address": {
+            "mean": 1.3146877490216866,
+            "minimum": 0.24440596997737885,
+            "maximum": 4.910396575927734,
+            "last": 0.4193882346153259
+          },
+          "loss": {
+            "mean": 5.036599267274141,
+            "minimum": 2.6345431804656982,
+            "maximum": 10.593385696411133,
+            "last": 2.6795310974121094
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.009743446690663404,
+            "minimum": 0.0010153288021683693,
+            "maximum": 0.238788902759552,
+            "last": 0.0014533826615661383
+          },
+          "address": {
+            "mean": 0.0153837835205195,
+            "minimum": 0.0014174714451655746,
+            "maximum": 0.06872247159481049,
+            "last": 0.008351655676960945
+          },
+          "loss": {
+            "mean": 0.012820203480259806,
+            "minimum": 0.0014615142717957497,
+            "maximum": 0.24515843391418457,
+            "last": 0.003123713657259941
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2578896,
+        "backbone_calls": 2048,
+        "training_process_seconds": 188.1378704449162
+      },
+      "training_jsonl_sha256": "ce58669afdfa2992956e49b873b0e27f72776f67ff524b2243f717a480dcd607"
+    },
+    {
+      "arm": "rebind_block_outer",
+      "seed": 91043,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/rebind_block_outer_seed91043",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 4.4559381157159805,
+            "minimum": 2.4972896575927734,
+            "maximum": 9.436190605163574,
+            "last": 2.6266865730285645
+          },
+          "address": {
+            "mean": 1.666505427332595,
+            "minimum": 0.48756298422813416,
+            "maximum": 3.850253105163574,
+            "last": 0.7341433763504028
+          },
+          "loss": {
+            "mean": 4.789239194244146,
+            "minimum": 2.631011962890625,
+            "maximum": 10.121763229370117,
+            "last": 2.773515224456787
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.0924854649201734,
+            "minimum": 0.008488496765494347,
+            "maximum": 0.3863346576690674,
+            "last": 0.2165948748588562
+          },
+          "address": {
+            "mean": 0.057008700336155016,
+            "minimum": 0.007980633527040482,
+            "maximum": 0.20796354115009308,
+            "last": 0.08190499246120453
+          },
+          "loss": {
+            "mean": 0.10388720451010158,
+            "minimum": 0.013466836884617805,
+            "maximum": 0.41194650530815125,
+            "last": 0.23297587037086487
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2576176,
+        "backbone_calls": 2048,
+        "training_process_seconds": 192.05110386107117
+      },
+      "training_jsonl_sha256": "3c6658b7f6de7a26e317bc2c2ee770c7aebcfe333971da2853cfedc97da72cf3"
+    },
+    {
+      "arm": "rebind_diagonal",
+      "seed": 91043,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/rebind_diagonal_seed91043",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 7.001678645610809,
+            "minimum": 4.448614597320557,
+            "maximum": 10.211856842041016,
+            "last": 4.787631988525391
+          },
+          "address": {
+            "mean": 1.6665054291952401,
+            "minimum": 0.48756298422813416,
+            "maximum": 3.850253105163574,
+            "last": 0.7341433763504028
+          },
+          "loss": {
+            "mean": 7.334979750216007,
+            "minimum": 4.582336902618408,
+            "maximum": 10.69180679321289,
+            "last": 4.934460639953613
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.12379800755297765,
+            "minimum": 0.017859812825918198,
+            "maximum": 0.39783889055252075,
+            "last": 0.1697799563407898
+          },
+          "address": {
+            "mean": 0.057008700336155016,
+            "minimum": 0.007980633527040482,
+            "maximum": 0.20796354115009308,
+            "last": 0.08190499246120453
+          },
+          "loss": {
+            "mean": 0.1351997475430835,
+            "minimum": 0.02072298340499401,
+            "maximum": 0.4234507381916046,
+            "last": 0.18616095185279846
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2576176,
+        "backbone_calls": 2048,
+        "training_process_seconds": 186.86940998677164
+      },
+      "training_jsonl_sha256": "e2365a1948a77020657242bd22250b5d7b371a920ed9d3574f47c1c051fa6a63"
+    },
+    {
+      "arm": "rebind_pooled_outer",
+      "seed": 91043,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/rebind_pooled_outer_seed91043",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 4.852950368076563,
+            "minimum": 2.6890063285827637,
+            "maximum": 9.453399658203125,
+            "last": 2.859663724899292
+          },
+          "address": {
+            "mean": 1.666505427332595,
+            "minimum": 0.48756298422813416,
+            "maximum": 3.850253105163574,
+            "last": 0.7341433763504028
+          },
+          "loss": {
+            "mean": 5.186251452192664,
+            "minimum": 2.8227286338806152,
+            "maximum": 10.177109718322754,
+            "last": 3.0064923763275146
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.09373729978688061,
+            "minimum": 0.011713334359228611,
+            "maximum": 0.3352852463722229,
+            "last": 0.1546718180179596
+          },
+          "address": {
+            "mean": 0.057008700336155016,
+            "minimum": 0.007980633527040482,
+            "maximum": 0.20796354115009308,
+            "last": 0.08190499246120453
+          },
+          "loss": {
+            "mean": 0.1051390399952652,
+            "minimum": 0.01528300903737545,
+            "maximum": 0.36089709401130676,
+            "last": 0.17105281352996826
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2576176,
+        "backbone_calls": 2048,
+        "training_process_seconds": 192.5485047325492
+      },
+      "training_jsonl_sha256": "f41232138765764f34af66c5fdead8d4eddb39805e1fc93102bba6a41efae9da"
+    },
+    {
+      "arm": "static_block_outer",
+      "seed": 91043,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/static_block_outer_seed91043",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 4.3765299171209335,
+            "minimum": 2.448878049850464,
+            "maximum": 9.90809440612793,
+            "last": 2.448878049850464
+          },
+          "address": {
+            "mean": 1.1223952040309086,
+            "minimum": 0.15582343935966492,
+            "maximum": 4.057461738586426,
+            "last": 0.1831641048192978
+          },
+          "loss": {
+            "mean": 4.6010089404881,
+            "minimum": 2.48551082611084,
+            "maximum": 10.607368469238281,
+            "last": 2.48551082611084
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.008019557826628443,
+            "minimum": 0.0013984646648168564,
+            "maximum": 0.10001040250062943,
+            "last": 0.0021396083757281303
+          },
+          "address": {
+            "mean": 0.026048752822134702,
+            "minimum": 0.0007465888047590852,
+            "maximum": 0.17525631189346313,
+            "last": 0.0067932624369859695
+          },
+          "loss": {
+            "mean": 0.013229308568043052,
+            "minimum": 0.0033268677070736885,
+            "maximum": 0.12193861603736877,
+            "last": 0.0034982608631253242
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2579024,
+        "backbone_calls": 2048,
+        "training_process_seconds": 192.39440379478037
+      },
+      "training_jsonl_sha256": "079317dcc2de798de49e0798533f03ac1171514741d19b0b684054dc41c981c7"
+    },
+    {
+      "arm": "static_diagonal",
+      "seed": 91043,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/static_diagonal_seed91043",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 7.03309665620327,
+            "minimum": 4.625369548797607,
+            "maximum": 9.960439682006836,
+            "last": 4.747856140136719
+          },
+          "address": {
+            "mean": 1.1223952021682635,
+            "minimum": 0.15582343935966492,
+            "maximum": 4.057461738586426,
+            "last": 0.1831641048192978
+          },
+          "loss": {
+            "mean": 7.257575698196888,
+            "minimum": 4.674361705780029,
+            "maximum": 10.659713745117188,
+            "last": 4.784489154815674
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.009072035263670841,
+            "minimum": 0.0021440822165459394,
+            "maximum": 0.08014526963233948,
+            "last": 0.0035719929728657007
+          },
+          "address": {
+            "mean": 0.026048752822134702,
+            "minimum": 0.0007465888047590852,
+            "maximum": 0.17525631189346313,
+            "last": 0.0067932624369859695
+          },
+          "loss": {
+            "mean": 0.014281785952334758,
+            "minimum": 0.003481904976069927,
+            "maximum": 0.08476065844297409,
+            "last": 0.004930645227432251
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2579024,
+        "backbone_calls": 2048,
+        "training_process_seconds": 191.72094979323447
+      },
+      "training_jsonl_sha256": "27c7d3faa0923c7798e22f3beaf88ea9616beb2706faf1733d92573ee6e61d27"
+    },
+    {
+      "arm": "static_pooled_outer",
+      "seed": 91043,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/static_pooled_outer_seed91043",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 5.092667302116752,
+            "minimum": 2.6908493041992188,
+            "maximum": 9.956348419189453,
+            "last": 2.729862689971924
+          },
+          "address": {
+            "mean": 1.1223952021682635,
+            "minimum": 0.15582343935966492,
+            "maximum": 4.057461738586426,
+            "last": 0.1831641048192978
+          },
+          "loss": {
+            "mean": 5.317146340385079,
+            "minimum": 2.7398414611816406,
+            "maximum": 10.655622482299805,
+            "last": 2.7664954662323
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.008515145960700465,
+            "minimum": 0.001366030308417976,
+            "maximum": 0.34364619851112366,
+            "last": 0.001969934208318591
+          },
+          "address": {
+            "mean": 0.026048752822134702,
+            "minimum": 0.0007465888047590852,
+            "maximum": 0.17525631189346313,
+            "last": 0.0067932624369859695
+          },
+          "loss": {
+            "mean": 0.013724896682106191,
+            "minimum": 0.0015829447656869888,
+            "maximum": 0.36294180154800415,
+            "last": 0.003328586695715785
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2579024,
+        "backbone_calls": 2048,
+        "training_process_seconds": 191.51285616774112
+      },
+      "training_jsonl_sha256": "889039a83577f6f33906843f8ba6534294b7c2cff88292b2654ace9899336638"
+    },
+    {
+      "arm": "rebind_block_outer",
+      "seed": 91044,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/rebind_block_outer_seed91044",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 4.600301630795002,
+            "minimum": 2.5504226684570312,
+            "maximum": 9.660980224609375,
+            "last": 2.6126060485839844
+          },
+          "address": {
+            "mean": 1.5323545816354454,
+            "minimum": 0.6145147085189819,
+            "maximum": 4.754886627197266,
+            "last": 0.624133825302124
+          },
+          "loss": {
+            "mean": 4.906772542744875,
+            "minimum": 2.70460844039917,
+            "maximum": 10.29892635345459,
+            "last": 2.7374327182769775
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.08512522076489404,
+            "minimum": 0.007521308958530426,
+            "maximum": 0.36636245250701904,
+            "last": 0.10019973665475845
+          },
+          "address": {
+            "mean": 0.061494914058130234,
+            "minimum": 0.011882666498422623,
+            "maximum": 0.1914571076631546,
+            "last": 0.060849204659461975
+          },
+          "loss": {
+            "mean": 0.09742420380644035,
+            "minimum": 0.011795077472925186,
+            "maximum": 0.3888947367668152,
+            "last": 0.11236957460641861
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2575472,
+        "backbone_calls": 2048,
+        "training_process_seconds": 188.32769377809018
+      },
+      "training_jsonl_sha256": "6434228fa61ba4c110edaa27d18a96cd42abfd3e2b0d654ce87b70a730ebcdfc"
+    },
+    {
+      "arm": "rebind_diagonal",
+      "seed": 91044,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/rebind_diagonal_seed91044",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 7.151286017149687,
+            "minimum": 4.5119242668151855,
+            "maximum": 10.059707641601562,
+            "last": 4.928217887878418
+          },
+          "address": {
+            "mean": 1.5323545816354454,
+            "minimum": 0.6145147085189819,
+            "maximum": 4.754886627197266,
+            "last": 0.624133825302124
+          },
+          "loss": {
+            "mean": 7.457756903022528,
+            "minimum": 4.680748462677002,
+            "maximum": 10.692708015441895,
+            "last": 5.05304479598999
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.11746022014995106,
+            "minimum": 0.015582550317049026,
+            "maximum": 0.6250903010368347,
+            "last": 0.15613794326782227
+          },
+          "address": {
+            "mean": 0.061494914058130234,
+            "minimum": 0.011882666498422623,
+            "maximum": 0.1914571076631546,
+            "last": 0.060849204659461975
+          },
+          "loss": {
+            "mean": 0.12975920297321863,
+            "minimum": 0.019022203981876373,
+            "maximum": 0.661649227142334,
+            "last": 0.16830778121948242
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2575472,
+        "backbone_calls": 2048,
+        "training_process_seconds": 183.45509118307382
+      },
+      "training_jsonl_sha256": "d69b59b8885751c48d07d52517a64244092a475282f55eba8343db2023d515b8"
+    },
+    {
+      "arm": "rebind_pooled_outer",
+      "seed": 91044,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/rebind_pooled_outer_seed91044",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 4.82854688167572,
+            "minimum": 2.5398428440093994,
+            "maximum": 9.868203163146973,
+            "last": 2.622091293334961
+          },
+          "address": {
+            "mean": 1.5323545816354454,
+            "minimum": 0.6145147085189819,
+            "maximum": 4.754886627197266,
+            "last": 0.624133825302124
+          },
+          "loss": {
+            "mean": 5.135017793625593,
+            "minimum": 2.694028854370117,
+            "maximum": 10.506149291992188,
+            "last": 2.746917963027954
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.090810148329183,
+            "minimum": 0.009674996137619019,
+            "maximum": 0.40471941232681274,
+            "last": 0.10532228648662567
+          },
+          "address": {
+            "mean": 0.061494914058130234,
+            "minimum": 0.011882666498422623,
+            "maximum": 0.1914571076631546,
+            "last": 0.060849204659461975
+          },
+          "loss": {
+            "mean": 0.10310913172725122,
+            "minimum": 0.01446602400392294,
+            "maximum": 0.4430108368396759,
+            "last": 0.11749212443828583
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2575472,
+        "backbone_calls": 2048,
+        "training_process_seconds": 187.3379877936095
+      },
+      "training_jsonl_sha256": "17f9e23e60aad5305ca67418ecbe041e7f6c88563c07fe32ea97c5c8764bf094"
+    },
+    {
+      "arm": "static_block_outer",
+      "seed": 91044,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/static_block_outer_seed91044",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 4.521394208073616,
+            "minimum": 2.3365659713745117,
+            "maximum": 10.409753799438477,
+            "last": 2.4418997764587402
+          },
+          "address": {
+            "mean": 1.1969173041870818,
+            "minimum": 0.20903362333774567,
+            "maximum": 4.643728256225586,
+            "last": 0.3687356114387512
+          },
+          "loss": {
+            "mean": 4.7607776541262865,
+            "minimum": 2.4001994132995605,
+            "maximum": 11.117053031921387,
+            "last": 2.5156469345092773
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.01578847840664821,
+            "minimum": 0.0006104533094912767,
+            "maximum": 0.14052404463291168,
+            "last": 0.001877388684079051
+          },
+          "address": {
+            "mean": 0.01667630888550775,
+            "minimum": 0.0020620287396013737,
+            "maximum": 0.08140940219163895,
+            "last": 0.021742068231105804
+          },
+          "loss": {
+            "mean": 0.019123740320537763,
+            "minimum": 0.0013035453157499433,
+            "maximum": 0.14249032735824585,
+            "last": 0.006225802004337311
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2579200,
+        "backbone_calls": 2048,
+        "training_process_seconds": 188.2126167314127
+      },
+      "training_jsonl_sha256": "019d40daa3655ded12377373aca469a5f93d4de8b242925c53a2a4b537a43ae8"
+    },
+    {
+      "arm": "static_diagonal",
+      "seed": 91044,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/static_diagonal_seed91044",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 7.140520107001066,
+            "minimum": 4.504743576049805,
+            "maximum": 10.409753799438477,
+            "last": 4.88494348526001
+          },
+          "address": {
+            "mean": 1.1969173041870818,
+            "minimum": 0.20903362333774567,
+            "maximum": 4.643728256225586,
+            "last": 0.3687356114387512
+          },
+          "loss": {
+            "mean": 7.379903577268124,
+            "minimum": 4.549826145172119,
+            "maximum": 11.117053031921387,
+            "last": 4.958690643310547
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.011087088836575276,
+            "minimum": 0.0019974620081484318,
+            "maximum": 0.14581242203712463,
+            "last": 0.00492736604064703
+          },
+          "address": {
+            "mean": 0.01667630888550775,
+            "minimum": 0.0020620287396013737,
+            "maximum": 0.08140940219163895,
+            "last": 0.021742068231105804
+          },
+          "loss": {
+            "mean": 0.014422350664972328,
+            "minimum": 0.003144653979688883,
+            "maximum": 0.1493794023990631,
+            "last": 0.009275779128074646
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2579200,
+        "backbone_calls": 2048,
+        "training_process_seconds": 191.6015878384933
+      },
+      "training_jsonl_sha256": "78e09fb05f7d7b9eba916c1018ade251bac04fff684a7dab027d14d5c8465cfb"
+    },
+    {
+      "arm": "static_pooled_outer",
+      "seed": 91044,
+      "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/static_pooled_outer_seed91044",
+      "convergence": {
+        "first_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 5.036673780530691,
+            "minimum": 2.4846842288970947,
+            "maximum": 10.409753799438477,
+            "last": 2.6141891479492188
+          },
+          "address": {
+            "mean": 1.1969173023244366,
+            "minimum": 0.20903362333774567,
+            "maximum": 4.643728256225586,
+            "last": 0.3687356114387512
+          },
+          "loss": {
+            "mean": 5.276057222858071,
+            "minimum": 2.5483176708221436,
+            "maximum": 11.117053031921387,
+            "last": 2.687936305999756
+          }
+        },
+        "last_128": {
+          "steps": 128,
+          "ce": {
+            "mean": 0.02077442934842111,
+            "minimum": 0.001070419792085886,
+            "maximum": 0.30314674973487854,
+            "last": 0.0063722869381308556
+          },
+          "address": {
+            "mean": 0.01667630888550775,
+            "minimum": 0.0020620287396013737,
+            "maximum": 0.08140940219163895,
+            "last": 0.021742068231105804
+          },
+          "loss": {
+            "mean": 0.024109691107696563,
+            "minimum": 0.001620537950657308,
+            "maximum": 0.31181973218917847,
+            "last": 0.010720700025558472
+          }
+        }
+      },
+      "costs": {
+        "target_exposures": 16384,
+        "gold_tokens": 169984,
+        "input_positions": 2491392,
+        "padded_input_positions": 2579200,
+        "backbone_calls": 2048,
+        "training_process_seconds": 187.43198289722204
+      },
+      "training_jsonl_sha256": "ab064195c32bff6b63e87bc698a86a2bb88bfb7130bdf560e927855bd1c7b1d4"
+    }
+  ],
+  "scope": "Training-only first/last 128 steps. Equal terminal updates do not certify equal fit."
+}

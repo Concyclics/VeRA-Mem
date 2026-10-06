@@ -1,0 +1,34 @@
+{
+  "command": "PYTHONPATH=src /home/chenhan/miniconda3/envs/agent/bin/python -m pytest -q",
+  "passed": 1249,
+  "failed": 0,
+  "seconds": 116.18,
+  "scope": "Full repository suite after block runtime/data/backend/runner tests; later analysis-script tests reported separately",
+  "additional_tests": [
+    {
+      "command": "pytest tests/test_block_registry.py tests/test_summarize_block.py -q",
+      "passed": 85,
+      "seconds": 14.13
+    },
+    {
+      "command": "python scripts/audit_block.py --self-test",
+      "passed": 14,
+      "seconds": 1.193,
+      "rerun_after_audit_parameter_delta_addition": true,
+      "includes_development_scope_guard": true
+    },
+    {
+      "command": "python scripts/diagnose_block.py --self-test",
+      "passed": 10,
+      "seconds": 1.048
+    }
+  ],
+  "total_distinct_pytest_cases": 1334,
+  "analysis_self_tests": 24,
+  "analysis_script_sha256": {
+    "scripts/audit_block.py": "57080e125ec0676d3014a211202a619063d50ad87b3b1e6f97307aba715a8d98",
+    "scripts/diagnose_block.py": "27ae03209a465c523107ae77c4d8003d5839cd025f69564a8e1f9fe889397af9",
+    "scripts/summarize_block.py": "b93d2c9f7e5a7e28f6c8a7c8361fce0706a2de4c6d9826e5b6c85836391e576d",
+    "scripts/block_registry.py": "d44cbe3ff498c63a58d012ea4c3638a73da3b57c02d0a014b4693ec2220d9e7e"
+  }
+}

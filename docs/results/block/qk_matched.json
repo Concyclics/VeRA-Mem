@@ -1,0 +1,396 @@
+{
+  "protocol": "block-final-address-parameter-match-v1",
+  "complete": true,
+  "posthoc": true,
+  "audited_at": "2026-10-06T15:13:55.244438+00:00",
+  "groups": [
+    {
+      "seed": 91042,
+      "regime": "static",
+      "parameters": {
+        "Wq.weight": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "48d95d4252a97ccb5b5c2c521436ed32a8ee89297b0dd9a85fb25230e2ccae4a",
+            "pooled_outer": "48d95d4252a97ccb5b5c2c521436ed32a8ee89297b0dd9a85fb25230e2ccae4a",
+            "block_outer": "48d95d4252a97ccb5b5c2c521436ed32a8ee89297b0dd9a85fb25230e2ccae4a"
+          },
+          "shape": [
+            64,
+            9728
+          ],
+          "dtype": "torch.float32"
+        },
+        "Wk.weight": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "8cd2ab0e3ffb1b41454a83360dafb6402f9da80af417134e5ca90cdad9b335c6",
+            "pooled_outer": "8cd2ab0e3ffb1b41454a83360dafb6402f9da80af417134e5ca90cdad9b335c6",
+            "block_outer": "8cd2ab0e3ffb1b41454a83360dafb6402f9da80af417134e5ca90cdad9b335c6"
+          },
+          "shape": [
+            64,
+            9728
+          ],
+          "dtype": "torch.float32"
+        },
+        "slot_position": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "b486741944cc457e779abcc1113e077bc1ebb5d06eae5d68405c0ce1d63db079",
+            "pooled_outer": "b486741944cc457e779abcc1113e077bc1ebb5d06eae5d68405c0ce1d63db079",
+            "block_outer": "b486741944cc457e779abcc1113e077bc1ebb5d06eae5d68405c0ce1d63db079"
+          },
+          "shape": [
+            3,
+            64
+          ],
+          "dtype": "torch.float32"
+        }
+      },
+      "all_qk_slot_position_bitwise_equal": true,
+      "checkpoint_sha256_by_reader": {
+        "diagonal": "776ed6d921debb3c62d9885f6ab81b386b52b8e267c3d0ba2567ed29d1a35ab5",
+        "pooled_outer": "9e73c8c27b7ec71040334d7c15ef1194d1c2c2aa8d8e1356ea4b37ca6b9f6ded",
+        "block_outer": "4aa0954a65bb5f1c2eca79e18f722cff227b4bc7c132007c49f9417ca291c79c"
+      }
+    },
+    {
+      "seed": 91042,
+      "regime": "rebind",
+      "parameters": {
+        "Wq.weight": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "d05770a3baced1cfb176f4abdcc95286a61ff4cb94c44e712aff88791c97c478",
+            "pooled_outer": "d05770a3baced1cfb176f4abdcc95286a61ff4cb94c44e712aff88791c97c478",
+            "block_outer": "d05770a3baced1cfb176f4abdcc95286a61ff4cb94c44e712aff88791c97c478"
+          },
+          "shape": [
+            64,
+            9728
+          ],
+          "dtype": "torch.float32"
+        },
+        "Wk.weight": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "8625647928dd9495997b3f6017dd401b5be54c2e6fa2fa6bacff896623dfca95",
+            "pooled_outer": "8625647928dd9495997b3f6017dd401b5be54c2e6fa2fa6bacff896623dfca95",
+            "block_outer": "8625647928dd9495997b3f6017dd401b5be54c2e6fa2fa6bacff896623dfca95"
+          },
+          "shape": [
+            64,
+            9728
+          ],
+          "dtype": "torch.float32"
+        },
+        "slot_position": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "db739a439f5ab3045d22c472e9da961ad72503a231d6637507c3fc1d6aeb84bb",
+            "pooled_outer": "db739a439f5ab3045d22c472e9da961ad72503a231d6637507c3fc1d6aeb84bb",
+            "block_outer": "db739a439f5ab3045d22c472e9da961ad72503a231d6637507c3fc1d6aeb84bb"
+          },
+          "shape": [
+            3,
+            64
+          ],
+          "dtype": "torch.float32"
+        }
+      },
+      "all_qk_slot_position_bitwise_equal": true,
+      "checkpoint_sha256_by_reader": {
+        "diagonal": "806008fc9957e1047b8c9f8fa714af93545bbe119892ddb03abe6af4e314835f",
+        "pooled_outer": "08e2c98aeba6bddb64db51b2396bcf6d138ed3408ea3f6c29ecc42ca9a6a506d",
+        "block_outer": "b4c5e18b4187e7a30c6867fc52b3cea1f2b141ead8884b216d07e7fc0ea70126"
+      }
+    },
+    {
+      "seed": 91043,
+      "regime": "static",
+      "parameters": {
+        "Wq.weight": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "6860a3c43bd04504783cf9364f0a089104e49b87b0186fda30416673f3b3825a",
+            "pooled_outer": "6860a3c43bd04504783cf9364f0a089104e49b87b0186fda30416673f3b3825a",
+            "block_outer": "6860a3c43bd04504783cf9364f0a089104e49b87b0186fda30416673f3b3825a"
+          },
+          "shape": [
+            64,
+            9728
+          ],
+          "dtype": "torch.float32"
+        },
+        "Wk.weight": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "1cd6bac983298bec68f36351e63295e3a49578a8907230666bd06e3e811fe641",
+            "pooled_outer": "1cd6bac983298bec68f36351e63295e3a49578a8907230666bd06e3e811fe641",
+            "block_outer": "1cd6bac983298bec68f36351e63295e3a49578a8907230666bd06e3e811fe641"
+          },
+          "shape": [
+            64,
+            9728
+          ],
+          "dtype": "torch.float32"
+        },
+        "slot_position": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "ccc8831d095e0333e542fa1e7aa384a13b3aceb399072fb586661e82d4e0e857",
+            "pooled_outer": "ccc8831d095e0333e542fa1e7aa384a13b3aceb399072fb586661e82d4e0e857",
+            "block_outer": "ccc8831d095e0333e542fa1e7aa384a13b3aceb399072fb586661e82d4e0e857"
+          },
+          "shape": [
+            3,
+            64
+          ],
+          "dtype": "torch.float32"
+        }
+      },
+      "all_qk_slot_position_bitwise_equal": true,
+      "checkpoint_sha256_by_reader": {
+        "diagonal": "ca31d3cd6c6f4d19bacd1dd440e9eec26197c8ba30873f15ce58d8bfc9109fa4",
+        "pooled_outer": "721a14d2ea042dee7942282dded579d86a06206a39b5496cd1945a82a0dfb6da",
+        "block_outer": "07ed0fe136ebf3d2391d407880228897e13980a1b6a89003735047fcca3126cf"
+      }
+    },
+    {
+      "seed": 91043,
+      "regime": "rebind",
+      "parameters": {
+        "Wq.weight": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "51c0205bdfeea0623928ecb5c11938a52314af0de888ef49c33c378bc93440db",
+            "pooled_outer": "51c0205bdfeea0623928ecb5c11938a52314af0de888ef49c33c378bc93440db",
+            "block_outer": "51c0205bdfeea0623928ecb5c11938a52314af0de888ef49c33c378bc93440db"
+          },
+          "shape": [
+            64,
+            9728
+          ],
+          "dtype": "torch.float32"
+        },
+        "Wk.weight": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "422983d1ccc88adfd9dc986c259d2ff33b03e421d8d1a25b7c756e5f47f2fd4c",
+            "pooled_outer": "422983d1ccc88adfd9dc986c259d2ff33b03e421d8d1a25b7c756e5f47f2fd4c",
+            "block_outer": "422983d1ccc88adfd9dc986c259d2ff33b03e421d8d1a25b7c756e5f47f2fd4c"
+          },
+          "shape": [
+            64,
+            9728
+          ],
+          "dtype": "torch.float32"
+        },
+        "slot_position": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "956463d8eddba5cf3e2a5e0c80ea9e8d255eeaabd722ea4161c409461d92d31f",
+            "pooled_outer": "956463d8eddba5cf3e2a5e0c80ea9e8d255eeaabd722ea4161c409461d92d31f",
+            "block_outer": "956463d8eddba5cf3e2a5e0c80ea9e8d255eeaabd722ea4161c409461d92d31f"
+          },
+          "shape": [
+            3,
+            64
+          ],
+          "dtype": "torch.float32"
+        }
+      },
+      "all_qk_slot_position_bitwise_equal": true,
+      "checkpoint_sha256_by_reader": {
+        "diagonal": "410c7b84c0557817837d0d24bd5d7a1776f17421e7ed7296fb1c1c79ecb3d1b3",
+        "pooled_outer": "26c2ed7e270ad7329fdf6d170e7e3ff926ff0b2f14aa824d0749a990b2471043",
+        "block_outer": "7646e9511c9be91b49d7da661a4e870dee8ddd2fcec77e98ca032e2cb279b1e3"
+      }
+    },
+    {
+      "seed": 91044,
+      "regime": "static",
+      "parameters": {
+        "Wq.weight": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "5a79577bf8007cf028bd5896ffcdceb21c9eef192f193c8674440b5c41543be6",
+            "pooled_outer": "5a79577bf8007cf028bd5896ffcdceb21c9eef192f193c8674440b5c41543be6",
+            "block_outer": "5a79577bf8007cf028bd5896ffcdceb21c9eef192f193c8674440b5c41543be6"
+          },
+          "shape": [
+            64,
+            9728
+          ],
+          "dtype": "torch.float32"
+        },
+        "Wk.weight": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "97845aa81e978b40998f37e5f93faaeb38a7523169e662a3fc6936e265d319e5",
+            "pooled_outer": "97845aa81e978b40998f37e5f93faaeb38a7523169e662a3fc6936e265d319e5",
+            "block_outer": "97845aa81e978b40998f37e5f93faaeb38a7523169e662a3fc6936e265d319e5"
+          },
+          "shape": [
+            64,
+            9728
+          ],
+          "dtype": "torch.float32"
+        },
+        "slot_position": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "6a9280047f101389cf5f92f6404496e87faccd31022f3e1869a5534fad7d05a4",
+            "pooled_outer": "6a9280047f101389cf5f92f6404496e87faccd31022f3e1869a5534fad7d05a4",
+            "block_outer": "6a9280047f101389cf5f92f6404496e87faccd31022f3e1869a5534fad7d05a4"
+          },
+          "shape": [
+            3,
+            64
+          ],
+          "dtype": "torch.float32"
+        }
+      },
+      "all_qk_slot_position_bitwise_equal": true,
+      "checkpoint_sha256_by_reader": {
+        "diagonal": "4dba449436bfde574575dc33355c609b0b9ed2ba6927bfd833a2f80b819e72ac",
+        "pooled_outer": "58fefeedfb880391c55f09b336ae4327eb198dbaa9e55e674af9047d73ea3218",
+        "block_outer": "5691a7b0414c64c46dd12767db7c051a0e8452cf24b6516ee504f3abac20fd3d"
+      }
+    },
+    {
+      "seed": 91044,
+      "regime": "rebind",
+      "parameters": {
+        "Wq.weight": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "0386d59f6f1ab1ae91a028b5ddcdd9c42bc7bde3998938ef5a1b6c2853660c46",
+            "pooled_outer": "0386d59f6f1ab1ae91a028b5ddcdd9c42bc7bde3998938ef5a1b6c2853660c46",
+            "block_outer": "0386d59f6f1ab1ae91a028b5ddcdd9c42bc7bde3998938ef5a1b6c2853660c46"
+          },
+          "shape": [
+            64,
+            9728
+          ],
+          "dtype": "torch.float32"
+        },
+        "Wk.weight": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "baffe3c963d2368adf082ccb30416fc0ba378a79e6a8aeefa3cfe429a2cac456",
+            "pooled_outer": "baffe3c963d2368adf082ccb30416fc0ba378a79e6a8aeefa3cfe429a2cac456",
+            "block_outer": "baffe3c963d2368adf082ccb30416fc0ba378a79e6a8aeefa3cfe429a2cac456"
+          },
+          "shape": [
+            64,
+            9728
+          ],
+          "dtype": "torch.float32"
+        },
+        "slot_position": {
+          "all_three_readers_bitwise_equal": true,
+          "maximum_abs_difference": 0.0,
+          "sha256_by_reader": {
+            "diagonal": "6fe9dff6bbdbb36809f0b5d6d7dfa3f6188792e6682ffc1f677ffc6a3288af42",
+            "pooled_outer": "6fe9dff6bbdbb36809f0b5d6d7dfa3f6188792e6682ffc1f677ffc6a3288af42",
+            "block_outer": "6fe9dff6bbdbb36809f0b5d6d7dfa3f6188792e6682ffc1f677ffc6a3288af42"
+          },
+          "shape": [
+            3,
+            64
+          ],
+          "dtype": "torch.float32"
+        }
+      },
+      "all_qk_slot_position_bitwise_equal": true,
+      "checkpoint_sha256_by_reader": {
+        "diagonal": "ea7b0ae6c8d218aba7f7e2a676662fde6698783ed559c63642ee0384ffa0e273",
+        "pooled_outer": "583e8efda8a6a8043d814e4229f3ef58e20a6d8568c8ad3135cd50607db57aed",
+        "block_outer": "9e332d9d276518904a02775cd57928e3f930f742aef302de6dd8f675cd375ba9"
+      }
+    }
+  ],
+  "all_six_groups_bitwise_equal": true,
+  "input_sha256": {
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/static_diagonal_seed91042/manifest.json": "32e3b888698fa50a0e750b6db990efc651c363e7389e3bec25b6fbbd4f3741ac",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/static_diagonal_seed91042/last.pt": "776ed6d921debb3c62d9885f6ab81b386b52b8e267c3d0ba2567ed29d1a35ab5",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91042_20261006/static_diagonal_seed91042_known_development/manifest.json": "c1c98953bdfa18b4e566fcbb8075be3b0db9258e9a34b9fcd84013b4bd936d4a",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/static_pooled_outer_seed91042/manifest.json": "7d80cad6b279ffeb23db5de13035c53954ae9a7c1f5c27ebeaad1c46dc6ca971",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/static_pooled_outer_seed91042/last.pt": "9e73c8c27b7ec71040334d7c15ef1194d1c2c2aa8d8e1356ea4b37ca6b9f6ded",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91042_20261006/static_pooled_outer_seed91042_known_development/manifest.json": "3841d13eda8b84288490ee56504cea6e3685120e20c940611583dfc091de11dc",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/static_block_outer_seed91042/manifest.json": "3922d86d836dde6a3c27ac269567e1f4e66de71ca037e47cd54bd745331bb77d",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/static_block_outer_seed91042/last.pt": "4aa0954a65bb5f1c2eca79e18f722cff227b4bc7c132007c49f9417ca291c79c",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91042_20261006/static_block_outer_seed91042_known_development/manifest.json": "0b90f8616637f965ad4b5f2e1862ea1da8cb1953b1ef01b4ed34b4bd229143ea",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/rebind_diagonal_seed91042/manifest.json": "644603ebccf3c0f19c2cd78f5af4dd59dcb5ac2a8d8d4e328b4d859b69e26ef7",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/rebind_diagonal_seed91042/last.pt": "806008fc9957e1047b8c9f8fa714af93545bbe119892ddb03abe6af4e314835f",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91042_20261006/rebind_diagonal_seed91042_known_development/manifest.json": "5637379ecc26a772fb04f843d64a30b58591dbdf7c1bc5b96fd2a424d7b71c84",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/rebind_pooled_outer_seed91042/manifest.json": "f4f0d5a69d19b29cb84420e96813a161a073763017d39f46cbb5ce0b45f29767",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/rebind_pooled_outer_seed91042/last.pt": "08e2c98aeba6bddb64db51b2396bcf6d138ed3408ea3f6c29ecc42ca9a6a506d",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91042_20261006/rebind_pooled_outer_seed91042_known_development/manifest.json": "b04a3850814c9fd42e9ac40bb324df2ee8afcb880920f8d0438122989b37cdae",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/rebind_block_outer_seed91042/manifest.json": "5fa09ce52260430d61ab1dac7d8fe568c2f61334391944c5d188df7f30b6544a",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91042_20261006/rebind_block_outer_seed91042/last.pt": "b4c5e18b4187e7a30c6867fc52b3cea1f2b141ead8884b216d07e7fc0ea70126",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91042_20261006/rebind_block_outer_seed91042_known_development/manifest.json": "5f0d99fca39b01121db6dd89b6ae1d3b99620647f92a3533e7533799e403d840",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/static_diagonal_seed91043/manifest.json": "2c4899a6179b25fd823d69dcfcf0c3697453b0b0e7562c42b2189ce271aafb26",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/static_diagonal_seed91043/last.pt": "ca31d3cd6c6f4d19bacd1dd440e9eec26197c8ba30873f15ce58d8bfc9109fa4",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91043_20261006/static_diagonal_seed91043_known_development/manifest.json": "6eda92c67007916cd9387e89184ad3b40445e386b6a351a8a8cc15e67163f3d3",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/static_pooled_outer_seed91043/manifest.json": "b34eb37f100013b97ff4b414e2b08547930cd3601ff9dab368309a7533983e1b",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/static_pooled_outer_seed91043/last.pt": "721a14d2ea042dee7942282dded579d86a06206a39b5496cd1945a82a0dfb6da",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91043_20261006/static_pooled_outer_seed91043_known_development/manifest.json": "46b00e5ea4d97752ff844a5dfcba90a9b53cc1992e7e2ebf461b2b22c843cd72",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/static_block_outer_seed91043/manifest.json": "247603df20731a280fe27dc4480b3e7cc1218b890c0f3fd13a8fe83c2dd969d9",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/static_block_outer_seed91043/last.pt": "07ed0fe136ebf3d2391d407880228897e13980a1b6a89003735047fcca3126cf",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91043_20261006/static_block_outer_seed91043_known_development/manifest.json": "c2f69bfdf23e94d5b8646f41edb040e1213f563ac5930e788ae1e0da8340bac3",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/rebind_diagonal_seed91043/manifest.json": "27e5903c3d1ef10bd8cbe5a716b6baf4736123a1c8927aee7bf0951eafc5a016",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/rebind_diagonal_seed91043/last.pt": "410c7b84c0557817837d0d24bd5d7a1776f17421e7ed7296fb1c1c79ecb3d1b3",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91043_20261006/rebind_diagonal_seed91043_known_development/manifest.json": "d7c11e40709a4374548aed4f8e3712ed8777bf416ca18c4d69ad39d0c271947e",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/rebind_pooled_outer_seed91043/manifest.json": "7b68065d507a738928a304b1767f2d0d58d149b3f0242a3bd036de09651edd82",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/rebind_pooled_outer_seed91043/last.pt": "26c2ed7e270ad7329fdf6d170e7e3ff926ff0b2f14aa824d0749a990b2471043",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91043_20261006/rebind_pooled_outer_seed91043_known_development/manifest.json": "f2527aa807ec07d6f144f3908af76c479e88006ce533c853850289f13445a47b",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/rebind_block_outer_seed91043/manifest.json": "ed1b43e8c9cdce4568e57a00dc61eb5553a8ee94dc8329f7b96060998577a08a",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91043_20261006/rebind_block_outer_seed91043/last.pt": "7646e9511c9be91b49d7da661a4e870dee8ddd2fcec77e98ca032e2cb279b1e3",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91043_20261006/rebind_block_outer_seed91043_known_development/manifest.json": "18c166f7d5bd20cee90c7c79b292f6b0770d048390c8859861772630e73805f2",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/static_diagonal_seed91044/manifest.json": "e7dd293fa995a3d16b9120423939d9d9115ebdadedf3b7ae72d16d0d0edbeabc",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/static_diagonal_seed91044/last.pt": "4dba449436bfde574575dc33355c609b0b9ed2ba6927bfd833a2f80b819e72ac",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91044_20261006/static_diagonal_seed91044_known_development/manifest.json": "02e518c6f887ae9d5518032e54dddeb14bb4178f74d33699dcf9d48ccda31e0c",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/static_pooled_outer_seed91044/manifest.json": "4fe2331e388c90f5668899976ca4f79af25c4d8a9104acd30e1c9945b1c700b8",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/static_pooled_outer_seed91044/last.pt": "58fefeedfb880391c55f09b336ae4327eb198dbaa9e55e674af9047d73ea3218",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91044_20261006/static_pooled_outer_seed91044_known_development/manifest.json": "12a02a9dad35d942b1a586fbb0b14a546117cee3b276df5a95be2d78fb79e228",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/static_block_outer_seed91044/manifest.json": "fa20c6f8c4d29609c4641a6552867af0357ae3cf6882c13fe155104bfd6a3f02",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/static_block_outer_seed91044/last.pt": "5691a7b0414c64c46dd12767db7c051a0e8452cf24b6516ee504f3abac20fd3d",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91044_20261006/static_block_outer_seed91044_known_development/manifest.json": "b0614504d093725f801572231ed64a682bffe98120000542ae0620768c6a1396",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/rebind_diagonal_seed91044/manifest.json": "73de6152280a89784eb86afb2a5fd5f670f18654a3e26f480f757383504791fb",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/rebind_diagonal_seed91044/last.pt": "ea7b0ae6c8d218aba7f7e2a676662fde6698783ed559c63642ee0384ffa0e273",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91044_20261006/rebind_diagonal_seed91044_known_development/manifest.json": "7b585aa0fe9db7e2d6da5ccc52d9feec16a8e2a89e6a58234b47f964c42140c9",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/rebind_pooled_outer_seed91044/manifest.json": "75edadc34371dad67d347e4fdcb8e887242c9f6a8c22c41c153f8d3ed0ddc583",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/rebind_pooled_outer_seed91044/last.pt": "583e8efda8a6a8043d814e4229f3ef58e20a6d8568c8ad3135cd50607db57aed",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91044_20261006/rebind_pooled_outer_seed91044_known_development/manifest.json": "e5510f5cf3c1b2d65748663657cd760c3818e8f97a1cdcbdb43f69065984757b",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/rebind_block_outer_seed91044/manifest.json": "0843ea8cc9bd3596896766b4fae9175f9d782f0446420b11fc7b37fbd3b9bfc4",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_train_91044_20261006/rebind_block_outer_seed91044/last.pt": "9e332d9d276518904a02775cd57928e3f930f742aef302de6dd8f675cd375ba9",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/block_development_91044_20261006/rebind_block_outer_seed91044_known_development/manifest.json": "93449144470c69dde8292e7e908733cd2ba7090ffb8470fff0f1081875e3bcab"
+  },
+  "cuda_initialized": false,
+  "interpretation": [
+    "Within each regime and seed, this directly compares the final learned Q/K/slot-position parameters across all three reader arms.",
+    "Parameter equality rules out different final addressing parameters as the source of between-reader differences. It does not alone assert identical routes for distinct generated prefixes.",
+    "With uniform within-fact weights and hard group selection, the CE path has no differentiable QK routing coefficient; their dense address objective and the common teacher-forced inputs are shared by these arms.",
+    "Decode queries depend on each arm\u2019s own generated tokens, so later retrieval can differ despite identical addressing parameters. No causal accuracy gain is inferred from this equality alone."
+  ]
+}

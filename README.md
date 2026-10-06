@@ -4,7 +4,9 @@ VeRA-Mem 是基于 **Qwen3-4B-Instruct-2507** 的可写向量记忆研究原型�
 
 主方法扩展了 [VeRA](https://arxiv.org/abs/2310.11454) 的冻结随机矩阵参数化。研究重点是寻址、读出、连续写入与成本的关系；LoRA bank、文本 RAG 和加性 latent reader 属于对照，不能代替主方法的结果。
 
-最新 **QKV 随机绑定与分组读取实验**已完成五方案 × 三个种子：在可学习 Wq/Wk/Wv 的基础上，比对固定/随机绑定、平铺/分组读取，并加入加性读出诊断。固定绑定的已见 A/B 重构为 15–16/16；随机绑定能读对更多被改写的词，但更难保住另外两个词。全部 15 个模型对新组合 C/D 仍为 **0/16**，新实体 D 的四种表达条件也均为 **0/16**；原文教师 **448/448**。加性读出同样未解决新组合，不能把失败单独归因于 VeRA 的乘性路径。已完成 18,000 次学生生成、6,720 次写入/恢复，按封存规则不扩样。详见[结果与学生交接](docs/qkv_results.md)、[文献依据](docs/qkv_literature.md)、[固定协议](docs/qkv_protocol.md)和[关键结果](docs/results/qkv/key_facts.json)。
+最新 **整块 V 动态低秩注入实验**已完成六方案 × 三个种子，固定预算与新封存数据。每次召回完整3×64矩阵，在共同VeRA对角路径上增加逐槽外积项；与先池化再构造外积的版本严格配平参数。随机重绑定下，整块版本的新组合C为 **3/16、5/16、2/16**，独立D为 **6/16、7/16、3/16**；D的同参数池化对照为 **1/16、0/16、0/16**，对角基线为 **3/16、3/16、2/16**。整块D的更新与恢复同时正确为6/16、6/16、3/16。新实体D只有3/16、1/16、1/16，更换问法后均0，未达到预设的三种子推进门槛。这支持有限的新组合读取改善，尚未解决跨实体/格式泛化；本轮不扩语料。已完成21,600次学生生成、8,064次写入/恢复，教师448/448；全部96正式任务和106,565条实际query通过独立审计。详见[完整结果与学生交接](docs/block_results.md)、[固定协议](docs/block_protocol.md)、[文献依据](docs/block_literature.md)和[关键结果](docs/results/block/key_facts.json)。
+
+此前 **QKV 随机绑定与分组读取实验**已完成五方案 × 三个种子：在可学习 Wq/Wk/Wv 的基础上，比对固定/随机绑定、平铺/分组读取，并加入加性读出诊断。固定绑定的已见 A/B 重构为 15–16/16；随机绑定能读对更多被改写的词，但更难保住另外两个词。全部 15 个模型对新组合 C/D 仍为 **0/16**，新实体 D 的四种表达条件也均为 **0/16**；原文教师 **448/448**。加性读出同样未解决新组合，不能把失败单独归因于 VeRA 的乘性路径。已完成 18,000 次学生生成、6,720 次写入/恢复，按封存规则不扩样。详见[结果与学生交接](docs/qkv_results.md)、[文献依据](docs/qkv_literature.md)、[固定协议](docs/qkv_protocol.md)和[关键结果](docs/results/qkv/key_facts.json)。
 
 此前小数据重构实验已完成 **四种结构 × 三个种子**：三向量写入、可学习 B 及两者结合，都使 16 条已见事实的 A/B 成对重构达到 **16/16 × 3**，单向量固定 B 为 **14/16、13/16、13/16**。但四种结构对同实体未训练的新组合 C/D 均 **0/16**，新实体确认四种表达条件均 **0/64**，相应原文教师全部正确。已见拟合可以稳定成功，尚未获得新内容的可靠在线写读，因此按预定门槛停止扩样。详见[完整结果与学生交接](docs/reconstruction_results.md)、[固定协议](docs/reconstruction_protocol.md)和[关键结果](docs/results/reconstruction/key_facts.json)。
 
@@ -18,6 +20,7 @@ VeRA-Mem 是基于 **Qwen3-4B-Instruct-2507** 的可写向量记忆研究原型�
 
 上一轮表述泛化对照中，相同更新预算下，单模板、多模板增强、增强加一致性三组的原模板 EM 为 **100.0% / 24.2% / 33.6%**；保留 XML/CSV/对话问法、原观测 bank 的 EM 为 **0.0% / 4.2% / 3.9%**。后两组打乱 value 后仍为 **4.2% / 3.9%**。历史同模板127/128及全部失败记录均保留；不同数据、预算和初始化的实验不能直接横比。
 
+- [整块 V 与动态低秩注入](docs/block_results.md)：六臂三种子、同参数池化对照、新组合改善与跨实体/格式限制。
 - [QKV 随机绑定与分组读取](docs/qkv_results.md)：五臂三种子、同大小银行、新内容组合与新实体分离、逐词诊断及确认结果。
 - [小数据重构与结构对照](docs/reconstruction_results.md)：三种子、单/三向量写入、固定/可学习 B、已见重构、新组合写入、邻居干扰和独立确认。
 - [Wikipedia 冷启动与可学习基础向量](docs/coldstart_results.md)：八臂主实验、教师修复、向量利用率、压缩、确认结果和审计证据。
@@ -37,6 +40,8 @@ VeRA-Mem 是基于 **Qwen3-4B-Instruct-2507** 的可写向量记忆研究原型�
 - [TTT 训练规模核验](docs/ttt_scaling_review.md)与 [Engram / Qwen 初始化核验](docs/hash_initialization_review.md)：原论文和官方代码支持的设计依据。
 
 ## 方法
+
+基础向量读出如下；后文列出支持的结构变体。
 
 ```mermaid
 flowchart LR
@@ -74,11 +79,13 @@ value_new = tanh(Wv · norm(support_x))
 
 `QKVVeRA` 用于随机绑定与分组读取实验：三槽共享 Wk/Wv，并为 key 加可学习的位置向量；flat 模式取全库 top-4 slots，grouped 模式先按三槽分数的 logsumexp 取一个事实组，再对组三槽做 attention。query 均由当前真实层输入构造。静态绑定和逐 epoch 重绑定共享训练预算，重绑定的支持特征从实际 entity+payload 文本重新编码。主线仍是乘性 VeRA；`readout=additive` 是独立诊断。见[文献依据](docs/qkv_literature.md)和[封存协议](docs/qkv_protocol.md)。
 
+`BlockVeRA` 与 `BlockBackend` 保留被选中事实的完整 `V[3,64]`。本轮所有臂使用相同 QK 分组选组和块内均匀权重，在共同 `diag(meanV)·Ax` 路径上，比较池化后 rank≤1 外积项和逐槽 rank≤3 外积项；两者增加相同的8,256个共享参数。完整算子并非rank3，B/A宽度仍为64。CPU路径将三行值传回GPU后执行动态矩阵作用，不经过旧的单向量hook。见[整块实验协议](docs/block_protocol.md)与[文献依据](docs/block_literature.md)。
+
 `support_x` 来自完整已观察文本在同一层的输入。写入特征提取时关闭记忆增量，保持表示来源稳定。主读取路径在层 hook 内为每个 token 更新 query，prefill 与 decode 都检索；一次回答只固定 VDB 快照，检索结果可以随 token 变化。
 
 **离线训练**在独立实体的 support/query episodes 上学习 `b/Wq/Wk/Wv`，使用查询—证据对比对齐与答案语言模型损失。**在线实验**冻结基座和全部共享参数，仅追加或更新输入生成的向量，不对每条新事实执行共享参数梯度更新。包含揭示答案的观测属于监督写入；本项目不将其称为无监督 test-time training。
 
-当前在线 VDB 的 key/value 实际常驻 CPU，以精确 cosine 搜索得到 top-k 并在 CPU 混合 value。GPU 传入 query、接收混合 rank 向量，没有全量在线 GPU 索引镜像。离线可微训练使用临时 GPU episode 张量。这个实现用于小规模机制验证，不代表大型数据库或低延迟 CPU offload 已经得到验证。
+在线 VDB 的 key/value 常驻 CPU，使用精确 cosine 搜索。早期版本在 CPU 混合 value，GPU接收一个rank向量；整块版本接收被选中事实的三行矩阵，在GPU形成动态低秩项。两者均由GPU传入实际query，没有全量在线GPU索引镜像。离线可微训练使用临时 GPU episode 张量。这个实现用于小规模机制验证，不代表大型数据库或低延迟 CPU offload 已经得到验证。
 
 ## 安装与测试
 

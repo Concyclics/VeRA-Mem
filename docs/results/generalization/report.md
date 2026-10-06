@@ -1,17 +1,17 @@
-# 模板泛化实验汇总
+# Template generalization experiment summary
 
-生成时间（UTC）: 2026-10-05T18:15:18.985574+00:00
+Generated at (UTC): 2026-10-05T18:15:18.985574+00:00
 
-仅纳入 suite、run 均完成且逐条预测与统计一致的运行。四象限将查询格式与观测格式分别控制。
-新查询列为 XML、CSV、对话三个保留模板的等权平均；三种视图属于同一事实，不能作为独立样本。
+Include only completed suites/runs with predictions consistent with statistics. The four quadrants independently vary query and observation formats.
+Heldout-query columns equally average XML, CSV, and dialogue templates. The three views refer to the same facts and are not independent samples.
 
-| Condition | selected / updates | 原查询+原观测 | 新查询+原观测 | 原查询+新观测 | 新查询+新观测 |
+| Condition | selected / updates | canonical query + canonical support | heldout query + canonical support | canonical query + heldout support | heldout query + heldout support |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | augment | 1536 / 1536 | 24.2% | 4.2% | 0.0% | 0.8% |
 | canonical | 1536 / 1536 | 100.0% | 0.0% | 0.0% | 0.0% |
 | invariant | 1536 / 1536 | 33.6% | 3.9% | 0.0% | 0.3% |
 
-各象限的真实检索、强制正确 value、打乱 value、零残差诊断：
+Real retrieval, forced-correct-value, shuffled-value, and zero-residual diagnostics for each quadrant:
 
 | Condition | Quadrant | Real | Forced value | Shuffled | Empty |
 | --- | --- | ---: | ---: | ---: | ---: |
@@ -28,7 +28,7 @@
 | invariant | canonical_query/heldout_support | 0.0% | 0.0% | 0.0% | 0.0% |
 | invariant | heldout_query/heldout_support | 0.3% | 0.5% | 0.0% | 0.0% |
 
-保留查询模板分项（真实检索）：
+Heldout query templates, using real retrieval:
 
 | Condition | Support bank | Query template | EM | Recall@4 |
 | --- | --- | --- | ---: | ---: |
@@ -51,7 +51,7 @@
 | invariant | heldout_support | test_query_01 | 0.8% | 3.1% |
 | invariant | heldout_support | test_query_02 | 0.0% | 6.2% |
 
-配对差值与 95% bootstrap CI（百分点；以事实为重采样单位）：
+Paired differences with 95% bootstrap CIs, in percentage points, resampling facts:
 
 | Contrast | Quadrant | Δ EM (pp) | 95% CI (pp) | Facts |
 | --- | --- | ---: | --- | ---: |
@@ -68,9 +68,9 @@
 | invariant_minus_augment | canonical_query/heldout_support | 0.00 | [0.00, 0.00] | 128 |
 | invariant_minus_augment | heldout_query/heldout_support | -0.52 | [-1.30, 0.00] | 128 |
 
-同一 checkpoint 的记忆干预差值（百分点；事实聚类 95% CI）：
+Memory intervention differences within the same checkpoint, in percentage points with fact-clustered 95% CIs:
 
-16 个候选词上的均匀猜测期望为 6.25%；在本轮平衡事实中，始终输出同一个候选词也会得到 6.25%。因此，训练条件之间从 0% 提升到约 6% 不能单独证明记忆泛化。应同时检查真实检索相对打乱 value 和零残差的差值；只优于零残差而不优于打乱 value，仍可能只是学会输出候选词。CI 反映事实抽样波动，不涵盖训练种子变化。
+Uniform guessing over 16 candidates has expected accuracy 6.25%; always outputting one candidate also scores 6.25% on these balanced facts. Therefore, an increase from 0% to roughly 6% between training conditions cannot establish memory generalization by itself. Also examine real retrieval against shuffled values and zero residuals; beating zero residuals without beating shuffled values may only reflect learning to output candidate words. CIs reflect fact sampling, not training-seed variation.
 
 | Condition | Quadrant | Control | Real / control EM | Δ EM (pp) | 95% CI (pp) |
 | --- | --- | --- | --- | ---: | --- |
@@ -99,7 +99,7 @@
 | invariant | heldout_query/heldout_support | shuffled | 0.3% / 0.0% | 0.26 | [0.00, 0.78] |
 | invariant | heldout_query/heldout_support | empty | 0.3% / 0.0% | 0.26 | [0.00, 0.78] |
 
-限制：
+Limitations:
 
 - Only completed suites and runs with prediction-level verification enter summaries.
 - Held-out query EM is a macro average over XML, CSV, and dialogue templates; CI resamples facts, not views.
@@ -113,6 +113,6 @@
 - Forced-correct-value oracle changes the per-token read distribution and is not a mathematical upper bound.
 - Empty means zero memory residual; shuffled values can accidentally preserve the answer category.
 
-未纳入的运行或比较：
+Excluded runs or comparisons:
 
 - generalization_smoke_20261005/augment32smoke: Smoke excluded: it uses development facts and templates

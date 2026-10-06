@@ -461,31 +461,31 @@ def em_cell(row, phase, method="real"):
 
 
 def render(summary):
-    lines = ["# 扩容与冷启动实验汇总", "", "生成时间（UTC）：" + summary["generated_at"], "",
-             "仅列出已完成并通过逐项预测校验的运行。未完成或证据不一致的运行不进入统计；smoke 独立测试实体不混入主表。", "",
-             "所有 EM 表格显示正确数/事实数；本轮属于受控合成事实实验。CI 只描述固定模型下的事实抽样波动，不覆盖训练随机性。", "",
-             "主指标是真实逐 token 检索相对于同一 checkpoint 的 shuffled 与 empty 对照。"
-             "强制正确 value 诊断（数据字段名 oracle）将同一条正确 value 注入全部 token，改变了真实稀疏读取所形成的训练分布；"
-             "它不是数学上界，真实检索 EM 可以高于该诊断。单凭该诊断低分，不能断定主要瓶颈是读出无能，"
-             "也不能确认逐 token 读取错误是否存在补偿效应；这些需要进一步消融。", "",
-             "## 数据规模、训练预算与记忆效果", "",
-             "LM steps 表示来源训练运行的更新预算；括号内为该运行新增更新。selected 是实际被开发集选中的 checkpoint 步数。", "",
-             "| Run / group | Variant | N | LM steps (new) | selected | cold train/deploy | pre real | immediate real | final real | 强制正确 value 诊断 | shuffled | empty |",
+    lines = ["# Scaling and cold-start experiment summary", "", "Generated at (UTC): " + summary["generated_at"], "",
+             "List only completed runs that pass prediction-level verification. Incomplete runs or inconsistent evidence are excluded; independent smoke-test entities do not enter the main tables.", "",
+             "EM tables show correct/total facts in controlled synthetic experiments. CIs describe fact-sampling variability conditional on a fixed model, not training randomness.", "",
+             "The primary measure contrasts real per-token retrieval with shuffled and empty controls from the same checkpoint. "
+             "The forced-correct-value diagnostic (data field oracle) injects one correct value at every token, changing the distribution established by real sparse reading. "
+             "It is not a mathematical upper bound; real-retrieval EM can exceed it. A low diagnostic score alone cannot identify inadequate readout as the main bottleneck, "
+             "or establish whether per-token retrieval errors have compensating effects; further ablations are needed.", "",
+             "## Data scale, training budget, and memory performance", "",
+             "LM steps gives the source training update budget; parentheses show new updates in the current run. Selected is the checkpoint step actually chosen on development data.", "",
+             "| Run / group | Variant | N | LM steps (new) | selected | cold train/deploy | pre real | immediate real | final real | Forced-value diagnostic | shuffled | empty |",
              "| --- | --- | ---: | --- | ---: | --- | --- | --- | --- | --- | --- | --- |"]
     for row in summary["runs"]:
         budget = row["training_lm_updates"]
         lines.append("| " + " | ".join(map(str, [
             row["run"] + " / " + row["comparison_group"], row["variant"], row["train_size"],
-            f"{budget if budget is not None else '未知'} ({row['new_lm_updates']})", row["selected_step"],
+            f"{budget if budget is not None else 'unknown'} ({row['new_lm_updates']})", row["selected_step"],
             f"{row['training_cold_records']}/{row['deployment_cold_records']}",
             em_cell(row, "pre_write"), em_cell(row, "immediate"),
             *(em_cell(row, "final", method) for method in METHODS),
         ])) + " |")
     if not summary["runs"]:
-        lines += ["", "当前没有满足纳入条件的完成运行；此处没有估算或占位结果。"]
-    lines += ["", "pre/immediate 没有测强制正确 value 诊断、shuffled、empty，不应把缺失读成零。", "",
-              "## 寻址、问法、控制与 value 分布", "",
-              "| Run | final R@1 / R@4 | decode residency / switches per example | paraphrase real / 强制正确 value 诊断 | control before / after | value effective rank | unique values / records |",
+        lines += ["", "No completed runs currently meet the inclusion criteria. No estimates or placeholder results are shown."]
+    lines += ["", "pre/immediate did not measure Forced-value diagnostic, shuffled, or empty; missing measurements are not zeros.", "",
+              "## Addressing, paraphrases, controls, and value distributions", "",
+              "| Run | final R@1 / R@4 | decode residency / switches per example | paraphrase real / Forced-value diagnostic | control before / after | value effective rank | unique values / records |",
               "| --- | --- | --- | --- | --- | ---: | --- |"]
     for row in summary["runs"]:
         final = row["phases"]["final/real"]
@@ -499,33 +499,33 @@ def render(summary):
             f"{row['vectors']['value_effective_rank']:.2f}",
             f"{row['vectors']['value_unique_rows']} / {row['records']}",
         ]) + " |")
-    lines += ["", "R@k 取实际生成前的最后 prompt token；decode residency 是正确记录出现在 decode top-4 中的比例，按实际 decode 查询数加权，不是 top-1 比例或 attention 权重。switches 为每例 top-1 变化次数，含 prefill 到首次 decode。缺少轨迹的旧运行显示 —。控制集是未观测随机事实，其 EM 不等于拒答能力。value 有效秩/唯一数描述数值多样性，不单独证明记忆可用。", "",
-              "## 按事实严格配对的差值", "",
-              "差值方向为 first − second，以百分点表示。ID 集合和标签必须完全一致；不取交集。", "",
-              "`deployment_cold128_minus_0_same_checkpoint` 只改变部署初始库，要求 checkpoint SHA 和来源训练配置完全一致，"
-              "并分别保留 training cold=0/128 条件。不同 cold 训练产生的模型不会被当作同权重部署对照。"
-              "`stable4096_LMschedule1536_minus_512` 比较 3 倍 LM schedule：oracle 与真实检索阶段同比放大、对齐保持 400 步。"
-              "这是组合训练预算对照，不是等 FLOPs 比较，也不能声称总计算量恰为 3 倍。", "",
+    lines += ["", "R@k uses the final prompt token before actual generation. Decode residency is the fraction of decode queries whose top-4 includes the correct record, weighted by actual query counts; it is not a top-1 proportion or attention weight. Switches count top-1 changes per example, including prefill to first decode. Historical runs without traces show a dash. Controls are unwritten random facts; their EM is not abstention ability. Value effective rank and uniqueness measure numerical diversity, not memory usefulness by themselves.", "",
+              "## Strictly fact-paired differences", "",
+              "Differences are first minus second, in percentage points. ID sets and labels must match exactly; no intersection-only comparisons.", "",
+              "`deployment_cold128_minus_0_same_checkpoint` changes only the initial deployment bank and requires identical checkpoint SHA and source training configuration, "
+              "while keeping training cold=0/128 conditions separate. Models from different cold-training conditions are not treated as same-weight deployment controls. "
+              "`stable4096_LMschedule1536_minus_512` compares a 3x LM schedule: oracle and real-retrieval stages scale together, while alignment remains at 400 updates. "
+              "This is a combined training-budget comparison, not an equal-FLOPs comparison; total compute is not established to be exactly 3x.", "",
               "| Contrast | first | second | paired N | Δ EM (pp) | 95% percentile CI (pp) |",
               "| --- | --- | --- | ---: | ---: | --- |"]
     for row in summary["paired_comparisons"]:
         lines.append(f"| {row['contrast']} | {row['first_run']} | {row['second_run']} | {row['n_paired_facts']} | "
                      f"{100*row['delta_em']:+.2f} | [{100*row['ci95'][0]:+.2f}, {100*row['ci95'][1]:+.2f}] |")
-    lines += ["", f"Bootstrap：{summary['bootstrap_samples']:,} 次，随机种子 {summary['bootstrap_seed']}。"
-              "未进行多重比较校正；单训练种子的区间不能支持跨训练随机性的显著性结论。",
-              "", "## 可比性与排除记录", "",
-              "同组 G 编号表示 feature cache、运行模块源码和模型 revision 相同；跨组不做样本规模因果比较。"]
+    lines += ["", f"Bootstrap: {summary['bootstrap_samples']:,} resamples, seed {summary['bootstrap_seed']}. "
+              "No multiple-comparison correction is applied; intervals from one training seed do not establish significance across training randomness.",
+              "", "## Comparability and exclusions", "",
+              "Matching G group IDs indicate the same feature cache, runtime source, and model revision; cross-group differences do not establish causal effects of data scale."]
     for group in sorted({row["comparison_group"] for row in summary["runs"]}):
         row = next(row for row in summary["runs"] if row["comparison_group"] == group)
-        lines += ["", f"- {group}: cache `{row['cache_sha256']}`；source `{row['runtime_source_sha256']}`；model `{row['model_revision']}`。"]
+        lines += ["", f"- {group}: cache `{row['cache_sha256']}`; source `{row['runtime_source_sha256']}`; model `{row['model_revision']}`."]
     for row in summary["refused_comparisons"]:
-        lines += ["", f"- 未配对 {row['first_run']} 与 {row['second_run']}：{row['reason']}。"]
+        lines += ["", f"- Not paired {row['first_run']} and {row['second_run']}: {row['reason']}."]
     for row in summary["skipped_runs"]:
-        lines += ["", f"- 未纳入 {row['run']}：{row['reason']}。"]
+        lines += ["", f"- Excluded {row['run']}: {row['reason']}."]
     unresolved = [row["run"] for row in summary["runs"] if row["evaluation_only"] and row["training_lm_updates"] is None]
     if unresolved:
-        lines += ["", "以下只评估运行未找到 SHA 一致的本地来源 checkpoint，来源训练预算记为未知：" + ", ".join(unresolved) + "。"]
-    lines += ["", "公开 JSON 仅含聚合结果、证据 hash 与对照关系，不含逐例答案、预测、内部绝对路径、模型权重或连接配置。", ""]
+        lines += ["", "For these evaluation-only runs, no local source checkpoint with matching SHA was found; the source training budget is unknown: " + ", ".join(unresolved) + "."]
+    lines += ["", "This public JSON export contains aggregate results, evidence hashes, and control relationships, but no per-example answers/predictions, internal absolute paths, model weights, or connection settings.", ""]
     return "\n".join(lines)
 
 

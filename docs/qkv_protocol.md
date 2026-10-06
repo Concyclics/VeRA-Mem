@@ -1,145 +1,147 @@
-# 随机绑定与分组 QKV 读取：固定实验协议
+# Random Rebinding and Grouped QKV Reading: Fixed Experimental Protocol
 
-**版本 V1，正式训练前封存。** 2026-10-06 教师预检 128/128、四组真实模型 smoke 与 1,085 项 CPU 测试通过；主 agent 在注册文件登记源码、数据与本文 SHA。此前没有本轮正式效果；封存后不按确认结果换题、换模板、调整预算或移动门槛。文献依据见 [QKV 文献映射](qkv_literature.md)，此前证据见[小数据重构结果](reconstruction_results.md)。
+> English translation of the historical protocol, not a new preregistration. The sealed sources and hashes remain authoritative; see [reproducibility.md](reproducibility.md).
 
-本轮检验：**训练每个实体绑定多种内容，并改变稀疏记忆的读取结构，能否让当前层输入构造的 query 读取新写入的内容，而不是只重现训练完整标签？** 主线仍为真实 VDB→value→乘性 VeRA。加性 attention 风格读出单列为诊断，其成功不能充当 VeRA 成功，也不能证明所有更强 reader 均有效。
+**Version V 1, sealed before formal training.** On 2026-10-06, teacher preflight scored 128/128, four actual-model smoke groups passed, and 1,085 CPU tests passed. The coordinating agent recorded source, data, and document SHAs in the registration. No formal outcomes from this round existed beforehand. After sealing, confirmation results must not change items, templates, budgets, or thresholds. See the [QKV literature mapping](qkv_literature.md) and preceding [small-data reconstruction results](reconstruction_results.md).
 
-## 一、固定矩阵与共同接口
+This round tests whether **training each entity with multiple contents and changing sparse-memory readout allows queries constructed from current layer inputs to read newly written content, rather than merely reproduce complete training labels**. The main path remains actual VDB→value→multiplicative VeRA. Additive attention-style readout is a separate diagnostic: its success cannot count as VeRA success or establish that all stronger readers work.
 
-| 臂 | 训练绑定 | 读取 | 增量形式 | 可作主线候选 |
+## 1. Fixed matrix and shared interface
+
+| Arm | Training bindings | Reading | Increment | Eligible main-path candidate |
 | --- | --- | --- | --- | --- |
-| static_flat | 实体固定 A/B | flat top-4 slots | 乘性 VeRA | 是 |
-| static_grouped | 实体固定 A/B | top-1 fact，再读该组三槽 | 乘性 VeRA | 是 |
-| rebind_flat | 每 epoch 随机重绑定 | flat top-4 slots | 乘性 VeRA | 是 |
-| rebind_grouped | 每 epoch 随机重绑定 | top-1 fact，再读该组三槽 | 乘性 VeRA | 是 |
-| rebind_grouped_additive | 同 rebind_grouped | 同 grouped | 加性向量读出 | **否，仅诊断** |
+| static_flat | Fixed A/B per entity | flat top-4 slots | Multiplicative VeRA | Yes |
+| static_grouped | Fixed A/B per entity | top-1 fact, then its three slots | Multiplicative VeRA | Yes |
+| rebind_flat | Random reassignment each epoch | flat top-4 slots | Multiplicative VeRA | Yes |
+| rebind_grouped | Random reassignment each epoch | top-1 fact, then its three slots | Multiplicative VeRA | Yes |
+| rebind_grouped_additive | Same as rebind_grouped | Same grouped reading | Additive vector readout | **No; diagnostic only** |
 
-五臂均固定 Qwen3-4B-Instruct-2507 revision `cdbee75f17c01a7cc42f958dc650907174af0554`，第 20 层 down projection 输入 9,728、输出 2,560，rank/key dimension 均 64，temperature `0.05`。骨干与 A 固定，B 可学习；每事实三个真实 contextual word-span 向量，Wq/Wk/Wv 为共享线性投影，不加多头、不扩大 rank、不用基础库、不新增 value MLP。每臂还具有相同的可学习 `slot_position[3,64]`，零初始化，添加到 key 的线性投影之后、最终 L2 归一化之前；不改变 value，query 不接收正确 slot 标签。
+All five arms use Qwen3-4B-Instruct-2507 revision `cdbee75f17c01a7cc42f958dc650907174af0554`, with layer 20 down-projection input 9,728 and output 2,560, rank/key dimension 64, and temperature `0.05`. The backbone and A are fixed; B is trainable. Each fact has three actual contextual word-span vectors. Wq/Wk/Wv are shared linear projections, without multiple heads, larger rank, foundation memory, or a new value MLP. Every arm also has identical trainable `slot_position[3,64]`, initialized to zero and added after the linear key projection but before final L2 normalization. It does not change values; queries do not receive correct-slot labels.
 
-同种子所有初始 A/B/Wq/Wk/Wv/b 与 slot_position 张量逐位相同；仅 regime/read_mode/readout 不同。共同统计由训练 canonical static A/B 的 128 条支持记录和 64 条 query 拟合，不用 dev/confirm、C/D、heldout 模板或整个 entity×payload 笛卡尔积拟合。五臂统计相同。word slot 的顺序来自实际观测文本，不能由 gold 下一词、目标数组索引或人工正确 slot 指定检索。
+Within a seed, all initial A/B/Wq/Wk/Wv/b and slot_position tensors are bitwise identical; only regime/read_mode/readout differ. Shared statistics are fitted on 128 canonical static training A/B support records and 64 queries, excluding dev/confirm, C/D, held-out templates, and the full entity×payload Cartesian product. Statistics are identical across all five arms. Word-slot order comes from observed text; retrieval must not be specified by the gold next word, target-array index, or a manually supplied correct slot.
 
-### 明确读取公式与梯度
+### Explicit reading formulas and gradients
 
-对每个实际预测位置，`q_t=encode_query(h_t)`，其中 `h_t` 是当前真实 VeRA 层输入。标准化后的三个 slot keys 为 `k_{i,j}`，cosine 为 `s_{t,i,j}=q_t·k_{i,j}`，`j∈{0,1,2}`。
+At every actual prediction position, `q_t=encode_query(h_t)`, where `h_t` is the current real VeRA-layer input. The three normalized slot keys are `k_{i,j}`, with cosine scores `s_{t,i,j}=q_t·k_{i,j}`, `j∈{0,1,2}`.
 
-- **flat：**在整个 16-fact×3-slot 银行中取 cosine 最大的四个 slots，在这四个分数除以 temperature 后做 softmax，并混合对应 values。允许跨 fact 混合。
-- **grouped：**对每个 fact 计算 `g_{t,i}=logsumexp_j(s_{t,i,j}/0.05)`，取 `i*=argmax_i g_{t,i}`；再只在该 fact 的三个 slot 上按相同 temperature 做 softmax。返回三个 value 的混合，不根据 gold token 选择词槽，也不把所有 fact 的每个槽均值折叠为一条值。
+- **Flat:** select the four largest-cosine slots across the entire 16-fact×3-slot bank, softmax their scores divided by temperature, and mix their values. Mixing across facts is allowed.
+- **Grouped:** compute `g_{t,i}=logsumexp_j(s_{t,i,j}/0.05)` for each fact and select `i*=argmax_i g_{t,i}`. Apply softmax at the same temperature only over that fact's three slots. Return their mixed value, without choosing slots using gold tokens or collapsing every fact's slots into one mean value.
 
-grouped 的 top-1 fact 选择不可微；生成 CE 不会通过这个离散选择向未选 fact 提供选择梯度，CE 只训练被选三槽的分数和值。所有臂另用相同的 **dense fact-group 地址 CE**，给所有银行 keys/query 提供地址监督；必须明确区分该训练辅助目标与实际稀疏读取。group score 是三槽 logsumexp，不是独立学习的实体地址 encoder，因此本轮不能宣称已经实现地址与内容完全分离。
+Grouped top-1 fact selection is nondifferentiable. Generation CE does not pass selection gradients through this discrete choice to unselected facts; it trains only the selected three slots' scores and values. All arms additionally use identical **dense fact-group address CE**, supervising every bank key/query. Distinguish this auxiliary training objective from actual sparse reading. Group scores use three-slot logsumexp, not an independently learned entity-address encoder, so this round cannot claim complete address/content separation.
 
-记忆混合值记为 `m_t`。乘性主线使用 `Δh_t=b⊙B[(A h_t)⊙m_t]`；加性诊断使用 `Δh_t=b⊙B m_t`。加性臂保留相同初始化的 A buffer，但不使用 A 的乘性路径；全部其他 trainable 张量和监督相同。在第 1 步及每 128 步，用实际捕获的 gold-prefix 预测位置（含 EOS）于参数更新前进行无梯度读取重放，记录两路径输入、混合值及残差 RMS；不增加 backbone forward 或训练 loss。这是训练位置诊断，不能代替自由生成的读取指标，也不能把效果差异直接归于单一机制而忽略幅度/优化差别。
+Let the mixed memory value be `m_t`. The multiplicative main path uses `Δh_t=b⊙B[(A h_t)⊙m_t]`; the additive diagnostic uses `Δh_t=b⊙B m_t`. The additive arm retains the identically initialized A buffer without using its multiplicative path; all other trainable tensors and supervision match. At step 1 and every 128 steps, replay reading without gradients at captured actual gold-prefix prediction positions, including EOS, before the parameter update. Record input, mixed-value, and residual RMS for both paths without extra backbone forwards or training losses. These training-position diagnostics do not replace free-generation reading metrics, and differences cannot be attributed to one mechanism while ignoring scale/optimization differences.
 
-五臂均有 2,034,368 个可训练参数（含 192 个 slot-position 参数），每事实纯 FP32 K/V 为 `3×(64+64)×4=1,536 bytes`，16 条银行为 24 KiB。flat 混合 4 个 value，grouped 混合 3 个 value；虽然存储与参数配平，实际读取值数量不同，不能称同 FLOPs。CPU exact search 扫描所有 keys，稀疏的是 value 选择/混合，不宣称 ANN 或次线性搜索复杂度。
+All five arms have 2,034,368 trainable parameters, including 192 slot-position parameters. Pure FP32 K/V storage is `3×(64+64)×4=1,536 bytes` per fact, or 24 KiB for a 16-record bank. Flat mixes 4 values, grouped 3: equal storage and parameters do not make their FLOPs equal. CPU exact search scans all keys; sparsity concerns value selection/mixing, without claims of ANN or sublinear search complexity.
 
-## 二、数据、随机绑定与特征合同
+## 2. Data, random rebinding, and the feature contract
 
-数据协议为 `qkv-binding-episodes-v1`，新数据种子 `121042`。训练有 64 个实体、128 个独特三词 payload。实体和完整 payload 排除上轮 reconstruction 数据种子 `101042` 的全部 train/known/dev/confirm A/B/C/D；词汇表和历史模板可以复用，不宣称从未见过的词汇或研究模板。每个位置的 16 个词在 128 个训练 payload 中各出现 8 次，不能靠位置词频推断新组合。
+The data protocol is `qkv-binding-episodes-v1`, with new seed `121042`. Training contains 64 entities and 128 distinct three-word payloads. Entities and complete payloads exclude all train/known/dev/confirm A/B/C/D from the preceding reconstruction seed `101042`. Vocabulary and historical templates may be reused; neither entirely unseen vocabulary nor research templates are claimed. Each of 16 words per position appears 8 times among the 128 training payloads, preventing positional word frequency from identifying a novel combination.
 
-static 中实体 `e` 固定绑定 payload `2e`、`2e+1`。rebind 在每个 epoch 对全部 128 个 payload 作确定性随机排列，再把排列的 `2e/2e+1` 分配为该实体的 A/B。epoch 包含 8 步；目标顺序是 64 个实体的一个随机排列，每步取 8 个，因此一个 epoch 中每实体恰为目标一次，128 个 payload 各作为 A/B 监督目标出现一次。
+Static fixes entity `e` to payloads `2e` and `2e+1`. Rebind deterministically shuffles all 128 payloads each epoch, assigning the permutation's `2e/2e+1` as that entity's A/B. An epoch contains 8 steps. Its target order is a random permutation of 64 entities, taken 8 per step; thus each entity is a target exactly once and each of 128 payloads appears once as an A/B supervised target per epoch.
 
-每步银行由当步 8 个目标实体和从其他 56 实体中采样的 8 个背景实体组成，再随机打乱 16 条的物理顺序。相同种子五臂的目标、背景实体和银行顺序完全一致，使用不依赖 regime 的随机流。映射变化会改变背景的实际内容，**目标 payload 曝光相同不保证每个 payload 的背景驻留次数相同**；应记录两者，不将整库内容访问数当成独立监督样本数。
+Each step's bank contains its 8 target entities and 8 backgrounds sampled from the other 56 entities, followed by a random permutation of all 16 physical records. Across five arms within a seed, targets, background entities, and bank order are identical, using random streams independent of regime. Changing mappings changes background content: **equal target-payload exposure does not guarantee equal background residence for each payload**. Record both, and do not interpret whole-bank content access counts as independent supervised examples.
 
-对每个目标，各建一个 A 银行和一个 B 银行：A 银行全部记录使用当前 epoch 的 A 绑定，B 只替换该样本自己的目标记录为当前 B，其他 15 条保持 A。不得把整批八个目标同时换 B，也不得跨样本检索。A 八条、B 八条按固定顺序合并成 16 序列的一次 backbone forward，各序列保有独立银行。目标事实索引仅供训练地址 loss，不输入 query 或 CPU 搜索。
+For each target, construct separate A and B banks. Every A record uses the current epoch's A binding; B replaces only that sample's own target with its current B, preserving the other 15 A records. Do not replace all eight batch targets simultaneously or retrieve across samples. The eight A and eight B examples are concatenated in fixed order into 16 sequences for one backbone forward, each retaining an independent bank. Target fact indices are used only for training address loss, not queries or CPU search.
 
-**训练支持缓存必须对真实的 64×128=8,192 个 entity+payload 组合文本重新冻结编码。** 特征提取输入沿用准确 writer 包装 `Remember this information: ` 加实际支持文本，记忆路径关闭；以 tokenizer 对齐的三个 word spans 分别池化当前层输入。不得把旧实体的 contextual hidden 直接换给新实体而声称重编码。Wk/Wv 和 slot_position 训练期间按当前参数重编码所需银行，避免投影后缓存陈旧。原始冻结特征可缓存，但不跨越所声明的文本合同。
+**The training support cache must newly encode actual texts for all 64×128=8,192 entity+payload combinations with the frozen model.** Feature extraction retains the exact writer wrapper `Remember this information: ` followed by actual support text, with memory disabled. Pool current-layer inputs separately over three tokenizer-aligned word spans. Do not directly transfer an old entity's contextual hidden states to a new entity and call it re-encoding. During training, Wk/Wv and slot_position encode required banks using current parameters, avoiding stale projected caches. Raw frozen features may be cached within the declared text contract.
 
-### 固定评估划分
+### Fixed evaluation splits
 
-三个评估 bank 均为 16 条；训练每个样本的 bank 也为 16 条：
+All three evaluation banks contain 16 records; every training sample's bank also contains 16 records:
 
-| 数据包 | 实体 | A/B 内容 | C/D 内容 | 用途 |
+| Packet | Entities | A/B content | C/D content | Purpose |
 | --- | --- | --- | --- | --- |
-| known16 | 训练前 16 个实体 | 其 canonical static 的训练 payload | 新完整组合 | 识别已见绑定/新内容写入 |
-| dev16 | 16 个新实体 | 与 known 对应行相同 | 与 known 对应行相同 | 开发阶段实体迁移/候选选择 |
-| confirm16 | 另 16 个新实体 | 与 known 对应行相同 | 与 known 对应行相同 | 最终实体迁移验证 |
+| known 16 | First 16 training entities | Their canonical static training payloads | New complete combinations | Examine seen bindings/new-content writes |
+| dev 16 | 16 new entities | Same corresponding rows as known | Same corresponding rows as known | Development entity transfer/candidate selection |
+| confirm 16 | Another 16 new entities | Same corresponding rows as known | Same corresponding rows as known | Final entity-transfer validation |
 
-known/dev/confirm 按行刻意共享内容，不能宣称评估答案在三个划分间互不重叠。新实体 A/B 的完整内容已训练，是用来在相同 bank 大小、相同 payload 下隔离实体变化。C/D 完整组合不在本轮训练或上轮数据中，且彼此不同；行 `i` 仅改变 A 的第 `i%3` 个词，其余两个词保持不变，16 行改动位置数为 6/5/5。C 与 D 均是已见词组成的新完整组合，不能称未见词汇泛化；D 也沿用同一受控单词替换规则，并非独立任务分布。
+Known/dev/confirm deliberately share content row by row; evaluation answers are not disjoint across these splits. New-entity A/B uses trained complete content to isolate entity changes at equal bank size and payload. Complete C/D combinations occur neither in this round's training nor in the preceding dataset, and C and D differ. Row `i` changes only word `i%3` of A, retaining the other two; edited-position counts across 16 rows are 6/5/5. Both C and D combine seen words into new complete payloads, not unseen-vocabulary generalization. D follows the same controlled one-word substitution rule, rather than an independent task distribution.
 
-canonical support/query 在各 split 相同，heldout support/query 只相对于**本轮训练**未见；它们是本研究历史已经使用的模板，不当作全研究封存的新表达。CC/HC/CH/HH 的第一字母指 support，第二字母指 query。全部冻结特征（含 D/confirm）允许评分前预计算，但 D 和 confirm 的生成/评分在候选封存后才执行；不进入梯度、统计拟合或候选选择。
+Canonical support/query templates match across splits. Held-out support/query templates are unseen only in **this round's training**; they have historical use in this research program and are not newly sealed expressions for the whole study. The first letter of CC/HC/CH/HH denotes support, the second query. All frozen features, including D/confirm, may be computed before scoring, but D and confirm generation/scoring occur only after candidate sealing and cannot affect gradients, statistical fitting, or selection.
 
-## 三、训练预算与监督
+## 3. Training budget and supervision
 
-三个优化种子为 `81042 / 81043 / 81044`。五臂各三个种子，共 **15 个模型**，全部从共同对应初值独立训练，不能将某臂额外训练后与较少步数对照。
+Optimization seeds are `81042 / 81043 / 81044`. Five arms with three seeds each give **15 models**, independently trained from their corresponding shared initialization. One arm must not receive additional training and then be compared with fewer-step controls.
 
-每模型固定 2,048 更新，batch 8 个目标、A/B 合计 16 序列，唯一主要 checkpoint 为终点。每模型 256 epochs、16,384 目标曝光、32,768 个学生序列、2,048 次合批 backbone forward；每个实体 256 次目标曝光，每个训练 payload 256 次监督序列曝光。15 模型合计 30,720 更新、245,760 目标曝光、491,520 序列、30,720 次训练 backbone forward。token 数、padding、实际输入位置和时间据实记录，不能用序列数冒充等 token/FLOPs。
+Each model receives 2,048 updates with batch 8 targets, totaling 16 A/B sequences; the endpoint is the sole primary checkpoint. Per model:256 epochs,16,384 target exposures,32,768 student sequences, and 2,048 batched backbone forwards. Each entity has 256 target exposures, and each training payload 256 supervised sequence exposures. Across 15 models:30,720 updates,245,760 target exposures,491,520 sequences, and 30,720 training backbone forwards. Record actual tokens, padding, input positions, and time; equal sequence counts do not imply equal tokens/FLOPs.
 
-损失只有 `完整答案含 EOS 的 CE + 0.2×fact_group_address_CE`。两项都先对每个序列有效 gold 预测位置（含 EOS）取平均，再对 16 序列等权；A/B 各八条，世界权重相同。地址目标是目标三个槽概率之和，不把每个答案 token 指派给某个词槽。无 KD/FKL、hidden、OPD、style/AP、replay、load-balancing 或其他新 loss。teacher forcing 指 gold 前缀，不是教师模型蒸馏。
+The only loss is `full-answer CE including EOS + 0.2×fact_group_address_CE`. Both terms first average over valid gold prediction positions, including EOS, within each sequence, then weight all 16 sequences equally. Eight A and eight B examples give equal world weights. The address objective uses the summed probability of the target's three slots without assigning each answer token to a particular word slot. There is no KD/FKL, hidden-state, OPD, style/AP, replay, load-balancing, or other new loss. Teacher forcing means gold prefixes, not teacher-model distillation.
 
-Adam：Wq/Wk/slot_position `1e-4`，Wv `3e-4`，B `3e-4`，b `0.005`；betas `(0.9,0.999)`、epsilon `1e-8`、weight decay `0`，各参数组 clip norm 1。slot_position 与 Wq/Wk 同组，其余组沿用共同规则。b 零初始化使全部路径初始增量为零；所有臂不得借此添加未声明暖启动。只记录中途训练诊断，不用 C/D 选择早停或最好 checkpoint。
+Adam uses `1e-4` for Wq/Wk/slot_position, `3e-4` for Wv, `3e-4` for B, and `0.005` for b; betas `(0.9,0.999)`, epsilon `1e-8`, weight decay `0`, and clip norm 1 per group. slot_position shares the Wq/Wk group; other groups follow the common rule. Zero-initialized b makes every path's initial increment zero; this does not permit an undeclared warm start. Intermediate training diagnostics are recorded, but C/D cannot select early stopping or a best checkpoint.
 
-上轮每训练实体 512 次目标曝光，本轮是 256 次，且训练实体/内容量、slot-position 与训练日程变化；不能把跨轮差异视作仅 QKV 改动的因果效果。主要效应只在本轮配平矩阵内比较。若已见重构仍未稳定，仍完成预定小矩阵，如实记录，不追加预算追赶门槛。
+The preceding round had 512 target exposures per training entity; this round has 256 and changes training entity/content counts, slot-position parameters, and schedule. Cross-round differences therefore are not causal effects of QKV alone. Main effects are compared only within this round's matched matrix. If seen reconstruction remains unstable, complete the scheduled small matrix and report it without adding budget to reach the threshold.
 
-## 四、教师资格与在线评估
+## 4. Teacher qualification and online evaluation
 
-教师是冻结原模型，获得当前目标的单条原始支持文本和相同问题；不访问 VDB、不追加 gold 标签或答案定位标注，不参与任何训练 loss。首先对 canonical static 64 个训练实体的 A/B 运行预检，要求各 64/64、pair 64/64。失败则停止正式训练，修复后另版封存，不删掉教师失败样本。
+The teacher is the frozen original model, receiving the target's single raw support text and the same question, without VDB access, extra gold labels, or answer-location annotations. It contributes to no training loss. First run preflight A/B for all 64 canonical static training entities, requiring 64/64 for each world and 64/64 paired. Failure stops formal training; fixes require a separately sealed version, not deletion of teacher-failed items.
 
-开发/确认教师覆盖相同的非 SWAP 世界及相位，保留原文、预测、token 统计和无记忆访问证明。教师不合格条件仍保留学生全样本分母，并列 teacher-paired eligible 子集；不能筛题制造高分。最终确认教师不足不能自动转化为 VeRA 泛化失败或事后修改 prompt。
+Development/confirmation teachers cover corresponding non-SWAP worlds and phases, preserving source text, predictions, token statistics, and evidence of no memory access. For unqualified teacher conditions, retain full student denominators and report teacher-paired eligible subsets separately, without selecting items to manufacture high scores. An insufficient confirmation teacher cannot automatically establish VeRA generalization failure or justify changing the prompt afterward.
 
-学生共享参数全冻结，只把实际观测支持的 writer 输出写入真实 CPU VDB，学生 prompt 始终仅有问题。每 phase 先生成 16 条 A，之后每个 target、每个世界从独立干净 A 银行出发，执行 A→X→A；所有其他 key/value/timestamp 逐位不变，目标三槽原子替换，恢复后的 key/value 回到 A，但时间戳可递增。
+All student shared parameters are frozen. Only writer outputs from actually observed support are written to the real CPU VDB; the student prompt always contains only the question. Each phase first generates 16 A answers. Every target/world then starts from an independent clean A bank and executes A→X→A. All other keys/values/timestamps remain bitwise unchanged; the target's three slots are replaced atomically. Restoration returns target K/V to A, while timestamps may increase.
 
-每次干预生成：目标新 X、固定邻居 `(i+1)%16` 的 A、恢复后的目标 A。邻居 before 使用同 ID/phase 的基线 A。除 SWAP 外，另生成 value-shuffle 和 empty 的目标 X。SWAP 固定将另一实体 `i^1` 的 A 内容写入目标，donor 不变；它不是真正交换两个记录，也不是未见组合。所有对照保持其声明的 keys/模板/解码参数。
+Each intervention generates the new target X, the fixed neighbor `(i+1)%16` under A, and the restored target A. The neighbor's before result uses baseline A for the same ID/phase. Except for SWAP, also generate target X under value-shuffle and empty controls. SWAP writes entity `i^1`'s A content to the target, leaving the donor unchanged. It is neither a true two-record exchange nor an unseen combination. Every control preserves its declared keys/templates/decoding parameters.
 
-shuffle 以整个三槽 fact 为单位，保留组内次序与全部 keys，使用固定无不动点 cycle；控制随机种子与 permutation 记入数据/评估 manifest，不能按预测选择。empty 移除全部记忆，基础库确实关闭。每次调用均记录，跨世界若未来实施缓存必须明确另版成本，不能伪造多个独立生成；本轮预算按下表逐条生成计算。
+Shuffle moves entire three-slot facts while preserving within-group order and all keys, using a fixed cycle without fixed points. Record its random seed and permutation in data/evaluation manifests, without prediction-based selection. Empty removes all memory, including foundation memory. Log every call. Any future cross-world caching must use an explicitly versioned cost definition rather than fabricate multiple independent generations; this round's budget counts each generation in the table.
 
-### 固定评估矩阵与调用数
+### Fixed evaluation matrix and call counts
 
-每次 generation 最大 32 新 tokens，固定解码设置；学生与教师相同。
+Every generation allows at most 32 new tokens with fixed decoding settings, identical for student and teacher.
 
-| packet / 阶段 | 相位与干预 | 每模型学生生成 | 独立干预 | 恢复写入 | 教师生成（全模型共享一次） |
+| Packet / stage | Phases and interventions | Student generations per model | Independent interventions | Restoration writes | Teacher generations, shared once across models |
 | --- | --- | ---: | ---: | ---: | ---: |
-| known / development | CC：B、C、SWAP | 224 | 48 | 48 | A/B/C：48 |
-| dev / development | CC：B、C | 176 | 32 | 32 | A/B/C：48 |
-| known / confirmation | CC：D | 96 | 16 | 16 | A/D：32 |
-| confirm / confirmation | CC/HC/CH/HH，各 B、D | 704 | 128 | 128 | 四相位 A/B/D：192 |
-| 每模型学生合计 |  | **1,200** | **224** | **224** | — |
+| known / development | CC: B, C, SWAP | 224 | 48 | 48 | A/B/C:48 |
+| dev / development | CC: B, C | 176 | 32 | 32 | A/B/C:48 |
+| known / confirmation | CC: D | 96 | 16 | 16 | A/D:32 |
+| confirm / confirmation | B, D in each CC/HC/CH/HH | 704 | 128 | 128 | A/B/D in four phases:192 |
+| Per-model student total |  | **1,200** | **224** | **224** | — |
 
-公式：每 phase 基线 A 为 16 次；每非 SWAP 世界为 `16×(updated+neighbor+restored+shuffle+empty)=80` 次；SWAP 为 48 次。全部 15 模型 **18,000 次学生生成、3,360 次独立干预、3,360 次恢复，共 6,720 次 real group 写入**。教师预检 128 次，加开发 96 与确认 224，共 **448 次教师生成**；总正式生成 18,448 次。初始化填库和控制银行物化不计在线 logical writes，成本单列；smoke 另列。
+Each phase has 16 baseline A generations. Each non-SWAP world has `16×(updated+neighbor+restored+shuffle+empty)=80`; SWAP has 48. Across 15 models: **18,000 student generations,3,360 independent interventions,3,360 restorations, and 6,720 real group writes**. Teacher preflight 128 + development 96 + confirmation 224 gives **448 teacher generations**, or 18,448 formal generations overall. Initial bank population and control-bank materialization are not online logical writes; their costs are separate, as are smoke runs.
 
-## 五、主要指标、候选封存和停止条件
+## 5. Primary metrics, candidate sealing, and stopping rules
 
-主要指标是规范化完整答案 EM；normalization 沿现有实现（NFKC、大小写、标点、空白），另保存原始文本。已见 A/B pair 要求起始 A 与写入 B 都正确。C/D `update_restore` 要求写入新内容和回写 A 两个时点均正确；起始 A+新内容+回写 A 的三时点联合率另外报告，不替换门槛。`locality_joint` 要求邻居 before/after 均正确，文本相同但两次都错不通过。
+The primary metric is normalized full-answer EM, using the existing NFKC/case/punctuation/whitespace normalization and retaining raw text. Seen A/B pair requires correct initial A and updated B. C/D `update_restore` requires correctness after writing new content and after restoring A. Joint correctness at all three points—initial A, new content, restored A—is reported separately and does not replace the threshold. `locality_joint` requires correct neighbor answers both before and after; identical but wrong answers fail.
 
-对相同问题的不同世界，空库确定性答案无法同时匹配两个不同 payload，所以 empty 的严格 paired EM 必为零，不把这一逻辑零当作记忆成功证据。使用同世界单边 real−shuffle、real−empty 的 EM 差。
+For the same question in different worlds, a deterministic empty-bank answer cannot match two distinct payloads, making strict empty paired EM necessarily zero. This logical zero is not evidence of memory success. Use same-world single-sided real−shuffle and real−empty EM differences.
 
-### 开发门槛（四个 VeRA 主线臂，三个种子逐个满足）
+### Development thresholds: each seed of the four main VeRA arms must pass
 
-| 检查 | 固定整数门槛 |
+| Check | Fixed integer threshold |
 | --- | --- |
-| known CC 已见 A/B pair | ≥12/16 |
-| known CC C update+restore | ≥12/16 |
-| known CC C 单边 real−shuffle、real−empty | 两项各 ≥0.50 |
-| known CC C 邻居联合正确 | ≥15/16（对应 ≥90%） |
-| dev 新实体 CC C 单边完整 EM | ≥8/16 |
+| Known CC seen A/B pair | ≥12/16 |
+| Known CC C update+restore | ≥12/16 |
+| Known CC C single-sided real−shuffle, real−empty | Each ≥0.50 |
+| Known CC C joint neighbor correctness | ≥15/16 (corresponding to ≥90%) |
+| New-entity dev CC C single-sided full EM | ≥8/16 |
 
-门槛是本轮用于决定是否扩大实验的工程标准，不是统计显著性保证，也不声称达到部署质量。五臂全部完成同预算，即使早期 baseline 不通过，也不据此取消预定对照。
+These are engineering criteria for deciding whether to expand experiments, not guarantees of statistical significance or deployment quality. All five arms finish the same budget; an early baseline failure does not cancel planned controls.
 
-在满足全部门槛的 VeRA 臂中，按以下顺序确定唯一架构：最大化三个种子中最小的 known C update+restore；再最大化最小的 dev 新实体 C 单边 EM；再少可训练参数、少每事实向量字节；仍相同按 `static_flat → static_grouped → rebind_flat → rebind_grouped`。只看开发终点，不择种子；additive 永不参与排序。没有合格臂则记录“无候选”。
+Among VeRA arms passing every threshold, choose one architecture by maximizing the minimum known C update+restore across seeds, then the minimum new-entity dev C single-sided EM, then preferring fewer trainable parameters and fewer vector bytes per fact. Remaining ties use `static_flat → static_grouped → rebind_flat → rebind_grouped`. Use only development endpoints and do not choose seeds. Additive never enters ranking. If no arm qualifies, record “no candidate.”
 
-全部 15 个训练和 30 个开发学生评估完成、教师资格已保存后，封存候选与证据 SHA；任何确认 child 的启动在此之后。所有模型的 D/confirm 可完整报告，但不得事后选另一个确认表现较好者。
+After all 15 training and 30 development student evaluations complete and teacher qualification is saved, seal the candidate and evidence SHAs. No confirmation child may start earlier. D/confirm results for all models may be reported, but a different model with better confirmation scores cannot be substituted afterward.
 
-### 最终扩样门槛（仅开发选定架构，三个种子逐个满足）
+### Final expansion thresholds: only the development-selected architecture, every seed
 
-- known CC D update+restore ≥12/16。
-- known CC D 单边 real−shuffle、real−empty 各 ≥0.50。
-- known CC D 邻居联合正确 ≥15/16。
-- 新实体 confirm CC D 单边完整 EM ≥8/16。
+- Known CC D update+restore ≥12/16.
+- Known CC D single-sided real−shuffle and real−empty each ≥0.50.
+- Known CC D joint neighbor correctness ≥15/16.
+- New-entity confirm CC D single-sided full EM ≥8/16.
 
-新实体 D 的 update+restore、controls、locality 与四相位 A/B pair 均完整报告，但不能临时加成或去掉主门槛。HC/CH/HH 用于独立表达变化描述，不用确认新格式挑模型。无候选、任何所选种子未达标或对应教师不合格时，不自动扩大至 256/1024 条；教师不合格时标记结论受限，不用学生零分判断能力上限。additive 达标也不能触发主线扩样。
+Report new-entity D update+restore, controls, locality, and four-phase A/B pairs in full, without adding or removing primary thresholds. HC/CH/HH describe expression changes separately; confirmation formats do not select models. No candidate, any selected seed failing, or an unqualified corresponding teacher prevents automatic expansion to 256/1024 records. If teachers are unqualified, mark conclusions limited rather than using student zeros to infer a capability ceiling. Additive passing cannot trigger main-path expansion.
 
-## 六、路由、内容和成本诊断
+## 6. Routing, content, and cost diagnostics
 
-每个生成 token 保存 token ID、原始文本对应关系、真实 query 路由、selected fact、三个词槽的权重总量、分数和银行 hash。严格区分 prefill 最后位置的首次预测与后续 decode；不能把问题首部的 trace 当首个答案 token。按 tokenizer 解码与累计字节/词边界，把 slot 访问对齐到**模型实际生成**的词位置，生成与 gold 分词不同时保留不确定性，不能用 gold 强行指派正确 slot。
+For each generated token, save its token ID, relation to raw text, actual query routing, selected fact, total weights of the three word slots, scores, and bank hash. Distinguish the first prediction at the final prefill position from subsequent decode steps; traces at the beginning of the question are not the first answer token. Use tokenizer decoding and cumulative byte/word boundaries to align slot access with **actually generated** word positions. Preserve uncertainty when generated and gold segmentation differ; do not force gold-based correct-slot assignments.
 
-grouped 返回的 index 顺序固定为 slot0/1/2，不按分数排序。因此 R@1 必须由最高分/权重的真实槽或明确的 selected fact 定义，不能读取列表第一项冒充最高排名。主要路由报告为目标 fact 是否被实际读取、grouped selected-fact 准确率、各 slot mass、相关词预测时刻的命中，以及 decode 驻留；flat 实际读四槽、grouped 实际读三槽，不能误写成相同 R@4 权限。
+Grouped indices are returned in slot 0/1/2 order, not score order. Thus R@1 must use the actual highest-score/weight slot or an explicitly defined selected fact, not the list's first entry. Main routing reports include whether the target fact was actually read, grouped selected-fact accuracy, slot masses, hits when relevant words were predicted, and decode residence. Flat reads four slots and grouped three; do not describe them as having equal R@4 access.
 
-完整答案包含率、词数、budget_hit、改动词位置正确率、输出旧 A/B/任意训练 payload 比例是预先指定的诊断，不用于筛选样本。NLL 作为 teacher-forced 辅助指标，评价是否包含 EOS、归约方式必须说明；不与包含 EOS 的训练 CE 混作同一口径。首 token 或 fact 命中不代表内容成功。
+Full-answer containment, word counts, budget_hit, edited-word positional correctness, and output rates for old A/B/any training payload are prescribed diagnostics, not sample-selection criteria. NLL is a teacher-forced auxiliary metric; specify EOS inclusion and reduction instead of conflating it with EOS-inclusive training CE. First-token or fact hits do not establish content success.
 
-训练记录每 entity/payload 的目标曝光、背景驻留、逐步 mapping/目标/背景/银行顺序及 digest；记录参数初值、训练末状态、实际梯度、每组 LR/clip、token/输入位置、backbone 调用和 elapsed。评估保存银行初值、逐目标写入/恢复、控制 permutation、参数前后 hash、K/V 快照与 CPU 路由。多进程累计耗时不能宣称独占 GPU 延迟；实际 values 读取和 key 全扫描成本分开。
+Training records target exposure and background residence for every entity/payload, per-step mappings/targets/backgrounds/bank order and digests, initial/final parameters, actual gradients, each group's LR/clip, tokens/input positions, backbone calls, and elapsed time. Evaluation saves initial banks, per-target writes/restorations, control permutations, parameter hashes before/after, K/V snapshots, and CPU routes. Summed multiprocess times are not exclusive GPU latency. Separate actual value-reading cost from full-key scans.
 
-## 七、结论边界与封存前审查
+## 7. Interpretation boundaries and pre-sealing review
 
-主矩阵可以区分本预算下固定绑定与 rebind、flat 与 grouped 的效果及其交互，不能将 grouped 的效果称为实现了完全分离的地址/内容编码。它仍是单 head、三槽、单层 rank64；无改善不否定所有 QKV 或 attention 记忆。加性诊断改变注入形式，既不属于 VeRA 主结论，也不支持直接宣称乘性是唯一失败原因。
+The main matrix can distinguish fixed binding versus rebind, flat versus grouped, and their interaction under this budget. A grouped effect does not establish fully separated address/content encoding. This remains a single-head, three-slot, single-layer rank 64 interface; no improvement would not reject all QKV or attention memory. The additive diagnostic changes injection form. It neither belongs to the main VeRA conclusion nor establishes multiplication as the sole cause of failure.
 
-三个种子共用同一微型数据、词表和模板，变化的是初始化和训练日程；不是三个独立语料。C/D 是按行单词替换、内容在 known/new 间有意配对，不能泛称任意组合、任意语义或跨域持续学习。组内 attention 即使取回所有三个槽，也可能赋予新词极小权重，反之曾命中该槽也不保证有效读出。
+The three seeds share the same tiny data, vocabulary, and templates, varying initialization and schedule rather than constituting independent corpora. C/D are row-wise one-word substitutions, with content deliberately paired across known/new entities; they are not arbitrary composition, semantics, or cross-domain continual learning. Even after retrieving all three slots, within-group attention may assign tiny weight to the new word. Conversely, a hit on its slot does not ensure effective reading.
 
-封存前必须核对：全部历史排除与配对数据；8,192 个真实训练文本编码的 writer prefix/span/关闭记忆合同；共同 train-only 统计；同 seed 五臂初始化相同；每 epoch 目标实体及 payload 精确配平；单样本 A/B 只改自身；CPU/tensor 读取及空库等价；group选择梯度和 dense 地址辅助可用；真实模型预检128教师/合批smoke；生成 token 与 route 对齐；45个训练+开发条件选择屏障；本文、源码、计划与数据 SHA。任何实质修复须重新版本化并保留原产物，不把实现失效记成模型失败。
+Before sealing, verify all historical exclusions and paired data; the writer prefix/span/memory-disabled contract for 8,192 actual training texts; shared train-only statistics; identical five-arm initialization per seed; exact per-epoch target entity/payload balance; sample-isolated A/B changes; CPU/tensor reading and empty-bank equivalence; group-selection gradients and dense-address supervision; actual-model preflight with 128 teacher cases and batched smoke; generation-token/route alignment; the 45-condition training/development selection barrier; and document/source/plan/data SHAs. Substantive fixes require a new version and preserved original artifacts; implementation invalidity is not model failure.

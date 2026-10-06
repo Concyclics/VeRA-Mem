@@ -545,30 +545,30 @@ def summarize(suites, *, samples=5000, seed=123):
 
 
 def report(summary):
-    short = {phase: label for phase, label in zip(PHASES, ("规范支持/规范问句", "规范支持/新问句", "新支持/规范问句", "新支持/新问句"))}
+    short = {phase: label for phase, label in zip(PHASES, ("canonical support/canonical query", "canonical support/heldout query", "heldout support/canonical query", "heldout support/heldout query"))}
     pct = lambda x: f"{100*x:.1f}%"
     def paired(value):
         return f"{100*value['delta_em']:+.1f} [{100*value['ci95'][0]:+.1f}, {100*value['ci95'][1]:+.1f}]"
-    lines = ["# Context teacher 蒸馏：已审计开发集结果", "",
-             f"六组结果通过逐记录审计；五个训练组具有相同 target/episode schedule SHA，initial 为零更新。开发集 {summary['evaluation']['facts']} 个事实，同一事实在四个条件复用。", "",
-             "## 自由生成与检索", "", "单元格：real EM / prefill R@1。Oracle 是强制 value 的诊断，不是数学上界。", "",
-             "| 方法 | " + " | ".join(short.values()) + " |", "|---|" + "---|"*4]
+    lines = ["# Context-teacher distillation: audited development results", "",
+             f"All six conditions pass record-level auditing; the five trained arms share the target/episode schedule SHA, and initial has zero updates. The development set has {summary['evaluation']['facts']} facts, reused across four conditions.", "",
+             "## Free generation and retrieval", "", "Cells: real EM / prefill R@1. Oracle is a forced-value diagnostic, not a mathematical upper bound.", "",
+             "| Method | " + " | ".join(short.values()) + " |", "|---|" + "---|"*4]
     for run in summary["runs"]:
         cells = [f"{pct(run['conditions'][phase]['student']['real']['em'])} / {pct(run['conditions'][phase]['student']['real']['recall_at_1'])}" for phase in PHASES]
         lines.append("| "+run["method"]+" | "+" | ".join(cells)+" |")
-    lines += ["", "## 记忆因果对照", "", "real − shuffled，单位百分点及 95% fact-paired bootstrap CI；最后一列先按事实平均四个条件，再抽样事实。", "",
-              "| 方法 | "+" | ".join(short.values())+" | 四条件 fact-cluster 平均 |", "|---|"+"---|"*5]
+    lines += ["", "## Memory intervention controls", "", "Real minus shuffled, in percentage points with 95% fact-paired bootstrap CIs. The final column averages the four conditions within each fact before resampling facts.", "",
+              "| Method | "+" | ".join(short.values())+" | Four-condition fact-cluster mean |", "|---|"+"---|"*5]
     for run in summary["runs"]:
         cells = [paired(run["conditions"][phase]["paired"]["real_minus_shuffled"]) for phase in PHASES]
         lines.append("| "+run["method"]+" | "+" | ".join(cells+[paired(run["all_conditions_real_minus_shuffled"])])+" |")
-    lines += ["", "## Teacher 验收与初始学生", "", "Teacher 接收文本事实；student 接收问题与 VDB。此对照用于确认 teacher 是否提供有效监督。", "",
-              "| 条件 | Teacher EM | Initial real EM | Teacher − initial (pp, 95% CI) | Teacher answer NLL |", "|---|---|---|---|---|"]
+    lines += ["", "## Teacher qualification and initial student", "", "The teacher receives the textual fact; the student receives the question and VDB. This control checks whether the teacher provides valid supervision.", "",
+              "| Condition | Teacher EM | Initial real EM | Teacher − initial (pp, 95% CI) | Teacher answer NLL |", "|---|---|---|---|---|"]
     initial = summary["runs"][0]
     for phase in PHASES:
         condition, teacher = initial["conditions"][phase], summary["teacher_acceptance"][phase]
         lines.append(f"| {short[phase]} | {pct(teacher['em'])} | {pct(condition['student']['real']['em'])} | {paired(condition['paired']['teacher_minus_real'])} | {teacher['answer_token_nll']:.4f} |")
-    lines += ["", "## Gold-prefix 对齐诊断", "", "每项先按事实内部 token 平均，再按事实平均。KL 为 reverse KL；hidden 为 cosine。括号内是相同问题的 no-memory 基线；首 token 尚未输入 gold answer。", "",
-              "| 方法 | 条件 | KL (base) | 首 token KL (base) | Hidden cosine (base) | 首 token cosine (base) |", "|---|---|---|---|---|---|"]
+    lines += ["", "## Gold-prefix alignment diagnostics", "", "Each measure averages tokens within facts, then averages facts. KL is reverse KL; hidden alignment uses cosine. Parentheses contain the no-memory baseline for the same question; the first token has not consumed the gold answer.", "",
+              "| Method | Condition | KL (base) | First-token KL (base) | Hidden cosine (base) | First-token cosine (base) |", "|---|---|---|---|---|---|"]
     for run in summary["runs"]:
         for phase in PHASES:
             item = run["conditions"][phase]["alignment"]
@@ -576,14 +576,14 @@ def report(summary):
                 ("reverse_kl", "no_memory_reverse_kl"), ("first_token_reverse_kl", "first_token_no_memory_reverse_kl"),
                 ("hidden_cosine", "no_memory_hidden_cosine"), ("first_token_hidden_cosine", "first_token_no_memory_hidden_cosine"))]
             lines.append("| "+run["method"]+" | "+short[phase]+" | "+" | ".join(cells)+" |")
-    lines += ["", "## 实际训练成本", "", "相同步数不代表相同计算成本。Input totals 是未补齐的 student/teacher/rollout/replay 输入位置总数；不等于 FLOPs。", "",
-              "| 方法 | 更新 | Target exposures | Main targets | Teacher targets | Sampled tokens | Replay targets | 总 input tokens | 训练秒数 |", "|---|---|---|---|---|---|---|---|---|"]
+    lines += ["", "## Actual training cost", "", "Equal update counts do not imply equal compute. Input totals count unpadded student/teacher/rollout/replay input positions, not FLOPs.", "",
+              "| Method | Updates | Target exposures | Main targets | Teacher targets | Sampled tokens | Replay targets | Total input tokens | Training seconds |", "|---|---|---|---|---|---|---|---|---|"]
     for run in summary["runs"]:
         t = run["training"]
         tok = t["token_totals"]
         lines.append(f"| {run['method']} | {t['step']} | {t['target_exposures']} | {tok['main_target_tokens']} | {tok['teacher_target_tokens']} | {tok['sampled_tokens']} | {tok['replay_target_tokens']} | {t['processed_input_tokens_total']} | {t['elapsed_seconds']:.1f} |")
-    lines += ["", "## 范围与限制", ""] + ["- "+item for item in summary["limitations"]]
-    lines += ["", "summary.json 保留全部四象限的 real/oracle/shuffled/empty EM、NLL、R@1/R@4、decode 指标、成对差值及来源 SHA；原始提示、token ID、事实 ID 和本地路径均未发布。", ""]
+    lines += ["", "## Scope and limitations", ""] + ["- "+item for item in summary["limitations"]]
+    lines += ["", "summary.json retains real/oracle/shuffled/empty EM, NLL, R@1/R@4, decode metrics, paired differences, and source SHAs for all four quadrants. Raw prompts, token IDs, fact IDs, and local paths are not published in this export.", ""]
     return "\n".join(lines)
 
 

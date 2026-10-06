@@ -96,7 +96,7 @@ def test_complete_evidence_has_four_quadrants_and_no_private_payload(tmp_path):
     assert len(aggregate["within_run_memory_effects"]) == 8
     assert all(effect["n_paired_facts"] == 128 and effect["delta_em"] == 1.
                and effect["ci95"] == [1., 1.] for effect in aggregate["within_run_memory_effects"])
-    assert "新查询+新观测" in summary.render(aggregate)
+    assert "heldout query + heldout support" in summary.render(aggregate)
 
 
 def test_false_em_cannot_pass_even_if_reported_phase_mean_is_unchanged(tmp_path):
@@ -209,4 +209,4 @@ def test_six_percent_word_guessing_is_not_reported_as_memory_improvement(tmp_pat
             assert effect["delta_em"] == 0 and effect["ci95"] == [0., 0.]
     assert {effect["contrast"] for effect in effects} == {"real_minus_shuffled", "real_minus_empty"}
     assert "6.25%" in summary.render(aggregate)
-    assert "不能单独证明记忆泛化" in summary.render(aggregate)
+    assert "cannot establish memory generalization by itself" in summary.render(aggregate)

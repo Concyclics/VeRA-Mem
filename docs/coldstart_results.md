@@ -1,77 +1,77 @@
-# VeRA-Mem：Wikipedia 冷启动与可学习基础记忆实验
+# VeRA-Mem: Wikipedia cold start and learnable foundation memory
 
-**2026-10-06，八个主实验和一个补充实验全部完成。** 按[固定协议](coldstart_protocol.md)执行，正式结果包含 13 个实际训练作业、57 个评测配置；33,216 次生成与 9,960 次单条事实更新通过独立审计。公开[关键结果](results/coldstart/key_facts.json)与[完整聚合汇总](results/coldstart/summary.json)可复核下表。
+**2026-10-06: all eight main experiments and one supplementary experiment are complete.** Executed under the [fixed protocol](coldstart_protocol.md), formal results comprise 13 actual training jobs and 57 evaluation configurations. Independent audits verified 33,216 generations and 9,960 single-fact updates. The public [key results](results/coldstart/key_facts.json) and [full aggregate summary](results/coldstart/summary.json) support the tables below.
 
-**结论：冷启动改善了答案 token 的概率，可学习向量与稠密反向扩大了梯度覆盖，但本轮没有得到完整事实回答或格式泛化的提升。** 在教师合格的合成确认任务上，九个模型的四种表达条件均为 **0/64**，已见训练事实的小探针也均为 **0/8**。因此，当前退化不能仅用“基础向量太稀疏、没有被更新”解释；写入信息保留、读出容量及解码期间的路由仍需分别检验。这里并未证明哪个因素是根因。
+**Conclusion: cold start improved answer-token probabilities, and learnable vectors/dense backward passes expanded gradient coverage, but this round did not improve complete factual answers or format generalization.** On teacher-qualified synthetic confirmation tasks, all nine models score **0/64** in every one of the four expression conditions. Small probes of previously trained facts also score **0/8** throughout. The current degeneration therefore cannot be explained solely by foundation vectors being too sparsely updated. Information preservation during writing, readout capacity, and decode-time routing still require separate tests; no root cause is established here.
 
-这只是 **32K 候选、8,192 个热身目标、单种子、单层 rank-64** 的监督冷启动试验，不是完整 Wikipedia 规模的预训练结论。原始 Wiki 上下文教师本身不合格；额外答案标注使训练验证教师达 93.75%，但其学生补充实验仍无完整答案收益。不能将 Wiki 零分单独解释为学生泛化失败，也不能据此否定更大规模预训练或训练中的动态聚类。
+This is a supervised cold-start experiment with **32K candidates, 8,192 warm-up targets, one seed, and one rank-64 layer**, not a conclusion about Wikipedia-scale pretraining. The original Wikipedia-context teacher is itself unqualified. Additional answer annotation raises training-validation teacher qualification to 93.75%, but its supplementary student still gains no complete answers. Wiki zero scores alone cannot isolate student generalization failure or rule out larger-scale pretraining or dynamic clustering during training.
 
-## 实际架构与三项想法的对应关系
+## Architecture and the three proposed changes
 
-推理始终保留用户要求的接口：每个 token 的实际 VeRA 层输入产生 query，在 CPU VDB 中稀疏召回 value，value 作为参数化调制进入 VeRA；新观测经共享 writer 产生 key/value，可以按记录写入和替换。模型不会通过这条路径把召回文本追加到学生提示中。
+Inference preserves the requested interface: each token's actual VeRA-layer input produces a query; sparse CPU-VDB retrieval returns values that parameterize VeRA modulation. A shared writer encodes new observations into keys/values that can be written and replaced by record. This path does not append retrieved text to the student's prompt.
 
-本轮区分两种记忆。**动态事实库**保存可独立替换的新观测；**基础库**保存离线初始化或训练的共享参数槽。启用基础库的臂中，二者各检索 top-4，按 `v_dynamic + 0.25 × v_base` 混合后进入同一 VeRA 门控，最多访问八条记录；前三个控制臂的基础系数为零。关闭动态库不等于关闭基础库；零基础系数也不自动消除查询基础库的实现成本。在线评测冻结共享权重，仅改变指定事实的 VDB 记录。
+Two memories are separated. The **dynamic factual bank** stores independently replaceable new observations. The **foundation bank** stores shared parameter slots initialized or trained offline. In foundation-enabled arms, each bank retrieves top-4; `v_dynamic + 0.25 × v_base` enters the same VeRA gate, accessing at most eight records. The first three controls set the foundation coefficient to zero. Disabling dynamic memory does not disable foundation memory, and a zero foundation coefficient does not automatically eliminate the implementation's foundation-query cost. Online evaluation freezes shared weights and changes only designated factual VDB records.
 
-| 想验证的调整 | 实际对照 | 可以回答什么 |
+| Proposed change | Actual controls | What they test |
 | --- | --- | --- |
-| 用 Wikipedia 初始化 VeRA 与基础记忆 | `no_warm`、`matched_warm`、`wiki_warm`；从 Wiki A 观测聚类初始化基础库；另设 `wiki_joint` | 区分无梯度热身、同目标的紧凑观测、自然段落，以及基础槽是否参与语料热身 |
-| 让基础向量可学习，缓解稀疏梯度覆盖不足 | `fixed`、`learned_sparse`、`dense_warm`、`straight_through` | 在共同初始化下区分冻结、普通稀疏训练、前密后疏、稀疏前向加稠密反向 |
-| 聚类或合并向量 | 同一预指定 ST 检查点的 `full1024`、`off`、`random256`、`cluster256` | 比较容量缩减与合并效果；不把较小库的覆盖率上升当作质量改善 |
+| Initialize VeRA and foundation memory from Wikipedia | `no_warm`, `matched_warm`, `wiki_warm`; initialize foundation slots by clustering Wiki A observations; additional `wiki_joint` | No gradient warm-up versus compact observations with the same targets versus natural paragraphs; whether foundation slots participate in corpus warm-up |
+| Learn foundation vectors to address inadequate sparse-gradient coverage | `fixed`, `learned_sparse`, `dense_warm`, `straight_through` | Frozen slots, ordinary sparse training, dense-to-sparse training, and sparse forward/dense backward from common initialization |
+| Cluster or merge vectors | `full1024`, `off`, `random256`, `cluster256` on one prespecified ST checkpoint | Capacity reduction and merging effects, without equating higher coverage in a smaller bank with better quality |
 
-输出级 straight-through 使用 `y_dense + stop_gradient(y_sparse − y_dense)`，前向仍稀疏，反向使未选中的 value 也有梯度。这是本实验的替代梯度诊断，带有偏差和稠密计算成本。聚类压缩只作用于基础库，保留 value 算术均值，不另做 RMS 重标定或数量偏置；互相冲突的新事实不会被平均合并。
+Output-level straight-through uses `y_dense + stop_gradient(y_sparse − y_dense)`: the forward pass remains sparse, while backward gives gradients to unselected values too. This is a biased surrogate-gradient diagnostic with dense computational cost. Clustering compresses only the foundation bank and retains arithmetic value means, without extra RMS rescaling or count bias. Conflicting new facts are never averaged together.
 
-聚类实际只用于训练前原型初始化和训练后固定检查点压缩；本轮没有检验训练中的动态合并、拆分或失活槽重新分配，不能据此否定这类防退化机制。
+Clustering is used only for pretraining prototype initialization and post-training compression of a fixed checkpoint. This round does not test dynamic merging, splitting, or reallocation of inactive slots during training, so it cannot rule out those anti-degeneration mechanisms.
 
-## 八个主实验与一个补充实验
+## Eight main arms and one supplementary arm
 
-| 主实验臂 | 语料热身 | 随后的合成训练 |
+| Main arm | Corpus warm-up | Subsequent synthetic training |
 | --- | --- | --- |
-| `no_warm` | 无梯度热身；仍共享训练语料拟合的统计量 | 512 步，基础贡献关闭 |
-| `matched_warm` | 1,024 步紧凑模板观测，与 Wiki 使用相同 ID、问题、A/B 答案和目标顺序 | 512 步，基础贡献关闭 |
-| `wiki_warm` | 1,024 步自然段落观测 | 512 步，基础贡献关闭 |
-| `fixed` | 复用共同 Wiki 热身及其 1,024 个原型 | 512 步，原型冻结 |
-| `learned_sparse` | 同 `fixed` | 512 步，学习原型，普通稀疏路由 |
-| `dense_warm` | 同 `fixed` | 256 步稠密、256 步稀疏 |
-| `straight_through` | 同 `fixed` | 512 步输出级 ST |
-| `wiki_joint` | 从共同初始模型建立原型，1,024 步 Wiki 中同时学习原型与 VeRA，使用 ST | 512 步继续 ST |
+| `no_warm` | No gradient warm-up; still shares statistics fitted on training-corpus features | 512 steps, foundation contribution disabled |
+| `matched_warm` | 1,024 steps of compact templated observations, sharing Wiki IDs, questions, A/B answers, and target order | 512 steps, foundation contribution disabled |
+| `wiki_warm` | 1,024 steps of natural-paragraph observations | 512 steps, foundation contribution disabled |
+| `fixed` | Reuses common Wiki warm-up and its 1,024 prototypes | 512 steps, prototypes frozen |
+| `learned_sparse` | Same as `fixed` | 512 steps, trainable prototypes and ordinary sparse routing |
+| `dense_warm` | Same as `fixed` | 256 dense steps, then 256 sparse steps |
+| `straight_through` | Same as `fixed` | 512 output-level ST steps |
+| `wiki_joint` | Builds prototypes from the common initial model; jointly trains prototypes and VeRA for 1,024 Wiki steps using ST | Continues ST for 512 steps |
 
-`wiki_joint` 同时改变热身中的基础记忆使用和路由，不能当成单因素对照。八臂合计对应 **11 个训练作业、52 个评测配置**：开发 22、确认 22、训练记忆探针 8。共享热身只在实际计算成本中计一次。
+`wiki_joint` changes both foundation-memory use and routing during warm-up, so it is not a single-factor control. The eight arms require **11 training jobs and 52 evaluation configurations**: 22 development, 22 confirmation, and 8 training-memory probes. Shared warm-up is counted only once in actual compute cost.
 
-补充臂 **`wiki_teacher_repair`** 在教师失败之后按预先固定的训练集规则启动，独立于上述八臂：共同初始化 → 1,024 步 Wiki 答案标注教师热身 → 初始化 1,024 个原型 → 512 步合成 ST，合成阶段恢复普通教师。它另有两个训练作业、一次原型初始化和五个评测配置。学生观测、feature cache、问题、目标顺序及推理接口保持不变，改变的是 Wiki 教师监督；不能把它混入原始自然上下文对照后声称单纯增加语料有效。
+The supplementary **`wiki_teacher_repair`** arm starts after teacher failure under a prespecified training-set rule, independently of the eight main arms: common initialization → 1,024 Wiki warm-up steps with an answer-annotated teacher → initialization of 1,024 prototypes → 512 synthetic ST steps, restoring the ordinary teacher for synthetic training. It adds two training jobs, one prototype initialization, and five evaluation configurations. Student observations, feature caches, questions, target order, and the inference interface remain unchanged; Wiki teacher supervision changes. It must not be pooled with the original natural-context controls to claim that simply adding corpus data helped.
 
-所有分支均使用冻结的 Qwen3-4B-Instruct-2507（revision `cdbee75f17c01a7cc42f958dc650907174af0554`）、第 20 层、固定随机 A/B、rank 64 和种子 63042。writer 的 value 来自内容区间池化，key 来自观测最后位置。训练只有 canonical view，P=A，不能称作独立改写增强。
+All branches use frozen Qwen3-4B-Instruct-2507, revision `cdbee75f17c01a7cc42f958dc650907174af0554`, layer 20, fixed random A/B, rank 64, and seed 63042. Writer values use pooling over content spans; keys use the observation's last position. Training uses only the canonical view, with P=A, so this is not independent paraphrase augmentation.
 
-共同目标包括有上下文教师的 forward KL、权重 0.5 的完整 gold 答案 CE，以及目标地址等监督。因此原始 Wiki 热身本身也是监督训练，不能称为无监督语言预训练。自然段落增加了内容多样性，但没有增加训练问句或观测格式的种类。
+Shared objectives include forward KL from a contextual teacher, full gold-answer CE weighted by 0.5, and target-address supervision. Original Wiki warm-up is therefore supervised training, not unsupervised language pretraining. Natural paragraphs add content diversity, not additional training-question or observation-format types.
 
-## 数据规模、隔离与已知限制
+## Data scale, isolation, and known limitations
 
-Wiki 使用固定 Wikimedia `20231101.en` 分片，在 156,289 篇源文章中得到 train/dev/confirm 为 **32,768/64/128** 条自然观测；匹配模板保持同样的标签与问题。A 为原文章片段，B 为同 split 另一文章三词答案的反事实替换。这是观测条件下的事实更新测试，并非纯百科知识问答。
+Wiki uses a fixed Wikimedia `20231101.en` shard. From 156,289 source articles, it yields **32,768/64/128** natural observations for train/dev/confirm; matched templates preserve labels and questions. A is the original article excerpt; B counterfactually replaces its three-word answer with another article's answer from the same split. This tests factual updates conditioned on observations, not ordinary encyclopedic QA.
 
-**32K 语料不等于 32K 目标监督。** Wiki/模板热身为 1,024 × 8 = **8,192 个不同目标各更新一次**，只是 32,768 个候选的子集；基础原型初始化使用全部 32,768 条 A 观测。共同归一化统计仅使用前 8,192 行。合成训练为 512 × 8 = **4,096 个不同目标各更新一次**，恰好单轮；其 train/dev/confirm 为 4,096/64/128 条。背景银行曝光及同一目标的 A/B/P 分支不能计成额外独立 epoch。确切输入和目标 token 总量见成本表，记录数不是 token 数。
+**A 32K corpus does not mean 32K supervised targets.** Wiki/template warm-up uses 1,024 × 8 = **8,192 distinct targets, each updated once**, a subset of 32,768 candidates. Foundation-prototype initialization uses all 32,768 A observations. Common normalization statistics use only the first 8,192 rows. Synthetic training uses 512 × 8 = **4,096 distinct targets, each updated once**, exactly one traversal; its train/dev/confirm sizes are 4,096/64/128. Background-bank exposure and A/B/P branches of the same target are not additional independent epochs. Exact input/target token totals appear in the cost table; record counts are not token counts.
 
-文章 ID、规范化标题/正文/首段的精确重复簇先切分，完整答案跨 split 分离；合成实体与完整答案同样隔离。这里没有建立全面语义近重复排除，也不能排除 Qwen 预训练见过百科原文。开发每域评测 16 个目标，确认每域从 128 条银行中固定取 64 个；训练记忆探针评测 128 条已见训练事实中的 8 个，复制 canonical view 供接口使用，四种相位实际是同一格式，不能计作格式泛化。探针的 128 条背景库不是训练时 72 条银行的逐次重放，背景负例组成变化也可能影响路由，因此失败不能直接等同于完全没有记住训练样本。
+Article IDs and exact duplicate clusters based on normalized titles/bodies/lead paragraphs are split first; complete answers are disjoint across splits. Synthetic entities and complete answers are also isolated. This is not exhaustive semantic near-duplicate exclusion, and Qwen may have encountered the original encyclopedia text in pretraining. Development evaluates 16 targets per domain; confirmation fixes 64 targets from each 128-record bank. Training-memory probes evaluate 8 of 128 previously trained facts, copying the canonical view for interface compatibility. Their four phases therefore use the same format and do not measure format generalization. Probe banks of 128 background facts are not exact replays of 72-record training episodes. Changed negatives can also alter routing, so probe failure is not identical to proving that no training example was memorized.
 
-数据核验发现并处理了两件事：
+Data validation found and addressed two issues:
 
-- Wiki train index 13,896 的 B 替换与 anchor 重叠，且在热身 step 940 被用作目标。受影响的旧 Wiki 两分支整体排除并保留，v2 只修这一条 B 的两个原始文本 view 和 canonical B 的 last/pool 特征；query、全部 A、其他特征及共同统计输入逐位不变，另外八个原始数据文件字节相同。模板分支未受此错误影响。
-- train index 6,295 的 A `David Croft and` 出现在标点归一化后的问题 anchor 中。Wiki 与模板共享此限制，主数据不作事后删改；本轮 8,192 个训练目标未命中它，但它仍属于共同统计及原型源语料。所有 dev/confirm 和合成 train 的整词组扫描未发现此问题。教师探针在预测前按固定规则排除这一条，保留 32,767 个合格候选。
+- At Wiki train index 13,896, the B replacement overlapped the anchor; that record became a warm-up target at step 940. Both affected old Wiki branches were excluded in full and preserved. The v2 repair changes only this B record's two raw text views and canonical-B last/pool features. Queries, all A features, all other features, and shared-statistics inputs remain bitwise unchanged; the other eight raw data files are byte-identical. The matched-template branch was unaffected.
+- The A answer `David Croft and` at train index 6,295 occurs inside the punctuation-normalized question anchor. Wiki and matched data share this limitation. Main data were not deleted or changed post hoc. The record was not among this round's 8,192 training targets, but remains in shared-statistics/prototype source data. Whole-phrase scans found no such issue in dev/confirm or synthetic train. A fixed rule excluded it from teacher probing before predictions, leaving 32,767 eligible candidates.
 
-## 教师可行性：必须先于学生结论解释
+## Teacher feasibility must precede interpretation of student outcomes
 
-| 已完成的教师检查 | baseline | 提取指令 `quote_instruction` | 答案标注 `gold_annotated` |
+| Completed teacher check | baseline | Extraction instruction `quote_instruction` | Answer annotation `gold_annotated` |
 | --- | --- | --- | --- |
-| Wiki 训练校准 16 条，A/B 同时正确 | 0/16 | 0/16 | 16/16 |
-| 另取 Wiki 训练验证 64 条，A/B 同时正确 | 1/64 | 0/64 | **60/64（93.75%）** |
+| 16 Wiki training calibration records, both A/B correct | 0/16 | 0/16 | 16/16 |
+| Separate 64 Wiki training-validation records, both A/B correct | 1/64 | 0/64 | **60/64 (93.75%)** |
 
-选择规则在探针预测前封存：quote 达 90% 则用 quote，否则仅当 annotation 达 90% 时用 annotation，否则不追加训练。已完成的独立审计从 **480 条原始生成**重算了成对计数，核验了固定候选筛选、问题/源上下文不变以及证据与源快照哈希，选择 `gold_annotated` 合规。annotation 显式提供答案定位，是**额外标签监督**，不是未经标注的 Wiki 上下文教师，也不是无监督语料学习。
+The selection rule was sealed before probe predictions: use quote if it reaches 90%; otherwise use annotation only if it reaches 90%; otherwise add no training. A completed independent audit recomputed paired counts from **480 raw generations**, checked fixed candidate filtering, unchanged questions/source contexts, and evidence/source-snapshot hashes. Selecting `gold_annotated` complied with the rule. Annotation explicitly supplies answer localization and is **additional label supervision**, not an unannotated Wiki-context teacher or unsupervised corpus learning.
 
-原始 Wiki 开发教师 CC/CH/HC/HH 仅为 **0/16、0/16、1/16、0/16**；合成开发教师四相位均为 **16/16**。原始 Wiki 教师在当前提示及生成预算下不合格，因此该条件不能单独隔离学生的记忆泛化失败。这不意味着目标任务不可学习，也不意味着 gold-prefix 教师 KL 完全无效；完整答案 CE 和地址监督仍然存在。训练分布上标注教师达到 93.75% 也不证明它在新文章上合格，更不代表参数化学生已经学会读写。
+The original Wiki development teacher scores only **0/16, 0/16, 1/16, 0/16** for CC/CH/HC/HH; the synthetic teacher scores **16/16** in all four phases. Under the current prompt and generation budget, the original Wiki teacher is unqualified, so its condition cannot independently isolate student memory-generalization failure. This does not make the task unlearnable or imply that gold-prefix teacher KL is wholly useless; full-answer CE and address supervision are still present. A 93.75% annotated-teacher score on the training distribution neither qualifies it on new articles nor establishes that the parameterized student learned to read/write.
 
-## 最终确认结果：概率改善尚未转为完整回答
+## Final confirmation: probability gains have not become complete answers
 
-CC/CH/HC/HH 的第一位指观测格式、第二位指问题格式；C 是训练使用的 canonical 格式，H 是保留的新格式。paired EM 要求同一问题在 A 写入和 B 替换后都生成完整正确答案。下表的 NLL 为每个世界内按答案 token 加权后，再对 A/B 等权平均；越低越好。它是在正确答案前缀下评分，不能替代自由生成。
+The first CC/CH/HC/HH letter denotes observation format and the second question format. C is the canonical training format; H is a held-out format. Paired EM requires complete correct answers to the same question after both A writing and B replacement. NLL below is answer-token-weighted within each world and then averaged equally across A/B; lower is better. It is scored under correct-answer prefixes and does not replace free generation.
 
-| 模型 | 合成确认 paired EM（CC/CH/HC/HH） | 合成 NLL：CC | HC | HH |
+| Model | Synthetic confirmation paired EM (CC/CH/HC/HH) | Synthetic NLL: CC | HC | HH |
 | --- | --- | --- | --- | --- |
 | `no_warm` | 0/64 × 4 | 4.415 | 4.593 | 8.430 |
 | `matched_warm` | 0/64 × 4 | 3.820 | 3.898 | 5.241 |
@@ -81,78 +81,78 @@ CC/CH/HC/HH 的第一位指观测格式、第二位指问题格式；C 是训练
 | `dense_warm` | 0/64 × 4 | 3.892 | 4.012 | 5.737 |
 | `straight_through` | 0/64 × 4 | 3.856 | 4.005 | 5.628 |
 | `wiki_joint` | 0/64 × 4 | 4.048 | 4.084 | 5.426 |
-| 补充：`wiki_teacher_repair` | 0/64 × 4 | 3.712 | 3.825 | 5.345 |
+| Supplementary: `wiki_teacher_repair` | 0/64 × 4 | 3.712 | 3.825 | 5.345 |
 
-Wiki 确认集同样是九个模型、四相位均 **A=0/64、B=0/64、paired=0/64**。其原始上下文教师仅为 **4/64、0/64、4/64、0/64**；合成教师则四相位均 **64/64**。因此更有解释力的失败证据来自教师合格的合成任务，而非单独来自 Wiki。
+Wiki confirmation likewise gives **A=0/64, B=0/64, paired=0/64** for all nine models in all four phases. Its original-context teacher scores **4/64, 0/64, 4/64, 0/64**, whereas the synthetic teacher scores **64/64** throughout. The teacher-qualified synthetic task therefore provides more interpretable failure evidence than Wiki alone.
 
-主实验 22 个开发配置与补充 2 个开发配置的真实银行四相位均 0/16。九个训练记忆探针均 A/B 单边与成对 0/8，教师为 8/8；该探针的四相位使用相同格式，且背景库不同于训练 episode，不能当作四份独立泛化证据或全部训练样本拟合情况。
+All four real-bank phases score 0/16 in the 22 main and 2 supplementary development configurations. All nine training-memory probes score 0/8 individually for A/B and jointly, with teachers at 8/8. These probe phases share a format and use a different background bank from training episodes; they are neither four independent generalization tests nor a full training-set fit evaluation.
 
-真实银行评测覆盖四相位；打乱 value 和空动态库仅测 CC/HC，`canonical_key` 仅测 HC。所有这些已执行控制也没有完整正确答案。`canonical_key` 是辅助接口诊断，不能作为部署方案或数学上界。预定门槛为 HC 至少提升 10 个百分点且 paired EM ≥20%，同时 CC 降幅不超过 5 个百分点；**没有方案达到门槛**。
+Real-bank evaluation covers four phases; value permutation and an empty dynamic bank are tested only in CC/HC, and `canonical_key` only in HC. None of these executed controls produces a complete correct answer. `canonical_key` is an auxiliary interface diagnostic, not a deployment method or mathematical upper bound. The prespecified threshold requires HC to improve by at least 10 percentage points with paired EM ≥20%, while CC drops by at most 5 points. **No method passes.**
 
-全部正式真实银行输出共 **15,936 条**，完整 EM 与完整答案包含率均为零。这些是跨模型、世界和表达条件的重复评测，不是 15,936 个独立事实。八个主臂 full-bank 合成确认的 4,096 条输出中，3,448 条（84.18%）已经输出三个规范化词，且没有一条耗尽生成预算；因此该条件的零分不能用“答案被统一截断”解释。八个主臂 full-bank Wiki 确认则有 163/4,096 条耗尽预算，应保留其影响。完整长度、首词与截断诊断见[答案诊断](results/coldstart/answer_diagnostics.json)。
+There are **15,936 formal real-bank outputs**, all with zero full EM and zero full-answer containment. They repeat facts across models, worlds, and expression conditions; they are not 15,936 independent facts. Of 4,096 synthetic-confirmation outputs from the eight main full-bank arms, 3,448 (84.18%) already contain three normalized words and none hits the generation budget. Uniform truncation therefore cannot explain that condition's zero score. Main full-bank Wiki confirmation has 163/4,096 budget hits, whose influence must remain acknowledged. Full length, first-word, and truncation diagnostics are in the [answer diagnosis](results/coldstart/answer_diagnostics.json).
 
-寻址仍有格式敏感性：九个模型的合成确认首答案位置 A/B 平均 R@4，CC 为 **81.25–86.72%**，HC 为 **10.94–14.06%**，HH 为 **6.25–7.81%**。例如 `learned_sparse` 的 CC 为 86.72%，但完整回答仍为零；解码期间正确记录驻留仅约 12.58%（A/B 各自按 token 加权，再等权平均）。驻留率是总命中/总解码查询，长错误回答会获得更多权重；它不是实体平均正确率，也不直接证明路由漂移就是失败原因。
+Addressing remains format-sensitive. Across nine models, synthetic-confirmation R@4 at the first answer position, averaged across A/B, is **81.25–86.72%** for CC, **10.94–14.06%** for HC, and **6.25–7.81%** for HH. For example, `learned_sparse` reaches 86.72% in CC but still produces no complete answers. Decode correct-record residency is only about 12.58% (token-weighted separately in A/B, then averaged equally). Residency is total hits divided by total decode queries, giving longer wrong responses more weight. It is neither entity-averaged accuracy nor direct proof that routing drift causes failure.
 
-## 基础向量确实更新，但覆盖不等于有效使用
+## Foundation vectors update, but coverage is not effective utilization
 
-向量审计覆盖全部 13 个正式训练作业，smoke 单列。`fixed` 的基础 key/value 与父检查点完全相同；`fixed/learned_sparse/dense_warm/straight_through` 的初始基础库哈希一致。下表是随后 512 步合成训练的统计，补充臂单列：
+The vector audit covers all 13 formal training jobs, with smoke tests separate. `fixed` foundation keys/values remain identical to its parent checkpoint. `fixed/learned_sparse/dense_warm/straight_through` share the same initial foundation-bank hash. The table describes the subsequent 512 synthetic steps, with the supplement separate:
 
-| 臂 | 非零梯度 key/value 槽并集 | 被选为 top-1 的槽数 | top-1 计数的熵有效槽数 | value Adam RMS 质量的熵有效槽数 |
+| Arm | Union of key/value slots with nonzero gradients | Slots selected as top-1 | Entropy-effective slots from top-1 counts | Entropy-effective slots from value Adam RMS mass |
 | --- | --- | --- | --- | --- |
-| fixed | 0 / 0 | 785/1024 | 95.6 | 不适用 |
+| fixed | 0 / 0 | 785/1024 | 95.6 | Not applicable |
 | learned_sparse | 1001 / 1001 | 422/1024 | 51.9 | 131.6 |
 | dense_warm | 1024 / 1024 | 486/1024 | 40.6 | 139.6 |
 | straight_through | 1024 / 1024 | 436/1024 | 41.0 | 119.9 |
 | wiki_joint | 1024 / 1024 | 105/1024 | 1.4 | 15.6 |
-| 补充 wiki_teacher_repair | 1024 / 1024 | 326/1024 | 28.8 | 93.6 |
+| Supplementary wiki_teacher_repair | 1024 / 1024 | 326/1024 | 28.8 | 93.6 |
 
-ST 不仅获得微小非零梯度：其基础 value 相对更新范数的中位数约 **8.45%**；补充臂约 **7.58%**，但仍无完整答案。`wiki_joint` 全部槽更新，中位数约 33.0%，然而 top-1 使用和最终 Adam 质量明显集中。它的未中心化 value 更新矩阵中，第一奇异方向占 89.57% 的平方能量（中心化后为 31.13%），但最终中心化 value 的有效秩由约 22.43 变为 22.90，**不能称为整个向量库坍缩成秩一**。
+ST receives more than tiny nonzero gradients: median relative foundation-value update norm is approximately **8.45%**, versus **7.58%** in the supplement, still without complete answers. In `wiki_joint`, every slot updates, with a median around 33.0%, but top-1 use and final Adam mass are strongly concentrated. The first singular direction of its uncentered value-update matrix accounts for 89.57% of squared energy (31.13% after centering). Yet the effective rank of final centered values changes from about 22.43 to 22.90. **This is not collapse of the entire vector bank to rank one.**
 
-路由计数仅取每个更新最后一次学生 forward，可能包含 padding，不是全部训练 token 或首答案 token 的统计。Adam 一列先计算每槽 `m_i = sqrt(mean_j(exp_avg_sq[i,j]))`，归一化后取 `exp(熵)`；基于裁剪后梯度的最终指数移动二阶矩，不是原始梯度或全过程梯度能量。这些指标说明优化与利用分布发生变化，不能直接证明语义容量或抗退化能力。详细初末张量、梯度和有效秩证据见[向量审计](results/coldstart/vector_audit.json)。
+Routing counts use only the last student forward of each update and may include padding; they are not counts over all training tokens or first-answer tokens. The Adam column computes per-slot `m_i = sqrt(mean_j(exp_avg_sq[i,j]))`, normalizes it, then takes `exp(entropy)`. It uses the final exponentially averaged second moment of clipped gradients, not raw gradients or full-trajectory gradient energy. These metrics show changes in optimization/utilization distributions, not semantic capacity or resistance to degeneration. See the [vector audit](results/coldstart/vector_audit.json) for initial/final tensors, gradients, and effective-rank evidence.
 
-## 聚类压缩：尚无生成收益
+## Clustering compression: no generation gain yet
 
-同一预先指定的 ST 检查点，在确认集得到：
+One prespecified ST checkpoint gives the following confirmation results:
 
-| 基础库方式 | 槽数 | 合成 CC NLL | Wiki CC NLL | 两域四相位 paired EM |
+| Foundation-bank mode | Slots | Synthetic CC NLL | Wiki CC NLL | Paired EM across both domains and four phases |
 | --- | --- | --- | --- | --- |
-| full | 1024 | 3.856 | 5.986 | 均 0/64 |
-| off | 0 条参与混合 | 4.245 | 6.210 | 均 0/64 |
-| random | 256 | 3.915 | 6.019 | 均 0/64 |
-| cluster | 256 | 3.886 | 5.991 | 均 0/64 |
+| full | 1024 | 3.856 | 5.986 | All 0/64 |
+| off | 0 contribute to mixing | 4.245 | 6.210 | All 0/64 |
+| random | 256 | 3.915 | 6.019 | All 0/64 |
+| cluster | 256 | 3.886 | 5.991 | All 0/64 |
 
-关闭基础贡献使 NLL 变差，说明基础库在这项概率指标上有作用。聚类压缩比随机子集更接近全库，但四者完整答案都失败，不能称为已证实的能力保持或泛化提升。聚类对每个已学习原型等权求均值，不按原 Wiki 聚类人口加权。相同首位置 episodic R@4 是该位置 query 位于此层注入之前的结构性结果，不能当作后续生成不受压缩影响的证据。
+Turning foundation contribution off worsens NLL, establishing an effect on this probability metric. Cluster compression stays closer to the full bank than the random subset, but all four fail to produce complete answers. This does not establish preserved capability or improved generalization. Clustering gives equal weight to each learned prototype, not its original Wiki cluster population. Identical first-position episodic R@4 follows structurally because this query is computed before memory injection at the layer; it does not show that compression leaves later generation unchanged.
 
-## 成本、排除记录与可复核性
+## Costs, exclusions, and reproducibility
 
-| 范围 | 更新/生成次数 | 已记录的 token / 处理位置 | 进程秒数 |
+| Scope | Updates/generations | Recorded tokens / processed positions | Process seconds |
 | --- | --- | --- | --- |
-| 主实验 11 个训练作业，共享前缀只计一次 | 7,168 更新，57,344 目标曝光 | 44,252,178 输入位置；43,008 backbone 调用 | 2,651.09 |
-| 主实验 52 个评测配置 | 30,528 次自由生成；9,120 次单条 B 更新 | 227,601 生成 token；139,713 答案评分目标 token | 10,406.92（仅生成） |
-| 补充臂 2 个训练作业 | 1,536 更新，12,288 目标曝光 | 13,332,908 输入位置；9,216 backbone 调用 | 730.44 |
-| 补充臂 5 个评测配置 | 2,688 次自由生成；840 次单条 B 更新 | 16,298 生成 token；12,366 答案评分目标 token | 516.97（仅生成） |
-| 独立教师可行性探针 | 480 次生成及 480 次评分 | 4,445 生成 token；1,758 评分目标 token；329,681 输入位置 | 134.50 生成 + 19.41 评分 |
-| 排除的旧 Wiki v1 分支 | 3,072 更新，24,576 目标曝光 | 23,683,104 输入位置；18,432 backbone 调用 | 1,353.62 |
+| 11 main training jobs, shared prefixes counted once | 7,168 updates, 57,344 target exposures | 44,252,178 input positions; 43,008 backbone calls | 2,651.09 |
+| 52 main evaluation configurations | 30,528 free generations; 9,120 single-record B updates | 227,601 generated tokens; 139,713 answer-scoring target tokens | 10,406.92 (generation only) |
+| 2 supplementary training jobs | 1,536 updates, 12,288 target exposures | 13,332,908 input positions; 9,216 backbone calls | 730.44 |
+| 5 supplementary evaluation configurations | 2,688 free generations; 840 single-record B updates | 16,298 generated tokens; 12,366 answer-scoring target tokens | 516.97 (generation only) |
+| Independent teacher-feasibility probe | 480 generations and 480 scoring calls | 4,445 generated tokens; 1,758 scoring-target tokens; 329,681 input positions | 134.50 generation + 19.41 scoring |
+| Excluded old Wiki v1 branches | 3,072 updates, 24,576 target exposures | 23,683,104 input positions; 18,432 backbone calls | 1,353.62 |
 
-训练输入按 student + teacher + rollout 处理位置相加，含重复处理；gold、distillation、target token 是重叠口径，不能重复求和。训练记录的累计 elapsed 取末值。并发进程秒数之和不是墙钟时长，也不是独占 GPU 延迟；生成秒数不含答案评分等开销。特征提取、模型加载、原型初始化、修复、传输和 CPU 审计没有统一端到端成本归约，应查看各阶段 manifest，不能把此表当全部项目成本或据此声称效率优势。额外标注教师的热身输入位置增加，也不是与原始 Wiki 完全等计算的对照。
+Training inputs sum processed positions from student, teacher, and rollout calls, including repeated processing. Gold, distillation, and target tokens overlap and must not be added again. Training elapsed time uses the final cumulative value. Summed concurrent process seconds are not wall time or exclusive GPU latency, and generation seconds exclude answer scoring and other overhead. Feature extraction, model loading, prototype initialization, repair, transfer, and CPU audits lack a unified end-to-end cost aggregation; consult their manifests. This table is not total project cost or evidence of efficiency superiority. The answer-annotated teacher also increases warm-up input positions, so it is not exactly compute-matched to the original Wiki teacher.
 
-smoke 另有 4 次训练更新、48 次生成和 10 次单条更新，不进入正式效果与上述主实验/补充统计。被排除的数据 v1、首次教师预检失败、一次资源预检失败，以及两次旧 CLI 拒绝启动的日志均保留，未作为零分混入。完整汇总包含 smoke，因此正式训练成本应读取 `formal_training_costs`，补充臂读取 `supplementary_teacher_followup`，不可直接将总字段当八臂主实验成本。
+Smoke tests add 4 training updates, 48 generations, and 10 single-record updates, excluded from formal effects and the main/supplementary totals above. Excluded data-v1 runs, the first failed teacher precheck, one failed resource precheck, and two old-CLI launch rejections remain preserved and are not counted as zero-scoring experiments. The full summary includes smoke tests. Read `formal_training_costs` for formal training and `supplementary_teacher_followup` for the supplement rather than treating overall totals as costs of the eight main arms.
 
-最终独立核验均通过：
+All final independent checks pass:
 
-- [数据、预算和谱系审计](results/coldstart/independent_audit.json)：主实验 11 训练/52 评测和补充 2 训练/1 初始化/5 评测完整，v2 修复、split、目标顺序、逐条生成指标和冻结参数检查通过。
-- [VDB 重放](results/coldstart/bank_replay.json)：包含单列 smoke 的 58 个评测配置、33,264 条生成记录、9,970 次单条更新全部核验；正式部分为 33,216/9,960。核对仅目标行 A→B 更新、教师零 VDB 查询、压缩条件共享动态库，以及随机子集映射。聚类重算的最大 value 差为 8.86e-7。该审计重建银行张量与日志契约，**没有重新执行语言模型生成或真实 query logits**。
-- [教师补充分支谱系](results/coldstart/teacher_lineage.json)：训练前封存选择证据，从共同初始模型到热身、原型和迁移检查点逐阶段核验；学生问题、观测特征及训练目标未改变。
-- 代码验证：完整 pytest **764 项通过**；随后新增正式成本口径测试的相关 **24 项通过**，最终收集数为 765。向量、银行重放、答案诊断与调度脚本自测通过；测试通过本身不是模型能力证据。
+- [Data, budget, and lineage audit](results/coldstart/independent_audit.json): complete coverage of main 11 training/52 evaluation jobs and supplementary 2 training/1 initialization/5 evaluation jobs; v2 repair, splits, target schedules, individual generation metrics, and frozen-parameter checks pass.
+- [VDB replay](results/coldstart/bank_replay.json): 58 evaluation configurations, 33,264 generations, and 9,970 single-record updates pass, including separately labeled smoke tests. Formal counts are 33,216/9,960. Checks cover target-row-only A→B updates, zero teacher VDB queries, shared dynamic banks across compression conditions, and random-subset mappings. Maximum recomputed cluster-value difference is 8.86e-7. This audit reconstructs bank tensors and log contracts; **it does not rerun language-model generation or actual query logits**.
+- [Supplementary-teacher lineage](results/coldstart/teacher_lineage.json): selection evidence sealed before training, with stage-by-stage verification from common initialization through warm-up, prototypes, and transfer checkpoints. Student questions, observation features, and targets are unchanged.
+- Code validation: the full pytest suite passed **764 tests**. After adding a formal-cost-accounting test, **24 related tests passed**, and final collection contained 765. Vector, bank-replay, answer-diagnosis, and scheduling-script self-tests pass. Passing tests are not evidence of model capability.
 
-[实际执行计划与教师选择证据](results/coldstart/plans.json)保留历史输入路径和原始计划哈希，复现时须使用新的输出目录并重查资源。公开审计 JSON 是聚合投影，保留完整原件 SHA-256；完整逐槽数组、原始预测、轻量检查点、源代码快照和数据留在 Workspace。最终汇总原件 SHA-256 为 `d1a75722a447acbc22853c486700310e0513a9fe0ce7cbf1915a4d5b88fe246c`。远端产物位于 `xtrah100:/ssd3/chenhan/VeRA-Mem-Workspace`，本地为 `/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace`；备份排除开源基座权重与环境缓存。最终同步完成状态和四类目录的 checksum 差异，以 Workspace 的 `backup_manifest.json` 为准。
+[Executed plans and teacher-selection evidence](results/coldstart/plans.json) retain historical input paths and original plan hashes. Reproduction requires new output directories and fresh resource checks. Public audit JSONs are aggregate projections retaining full-original SHA-256 values. Complete per-slot arrays, raw predictions, lightweight checkpoints, source snapshots, and data stay in the Workspace. Full summary-original SHA-256: `d1a75722a447acbc22853c486700310e0513a9fe0ce7cbf1915a4d5b88fe246c`. Remote artifacts are at `xtrah100:/ssd3/chenhan/VeRA-Mem-Workspace`; local artifacts are at `/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace`. Backups exclude open-source base weights and environment caches. The Workspace's `backup_manifest.json` is authoritative for final synchronization status and checksum differences across the four directory categories.
 
-## 给学生的下一步：先验证写读接口，再扩大规模
+## Next steps for students: validate writing/readout before expanding scale
 
-以下是下一轮建议，**本轮未实施，也尚无效果证据**。继续保留“实际层输入→query→稀疏 VDB→value 参数→VeRA”和按事实独立覆盖的契约。
+The following are next-round recommendations, **not implemented or validated in this round**. Retain actual-layer-input → query → sparse VDB → value parameters → VeRA and independent fact overwrites.
 
-1. **先做观测内容重构，再做新事实问答。** 用固定小训练集，先要求写入后的参数记忆重构或补全被观察内容，确认短文本和 A/B 更新都能学会；随后才扩大训练语料并测新文章。将其作为独立训练阶段和可行性诊断，报告真实生成，不是在现有失败配置上继续叠加辅助损失。[SHINE](https://arxiv.org/abs/2602.06358)提供“内容到参数”接口的近邻参考，但其超网络与 LoRA 路径并非本轮稀疏 VDB 的直接证据。
-2. **检验一个 pooled value 是否丢失了多词信息。** 只改变 writer，比较每条观测一个向量与少量内容 memory tokens/向量组；按同一事实 ID 原子替换整组，维持 A/B 冲突控制。报告写入字节、检索条数与额外计算，配上等预算对照；保留完整生成中的真实逐 token 路由，仅用固定前缀/固定路由的辅助对照定位写入损失，不能用辅助结果替代部署结果。
-3. **单独检验读出容量。** 在教师合格且能拟合已见事实后，固定 writer/数据预算，比较单层固定 B、可学习共享 B，以及近似总 rank 预算下的多层读出。逐项改变，观察已见事实拟合、格式泛化和旧事实保持，而非预设固定 B 就是已证实的原因。[Memory Layers at Scale](https://arxiv.org/abs/2412.09764)可启发多层记忆设计；[预训练 PKM](https://aclanthology.org/2020.findings-emnlp.362/)可启发初始化与利用率诊断，二者都没有证明本方案的单次写入泛化。
+1. **Reconstruct observed content before new-fact QA.** On a fixed small training set, require the written parameter memory to reconstruct or complete observed content and establish learning of short text and A/B updates. Only then expand the corpus and test new articles. Make this a separate training stage/feasibility diagnostic and report actual generation, rather than stacking further auxiliary losses onto the failed configuration. [SHINE](https://arxiv.org/abs/2602.06358) is a nearby content-to-parameters reference, but its hypernetwork/LoRA path is not direct evidence for this sparse VDB.
+2. **Test whether one pooled value loses multiword information.** Change only the writer: compare one vector per observation with a small number of content memory tokens/vector groups. Atomically replace the whole group under one fact ID, preserving A/B conflict controls. Report write bytes, retrieval counts, and added compute with budget-matched controls. Keep actual per-token routing in complete generation. Fixed-prefix/fixed-route auxiliary controls may diagnose writing losses but cannot substitute for deployment results.
+3. **Test readout capacity separately.** Once teachers qualify and seen facts can be fitted, fix the writer/data budget and compare single-layer fixed B, learned shared B, and multilayer readout at approximately matched total rank. Change factors individually and track seen-fact fitting, format generalization, and old-fact retention; do not assume fixed B is an established cause. [Memory Layers at Scale](https://arxiv.org/abs/2412.09764) motivates multilayer memory, and [pretrained PKM](https://aclanthology.org/2020.findings-emnlp.362/) motivates initialization/utilization diagnostics. Neither establishes one-shot write generalization for this design.
 
-本轮仅一个优化种子、一个冻结 backbone、一层固定 rank-64 随机 B 和有限预算。在线确认银行为 128 条事实加 1,024 个基础槽，未验证大型 ANN 索引或长时间连续写入。在一个冻结检查点上，该层 memory 残差位于 `diag(b)B` 的至多 64 维列空间，增加基础槽本身不会扩展它；训练中的 b 可学习，因此不能把整个训练期间的子空间视作永久不变。这是架构事实和后续假说的动机，**不是现有失败的因果证明**。下一轮应先取得可重复的已见事实写读能力，再投入更大语料、更多基础槽或更长训练。进一步文献细节和适用边界见[文献映射](coldstart_literature.md)。
+This round uses one optimization seed, one frozen backbone, one fixed random rank-64 B, and a limited budget. Online confirmation banks contain 128 facts plus 1,024 foundation slots; large ANN indexes and long continuous write streams are not validated. At a frozen checkpoint, this layer's memory residual lies in the at-most-64-dimensional column space of `diag(b)B`; adding foundation slots alone does not expand it. Because b is learned during training, that subspace must not be described as permanently fixed throughout training. This architectural fact motivates a hypothesis; **it is not a causal explanation established by the failures**. Establish reproducible writing/readout of seen facts before investing in more corpus data, foundation slots, or training. See the [literature map](coldstart_literature.md) for further evidence and applicability boundaries.

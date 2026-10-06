@@ -1,35 +1,35 @@
-# 表述泛化实验：冻结方案
+# Expression generalization: frozen experimental protocol
 
-本轮检验数据增强是否缓解 VeRA-Mem 对单一问句的过拟合。旧实验的长训练组在原模板达到 127/128，但旧改写 real 与 forced-value 均为 0/128；后者不是严格上界，因为强制每个 token 使用同一个 value 会改变真实检索分布。
+This round tests whether data augmentation reduces VeRA-Mem's overfitting to one question form. The previous long-training arm reached 127/128 on the original template, but both real and forced-value retrieval scored 0/128 on the old paraphrase. Forced values are not a strict upper bound because forcing the same value at every token changes the real retrieval distribution.
 
-## 架构与比较
+## Architecture and comparisons
 
-保持 Qwen3-4B-Instruct-2507 固定版本、零起算第 20 层 down_proj、rank/key=64、top-k=4、温度 0.05。每个实际 token 的 VeRA 输入生成 query；输入观测生成可持久化 key/value；稀疏 value 调制冻结随机 A/B 的 VeRA 分支。在线共享权重始终冻结，只写 VDB。
+Keep the fixed Qwen3-4B-Instruct-2507 version, zero-indexed layer-20 down_proj, rank/key=64, top-k=4, and temperature 0.05. Each actual token's VeRA input generates the query; an observation generates a persistable key/value; sparse values modulate the VeRA branch with frozen random A/B. Shared weights remain frozen online; only the VDB is written.
 
-| 条件 | 训练问法 / 观测形式 | 一致性项 |
+| Condition | Training question / observation forms | Consistency term |
 | --- | --- | --- |
-| canonical | 1 / 1 | 无 |
-| augment | 8 / 4，独立抽样 | 无 |
-| invariant | 与 augment 完全相同的主视图序列 | query/key 余弦、value MSE，每项系数 0.1 |
+| canonical | 1 / 1 | None |
+| augment | 8 / 4, independently sampled | None |
+| invariant | Exactly the same primary-view sequence as augment | Query/key cosine and value MSE, each weighted 0.1 |
 
-三组均使用 4,096 个相同实体、400 次寻址预热、1,536 次 LM 更新、batch=8（12,288 次目标样本暴露），前 768 次使用正确 value 课程训练，后 768 次真实检索。相同随机种子 42。独立 RNG 保证目标/负例实体相同，增强组主视图相同；辅助一致性视图单独采样。问句长度及一致性计算不同，因此这是**相同更新次数和目标样本预算**，不是完全相同 FLOPs；记录 prompt token 数和时间。
+All three arms use the same 4,096 entities, 400 addressing warm-up updates, 1,536 LM updates, and batch=8 (12,288 target-example exposures). The first 768 LM updates use a correct-value curriculum; the last 768 use real retrieval. All use seed 42. Independent RNGs match target/negative entities across arms and primary views across the augmented arms; auxiliary consistency views are sampled separately. Question lengths and consistency computation differ. This is therefore **matched update and target-example budgeting**, not exactly matched FLOPs. Record prompt-token counts and time.
 
-所有阶段都保留不同实体之间的 InfoNCE；真实检索阶段额外监督实际答案预测 token 的寻址。每个 episode 每实体只有一列，第二视图不会误当负例。一致性约束不替代 LM 或负样本。统计均值只由离线训练视图拟合，在线不再调整。
+Every stage retains InfoNCE between different entities. The real-retrieval stage additionally supervises addressing at actual answer-prediction positions. Each episode has one candidate column per entity; second views are not mistakenly treated as negatives. Consistency does not replace LM supervision or negatives. Means are fitted only on offline training views and never adjusted online.
 
-## 保留集
+## Held-out sets
 
-训练事实沿用 seed1042 的固定 4,096 池；dev64 用新 seed12042；确认128与未写入控制32用 seed17042。训练、开发和确认实体无交叉；16 个输出词共享。因此检验的是实体与表达泛化，不是新词汇答案、真实开放域知识或长文档能力。
+Training retains the fixed 4,096-fact pool from seed 1042. The 64-entity development set uses new seed 12042; the 128-entity confirmation set and the 32 never-written controls use seed 17042. Training, development, and confirmation entities are disjoint; the 16 output words are shared. This tests entity and expression generalization, not unseen answer vocabulary, real open-domain knowledge, or long-document capability.
 
-训练 8 种问法包含此前已观察过的旧 paraphrase。开发使用卡片表达和前置输出约束；确认使用 XML、CSV、对话三种未参与训练及 checkpoint 选择的表达家族。它们是人工构造的表达压力测试，不代表自然语言整体分布。模板与事实清单在 `augmentation_data.py`，缓存记录完整协议指纹。
+The 8 training question forms include the old paraphrase already inspected in previous work. Development uses card formats and leading output constraints. Confirmation uses XML, CSV, and dialogue families absent from training and checkpoint selection. These are synthetic expression stress tests, not a representation of the entire natural-language distribution. Templates and fact lists are in `augmentation_data.py`; caches record the complete protocol fingerprint.
 
-checkpoint 按开发集 5 个固定 query/support 组合的真实检索答案 NLL 平均值选择：原问法/原观测、两种开发问法/原观测、两种开发问法/对应开发观测。测试 EM 不用于挑选步数。
+Select the checkpoint by mean real-retrieval answer NLL over 5 fixed development query/support combinations: original question/original observation, two development questions/original observation, and the two development questions with their corresponding development observations. Test EM does not select the training step.
 
-## 在线评测与判定
+## Online evaluation and interpretation
 
-各建立独立空 VDB，依序揭示128个事实；一套使用原观测，另一套按事实轮转三种确认观测表达。后者是**混合观测形式 bank**，不是每种形式独立覆盖全部128事实。原观测 bank 记录写前、立即写后、所有写入后的保留表现，另记录 never-written 控制事实前后表现（非拒答能力分数）。
+Start each run with an independent empty VDB and reveal 128 facts sequentially. One bank uses original observations; another cycles through three confirmation observation forms by fact. The latter is a **mixed-observation-format bank**, not three separate banks each covering all 128 facts. For the canonical-observation bank, record before-write, immediate post-write, and retention performance after all writes, plus before/after behavior on never-written controls. These controls do not measure abstention capability.
 
-每套完整 bank 测原问法及三种确认问法，分别跑真实检索、强制正确 value、打乱 value 对应关系、零残差。无文本检索输入 prompt。缓存可包含未来冻结特征，但在显式揭示边界前，不会编码该事实为 key/value 或写入 bank。
+For each complete bank, test original questions and three confirmation question forms with real retrieval, forced correct values, shuffled value associations, and zero residual. No retrieved text enters the prompt. A cache may contain future frozen features, but a fact is neither encoded into key/value nor written to the bank before its explicit reveal boundary.
 
-四个主要组合：原/新问法 × 原/新观测。报告各模板 exact match、首 token Recall@1/@4；合并三个问法时先在同一实体内平均。条件差异按实体成簇配对 bootstrap 10,000 次、seed123、95%区间，不能将同一事实的不同模板当独立样本。区间仅衡量测试事实抽样不确定性，不替代多训练种子复验。
+The four main combinations are original/new questions × original/new observations. Report per-template exact match and first-token Recall@1/@4. When aggregating three question forms, average within each entity first. Estimate condition differences with entity-clustered paired bootstrap: 10,000 resamples, seed 123, 95% intervals. Different templates of one fact are not independent samples. Intervals measure only test-fact sampling uncertainty and do not replace replication across training seeds.
 
-有效改善应同时体现：未见表达的真实检索 EM 提升；原模板保留；shuffled/empty 仍显著较低。即使仅改善部分组合，也明确报告，不能将已见模板准确率冒充泛化。
+A meaningful improvement should jointly show better real-retrieval EM on unseen expressions, retention on the original template, and substantially lower shuffled/empty performance. Report partial improvements explicitly; accuracy on a seen template is not generalization.

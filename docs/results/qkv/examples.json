@@ -50,7 +50,7 @@
       "edited_word_index_zero_based": 0,
       "actual_A_observation": "Entity R713522fd90f2e8a1 stores the content: basket granite badger.",
       "actual_C_observation": "Entity R713522fd90f2e8a1 stores the content: candle granite badger.",
-      "teaching_point_zh": "多个结构输出了正确的新第一词，但未改动的两个词没有完整保留。",
+      "teaching_point_zh": "Several architectures output the correct new first word, but fail to preserve both unchanged words.",
       "comparisons": {
         "static_flat": {
           "prediction": "candle prairie geranium",
@@ -1347,7 +1347,7 @@
       "edited_word_index_zero_based": 1,
       "actual_A_observation": "Entity R0644eb450736a0a8 stores the content: mirror crystal badger.",
       "actual_C_observation": "Entity R0644eb450736a0a8 stores the content: mirror delta badger.",
-      "teaching_point_zh": "同一目标在三个 grouped 臂全部生成位置都被检索到；rebind 与 additive 改对第二词，但第三词仍错。",
+      "teaching_point_zh": "All three grouped arms retrieve the target at every generation position; rebind and additive correct the second word, but the third remains wrong.",
       "comparisons": {
         "static_flat": {
           "prediction": "light amber rabbit",
@@ -2344,7 +2344,7 @@
       "edited_word_index_zero_based": 2,
       "actual_A_observation": "Entity R770f7d56c7f339c5 stores the content: lemon birch goose.",
       "actual_C_observation": "Entity R770f7d56c7f339c5 stores the content: lemon birch dolphin.",
-      "teaching_point_zh": "固定绑定与 additive 全程检索目标且仍输出旧 A；rebind 此例未检索目标，展示两种不同失败路径。",
+      "teaching_point_zh": "Static binding and additive retrieve the target throughout but still output old A; rebind does not retrieve the target in this example, illustrating two distinct failure paths.",
       "comparisons": {
         "static_flat": {
           "prediction": "lemon birch goose",

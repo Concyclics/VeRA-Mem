@@ -631,7 +631,7 @@ def writer_gate(evaluations):
             status=("available" if split_reports else "pending_development") if split=="dev" else
                    ("pending_confirmation" if not split_reports else "assessed" if all(r["status"] in {"pass","fail"} for r in split_reports) else "pending_evidence"))
     document=Path(__file__).resolve().parents[1]/"docs/interface_protocol.md"
-    return dict(source="docs/interface_protocol.md#Writer验证",source_sha256=file_hash(document) if document.exists() else None,
+    return dict(source="docs/interface_protocol.md#writer-validation",source_sha256=file_hash(document) if document.exists() else None,
         thresholds=dict(hc_absolute_gain_min=.2,cc_absolute_change_min=-.05,required_seeds=[42,43,44]),
         dev_diagnostic=reports["dev"],confirm_gate=reports["confirm"],
         note="Dev scores select the family only, with no formal pass/fail. Formal deployment gate is assessed on subsequent classic confirm versus its matching baseline in three seeds. No confirmation-based reselection or automatic execution.")
@@ -650,55 +650,55 @@ def compare(left,right,phase,method,control):
 
 def markdown(summary):
     pct=lambda x:"—" if x is None else f"{100*x:.1f}%"
-    lines=["# VeRA-Mem 接口实验审计","",f"已审计 {len(summary['runs'])} 个完成任务；{len(summary['pending'])} 个未完成/未启动任务未计入成绩。", "",
-           "主指标为同一事实 A/B 两世界均正确。所有表格由逐条预测重算；仅输出变化不算成功。", ""]
-    for scope,title in (("formal","正式实验"),("smoke","Smoke，仅验证管线"),("preflight","Preflight，仅作预检")):
+    lines=["# VeRA-Mem interface experiment audit","",f"Audited {len(summary['runs'])} completed jobs; {len(summary['pending'])} incomplete or unstarted jobs are excluded from scores.", "",
+           "The primary metric requires correctness in both A/B worlds of the same fact. Tables are recomputed from individual predictions; an output change alone is not success.", ""]
+    for scope,title in (("formal","Formal experiments"),("smoke","Smoke: pipeline checks only"),("preflight","Preflight checks only")):
         items=[r for r in summary["runs"] if r["scope"]==scope]
         if not items: continue
         lines += ["## "+title,""]
-        for step,label in (("step1_four_bank","Step 1：四银行"),("step2_writer","Step 2：Writer"),("step3_address","Step 3：寻址/读出"),("step4_kd","Step 4：KD"),("preparation","缓存准备"),("calibration","Teacher/损失校准")):
+        for step,label in (("step1_four_bank","Step 1: four banks"),("step2_writer","Step 2: writer"),("step3_address","Step 3: addressing/readout"),("step4_kd","Step 4: KD"),("preparation","Cache preparation"),("calibration","Teacher/loss calibration")):
             selected=[r for r in items if r["step"]==step]
             if not selected: continue
             lines += ["### "+label,""]
             evaluations=[r for r in selected if r["kind"]=="evaluation"]
             if evaluations:
-                lines += ["| Run | Split | Seed | Phase | Real paired | A/B R@1 | Decode A/B | Shuffled | Empty | Teacher 合格/总数 |", "|---|---|---:|---|---:|---|---|---:|---:|---|"]
+                lines += ["| Run | Split | Seed | Phase | Real paired | A/B R@1 | Decode A/B | Shuffled | Empty | Teacher qualified/total |", "|---|---|---:|---|---:|---|---|---:|---:|---|"]
                 for r in evaluations:
                     for phase,entry in r["phases"].items():
                         m=entry["methods"]; real=m["real"]; q=entry["teacher_qualification"]
-                        lines.append(f"| {r['job']} | {r['split']} | {r['seed']} | {phase} | {real['both_correct']}/{real['count']} ({pct(real['paired_switch_em'])}) | {pct(real['a_recall_at_1'])}/{pct(real['b_recall_at_1'])} | {pct(real['a_decode_correct_residency'])}/{pct(real['b_decode_correct_residency'])} | {pct(m.get('shuffled',{}).get('paired_switch_em'))} | {pct(m.get('empty',{}).get('paired_switch_em'))} | {q['qualified'] if q['qualified'] is not None else '未测'}/{real['count']} |")
-                lines += ["", "Teacher 合格子集的各方法分子/分母、canonical-key 诊断、成本与全部逐条配对向量见 summary.json。", ""]
+                        lines.append(f"| {r['job']} | {r['split']} | {r['seed']} | {phase} | {real['both_correct']}/{real['count']} ({pct(real['paired_switch_em'])}) | {pct(real['a_recall_at_1'])}/{pct(real['b_recall_at_1'])} | {pct(real['a_decode_correct_residency'])}/{pct(real['b_decode_correct_residency'])} | {pct(m.get('shuffled',{}).get('paired_switch_em'))} | {pct(m.get('empty',{}).get('paired_switch_em'))} | {q['qualified'] if q['qualified'] is not None else 'not measured'}/{real['count']} |")
+                lines += ["", "See summary.json for numerators/denominators in each teacher-qualified subset, canonical-key diagnostics, costs, and all paired outcome vectors.", ""]
             for r in selected:
                 if r["kind"]=="diagnostic":
-                    lines += ["开发集诊断；模板名中的 confirmation 不代表确认集成绩。", "", "| Support style | Bank | Paired |", "|---|---|---|"]
+                    lines += ["Development diagnostic: confirmation in a template name does not make this a confirmation-set result.", "", "| Support style | Bank | Paired |", "|---|---|---|"]
                     for phase,methods in r["phases"].items():
                         for method,value in methods.items(): lines.append(f"| {phase} | {method} | {value['paired_correct']}/{value['n']} |")
-                    lines += ["",f"固定首位置路由一致性检查：{r['value_only_route_equal_checks']} 次。后续自由生成前缀可分叉。", ""]
+                    lines += ["",f"Routing equality at the fixed first position was checked {r['value_only_route_equal_checks']} times. Later free-generation prefixes may diverge.", ""]
                 elif r["kind"]=="training":
-                    lines += [f"- {r['job']}：seed {r['seed']}，新增 {r['updates']} 步，起始步 {r['start_step']}，可训练参数 {r['trainable_parameters']}；训练 {r['costs']['training_elapsed_seconds']:.1f} 秒。"]
-                elif r["kind"] not in {"evaluation","training"}: lines += [f"- {r['job']}：{r['kind']} 已完成；源文件哈希和结果见 JSON。"]
+                    lines += [f"- {r['job']}: seed {r['seed']}, {r['updates']} new updates, starting step {r['start_step']}, {r['trainable_parameters']} trainable parameters; training {r['costs']['training_elapsed_seconds']:.1f} seconds."]
+                elif r["kind"] not in {"evaluation","training"}: lines += [f"- {r['job']}: {r['kind']} completed; source hashes and results are in JSON."]
             lines += [""]
-    lines += ["## Seed 稳定性", "", "只在同 scope、step、split、完整配对内容一致时聚合；单 seed 不代表稳定性。", "", "| Scope | Step | Split | Arm | Phase/method | Seeds | Mean / min / max |", "|---|---|---|---|---|---|---|"]
+    lines += ["## Stability across seeds", "", "Aggregate only matching scope, step, split, and complete paired content. A single seed does not establish stability.", "", "| Scope | Step | Split | Arm | Phase/method | Seeds | Mean / min / max |", "|---|---|---|---|---|---|---|"]
     for row in summary["seed_summary"]:
         if row["method"]!="real": continue
         lines.append(f"| {row['scope']} | {row['step']} | {row['split']} | {row['arm']} | {row['phase']}/{row['method']} | {row['seeds']} | {pct(row['mean'])} / {pct(row['min'])} / {pct(row['max'])} |")
-    lines += ["", "## 成对差异", "", "固定 seed 68043，2000 次按实体簇重采样；数值为 paired EM 百分点差和 95% percentile 区间。仅比较同 split、完整 case IDs/内容/银行背景/预算；跨 run 还要求同优化 seed。", "", "| Scope/split | Left − right | Phase | Δ pp [95% CI] | 簇数 |", "|---|---|---|---|---|"]
+    lines += ["", "## Paired differences", "", "Fixed seed 68043; 2000 entity-cluster resamples. Values are paired EM differences in percentage points with 95% percentile intervals. Comparisons require the same split, complete case IDs/content/bank backgrounds/budgets; cross-run comparisons also require matching optimization seeds.", "", "| Scope/split | Left − right | Phase | Δ pp [95% CI] | Clusters |", "|---|---|---|---|---|"]
     for row in summary["paired_comparisons"]:
         v=row["entity_bootstrap"]
         lines.append(f"| {row['scope']}/{row['split']} | {row['left_run'].split('/')[-1]}:{row['left_method']} − {row['right_run'].split('/')[-1]}:{row['right_method']} | {row['phase']} | {100*v['delta']:+.1f} [{100*v['ci95'][0]:+.1f}, {100*v['ci95'][1]:+.1f}] | {v['clusters']} |")
-    lines += ["", "## 成本与门控", "", "| Scope | 完成任务 | Job wall 秒 | Train 秒 | Train input tokens | Eval generated tokens | Answer scoring tokens |", "|---|---:|---:|---:|---:|---:|---:|"]
+    lines += ["", "## Costs and gates", "", "| Scope | Completed jobs | Job wall seconds | Train seconds | Train input tokens | Eval generated tokens | Answer scoring tokens |", "|---|---:|---:|---:|---:|---:|---:|"]
     for scope,cost in summary["cost_by_scope"].items():
         lines.append(f"| {scope} | {cost['completed_jobs']} | {cost['job_wall_seconds']:.1f} | {cost['train_elapsed_seconds']:.1f} | {cost['training_processed_input_tokens']} | {cost['evaluation_generation_tokens']} | {cost['evaluation_answer_scoring_tokens']} |")
-    lines += ["", "Job wall 包含初始化并与 train/generation 时间重叠，不能相加。空库 A_and_B 只生成一次，不双计成本；warm 任务只计一次。Writer 缓存样本暴露不是 token 数。", "", "训练 valid-pair 门控和 teacher 自由生成验收分别记录。Dev 仅选择 writer；正式部署门槛在随后 classic confirm 三 seed 对 baseline 判定：HC +20pp、CC 下降≤5pp。未取得 confirm 时保持 pending，不能由 dev 失败判定正式失败，也不能据 confirm 重新选模型。", ""]
-    for key,label in (("dev_diagnostic","Dev 诊断"),("confirm_gate","正式 Confirm gate")):
+    lines += ["", "Job wall time includes initialization and overlaps training/generation time; these cannot be added. Empty-bank A_and_B is generated once, without double counting; warm-up is counted once. Writer-cache sample exposures are not token counts.", "", "Training valid-pair gates and teacher free-generation qualification are recorded separately. Development selects only the writer. The subsequent classic confirmation gate compares three seeds against baseline: HC +20pp and CC decline <=5pp. Without confirmation, status stays pending; development failure cannot decide the formal gate, and confirmation cannot be used to reselect models.", ""]
+    for key,label in (("dev_diagnostic","Development diagnostic"),("confirm_gate","Formal confirmation gate")):
         section=summary["writer_gate"][key]
-        lines += [f"- {label}：{section['status']}。"]
+        lines += [f"- {label}: {section['status']}."]
         for row in section["arms"]:
-            lines += [f"  - Writer {row['arm']}：{row['status']}。"]
+            lines += [f"  - Writer {row['arm']}: {row['status']}."]
     for r in summary["runs"]:
         if r.get("gates"):
-            lines += [f"- {r['run_id']}："+"；".join(f"{k} {v['count']}/{v['denominator']}" for k,v in r["gates"].items())]
-    lines += ["", "## 限制", ""]+["- "+item for item in summary["limitations"]]
+            lines += [f"- {r['run_id']}: "+"; ".join(f"{k} {v['count']}/{v['denominator']}" for k,v in r["gates"].items())]
+    lines += ["", "## Limitations", ""]+["- "+item for item in summary["limitations"]]
     return "\n".join(lines)+"\n"
 
 

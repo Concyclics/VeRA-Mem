@@ -1,14 +1,14 @@
-# VeRA-Mem 接口实验审计
+# VeRA-Mem interface experiment audit
 
-已审计 53 个完成任务；0 个未完成/未启动任务未计入成绩。
+Audited 53 completed jobs; 0 incomplete or unstarted jobs are excluded from scores.
 
-主指标为同一事实 A/B 两世界均正确。所有表格由逐条预测重算；仅输出变化不算成功。
+The primary metric requires correctness in both A/B worlds of the same fact. Tables are recomputed from individual predictions; an output change alone is not success.
 
-## 正式实验
+## Formal experiments
 
-### Step 1：四银行
+### Step 1: four banks
 
-开发集诊断；模板名中的 confirmation 不代表确认集成绩。
+Development diagnostic: confirmation in a template name does not make this a confirmation-set result.
 
 | Support style | Bank | Paired |
 |---|---|---|
@@ -23,12 +23,12 @@
 | cf_confirmation_support_markdown | KhVh | 0/64 |
 | cf_confirmation_support_markdown | teacher | 64/64 |
 
-固定首位置路由一致性检查：512 次。后续自由生成前缀可分叉。
+Routing equality at the fixed first position was checked 512 times. Later free-generation prefixes may diverge.
 
 
-### Step 2：Writer
+### Step 2: writer
 
-| Run | Split | Seed | Phase | Real paired | A/B R@1 | Decode A/B | Shuffled | Empty | Teacher 合格/总数 |
+| Run | Split | Seed | Phase | Real paired | A/B R@1 | Decode A/B | Shuffled | Empty | Teacher qualified/total |
 |---|---|---:|---|---:|---|---|---:|---:|---|
 | baseline_confirm | confirm | 42 | CC | 112/128 (87.5%) | 99.2%/100.0% | 76.0%/78.0% | 0.0% | 0.0% | 128/128 |
 | baseline_confirm | confirm | 42 | CH | 0/128 (0.0%) | 3.9%/0.8% | 4.3%/3.7% | — | — | 128/128 |
@@ -87,21 +87,21 @@
 | mlp_44_dev | dev | 44 | HC | 0/32 (0.0%) | 31.2%/37.5% | 4.2%/6.6% | 0.0% | 0.0% | 32/32 |
 | mlp_44_dev | dev | 44 | HH | 0/32 (0.0%) | 9.4%/0.0% | 2.1%/2.1% | — | — | 32/32 |
 
-Teacher 合格子集的各方法分子/分母、canonical-key 诊断、成本与全部逐条配对向量见 summary.json。
+See summary.json for numerators/denominators in each teacher-qualified subset, canonical-key diagnostics, costs, and all paired outcome vectors.
 
-- last_42：seed 42，新增 2000 步，起始步 0，可训练参数 622592；训练 5.1 秒。
-- mean_42：seed 42，新增 2000 步，起始步 0，可训练参数 622592；训练 5.3 秒。
-- mlp_42：seed 42，新增 2000 步，起始步 0，可训练参数 3129344；训练 5.7 秒。
-- last_43：seed 43，新增 2000 步，起始步 0，可训练参数 622592；训练 5.3 秒。
-- mean_43：seed 43，新增 2000 步，起始步 0，可训练参数 622592；训练 5.3 秒。
-- mlp_43：seed 43，新增 2000 步，起始步 0，可训练参数 3129344；训练 5.8 秒。
-- last_44：seed 44，新增 2000 步，起始步 0，可训练参数 622592；训练 5.0 秒。
-- mean_44：seed 44，新增 2000 步，起始步 0，可训练参数 622592；训练 5.3 秒。
-- mlp_44：seed 44，新增 2000 步，起始步 0，可训练参数 3129344；训练 5.5 秒。
+- last_42: seed 42, 2000 new updates, starting step 0, 622592 trainable parameters; training 5.1 seconds.
+- mean_42: seed 42, 2000 new updates, starting step 0, 622592 trainable parameters; training 5.3 seconds.
+- mlp_42: seed 42, 2000 new updates, starting step 0, 3129344 trainable parameters; training 5.7 seconds.
+- last_43: seed 43, 2000 new updates, starting step 0, 622592 trainable parameters; training 5.3 seconds.
+- mean_43: seed 43, 2000 new updates, starting step 0, 622592 trainable parameters; training 5.3 seconds.
+- mlp_43: seed 43, 2000 new updates, starting step 0, 3129344 trainable parameters; training 5.8 seconds.
+- last_44: seed 44, 2000 new updates, starting step 0, 622592 trainable parameters; training 5.0 seconds.
+- mean_44: seed 44, 2000 new updates, starting step 0, 622592 trainable parameters; training 5.3 seconds.
+- mlp_44: seed 44, 2000 new updates, starting step 0, 3129344 trainable parameters; training 5.5 seconds.
 
-### Step 3：寻址/读出
+### Step 3: addressing/readout
 
-| Run | Split | Seed | Phase | Real paired | A/B R@1 | Decode A/B | Shuffled | Empty | Teacher 合格/总数 |
+| Run | Split | Seed | Phase | Real paired | A/B R@1 | Decode A/B | Shuffled | Empty | Teacher qualified/total |
 |---|---|---:|---|---:|---|---|---:|---:|---|
 | coupled_42_confirm | confirm | 42 | CC | 0/256 (0.0%) | 19.9%/19.1% | 3.0%/2.7% | 0.0% | 0.0% | 256/256 |
 | coupled_42_confirm | confirm | 42 | CH | 0/256 (0.0%) | 2.0%/0.8% | 2.6%/2.2% | — | — | 256/256 |
@@ -128,18 +128,18 @@ Teacher 合格子集的各方法分子/分母、canonical-key 诊断、成本与
 | decoupled_44_confirm | confirm | 44 | HC | 0/256 (0.0%) | 5.5%/4.7% | 2.2%/2.0% | 0.0% | 0.0% | 256/256 |
 | decoupled_44_confirm | confirm | 44 | HH | 0/256 (0.0%) | 1.2%/1.6% | 1.7%/1.2% | — | — | 256/256 |
 
-Teacher 合格子集的各方法分子/分母、canonical-key 诊断、成本与全部逐条配对向量见 summary.json。
+See summary.json for numerators/denominators in each teacher-qualified subset, canonical-key diagnostics, costs, and all paired outcome vectors.
 
-- coupled_42：seed 42，新增 512 步，起始步 0，可训练参数 1870336；训练 161.7 秒。
-- decoupled_42：seed 42，新增 512 步，起始步 0，可训练参数 1870336；训练 159.0 秒。
-- coupled_43：seed 43，新增 512 步，起始步 0，可训练参数 1870336；训练 165.0 秒。
-- decoupled_43：seed 43，新增 512 步，起始步 0，可训练参数 1870336；训练 157.5 秒。
-- coupled_44：seed 44，新增 512 步，起始步 0，可训练参数 1870336；训练 163.5 秒。
-- decoupled_44：seed 44，新增 512 步，起始步 0，可训练参数 1870336；训练 155.8 秒。
+- coupled_42: seed 42, 512 new updates, starting step 0, 1870336 trainable parameters; training 161.7 seconds.
+- decoupled_42: seed 42, 512 new updates, starting step 0, 1870336 trainable parameters; training 159.0 seconds.
+- coupled_43: seed 43, 512 new updates, starting step 0, 1870336 trainable parameters; training 165.0 seconds.
+- decoupled_43: seed 43, 512 new updates, starting step 0, 1870336 trainable parameters; training 157.5 seconds.
+- coupled_44: seed 44, 512 new updates, starting step 0, 1870336 trainable parameters; training 163.5 seconds.
+- decoupled_44: seed 44, 512 new updates, starting step 0, 1870336 trainable parameters; training 155.8 seconds.
 
-### Step 4：KD
+### Step 4: KD
 
-| Run | Split | Seed | Phase | Real paired | A/B R@1 | Decode A/B | Shuffled | Empty | Teacher 合格/总数 |
+| Run | Split | Seed | Phase | Real paired | A/B R@1 | Decode A/B | Shuffled | Empty | Teacher qualified/total |
 |---|---|---:|---|---:|---|---|---:|---:|---|
 | base_42_confirm | confirm | 42 | CC | 0/256 (0.0%) | 35.9%/35.9% | 5.4%/4.0% | 0.0% | 0.0% | 256/256 |
 | base_42_confirm | confirm | 42 | CH | 0/256 (0.0%) | 1.6%/0.8% | 2.6%/1.9% | — | — | 256/256 |
@@ -162,40 +162,40 @@ Teacher 合格子集的各方法分子/分母、canonical-key 诊断、成本与
 | normalized_42_confirm | confirm | 42 | HC | 0/256 (0.0%) | 3.5%/4.3% | 2.7%/2.5% | 0.0% | 0.0% | 256/256 |
 | normalized_42_confirm | confirm | 42 | HH | 0/256 (0.0%) | 1.6%/2.0% | 1.4%/1.5% | — | — | 256/256 |
 
-Teacher 合格子集的各方法分子/分母、canonical-key 诊断、成本与全部逐条配对向量见 summary.json。
+See summary.json for numerators/denominators in each teacher-qualified subset, canonical-key diagnostics, costs, and all paired outcome vectors.
 
-- base_42：seed 42，新增 256 步，起始步 512，可训练参数 1870336；训练 86.4 秒。
-- hidden_42：seed 42，新增 256 步，起始步 512，可训练参数 1870336；训练 79.9 秒。
-- clip_42：seed 42，新增 256 步，起始步 512，可训练参数 1870336；训练 86.3 秒。
-- on_policy_42：seed 42，新增 256 步，起始步 512，可训练参数 1870336；训练 169.8 秒。
-- normalized_42：seed 42，新增 256 步，起始步 512，可训练参数 1870336；训练 86.4 秒。
+- base_42: seed 42, 256 new updates, starting step 512, 1870336 trainable parameters; training 86.4 seconds.
+- hidden_42: seed 42, 256 new updates, starting step 512, 1870336 trainable parameters; training 79.9 seconds.
+- clip_42: seed 42, 256 new updates, starting step 512, 1870336 trainable parameters; training 86.3 seconds.
+- on_policy_42: seed 42, 256 new updates, starting step 512, 1870336 trainable parameters; training 169.8 seconds.
+- normalized_42: seed 42, 256 new updates, starting step 512, 1870336 trainable parameters; training 86.4 seconds.
 
-### 缓存准备
+### Cache preparation
 
-- prepare：prepare 已完成；源文件哈希和结果见 JSON。
-- prepare：prepare 已完成；源文件哈希和结果见 JSON。
+- prepare: prepare completed; source hashes and results are in JSON.
+- prepare: prepare completed; source hashes and results are in JSON.
 
-## Smoke，仅验证管线
+## Smoke: pipeline checks only
 
-### Step 2：Writer
+### Step 2: writer
 
-- last：seed 42，新增 8 步，起始步 0，可训练参数 622592；训练 0.6 秒。
-- mean：seed 42，新增 8 步，起始步 0，可训练参数 622592；训练 0.7 秒。
-- mlp：seed 42，新增 8 步，起始步 0，可训练参数 3129344；训练 0.5 秒。
+- last: seed 42, 8 new updates, starting step 0, 622592 trainable parameters; training 0.6 seconds.
+- mean: seed 42, 8 new updates, starting step 0, 622592 trainable parameters; training 0.7 seconds.
+- mlp: seed 42, 8 new updates, starting step 0, 3129344 trainable parameters; training 0.5 seconds.
 
-### Step 4：KD
+### Step 4: KD
 
-- train_smoke：seed 42，新增 4 步，起始步 0，可训练参数 1870336；训练 9.4 秒。
+- train_smoke: seed 42, 4 new updates, starting step 0, 1870336 trainable parameters; training 9.4 seconds.
 
-## Preflight，仅作预检
+## Preflight checks only
 
-### Teacher/损失校准
+### Teacher/loss calibration
 
-- calibrate：calibrate 已完成；源文件哈希和结果见 JSON。
+- calibrate: calibrate completed; source hashes and results are in JSON.
 
-## Seed 稳定性
+## Stability across seeds
 
-只在同 scope、step、split、完整配对内容一致时聚合；单 seed 不代表稳定性。
+Aggregate only matching scope, step, split, and complete paired content. A single seed does not establish stability.
 
 | Scope | Step | Split | Arm | Phase/method | Seeds | Mean / min / max |
 |---|---|---|---|---|---|---|
@@ -252,11 +252,11 @@ Teacher 合格子集的各方法分子/分母、canonical-key 诊断、成本与
 | formal | step4_kd | confirm | on_policy | HC/real | [42] | 0.0% / 0.0% / 0.0% |
 | formal | step4_kd | confirm | on_policy | HH/real | [42] | 0.0% / 0.0% / 0.0% |
 
-## 成对差异
+## Paired differences
 
-固定 seed 68043，2000 次按实体簇重采样；数值为 paired EM 百分点差和 95% percentile 区间。仅比较同 split、完整 case IDs/内容/银行背景/预算；跨 run 还要求同优化 seed。
+Fixed seed 68043; 2000 entity-cluster resamples. Values are paired EM differences in percentage points with 95% percentile intervals. Comparisons require the same split, complete case IDs/content/bank backgrounds/budgets; cross-run comparisons also require matching optimization seeds.
 
-| Scope/split | Left − right | Phase | Δ pp [95% CI] | 簇数 |
+| Scope/split | Left − right | Phase | Δ pp [95% CI] | Clusters |
 |---|---|---|---|---|
 | formal/confirm | baseline_confirm:real − baseline_confirm:shuffled | CC | +87.5 [+82.0, +93.0] | 128 |
 | formal/confirm | baseline_confirm:real − baseline_confirm:empty | CC | +87.5 [+82.0, +93.0] | 128 |
@@ -494,38 +494,38 @@ Teacher 合格子集的各方法分子/分母、canonical-key 诊断、成本与
 | formal/dev | four_bank:KhVc − four_bank:KcVc | cf_confirmation_support_markdown | -81.2 [-90.6, -71.9] | 64 |
 | formal/dev | four_bank:KhVh − four_bank:KcVc | cf_confirmation_support_markdown | -82.8 [-90.6, -73.4] | 64 |
 
-## 成本与门控
+## Costs and gates
 
-| Scope | 完成任务 | Job wall 秒 | Train 秒 | Train input tokens | Eval generated tokens | Answer scoring tokens |
+| Scope | Completed jobs | Job wall seconds | Train seconds | Train input tokens | Eval generated tokens | Answer scoring tokens |
 |---|---:|---:|---:|---:|---:|---:|
 | formal | 48 | 17559.0 | 1519.7 | 22383360 | 409680.0 | 244232.0 |
 | smoke | 4 | 151.4 | 11.1 | 28677 | 0 | 0 |
 | preflight | 1 | 135.1 | 0.0 | 0 | 0 | 0 |
 
-Job wall 包含初始化并与 train/generation 时间重叠，不能相加。空库 A_and_B 只生成一次，不双计成本；warm 任务只计一次。Writer 缓存样本暴露不是 token 数。
+Job wall time includes initialization and overlaps training/generation time; these cannot be added. Empty-bank A_and_B is generated once, without double counting; warm-up is counted once. Writer-cache sample exposures are not token counts.
 
-训练 valid-pair 门控和 teacher 自由生成验收分别记录。Dev 仅选择 writer；正式部署门槛在随后 classic confirm 三 seed 对 baseline 判定：HC +20pp、CC 下降≤5pp。未取得 confirm 时保持 pending，不能由 dev 失败判定正式失败，也不能据 confirm 重新选模型。
+Training valid-pair gates and teacher free-generation qualification are recorded separately. Development selects only the writer. The subsequent classic confirmation gate compares three seeds against baseline: HC +20pp and CC decline <=5pp. Without confirmation, status stays pending; development failure cannot decide the formal gate, and confirmation cannot be used to reselect models.
 
-- Dev 诊断：available。
-  - Writer last：diagnostic_only。
-  - Writer mean：diagnostic_only。
-  - Writer mlp：diagnostic_only。
-- 正式 Confirm gate：assessed。
-  - Writer mean：fail。
-- interface_extended_preflight_20261006/train_smoke：behavior_valid_pairs 32/32；legacy_behavior_clipped_valid_pairs 32/32；hidden_valid_pairs 32/32；teacher_first_token_joint_correct 31/32；student_first_token_joint_correct 0/32
-- interface_step3_train_a_20261006/coupled_42：behavior_valid_pairs 4096/4096；legacy_behavior_clipped_valid_pairs 4096/4096；hidden_valid_pairs 4096/4096；teacher_first_token_joint_correct 3947/4096；student_first_token_joint_correct 1/4096
-- interface_step3_train_a_20261006/decoupled_42：behavior_valid_pairs 4096/4096；legacy_behavior_clipped_valid_pairs 4096/4096；hidden_valid_pairs 4096/4096；teacher_first_token_joint_correct 3947/4096；student_first_token_joint_correct 1/4096
-- interface_step3_train_b_20261006/coupled_43：behavior_valid_pairs 4096/4096；legacy_behavior_clipped_valid_pairs 4096/4096；hidden_valid_pairs 4096/4096；teacher_first_token_joint_correct 3937/4096；student_first_token_joint_correct 2/4096
-- interface_step3_train_b_20261006/decoupled_43：behavior_valid_pairs 4096/4096；legacy_behavior_clipped_valid_pairs 4096/4096；hidden_valid_pairs 4096/4096；teacher_first_token_joint_correct 3937/4096；student_first_token_joint_correct 2/4096
-- interface_step3_train_c_20261006/coupled_44：behavior_valid_pairs 4096/4096；legacy_behavior_clipped_valid_pairs 4096/4096；hidden_valid_pairs 4096/4096；teacher_first_token_joint_correct 3958/4096；student_first_token_joint_correct 0/4096
-- interface_step3_train_c_20261006/decoupled_44：behavior_valid_pairs 4096/4096；legacy_behavior_clipped_valid_pairs 4096/4096；hidden_valid_pairs 4096/4096；teacher_first_token_joint_correct 3958/4096；student_first_token_joint_correct 0/4096
-- interface_step4_train_a_20261006/base_42：behavior_valid_pairs 2048/2048；legacy_behavior_clipped_valid_pairs 2048/2048；hidden_valid_pairs 2048/2048；teacher_first_token_joint_correct 1970/2048；student_first_token_joint_correct 2/2048
-- interface_step4_train_a_20261006/hidden_42：behavior_valid_pairs 2048/2048；legacy_behavior_clipped_valid_pairs 2048/2048；hidden_valid_pairs 2048/2048；teacher_first_token_joint_correct 1970/2048；student_first_token_joint_correct 3/2048
-- interface_step4_train_b_20261006/clip_42：behavior_valid_pairs 2048/2048；legacy_behavior_clipped_valid_pairs 2048/2048；hidden_valid_pairs 2048/2048；teacher_first_token_joint_correct 1970/2048；student_first_token_joint_correct 2/2048
-- interface_step4_train_b_20261006/on_policy_42：behavior_valid_pairs 2048/2048；legacy_behavior_clipped_valid_pairs 2048/2048；hidden_valid_pairs 2048/2048；teacher_first_token_joint_correct 1970/2048；student_first_token_joint_correct 4/2048
-- interface_step4_train_c_20261006/normalized_42：behavior_valid_pairs 2048/2048；legacy_behavior_clipped_valid_pairs 2048/2048；hidden_valid_pairs 2048/2048；teacher_first_token_joint_correct 1970/2048；student_first_token_joint_correct 0/2048
+- Development diagnostic: available.
+  - Writer last: diagnostic_only.
+  - Writer mean: diagnostic_only.
+  - Writer mlp: diagnostic_only.
+- Formal confirmation gate: assessed.
+  - Writer mean: fail.
+- interface_extended_preflight_20261006/train_smoke: behavior_valid_pairs 32/32; legacy_behavior_clipped_valid_pairs 32/32; hidden_valid_pairs 32/32; teacher_first_token_joint_correct 31/32; student_first_token_joint_correct 0/32
+- interface_step3_train_a_20261006/coupled_42: behavior_valid_pairs 4096/4096; legacy_behavior_clipped_valid_pairs 4096/4096; hidden_valid_pairs 4096/4096; teacher_first_token_joint_correct 3947/4096; student_first_token_joint_correct 1/4096
+- interface_step3_train_a_20261006/decoupled_42: behavior_valid_pairs 4096/4096; legacy_behavior_clipped_valid_pairs 4096/4096; hidden_valid_pairs 4096/4096; teacher_first_token_joint_correct 3947/4096; student_first_token_joint_correct 1/4096
+- interface_step3_train_b_20261006/coupled_43: behavior_valid_pairs 4096/4096; legacy_behavior_clipped_valid_pairs 4096/4096; hidden_valid_pairs 4096/4096; teacher_first_token_joint_correct 3937/4096; student_first_token_joint_correct 2/4096
+- interface_step3_train_b_20261006/decoupled_43: behavior_valid_pairs 4096/4096; legacy_behavior_clipped_valid_pairs 4096/4096; hidden_valid_pairs 4096/4096; teacher_first_token_joint_correct 3937/4096; student_first_token_joint_correct 2/4096
+- interface_step3_train_c_20261006/coupled_44: behavior_valid_pairs 4096/4096; legacy_behavior_clipped_valid_pairs 4096/4096; hidden_valid_pairs 4096/4096; teacher_first_token_joint_correct 3958/4096; student_first_token_joint_correct 0/4096
+- interface_step3_train_c_20261006/decoupled_44: behavior_valid_pairs 4096/4096; legacy_behavior_clipped_valid_pairs 4096/4096; hidden_valid_pairs 4096/4096; teacher_first_token_joint_correct 3958/4096; student_first_token_joint_correct 0/4096
+- interface_step4_train_a_20261006/base_42: behavior_valid_pairs 2048/2048; legacy_behavior_clipped_valid_pairs 2048/2048; hidden_valid_pairs 2048/2048; teacher_first_token_joint_correct 1970/2048; student_first_token_joint_correct 2/2048
+- interface_step4_train_a_20261006/hidden_42: behavior_valid_pairs 2048/2048; legacy_behavior_clipped_valid_pairs 2048/2048; hidden_valid_pairs 2048/2048; teacher_first_token_joint_correct 1970/2048; student_first_token_joint_correct 3/2048
+- interface_step4_train_b_20261006/clip_42: behavior_valid_pairs 2048/2048; legacy_behavior_clipped_valid_pairs 2048/2048; hidden_valid_pairs 2048/2048; teacher_first_token_joint_correct 1970/2048; student_first_token_joint_correct 2/2048
+- interface_step4_train_b_20261006/on_policy_42: behavior_valid_pairs 2048/2048; legacy_behavior_clipped_valid_pairs 2048/2048; hidden_valid_pairs 2048/2048; teacher_first_token_joint_correct 1970/2048; student_first_token_joint_correct 4/2048
+- interface_step4_train_c_20261006/normalized_42: behavior_valid_pairs 2048/2048; legacy_behavior_clipped_valid_pairs 2048/2048; hidden_valid_pairs 2048/2048; teacher_first_token_joint_correct 1970/2048; student_first_token_joint_correct 0/2048
 
-## 限制
+## Limitations
 
 - Only interface_* suite manifests are discovered; historical counterfactual/scaling runs are never silently added.
 - Smoke/preflight evidence is displayed separately and excluded from formal seed aggregation and formal costs.

@@ -1300,7 +1300,7 @@
         "hidden_loss": 1.0033537149429321,
         "paraphrase_loss": 0.012621347792446613
       },
-      "verification_strength": "各臂 manifest 引用相同已校验 checkpoint 字节；快照代码执行 load_state_dict，最终四个 Adam 参数状态均 step=768；首步共同目标数值完全一致。未另保存恢复瞬间 optimizer 内存快照。"
+      "verification_strength": "Arm manifests reference identical verified checkpoint bytes; snapshot code calls load_state_dict, all four final Adam parameter states have step=768, and the shared objective at the first step is numerically identical. No separate optimizer-memory snapshot was saved at the instant of restoration."
     },
     "aggregate_costs": {
       "stage3_six_training_jobs": {
@@ -1422,15 +1422,15 @@
       "sampled_tokens": 2758
     },
     "interpretation": [
-      "五臂匹配目标事实曝光、A/B/P gold 分支、bank 与问答样式日程、Adam warm 起点；OPD 增加采样与额外 teacher/student scoring，计算量不匹配。",
-      "512 步 × 8 = 4096 次 target-pair 曝光，并非 4096 个不重复事实或一个 epoch；256 步 × 8 = 2048 次增量曝光。每次 target 包含 A/B/P 三个 gold 序列。",
-      "stage4 五臂均从同一份已经执行一次的 512-step warm 分叉；总实验成本中只能把 warm 计一次，不能五臂各重复收取再相加。单臂完整 lineage 可单独展示 768 steps / 6144 曝光。",
-      "成本边界是 stage3 与 stage4 十一项训练；不包含 writer 预训练、feature 缓存生成、校准/验收、数据准备、smoke、评估、旧轮或失败轮。不能称全项目总成本。",
-      "input token positions 来自实际轨迹长度和 logger 的未 padding 输入统计，逐步日志和汇总已独立求和；本地无模型 tokenizer，未独立重新 tokenization 核验所有 prompt 长度。teacher/student padded positions 未记录，不能将本数当精确 FLOPs。",
-      "forward calls 计实际 backbone 调用：gold/sample scoring 一次通常批量 8，而逐独立银行 rollout 一次批量 1；调用数不能直接当 FLOPs 或等价训练量。",
-      "训练循环时间包含前后向、优化器、逐步日志和周期检查点；process wall 还包括模型/数据加载和初始化。并发不同 GPU、共享 CPU/IO 及运行时状态可能影响耗时，不宣称纯独占延迟。",
-      "sum process wall 是各进程持续时间之和；earliest-to-latest span 是观测调度跨度，可能含空档和其他工作，不等于 GPU 忙碌时间。",
-      "warm 与五臂使用固定 mean writer、rank64、固定 random basis；stage4 仅 seed42、256-step 诊断预算，不支持三种子稳健性或最终方法胜出声明。"
+      "The five arms match target-fact exposures, A/B/P gold branches, bank and question/answer-format schedules, and the warm Adam starting state. OPD adds sampling and teacher/student scoring, so compute is not matched.",
+      "512 updates x 8 = 4096 target-pair exposures, not 4096 distinct facts or one epoch; 256 updates x 8 = 2048 additional exposures. Each target includes three gold sequences A/B/P.",
+      "All five stage4 arms branch from one executed 512-step warm-up. Count it once in total experimental cost, not five times. A single-arm full lineage may separately show 768 updates / 6144 exposures.",
+      "Cost covers eleven stage3/stage4 training jobs. It excludes writer pretraining, feature-cache creation, calibration/qualification, data preparation, smoke tests, evaluation, and older or failed runs. It is not total project cost.",
+      "Input token positions come from actual trajectory lengths and logged unpadded input counts; step logs and aggregates were independently summed. Without the model tokenizer locally, all prompt lengths were not independently retokenized. Padded teacher/student positions were not recorded, so these counts are not exact FLOPs.",
+      "Forward calls count actual backbone invocations: gold/sample scoring usually batches 8, whereas each independent-bank rollout batches 1. Call counts are not FLOPs or equivalent training budgets.",
+      "Training-loop time includes forward/backward passes, optimizer work, step logging, and periodic checkpoints. Process wall time additionally includes model/data loading and initialization. Concurrent GPUs, shared CPU/I/O, and runtime state affect timing; these are not exclusive-resource latency measurements.",
+      "Sum process wall adds process durations; earliest-to-latest span measures the observed schedule span, possibly including gaps and other work. Neither is GPU busy time.",
+      "Warm-up and all five arms use a fixed mean writer, rank64, and fixed random basis. Stage4 has only seed42 and a 256-update diagnostic budget, which cannot establish three-seed robustness or a winning final method."
     ]
   },
   "training_routes": {

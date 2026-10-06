@@ -1,108 +1,110 @@
-# 小数据内容重构：多向量 writer 与可学习 readout
+# Small-data content reconstruction: multi-vector writers and trainable readout
 
-**状态：全部正式结果已完成并经本地严格复算。** 本文依据 2026-10-06 的[固定协议](reconstruction_protocol.md)：12 个训练、48 个学生评估及 5 个教师资格作业全部完成，60/60 个正式训练/学生条件齐全，无 pending 或重复。开发候选在 `2026-10-06T12:36:47.921214+00:00`、任何确认启动前封存为“无合格候选”。[完整汇总](results/reconstruction/summary.json)、[关键数字](results/reconstruction/key_facts.json)和[封存选择](results/reconstruction/selection.json)随本文保存。
+> English localization of the historical report. The archived source, protocol hashes, and registrations remain unchanged; see [reproducibility.md](reproducibility.md) for pinned-source reproduction.
 
-结果把两件事分开了：**三槽 writer、可学习 B 及其组合都能稳定拟合已见 A/B，但四种架构在新组合 C/D 上均为零，新实体确认也全部为零，未通过可写记忆门槛。** 教师在全部已定条件中均可完成任务；学生失败不能沿用上一轮原始 Wiki 教师不合格的解释。按预定规则停止扩大到 256/1024 条语料。可学习 B 只是本轮一种受限的 readout 改动，不能代表所有更强 reader。
+**Status: all formal results are complete and have been strictly recomputed locally.** Under the [fixed protocol](reconstruction_protocol.md) dated 2026-10-06, all 12 training runs, 48 student evaluations, and 5 teacher-qualification jobs completed. All 60/60 formal training/student conditions are present, with no pending or duplicate conditions. The development decision was sealed as “no qualified candidate” at `2026-10-06T12:36:47.921214+00:00`, before any confirmation run started. The [full summary](results/reconstruction/summary.json), [key facts](results/reconstruction/key_facts.json), and [sealed selection](results/reconstruction/selection.json) accompany this report.
 
-## 本轮回答什么
+The results separate two findings: **the three-slot writer, trainable B, and their combination reliably fit seen A/B, but all four architectures score zero on novel C/D combinations and on new-entity confirmation, failing the writable-memory gates.** The teacher solves every specified condition, so the student's failures cannot be explained by the previous round's unqualified raw-Wiki teacher. The predefined rule stops expansion to 256/1024 records. Trainable B is one constrained readout intervention, not a representative of every stronger reader.
 
-上一轮冷启动实验没有完整多词答案，且部分 Wiki 教师不合格。本轮用独立的微型合成数据，先检验内容重构是否可学，再比较 writer 和 readout。它不是上一轮只缩小数据量的单因素复现：训练目标、key 特征、损失和每条事实曝光均有变化，不能直接用跨轮分数估计某一因素的效果。
+## What this round tests
 
-冻结 Qwen3-4B-Instruct-2507 的指定 revision，在第 20 层使用 rank/key dimension 64 的 VeRA 接口。训练 16 条三词 note 的 A/B 两个版本，推理问题不包含原文或答案；写入时读取已观察到的 note。基础向量库完全禁用，评估使用真实 CPU VDB。教师只检查任务在原文上下文下能否完成，不参与蒸馏。
+The previous cold-start experiment produced no complete multiword answers, and some Wiki teacher conditions were unqualified. This round uses an independent miniature synthetic dataset to establish whether reconstruction is learnable, then compares writer and readout. It is not a single-factor repetition with merely less data: targets, key features, loss, and exposure per fact all changed. Cross-round scores cannot estimate the effect of one factor alone.
 
-| 架构 | 动态记录 | B | 可训练参数 | 每事实纯向量字节 |
+The specified revision of Qwen3-4B-Instruct-2507 is frozen, with a layer-20 VeRA interface of rank/key dimension 64. Training uses A/B versions of 16 three-word notes. Inference questions contain neither source text nor answers; writes read the observed note. The foundation vector bank is fully disabled, and evaluation uses a real CPU VDB. The teacher only checks task feasibility with raw context and supplies no distillation loss.
+
+| Architecture | Dynamic record | B | Trainable parameters | Vector bytes per fact |
 | --- | --- | --- | ---: | ---: |
-| S1_fixedB | payload mean，一槽 | 固定随机 | 1,870,336 | 512 |
-| S3_fixedB | 三个 word-span mean，三槽 | 固定随机 | 1,870,336 | 1,536 |
-| S1_trainB | payload mean，一槽 | 同初值，可学习 | 2,034,176 | 512 |
-| S3_trainB | 三个 word-span mean，三槽 | 同初值，可学习 | 2,034,176 | 1,536 |
+| S1_fixedB | Payload mean, one slot | Fixed random | 1,870,336 | 512 |
+| S3_fixedB | Three word-span means, three slots | Fixed random | 1,870,336 | 1,536 |
+| S1_trainB | Payload mean, one slot | Same initialization, trainable | 2,034,176 | 512 |
+| S3_trainB | Three word-span means, three slots | Same initialization, trainable | 2,034,176 | 1,536 |
 
-同种子四臂的初始 A/B/Wq/Wk/Wv/b 张量相同；特征中心化只使用对应 writer 的训练 A/B 特征，S1 与 S3 的统计缓冲区不要求相同。三槽共享投影参数，不为各槽另设 writer。top-4 按 **slot** 选择，所以三槽同时改变内容粒度、key 寻址和候选竞争。B 可学习额外开放 163,840 个参数，rank 仍是 64；这不是提高残差秩的实验。纯向量字节不包括 ID、时间戳、索引及 Python 对象。
+Same-seed arms share initial A/B/Wq/Wk/Wv/b tensors. Centering uses only each writer's training A/B features; S1 and S3 statistics buffers need not match. Three slots share projection parameters rather than using separate writers. Top-4 selects **slots**, so three slots jointly change content granularity, key addressing, and candidate competition. Learning B exposes another 163,840 parameters while rank remains 64; this does not increase residual rank. Vector-byte counts exclude IDs, timestamps, indices, and Python objects.
 
-三个优化种子为 `71042 / 71043 / 71044`，数据种子固定 `101042`。每模型 1,024 更新、每步 8 个目标，各有独立的 A/B 银行，共 16 个学生序列合并一次 backbone forward。损失仅为完整答案含 EOS 的 CE 加 `0.2 × fact-group 地址 CE`，两项都先按每个序列有效预测位置取均值，再按序列等权。每条事实作为目标出现 512 次；512 步诊断不用于选 checkpoint，所有结果来自 1,024 步终点。
+Optimization seeds are `71042 / 71043 / 71044`, with data seed `101042`. Each model receives 1,024 updates with 8 targets per step, each with independent A/B banks. The resulting 16 student sequences share one batched backbone forward. Loss is full-answer CE including EOS plus `0.2 × fact-group address CE`; both average valid prediction positions within each sequence, then weight sequences equally. Each fact is a target 512 times. Step-512 diagnostics do not select checkpoints; all results use the step-1,024 endpoint.
 
-## 数据与评分边界
+## Data and scoring boundaries
 
-训练只见 16 个实体的 A/B。C 用于终点开发诊断，D 封存到最终确认；另有 dev 32 个、confirm 64 个新实体。词汇都在训练出现，但相应完整 payload 未见。**C/D 保留对应 A 的前两个词，只替换为另一个已见第三词**，所以这里的新组合结论针对旧前缀下的新末词，不等于任意位置重组或未见词汇泛化。张量审计确认 C 的第三词特征 16/16 均实际改变、前两词特征与 A 逐位相同。
+Training sees A/B for only 16 entities. C is endpoint development data and D is sealed until confirmation; dev has 32 new entities and confirm has 64. Component words occur in training, but the corresponding complete payloads do not. **C/D retain A's first two words and substitute another seen third word.** Novel-combination conclusions therefore concern a new final word after an old prefix, not arbitrary-position recombination or unseen vocabulary. Tensor auditing confirms that all 16/16 C third-word features actually change, while the first two word features remain bitwise equal to A.
 
-全部世界（含 D）的冻结特征已在评分前编码；封存的是 D 的自由生成、评分和选择用途，不能说 D 完全未被计算。D 不参与梯度、拟合统计或选择。known16 到 dev32/confirm64 同时改变实体、完整组合与银行大小，因此新实体条件的失败不能单独归因于实体泛化；同实体、同银行大小、同 canonical 格式的 C/D 提供了不受这三者混杂的停止扩样证据。
+Frozen features for all worlds, including D, were encoded before scoring. What was sealed was D's free generation, scoring, and use in selection; D was not wholly uncomputed. D contributes neither gradients nor fitted statistics nor selection. Moving from known 16 to dev 32/confirm 64 jointly changes entities, complete combinations, and bank size. Failure there cannot be uniquely attributed to entity generalization. Same-entity C/D, with the same bank size and canonical format, provides evidence against expansion without those three confounds.
 
-`CC / HC / CH / HH` 依次表示 canonical/heldout support 与 canonical/heldout query 的组合，第一字母指 support。每个目标从独立的 A 银行出发，只更新自身全部 slots；B、C、D、SWAP 不累积。SWAP 将固定另一实体的 A 内容写入当前目标，donor 不变，用来诊断已见内容能否重新分配。回写 A 恢复 key/value，目标时间戳合法递增，因此整库哈希不必回到初值。
+`CC / HC / CH / HH` combine canonical/heldout support with canonical/heldout query; the first letter denotes support. Each target starts from an independent A bank and updates only its own complete slot group. B, C, D, and SWAP do not accumulate. SWAP writes a fixed other entity's A content into the target while leaving the donor unchanged, testing whether seen content can be reassigned. Restoring A recovers keys/values while legitimately increasing the target timestamp, so the whole-bank hash need not return to its original value.
 
-主要指标是自由生成的完整答案 EM。A/B pair 要求两边都正确；C/D 的 update+restore 要求写入新内容后回答正确，且回写 A 后也正确。每次更新另查询一个固定邻居 `(i+1)%N`，`locality_joint` 要求更新前后都正确；同样答错不算成功保持。
+The primary measure is complete-answer EM under free generation. A/B pair requires both worlds correct; C/D update+restore requires correctness after the new-content write and after restoring A. Each update also queries one fixed neighbor `(i+1)%N`. `locality_joint` requires correctness before and after; an unchanged wrong answer is not successful preservation.
 
-shuffle 只置换 value，保持 keys，以整条事实为单位置换三槽；empty 移除全部动态记忆。对 C/D 比较相同世界的单边 EM，避免把确定性空库面对不同 A/B 答案必为零的 paired EM 当作有效证据。R@4 是四个 slot 中是否含目标 fact，不能等同完整内容读出，也不意味着取回四个不同 fact。
+Shuffle permutes values only, retaining keys and moving complete three-slot fact groups together. Empty removes all dynamic memory. C/D comparisons use single-world EM so that the logically zero paired EM of a deterministic empty bank facing different A/B answers is not mistaken for evidence. R@4 means at least one of four selected slots belongs to the target fact; it does not imply complete content readout or four distinct retrieved facts.
 
-## 开发结果与已封存选择
+## Development results and the sealed decision
 
-下列三元组均按种子 `71042 / 71043 / 71044` 排列，每个分母 16。新实体开发分母为 32。没有把重复世界或三个种子合成独立事实数。
+Triples below follow seed order `71042 / 71043 / 71044`, with denominator 16 each. New-entity development uses denominator 32. Repeated worlds and seeds are not pooled into independent facts.
 
-| 架构 | 已见 A/B pair | C 写入+回写 A | C 邻居两时点均正确 | 新实体 dev CC pair |
+| Architecture | Seen A/B pair | C write + A restore | C neighbor correct at both times | New-entity dev CC pair |
 | --- | --- | --- | --- | --- |
 | S1_fixedB | 14 / 13 / 13 | 0 / 0 / 0 | 15 / 14 / 14 | 0 / 0 / 0 |
 | S3_fixedB | 16 / 16 / 16 | 0 / 0 / 0 | 16 / 15 / 15 | 0 / 0 / 0 |
 | S1_trainB | 16 / 16 / 16 | 0 / 0 / 0 | 16 / 15 / 16 | 0 / 0 / 0 |
 | S3_trainB | 16 / 16 / 16 | 0 / 0 / 0 | 16 / 16 / 16 | 0 / 0 / 0 |
 
-三个结构臂也在 A→B→A 三个时点全部正确，各种子均为 16/16；baseline 为 14/13/13。已见 B 的单边 shuffle 和 empty EM 在全部模型均为 0/16，因此训练答案并非在这些控制下仍能不变输出。不过这只能证明已见标签重构依赖被写入的向量，不能证明向量已携带可组合的新内容。
+The three structural arms also achieve 16/16 in every seed for joint correctness at all A→B→A time points; the baseline achieves 14/13/13. Seen-B single-world shuffle and empty EM are 0/16 for every model. Training answers therefore are not produced unchanged under these controls. This establishes dependence on written vectors for seen-label reconstruction, not that the vectors carry compositionally usable new content.
 
-所有模型的 C 单边 real、shuffle、empty EM 都为 0/16，因而 real-control 差为零。三个结构臂的已见训练重构确有改善，但没有任何架构满足每个种子均通过的 G1/G2：A/B pair 至少 15/16，C update+restore 至少 15/16，C real 对两个控制各领先至少 50 个百分点，且 C 邻居联合正确至少 95%（即 16/16）。封存选择为 `selected_arm = null`，不是从未达标模型中挑一个相对最佳者。
+Every model has C real, shuffle, and empty EM of 0/16, so real-control differences are zero. The structural arms improve seen reconstruction, but none satisfies G1/G2 in every seed: A/B pair at least 15/16, C update+restore at least 15/16, C real exceeding both controls by at least 50 percentage points, and C neighbor joint correctness at least 95% (16/16). The sealed decision is `selected_arm = null`, not a choice of the relatively best failing model.
 
-还有一个不能被 C 邻居高保持掩盖的问题：**写入已训练 B 仍会干扰未改的邻居。** B 的邻居联合正确分别为 baseline 8/8/5、S3_fixedB 12/11/13、S1_trainB 9/11/11、S3_trainB 14/15/14（均 /16）。目标答案正确与局部性成立不是同一个指标。
+High C neighbor preservation must not hide another problem: **writing trained B still interferes with an unchanged neighbor.** B neighbor joint correctness is 8/8/5 for baseline, 12/11/13 for S3_fixedB, 9/11/11 for S1_trainB, and 14/15/14 for S3_trainB, all out of 16. Correct target answers and locality are different measures.
 
-SWAP 单边完整 EM 为 baseline 0/0/0、S3_fixedB 0/0/0、S1_trainB 1/0/0、S3_trainB 1/1/2（均 /16）。已见内容更换实体关联同样困难，不只是 C 的整条组合未见。它仍不是独立排除所有寻址问题的实验：更新同时改变了目标 key/value。
+SWAP single-answer EM is 0/0/0 for baseline, 0/0/0 for S3_fixedB, 1/0/0 for S1_trainB, and 1/1/2 for S3_trainB, all out of 16. Reassigning already seen content is also difficult, beyond C's unseen complete combination. This is not an independent elimination of all addressing explanations: the update changes target keys and values together.
 
-## 教师与错误诊断
+## Teacher qualification and error diagnostics
 
-教师仅为原始文本上下文下的资格检查，本轮没有 KD。全部教师自由生成 784 次、784 次完整正确：预检 train A/B 各 16/16；开发 known CC 的 A/B/C 以及 HC/CH/HH 的 A/B 各 16/16，dev CC A/B 各 32/32；最终 known CC A/D 各 16/16，新实体 confirm 四相位 A/B 各 64/64。对应 paired 资格均全通过，故教师合格子集与全分母相同；SWAP 没有额外教师作业。
+The teacher checks feasibility with raw text context; this round has no KD. All 784 teacher generations are fully correct (784/784): preflight train A/B each 16/16; development known CC A/B/C and HC/CH/HH A/B each 16/16; dev CC A/B each 32/32; final known CC A/D each 16/16; and new-entity confirm A/B in all four phases each 64/64. Every corresponding paired qualification passes, so eligible subsets equal full denominators. SWAP has no additional teacher job.
 
-C 的首预测 R@4 在 11/12 个模型为 16/16，S3_trainB 种子 71044 为 15/16，完整 EM 却全部为零。多槽组的前两词有时已经正确，新第三词仍未正确输出。这排除了“所有失败都因为首步完全没找到目标”这一解释，但**不能据此证明纯 reader 根因**：R@4 只要求命中一个目标 slot，不保证关键 word slot 有足够权重，更不保证后续每个预测位置持续读到有效值。D 首预测 R@4 同样为 11 个模型 16/16、S3_trainB 种子 71044 为 15/16；仍需区分首步召回、decode 驻留和内容正确性。
+C first-prediction R@4 is 16/16 in 11/12 models and 15/16 for S3_trainB seed 71044, yet full EM is zero throughout. Multi-slot models sometimes preserve the first two words but fail to produce the new third word. This rules out “every failure is a complete first-step target miss,” but **does not establish a purely reader-related cause**. Fact R@4 needs only one target slot; it guarantees neither sufficient weight on the relevant word slot nor continued useful reads at later prediction positions. D first-prediction R@4 has the same pattern: 11 models at 16/16 and S3_trainB seed 71044 at 15/16. Initial recall, decode residence, and content correctness remain distinct.
 
-开发新实体 CC 的 A 与 B 单边 EM 也在全部模型为零；known 的 CH/HH pair 全为零，HC 仅 S3_trainB 的种子 71042/71044 分别有 1/16、4/16，其余为零。新格式与新实体是不同的分布变化，不能把这些条件混为一个泛化分数。
+New-entity dev CC A and B single-world EM are also zero for every model. Known CH/HH pair is zero throughout; HC has only 1/16 and 4/16 for S3_trainB seeds 71042 and 71044, with all others zero. New formats and new entities are different distribution shifts and should not be collapsed into one generalization score.
 
-从原始文本另行复算 C/D，每个世界有 16 条共享事实 × 4 架构 × 3 种子 = 192 条预测记录，不能当作 192 个独立事实。C 的完整 EM 和完整答案包含均 0/192，187 条恰好三词、无 token 预算命中；D 同样两项 0/192，188 条恰好三词，仅 1 条命中 32-token 上限。零分不能仅归因于多余格式或普遍截断。C/D 的前两词完全正确分别有 127/192、136/192，而第三词正确仅 1/192、3/192。
+Independent raw-text recomputation gives 16 shared facts × 4 architectures × 3 seeds = 192 predictions for each of C and D, not 192 independent facts. C has both full EM and complete-answer containment of 0/192; 187 outputs contain exactly three words and none hits the token budget. D likewise has 0/192 on both measures; 188 outputs contain exactly three words and only 1 reaches the 32-token limit. Zero accuracy cannot be explained solely by extra formatting or widespread truncation. The first two words are both correct in 127/192 C and 136/192 D outputs, but the third word is correct in only 1/192 and 3/192.
 
-[事后内容与路由诊断](results/reconstruction/content_diagnostics.json)覆盖全部 24 个 C/D 条件，不用于候选选择或调参。下表每行是同一 16 条事实在三个种子下的 48 次重复预测：
+[Post-hoc content and routing diagnostics](results/reconstruction/content_diagnostics.json) cover all 24 C/D conditions and are not used for selection or tuning. Each row below represents 48 repeated predictions of the same 16 facts across three seeds:
 
-| 架构 / 世界 | 完整输出旧 A（/48） | 首预测召回第三词 slot（/48） | 整段至少一次召回第三词 slot（/48） | decode 第三词 slot 命中/查询 |
+| Architecture / world | Full output equals old A (/48) | Third-word slot retrieved at first prediction (/48) | Third-word slot retrieved anywhere (/48) | Decode third-word slot hits/queries |
 | --- | ---: | ---: | ---: | ---: |
 | S3_fixedB / C | 43 | 11 | 33 | 67/199 |
 | S3_fixedB / D | 42 | 17 | 37 | 61/199 |
 | S3_trainB / C | 43 | 11 | 32 | 79/211 |
 | S3_trainB / D | 43 | 21 | 40 | 83/205 |
 
-这说明高 fact R@4 经常只覆盖旧前缀对应的槽；但 D 中相当多生成确实曾读取第三词槽，仍没有完整正确答案，故不能把失败全部说成“第三词从未被召回”。已有 trace 不含生成 token ID，不能把槽命中精确对齐到第三词的预测时刻；命中也不等于该值有足够贡献。旧 A 重复只是输出描述，不能证明旧标签究竟存于共享参数、其他槽还是后续语言模型动态，也不能独立证明 reader 因果失败。
+High fact R@4 often covers only slots corresponding to the old prefix. However, many D generations do retrieve the third-word slot at some point and still fail, so failures cannot all be described as “the third word was never retrieved.” These traces lack generated token IDs, preventing exact alignment of a slot hit with the third-word prediction. A hit also does not establish sufficient contribution. Repeating old A describes outputs; it does not identify whether the old label resides in shared parameters, other slots, or subsequent language-model dynamics, nor independently establish causal reader failure.
 
-评价 NLL 是给定 gold 前缀的答案 token 平均，不包含 EOS；训练 CE 包含 EOS 且按序列等权，两种口径不能直接比较。各模型 C NLL 为 3.009–4.219，D 为 2.918–3.827；完整自由生成仍全零，NLL 改善不能替代可写性。
+Evaluation NLL averages answer tokens under a gold prefix and excludes EOS; training CE includes EOS and equally weights sequences, so the measures are not directly comparable. C NLL ranges from 3.009–4.219 and D from 2.918–3.827 across models, while complete free-generation EM remains zero. Better NLL does not replace writability.
 
-## 最终确认与扩样决定
+## Final confirmation and expansion decision
 
-开发选择已在任何确认开始之前封存为“无候选”。按固定规则，本轮不具备扩大至 256/1024 条的资格。确认的目的仍是报告封存新组合 D 和新实体表现，不允许确认结果事后改变候选。
+“No candidate” was sealed before any confirmation began. Under the fixed rule, this round is ineligible for expansion to 256/1024 records. Confirmation still reports sealed D combinations and new entities; its results cannot retrospectively change the candidate.
 
-| 架构 | D 写入+回写 A（/16） | D 邻居联合正确（/16） | 新实体 confirm CC pair（/64） | HC / CH / HH pair（各 /64） |
+| Architecture | D write + A restore (/16) | D neighbor joint correctness (/16) | New-entity confirm CC pair (/64) | HC / CH / HH pair (each /64) |
 | --- | --- | --- | --- | --- |
-| S1_fixedB | 0 / 0 / 0 | 15 / 14 / 14 | 0 / 0 / 0 | 每种子、每相位均 0 |
-| S3_fixedB | 0 / 0 / 0 | 15 / 15 / 15 | 0 / 0 / 0 | 每种子、每相位均 0 |
-| S1_trainB | 0 / 0 / 0 | 16 / 16 / 16 | 0 / 0 / 0 | 每种子、每相位均 0 |
-| S3_trainB | 0 / 0 / 0 | 16 / 16 / 16 | 0 / 0 / 0 | 每种子、每相位均 0 |
+| S1_fixedB | 0 / 0 / 0 | 15 / 14 / 14 | 0 / 0 / 0 | 0 for every seed and phase |
+| S3_fixedB | 0 / 0 / 0 | 15 / 15 / 15 | 0 / 0 / 0 | 0 for every seed and phase |
+| S1_trainB | 0 / 0 / 0 | 16 / 16 / 16 | 0 / 0 / 0 | 0 for every seed and phase |
+| S3_trainB | 0 / 0 / 0 | 16 / 16 / 16 | 0 / 0 / 0 | 0 for every seed and phase |
 
-D 的单边 real/shuffle/empty 也全部 0/16；回写 A 在 baseline 各 15/16，三个结构臂各 16/16。新实体确认各相位的 A/B 单边也都为 0/64，不能将 pair 为零解释成仅一边失败。G3 要求预选架构三个种子分别 D update+restore ≥15/16、confirm CC pair ≥52/64，本轮既无开发合格候选，也没有任何确认结果达到门槛。汇总中的 `final_gate.per_seed.complete=false` 表示不存在可评分的预选架构，**不表示缺少正式确认**；`all_formal_results_complete=true`。
+D single-world real/shuffle/empty EM is also 0/16 throughout. Restored A is 15/16 in each baseline seed and 16/16 in each structural-arm seed. New-entity confirmation A and B single-world scores are each 0/64 in every phase, so zero pairs do not merely reflect one failing side. G3 requires the preselected architecture to attain D update+restore ≥15/16 and confirm CC pair ≥52/64 separately for all seeds. There is neither a development-qualified candidate nor a passing confirmation result. In the summary, `final_gate.per_seed.complete=false` means there is no preselected architecture to assess; **it does not mean formal confirmation is missing**. `all_formal_results_complete=true`.
 
-## 成本与审计范围
+## Cost and audit scope
 
-正式训练 12 模型已完整复算：12,288 更新、98,304 次目标曝光、196,608 个 A/B 学生序列、1,019,904 个 gold token、14,954,496 个实际输入位置、15,481,152 个含 padding 的输入位置、12,288 次 backbone forward。各训练进程记录的训练时间相加为 1,113.422 秒；这是进程累计时间，不能当成独占 GPU 延迟或从启动到完成的墙钟时间。
+All 12 formal training runs have been recomputed: 12,288 updates, 98,304 target exposures, 196,608 A/B student sequences, 1,019,904 gold tokens, 14,954,496 actual input positions, 15,481,152 padded input positions, and 12,288 backbone forwards. Recorded training-process durations sum to 1,113.422 seconds. This is cumulative process time, not exclusive GPU latency or launch-to-completion wall time.
 
-最终学生实际生成 11,904 次、61,190 个生成 token，另有 49,920 个答案评分 token；4,800 次独立目标干预和 768 次回写，共 5,568 次 real group 写入，均与预定数量一致。教师额外生成 784 次、4,069 个 token。学生生成调用累计 2,382.482 秒，教师生成调用累计 115.735 秒；这些仅覆盖各自计时区间，不包括完整评分/初始化/备份，也可能并行重叠。银行初始填充和 shuffle/empty 控制物化不伪装为在线单条写入。显式命名的 smoke 不混入正式训练统计。
+Students generated 11,904 outputs and 61,190 tokens, with another 49,920 answer-scoring tokens. There were 4,800 independent target interventions and 768 restorations, totaling 5,568 real group writes, matching the plan. The teacher generated another 784 outputs and 4,069 tokens. Summed student-generation time is 2,382.482 seconds and teacher-generation time 115.735 seconds. These cover only their timed intervals, exclude complete scoring/initialization/backup, and can overlap in parallel. Initial bank population and shuffle/empty materialization are not counted as online single-record writes. Explicit smoke runs are excluded from formal training statistics.
 
-严格汇总器从原始预测复算 EM、pair、restoration、locality 和 R@4，检查 world/phase/trigger、数据标签、生成数量、目标日程、损失公式、训练预算、checkpoint 亲缘和文件 SHA。它不反序列化模型或银行张量；[独立审计](results/reconstruction/independent_audit.json)另外重编码缓存特征对应的 writer K/V，并回放保存的 CPU 单条写入与恢复。同种子初始化和终点冻结/Adam 状态也通过检查。
+The strict summarizer recomputes EM, pairs, restoration, locality, and R@4 from raw predictions and checks world/phase/trigger, labels, generation counts, target schedules, loss, budgets, checkpoint lineage, and file SHAs. It does not deserialize model/bank tensors. The [independent audit](results/reconstruction/independent_audit.json) separately re-encodes writer K/V from cached features and replays saved CPU single-record writes/restorations. Same-seed initialization and endpoint frozen/Adam states also pass checks.
 
-独立审计覆盖 66 个正式作业（含 1 个 prepare），正式学生和教师合计 12,688 次生成；另列 7 个 smoke 作业的 39 次生成、6 次干预和 6 次回写，不混入正式分数或成本。审计在 CPU 运行 68.994 秒、没有初始化 CUDA，`complete=true`、`checks_passed=true`。它**不重新运行语言模型生成或 query logits**，writer 重编码的输入仍是已有冻结特征而非再从原文跑骨干；日志中的冻结标志不是可信执行证明，保存的初值和终点也不能证明每个中间时刻绝无梯度。文件 hash、张量回放和实际模型重跑的证据范围应分开。
+The independent audit covers 66 formal jobs, including 1 prepare, with 12,688 formal student-plus-teacher generations. Another 7 smoke jobs contain 39 generations, 6 interventions, and 6 restorations, excluded from formal scores/costs. The audit ran on CPU for 68.994 seconds without initializing CUDA, with `complete=true` and `checks_passed=true`. It **does not rerun language-model generation or query logits**. Writer re-encoding starts from saved frozen features rather than running the backbone over raw text again. Logged frozen flags are not trusted-execution proofs, and saved initial/final tensors cannot prove an absence of gradients at every intermediate moment. Hash checking, tensor replay, and actual model reruns provide different evidence.
 
-注册文件与 baseline 源码快照中的协议文档曾因并发说明更新出现一个段落差异：注册版 SHA 为 `38ff9df8681757dd963e2cb4b63405c7f306d887b8b0442f7db823625896e7e5`，baseline 文档副本为 `2cf86a9527907bdf215407249a78834a1aac2f685ceeb078a5712d766a24ba5c`。差异只明确 C/D 固定前两词、替换第三词及 C/D 的选择用途；训练 Python 源码逐项等于注册记录，数据、预算和门槛未变。不可变运行副本保留，live 协议已恢复注册版。逐行差异及核验见[协议副本说明](results/reconstruction/protocol_copy_note.json)，不将此文档副本差异当成模型或数据版本改变。[注册记录](results/reconstruction/registration.json)、[训练矩阵审计](results/reconstruction/training_matrix_audit.json)与[数据来源审计](results/reconstruction/data_provenance_audit.json)分别保留封存和初始化/曝光/划分证据。
+A concurrent clarification caused one paragraph of the baseline source-snapshot protocol to differ from the registered document: registered SHA `38ff9df8681757dd963e2cb4b63405c7f306d887b8b0442f7db823625896e7e5`, baseline copy `2cf86a9527907bdf215407249a78834a1aac2f685ceeb078a5712d766a24ba5c`. The difference only clarified that C/D retain the first two words and replace the third, and their selection roles. Training Python sources matched registration file by file; data, budget, and gates did not change. Immutable run copies were preserved, and the live protocol was restored to its registered version at the end of that experiment. See the [protocol-copy note](results/reconstruction/protocol_copy_note.json) for the line-level diff and checks. This document-copy difference is not a model/data version change. The [registration](results/reconstruction/registration.json), [training-matrix audit](results/reconstruction/training_matrix_audit.json), and [data-provenance audit](results/reconstruction/data_provenance_audit.json) preserve sealing, initialization/exposure, and split evidence.
 
-## 复算
+## Recompute
 
-在仓库根目录，用已完整备份的本地 runs 执行；无需模型、GPU 或 SSH。已封存的 selection 只能读取，不能重写：
+From the repository root, use the fully backed-up local runs; no model, GPU, or SSH is required. Read the sealed selection without rewriting it:
 
 ```bash
 python3 scripts/summarize_reconstruction.py \
@@ -111,16 +113,16 @@ python3 scripts/summarize_reconstruction.py \
   --selection ../plans/reconstruction_selection_20261006.json
 ```
 
-首次候选封存的历史命令是同一脚本的 `--select --selection-output ...`；它要求全部 12 个训练和 24 个开发评估完成，而且不存在任何确认 child。确认开始后不应重新运行该模式。汇总器测试为 `python -m pytest tests/test_summarize_reconstruction.py -q`。
+The original selection command used the same script's `--select --selection-output ...` mode. It requires all 12 training and 24 development evaluations and no existing confirmation child. Do not rerun that mode after confirmation starts. Summarizer tests are `python -m pytest tests/test_summarize_reconstruction.py -q`.
 
-本轮完整 pytest 运行 947 项通过（99.34 秒）；随后确认调度器加固相关 93 项通过，最终收集 989 项，但没有宣称这 989 项又全部重跑；独立审计自测 19 项、内容诊断自测 6 项另行通过。所有 40 个已注册 `src/*.py` 文件仍逐项等于原 SHA，canonical 协议文件也保持注册版。
+The full pytest run passed 947 tests in 99.34 seconds. A later 93-test confirmation-scheduler hardening run passed; the final collection contained 989 tests, without claiming that all 989 were rerun together. Independent-audit self-tests passed 19 cases and content-diagnostic self-tests passed 6. All 40 registered `src/*.py` files still matched their original SHAs, and the canonical protocol retained its registered version in the historical source.
 
-正式源码、配置、数据与运行命令以 registration、各 suite source snapshot、manifest 和[历史计划](results/reconstruction/plans.json)为准。公开 [summary.json](results/reconstruction/summary.json)与本地严格结果逐字节一致，SHA-256 为 `050d5497d1dd5f82f820dd23f164a3960261908826ad7455ed37756511735282`；[key_facts.json](results/reconstruction/key_facts.json)保留此来源 SHA、逐种子整数计数及 C/D 原始输出的独立复算。
+Formal source, configuration, data, and commands are defined by registration, suite source snapshots, manifests, and [historical plans](results/reconstruction/plans.json). Public [summary.json](results/reconstruction/summary.json) is byte-identical to the local strict result, with SHA-256 `050d5497d1dd5f82f820dd23f164a3960261908826ad7455ed37756511735282`. [key_facts.json](results/reconstruction/key_facts.json) retains that source SHA, per-seed integer counts, and independent raw-output recomputation for C/D.
 
-## 结论限制与后续方向
+## Limits and next directions
 
-本轮证明在本配方下，结构调整可以让 16 条已见 A/B 的自由生成稳定重构，但没有建立“只靠在线写入即可回答新组合”的能力，并存在已见 B 写入时的邻居干扰。不能把这一差距解释为向量记忆原则上不可行，也不能凭本轮固定 rank64 证明秩就是根因。
+Under this recipe, structural changes enable stable free-generation reconstruction of 16 seen A/B facts. They do not establish the ability to answer novel combinations through online writes alone, and seen-B writes can interfere with neighbors. This gap neither disproves vector memory in principle nor proves that fixed rank 64 is its cause.
 
-三个种子共用同一微型数据和模板；它们测优化/初始化稳定性，不是三个独立数据集。三槽改变 writer 粒度和寻址，并花费三倍每事实向量字节；学习 B 增加可训练容量。同更新数不等于同 FLOPs、时间或参数预算，因此不能宣布某结构有普遍效率优势。C/D 仅换末词、每次只探测一个邻居，分别限制组合和局部性结论。
+The three seeds share a miniature dataset and templates; they measure initialization/optimization stability, not three independent datasets. Three slots change writer granularity and addressing at three times the vector bytes per fact; learning B increases trainable capacity. Equal updates do not mean equal FLOPs, time, or parameters, so no universal efficiency advantage is established. C/D modify only the final word, and each update probes only one neighbor, limiting composition and locality claims respectively.
 
-下一步若继续，应先在新封存的微型数据上检验内容是否能通过接口读出，而非追加大语料或单独把召回/NLL 当成功。可考虑把内容解码可学性与自由寻址分开的正对照，再检验共享参数冻结后可写入的新组合；任何新增目标记录强制读取或逐词监督都必须明示额外权限/标签，不能冒充本轮结果。具体结构、监督和门槛需另立协议，本轮不追加训练、不扩大语料。
+If work continues, first test whether content can be decoded through the interface on newly sealed miniature data, rather than adding a large corpus or treating recall/NLL alone as success. A positive control separating content-decode learnability from unrestricted addressing could precede testing new combinations with shared parameters frozen. Any forced target-record read or word-level supervision must declare its extra access/labels rather than masquerade as a result from this round. New structure, supervision, and gates require another protocol; this round adds neither training nor corpus expansion.

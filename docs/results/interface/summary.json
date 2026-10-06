@@ -87549,7 +87549,7 @@
     }
   },
   "writer_gate": {
-    "source": "docs/interface_protocol.md#Writer验证",
+    "source": "docs/interface_protocol.md#writer-validation",
     "source_sha256": "768e9ada8b1e4687bf626df14df5ca13c387927c9fba795bbd2a0437c90f37bb",
     "thresholds": {
       "hc_absolute_gain_min": 0.2,

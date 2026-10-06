@@ -177,8 +177,8 @@ def test_cold_deployment_pairs_each_training_condition_only_with_exact_same_chec
         assert first["checkpoint_sha256"] == second["checkpoint_sha256"]
         assert first["source_training_config_sha256"] == second["source_training_config_sha256"]
         assert first["training_cold_records"] == second["training_cold_records"]
-    assert "不是等 FLOPs" in SUMMARY.render(result)
-    assert "不是 top-1 比例" in SUMMARY.render(result)
+    assert "not an equal-FLOPs" in SUMMARY.render(result)
+    assert "not a top-1 proportion" in SUMMARY.render(result)
 
 
 @pytest.mark.parametrize("mismatch", ["checkpoint_sha256", "source_training_config", "cache_sha256", "labels"])

@@ -1,99 +1,99 @@
-# 反事实上下文蒸馏：确认实验与学生交接
+# Counterfactual context distillation: confirmation results and student handoff
 
-本轮有效实验已经完成。**反事实行为差分、hidden 差分和学生轨迹混合，都没有解决本次“新观测格式＋原问句”的泛化问题：有原文的 teacher 为64/64对全部正确，四个训练组均为0/64。** 原格式上的成对正确数有所增加，但辅助项相对配对训练基线只多1–3对，既定实体 bootstrap 的增量区间均包含0，不能宣布稳定收益。
+The valid experiment is complete. **Counterfactual behavioral differences, hidden differences, and mixed student trajectories did not solve generalization in the new-observation/original-question condition: the teacher with original text answers both sides correctly for 64/64 pairs, while all four trained arms score 0/64.** Paired accuracy increases in the original format, but auxiliary losses add only 1–3 pairs over the paired-training baseline. Every incremental interval from the predetermined entity bootstrap includes 0, so a stable benefit is not established.
 
-另外两个含新问句的条件，teacher 自身常输出 JSON／表格并被4-token预算截断，不能把这些条件的零分单独归因于 VeRA。以下保留全部样本和 teacher 验收结果，不只展示过滤后的分数。
+In the other two conditions involving new questions, the teacher frequently emits JSON/tables and truncates at the 4-token budget. Their zero scores cannot be attributed solely to VeRA. All examples and teacher checks are retained below, rather than only filtered scores.
 
-## 实验做了什么
+## What was tested
 
-固定 Qwen3-4B-Instruct-2507、第20层 `mlp.down_proj`、rank/key64、top-k4及历史 anchored 初始化。每次以完全相同的问题读取三个独立银行：A为原事实；B只替换目标记录的答案；P只改写该记录的表达、保持事实不变。正常 writer 同时生成 key/value，其他记录的字节与时间戳保持不变。
+Use fixed Qwen3-4B-Instruct-2507, layer-20 `mlp.down_proj`, rank/key dimension 64, top-k 4, and the historical anchored initialization. Read three independent banks with exactly the same question: A contains the original fact; B replaces only the target record's answer; P changes only that record's expression while preserving the fact. The normal writer generates both key and value. Bytes and timestamps of all other records stay unchanged.
 
-Teacher 获得对应观测原文；student 的 prompt 不含原文，通过 CPU VDB 的逐 token 检索与 VeRA 推理。离线训练共享读写器，确认评估中所有模型参数冻结，只执行向量写入或替换。
+The teacher receives the corresponding observation text. The student prompt omits it and uses token-wise CPU VDB retrieval followed by VeRA inference. Shared writers/readers are trained offline. All model parameters remain frozen during confirmation, which performs only vector writes or replacements.
 
-4096个训练事实，共同256次 batch-8 热身；四组从同一 module 和 Adam 状态各续训512步，固定最后一步，不按确认分数选模型。所有正式训练结束后才生成新确认集答案。新确认集为64个实体、seed37042，与历史集合及无效版本的seed27042不重合；JSON和Markdown两种结构保留作确认，每个A/B标签均衡覆盖四种query×support组合。
+There are 4096 training facts, with a shared 256-update batch-8 warm-up. Each of four arms continues for 512 steps from the same module and Adam state. Final checkpoints are fixed, without selection on confirmation scores. New confirmation answers are generated only after all formal training ends. The new set has 64 entities, seed 37042, disjoint from historical sets and invalid-version seed 27042. JSON and Markdown are held-out confirmation structures, with each A/B label balanced across four query×support combinations.
 
-| 组 | 相对公共配对监督的增量 |
+| Arm | Addition to common paired supervision |
 | --- | --- |
-| base | A/B/P forward KL、首token标签、实际寻址及跨表达寻址、A/P一致性和canonical回放 |
-| behavior | 加0.1首预测位置的教师—学生反事实logit margin差分损失 |
-| hidden | behavior再加0.1归一化hidden差分的相对MSE |
-| mixed | hidden中每4步用A/B混合学生policy采样公共前缀，替代一次gold-prefix FKL；首token正确标签仍保留 |
+| base | A/B/P forward KL, first-token labels, actual and cross-expression addressing, A/P consistency, and canonical replay |
+| behavior | Adds a 0.1 teacher–student counterfactual logit-margin difference loss at the first prediction position |
+| hidden | Adds a 0.1 relative MSE on normalized hidden differences to behavior |
+| mixed | Every 4 steps, samples a common prefix from an A/B mixture of student policies, replacing one gold-prefix FKL update in hidden; correct first-token labels remain |
 
-四组都有成对数据，因此比较识别的是辅助损失与轨迹配方的增量，不能单独识别“加入成对数据”的收益。完整定义与损失权重见[固定协议](counterfactual_protocol.md)，代码入口为 `prepare_counterfactual.py`、`vera_mem.counterfactual_run` 和 `run_counterfactual_suite.py`。
+All four arms use paired data. The comparison identifies increments from auxiliary losses and trajectory recipes, not the isolated benefit of adding paired data. Full definitions and weights are in the [fixed protocol](counterfactual_protocol.md). Code entry points are `prepare_counterfactual.py`, `vera_mem.counterfactual_run`, and `run_counterfactual_suite.py`.
 
-## 主要结果
+## Main results
 
-单元格为 **A和B两个世界同时答对的事实数 / 64**。A/B答案不同，仅输出发生变化不能算成功。每列使用相同64个目标实体，但不同列的同一实体不是独立样本。
+Cells count **facts answered correctly in both worlds A and B, out of 64**. A/B answers differ; output changes alone are not success. Columns use the same 64 targets, so an entity appearing in multiple columns is not an independent sample each time.
 
-| 模型 | 原观测／原问句 | 原观测／新问句 | 新观测／原问句 | 新观测／新问句 |
+| Model | Original observation/original question | Original observation/new question | New observation/original question | New observation/new question |
 | --- | ---: | ---: | ---: | ---: |
-| 训练前 anchored | 49 | 0 | 1 | 0 |
-| 配对训练 base | 57 | 0 | 0 | 0 |
-| ＋行为差分 | 60 | 0 | 0 | 0 |
-| ＋hidden差分 | 58 | 0 | 0 | 0 |
-| ＋学生轨迹 mixed | 59 | 0 | 0 | 0 |
-| 有原文 teacher | 64 | 0 | 64 | 1 |
+| Anchored, before training | 49 | 0 | 1 | 0 |
+| Paired-training base | 57 | 0 | 0 | 0 |
+| + behavioral difference | 60 | 0 | 0 | 0 |
+| + hidden difference | 58 | 0 | 0 | 0 |
+| + mixed student trajectories | 59 | 0 | 0 | 0 |
+| Teacher with original text | 64 | 0 | 64 | 1 |
 
-行为差分相对base的原格式增量为3/64，hidden为1/64，mixed为2/64。预定的四条件联合、按实体成对bootstrap（2000次、seed123）平均增量分别为+1.17、+0.39、+0.78个百分点，95%区间分别为[-0.39,+2.73]、[-1.17,+1.95]、[-0.78,+2.73]，均包含0。这是既定统计对比，不应将含teacher格式失败的四条件平均数解释为纯语义能力总分；区间也不覆盖训练seed或新结构族的不确定性。
+Original-format gains over base are 3/64 for behavior, 1/64 for hidden, and 2/64 for mixed. The predetermined entity-paired bootstrap jointly over four conditions (2000 resamples, seed 123) gives mean gains of +1.17, +0.39, and +0.78 percentage points, with 95% intervals [-0.39,+2.73], [-1.17,+1.95], and [-0.78,+2.73], respectively. All include 0. This is the planned statistical comparison, but averaging conditions that include teacher-format failures is not a pure semantic-ability score. The intervals also exclude training-seed and new structural-family uncertainty.
 
-所有模型、所有条件的 shuffled-value 和 empty-memory 双边正确数均为0。原格式的真实读出确实依赖记忆；新观测条件尚没有可确认的成对更新能力。
+Shuffled-value and empty-memory paired accuracy is 0 for every model and condition. Real original-format readout does depend on memory. Paired update capability under new observations has not been established.
 
-## Teacher验收改变了哪些解释
+## How teacher checks constrain interpretation
 
-| 观测／问句 | Teacher A正确 | B正确 | P正确 | A/B均正确 | A/B/P全正确 |
+| Observation/question | Teacher A correct | B correct | P correct | A/B both correct | A/B/P all correct |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| 原／原 | 64 | 64 | 64 | 64 | 64 |
-| 原／新 | 0 | 0 | 0 | 0 | 0 |
-| 新／原 | 64 | 64 | 64 | 64 | 64 |
-| 新／新 | 4 | 3 | 2 | 1 | 0 |
+| Original/original | 64 | 64 | 64 | 64 | 64 |
+| Original/new | 0 | 0 | 0 | 0 | 0 |
+| New/original | 64 | 64 | 64 | 64 | 64 |
+| New/new | 4 | 3 | 2 | 1 | 0 |
 
-新问句已包含“只返回单词”的指令，但teacher仍经常生成JSON字段名或表格开头。原观测／新问句的192次teacher A/B/P生成全部达到4-token上限，严格EM全部失败。未测量更长预算下是否能表达正确事实；更长输出也不能自动算作严格单词格式正确。
+New questions already instruct the model to return only the word, but the teacher often emits JSON field names or the start of a table. All 192 teacher A/B/P generations in original-observation/new-question reach the 4-token limit and fail strict EM. Whether a longer budget would express the correct fact was not measured; longer output would not automatically satisfy the strict single-word format.
 
-因此，**本轮最干净的泛化负结果是新观测／原问句**：基座可从这些新格式中读出事实，而当前向量记忆通路未能可靠完成同一问题下的事实替换。另两个条件仍有实测结果，但混入teacher格式遵循与截断问题；teacher合格子集分母为0或1，无法支持稳定的比较。完整汇总同时给出全64个样本和teacher合格子集，不用过滤提高主分数。
+Thus, **the cleanest negative generalization result is new observation/original question**: the backbone can read facts from these new formats, but the current vector-memory path does not reliably replace the fact under the same question. The other two conditions have measured results but also involve teacher instruction-following and truncation problems. Teacher-qualified subset denominators of 0 or 1 cannot support stable comparisons. The full summary reports both all 64 examples and teacher-qualified subsets without filtering to inflate the main score.
 
-## 检索之外还有问题
+## Problems extend beyond retrieval
 
-新观测／原问句中，首预测位置的准确记录R@1与生成结果如下；A/B分别列出，分母均64。
+For new observations with original questions, first-prediction correct-record R@1 and generation counts are as follows. A/B are listed separately, each out of 64.
 
-| 组 | A/B R@1 | A/B单边正确 | A/B双边正确 |
+| Arm | A/B R@1 | A/B one-sided correct | A/B both correct |
 | --- | --- | --- | ---: |
 | base | 23 / 24 | 1 / 2 | 0 |
 | behavior | 30 / 31 | 1 / 2 | 0 |
 | hidden | 26 / 23 | 1 / 0 | 0 |
 | mixed | 28 / 28 | 1 / 2 | 0 |
 
-行为辅助提升了本次R@1计数，但没有转化为生成收益。hidden组的A世界中，26次首位置命中有25次答错；B世界23次命中全部答错。其decode正确记录驻留率约12.2%／13.8%。这些结果提示瓶颈超出首位置寻址，仍可能包含writer表征、VeRA读出和后续检索漂移；现有实验不能将三者完全分离。
+The behavioral auxiliary increases these R@1 counts without producing generation gains. In hidden's A world, 25 of 26 initial hits still yield an incorrect answer; all 23 B-world hits are incorrect. Correct-record decode residency is approximately 12.2%/13.8%. The bottleneck therefore extends beyond first-position addressing and may include writer representations, VeRA readout, and later retrieval drift. These experiments do not fully separate them.
 
-Oracle也不能当准确率上界：它将一个正确value强制用于所有prompt/decode位置，改变了真实top-k混合和逐token路由。原格式中，base的real/oracle双边正确为57/16，hidden为58/29，mixed为59/34。不能仅凭oracle失败就断言value不含信息或writer单独有错。
+Oracle is not an accuracy upper bound: it forces one correct value at every prompt/decode position, changing the real top-k mixture and token-wise routing. In the original format, real/oracle paired correctness is 57/16 for base, 58/29 for hidden, and 59/34 for mixed. Oracle failure alone cannot establish that the value lacks information or that the writer is solely at fault.
 
-## 改写一致性与无关记忆
+## Paraphrase consistency and unrelated memory
 
-原格式条件下，A/P同时正确分别为initial49、base55、behavior56、hidden55、mixed53；A/P预测保持不变分别为58、58、58、58、55。两者必须分开：输出不变可能只是重复同一个错误答案。
+In the original-format condition, A/P joint-correct counts are initial 49, base 55, behavior 56, hidden 55, and mixed 53. A/P prediction-agreement counts are 58, 58, 58, 58, and 55. These must remain distinct: unchanged output may simply repeat the same wrong answer.
 
-更新一条记录后，另一个固定实体的原格式问题预测保持数为initial63、base64、behavior63、hidden64、mixed64；前后都正确数分别为54、59、61、59、60。两个新格式同时出现时，部分组虽64次预测不变，却0次前后都正确。本轮只检查每次更新的一条其他实体及两个对角条件，不能据此声称通用无遗忘。
+After updating one record, predictions for another fixed entity's original-format question remain unchanged for initial 63, base 64, behavior 63, hidden 64, and mixed 64 cases. Correct-before-and-after counts are 54, 59, 61, 59, and 60. With both new formats, some arms have 64 unchanged predictions but 0 correct-before-and-after cases. Only one other entity per update and the two diagonal conditions were checked; this does not establish general absence of forgetting.
 
-严格“输出改变且两边都错”的计数另行保存，区别于包含单边答对的 `changed_but_not_both_correct_rate`。全部指标、配对区间和对照见[自动审计报告](results/counterfactual/report.md)及[机器可读汇总](results/counterfactual/summary.json)。
+Strict counts of changed outputs with both sides wrong are stored separately from `changed_but_not_both_correct_rate`, which includes one-sided correctness. All metrics, paired intervals, and controls are in the [automated audit report](results/counterfactual/report.md) and [machine-readable summary](results/counterfactual/summary.json).
 
-## 训练目标与成本的限制
+## Limits of the objectives and cost comparison
 
-四组teacher首token联合正确均为3888/4096次续训目标曝光（94.92%）；行为门控有效4095/4096。但**全部4096个teacher差分均超过预设裁剪阈值，有效目标全部变为+10**。本轮行为项实际检验的是有上限的margin差分约束，没有保留教师差分幅度的变化，不能用此结果否定所有反事实蒸馏目标。
+Across all four arms, the teacher jointly predicts correct first tokens on 3888/4096 continuation target exposures (94.92%), while the behavioral gate is active on 4095/4096. However, **all 4096 teacher differences exceed the preset clipping threshold, so all eligible targets become +10**. The behavioral term therefore tests a capped margin-difference constraint without retaining variation in teacher effect magnitudes. Its result cannot reject all counterfactual-distillation objectives.
 
-Mixed有128次学生轨迹更新、1024条轨迹、2676个采样token。计入teacher、student、采样和回放的未padding输入位置为2,046,139，比base的1,892,732多8.1%；续训耗时222.6秒，对比base156.9秒。它同时改变FKL所见前缀、长度和地址监督状态，采样步也与canonical回放步重合，不是纯粹隔离的OPD效果，更不是等FLOPs对照。
+Mixed performs 128 student-trajectory updates, sampling 1024 trajectories and 2676 tokens. Unpadded input positions, including teacher, student, sampling, and replay, total 2,046,139 versus base's 1,892,732, an 8.1% increase. Continuation takes 222.6 seconds versus 156.9 seconds for base. The recipe simultaneously changes FKL prefixes, lengths, and address-supervision states; sampling updates also coincide with canonical-replay updates. It is neither a pure isolated OPD effect nor a matched-FLOPs comparison.
 
-有效版本共同热身计一次、四组续训合计18,432次目标对曝光、8,670,543个输入位置、约771.9秒训练阶段时间之和；该时间不是两卡并行后的墙钟时长。上述成本不含继承checkpoint的历史训练、特征准备、评估、smoke与无效v1调试运行。
+Counting the valid shared warm-up once and all four continuations gives 18,432 target-pair exposures, 8,670,543 input positions, and approximately 771.9 seconds summed across training stages. This is not the wall-clock duration after two-GPU parallelism. Costs exclude historical training of the inherited checkpoint, feature preparation, evaluation, smoke tests, and invalid v1 debugging runs.
 
-## 修正过的预处理错误
+## Corrected preprocessing error
 
-首版v1遗漏了历史writer输入前缀 `Remember this information: `：A/P复用有前缀的历史特征，B及确认集新算特征却没有前缀。这混淆了事实变化和输入格式变化，v1全部分数判为无效；原始日志、checkpoint及源码保留，每个相关suite有 `INVALID_PROTOCOL.json` 标记。
+Version v1 omitted the historical writer prefix `Remember this information: `: A/P reused historical prefixed features, while B and confirmation features were newly extracted without it. This confounded factual changes with input-format changes. All v1 scores are invalid; raw logs, checkpoints, and source snapshots are preserved, with `INVALID_PROTOCOL.json` markers for the relevant suites.
 
-有效版本 `counterfactual-context-v2` 统一全部writer输入，teacher仍接收原文。从原anchored重新执行准备、热身和四组训练，损失与预算未改。固定历史16事实×4表达的64份特征复算与旧缓存完全一致，relative RMSE全部为0；缺前缀会被新增回归检查拒绝。新确认集改为seed37042并排除调试中看到的seed27042；本报告不引用v1分数作为研究证据。
+Valid version `counterfactual-context-v2` makes all writer inputs consistent, while the teacher still receives original text. Preparation, warm-up, and all four training arms restart from the original anchored checkpoint with unchanged losses and budgets. Recomputing 16 fixed historical facts × 4 expressions gives 64 feature records exactly matching the old cache, with relative RMSE 0 throughout. New regression checks reject a missing prefix. Confirmation uses seed 37042 and excludes seed 27042 seen during debugging. No v1 score is used as research evidence in this report.
 
-388项测试通过。有效五个模型的12,288条预测经逐条重算；A/B/P银行更新与shuffle哈希可重建；训练样本/视图日程、warm/最终checkpoint、模型冻结、源代码与实际缓存SHA均通过审计。结果来自单训练seed、16词答案集合、64个确认实体和两种新结构，仍是机制实验。
+All 388 tests passed. The valid five models' 12,288 predictions were individually recomputed. A/B/P bank updates and shuffle hashes can be reconstructed; training sample/view schedules, warm/final checkpoints, model freezing, source code, and actual cache SHAs passed audit. With one training seed, a 16-word answer set, 64 confirmation entities, and two new structures, this remains a mechanism experiment.
 
-## 下一轮建议
+## Recommendations for the next round
 
-1. **先验收teacher接口。** 在训练实体上校准结构化问句的输出约束与生成预算，分别报告严格格式正确和事实正确，然后封存新的实体及结构族。不要在本轮确认集上改prompt再挑高分。
-2. **先分离writer与读出。** 保持原问句，将同一事实的多种观测表达映射到固定、可读出的value目标；另测key跨A/B和改写的一致性。用保留真实逐token混合的读取对照补充当前强制value oracle，诊断后续token寻址漂移。
-3. **再测反事实目标的增量。** 在独立开发集比较保留教师差分尺度的规范化目标、当前clip目标和无差分基线；至少多个训练seed。保持相同成对数据、回放与曝光预算，再决定是否增加OPD比例。若要声称成对数据本身有效，还需增加预算匹配的非成对数据对照。
+1. **Validate the teacher interface first.** Calibrate structured-question output constraints and generation budgets on training entities, reporting strict-format and factual correctness separately. Then seal new entities and structural families. Do not modify prompts on this confirmation set and select high scores.
+2. **Separate the writer from readout first.** Hold the original question fixed and map different observation expressions of the same fact to fixed, readable value targets. Separately measure key consistency across A/B and paraphrases. Add controls preserving actual token-wise mixtures to complement the current forced-value oracle and diagnose later-token addressing drift.
+3. **Then test counterfactual-objective increments.** On an independent development set, compare a normalized objective preserving teacher-effect scale, the current clipped objective, and a no-difference baseline, using multiple training seeds. Hold paired data, replay, and exposure budgets constant before deciding whether to increase OPD. A claim about paired data itself also requires a budget-matched unpaired-data control.
 
-给学生的当前结论应是：**原格式下单条向量记忆替换有效，但本轮反事实辅助没有带来可确认的新观测格式泛化；新问句测试还需要先解决teacher验收问题。** 不能用hidden损失下降、检索命中或输出发生变化代替这一结论。
+The current student handoff conclusion is: **single-record vector-memory replacement works in the original format, but these counterfactual auxiliaries do not establish generalization to new observation formats. New-question tests additionally need a valid teacher interface.** Lower hidden loss, retrieval hits, or changed outputs cannot substitute for that conclusion.

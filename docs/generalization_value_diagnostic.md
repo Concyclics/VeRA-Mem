@@ -1,59 +1,59 @@
-# 数据增强后的寻址与写入诊断
+# Addressing and writer diagnostics after data augmentation
 
-本次开发集诊断发现两处具体问题：未见问句的实体寻址仍接近随机；普通多模板增强后的 value 向量大量表示模板差异，同一事实甚至会因观测措辞改变而产生方向相反的 value。加入跨表达一致性后，模板差异有所减弱，但仍主导 value 方差，也没有恢复未见问句的开发集寻址。
+This development diagnostic identifies two specific problems: entity addressing for unseen questions remains near random, and values learned with ordinary multi-template augmentation strongly encode template differences. Changing the wording of an observation can even reverse a same-fact value's direction. Cross-expression consistency reduces those differences somewhat, but they still dominate value variance and do not restore addressing on unseen development questions.
 
-证据保存在 [聚合诊断 JSON](results/generalization/value_diagnostic.json)，重现脚本为 [diagnose_generalization_values.py](../scripts/diagnose_generalization_values.py)。本次比较 `canonical4096`、`augment4096`、`invariant4096` 的最佳检查点；三者均选中第 1536 步。第三组沿用普通增强，并增加权重 0.1 的 Q/K/value 跨表达一致性损失。所有统计、原型和诊断头只使用训练集与开发集。未使用确认集的特征、答案或预测进行诊断或选择下一步方案。纳入第三组时，以原脚本和相同参数统一重跑三个检查点；前两组的全部数值结果完全复现，聚合文件记录统一运行的来源哈希。
+Evidence is preserved in the [aggregate diagnostic JSON](results/generalization/value_diagnostic.json); the reproduction script is [diagnose_generalization_values.py](../scripts/diagnose_generalization_values.py). We compare the best checkpoints of `canonical4096`, `augment4096`, and `invariant4096`, all selected at step 1536. The third arm adds Q/K/value cross-expression consistency with weight 0.1 to ordinary augmentation. Statistics, prototypes, and diagnostic heads use training and development data only. Confirmation features, answers, and predictions are not used for diagnosis or next-step selection. When adding the third arm, all three checkpoints were rerun with the original script and identical parameters. Every numeric result for the first two arms reproduced exactly; the aggregate records provenance hashes for the unified run.
 
-## 1. 问句变化后，寻址尚未迁移
+## 1. Addressing has not transferred to new questions
 
-开发集有 64 个训练中未见的实体。每个检索库包含这 64 个实体的对应观测。下表是冻结 Q/K 编码器在实际层输入特征上的 Recall@1，不是语言模型生成正确率。随机 top-1 水平为 1/64，即 1.56%。
+Development contains 64 entities unseen during training. Each retrieval bank holds the corresponding observations for those 64 entities. Values below are Recall@1 from frozen Q/K encoders on actual layer-input features, not language-model generation accuracy. Random top-1 retrieval is 1/64, or 1.56%.
 
-| 开发条件 | 单模板训练 | 普通增强训练 | 增强 + 一致性 |
+| Development condition | Single-template training | Ordinary augmentation | Augmentation + consistency |
 |---|---:|---:|---:|
-| 原问句 + 原观测格式 | 64/64 | 55/64 | 52/64 |
-| 请求卡片问句 + 原观测格式 | 3/64 | 2/64 | 1/64 |
-| 前置输出约束问句 + 原观测格式 | 2/64 | 2/64 | 3/64 |
-| 请求卡片问句 + 记录卡片观测 | 1/64 | 2/64 | 2/64 |
-| 前置输出约束问句 + 新措辞观测 | 1/64 | 1/64 | 1/64 |
+| Original question + original observation format | 64/64 | 55/64 | 52/64 |
+| Request-card question + original observation format | 3/64 | 2/64 | 1/64 |
+| Leading-output-constraint question + original observation format | 2/64 | 2/64 | 3/64 |
+| Request-card question + record-card observation | 1/64 | 2/64 | 2/64 |
+| Leading-output-constraint question + new observation wording | 1/64 | 1/64 | 1/64 |
 
-因此，本次普通增强与当前强度的一致性约束，都没有把实体匹配规则稳定迁移到开发问句。增加已见问句种类与学到可迁移的寻址表示之间仍有距离。
+Neither ordinary augmentation nor consistency at the current strength reliably transfers entity matching to development questions. Adding more seen question forms is not equivalent to learning transferable addressing representations.
 
-## 2. Writer 在训练表达间产生了方向翻转
+## 2. The writer reverses directions across training expressions
 
-我们把同一训练事实的不同观测表达分别编码为 value，对完整训练数据做平衡的“模板 × 答案”方差分解。模板主效应是各模板 value 均值相对全局均值的偏移；答案主效应是各答案均值的偏移。剩余项包含实体差异及答案与模板的交互，不能全部解释为噪声。
+We separately encode observation expressions of the same training fact as values and perform a balanced template×answer variance decomposition over the complete training data. The template main effect is each template's value-mean offset from the global mean; the answer main effect is the corresponding answer-mean offset. Residuals include entity differences and answer–template interactions, not merely noise.
 
-| Writer 训练条件 | 模板主效应 | 答案主效应 | 剩余项 |
+| Writer training condition | Template main effect | Answer main effect | Residual |
 |---|---:|---:|---:|
-| 单模板 | 0%（定义上为零） | 92.39% | 7.61% |
-| 四种观测表达增强 | 84.75% | 8.19% | 7.07% |
-| 四种观测表达增强 + 一致性 | 81.43% | 10.75% | 7.82% |
+| Single template | 0% (zero by definition) | 92.39% | 7.61% |
+| Four observation expressions | 84.75% | 8.19% | 7.07% |
+| Four observation expressions + consistency | 81.43% | 10.75% | 7.82% |
 
-增强模型中，同一事实的 `train_support_00` 与 `train_support_02` value 平均余弦相似度为 **−0.875**。前者使用 “The assigned memory word ...” 的叙述，后者使用 “Store this association ...”。原表达与另外两种训练表达的对应余弦分别为 **+0.932、+0.940**。加入一致性后，00/02 的余弦为 **−0.814**，方向相反的现象仍然明显。模板平均方向差异占据了 value 的主要方差，而不只是小幅数值扰动。
+For the augmented model, mean same-fact value cosine between `train_support_00` and `train_support_02` is **−0.875**. The former uses “The assigned memory word ...”; the latter uses “Store this association ...”. Cosines between the original expression and the other two training expressions are **+0.932 and +0.940**. With consistency, 00/02 cosine is **−0.814**, still showing a strong reversal. Template-mean direction differences dominate value variance rather than producing only small numerical perturbations.
 
-混合所有训练表达后的 value 有效秩为 2.25；一致性组为 2.60，单模板模型为 8.67。这个有效秩使用至多 1024 个均匀采样行的中心化谱估计。上述方差分解则使用全部训练行，因此它是模板支配更直接的证据。有效秩低本身不等于记忆失效。
+Effective value rank across all training expressions is 2.25 for augmentation, 2.60 for consistency, and 8.67 for the single-template model. Rank is estimated from the centered spectrum of at most 1024 uniformly sampled rows. The variance decomposition above instead uses all training rows and is more direct evidence of template dominance. Low effective rank alone does not establish memory failure.
 
-三组开发集新观测格式的 64 个 value 都互不完全相同，但平均两两余弦为 0.918–0.970。增强模型第二种新观测措辞与对应事实原格式 value 的平均余弦为 −0.319；一致性组为 −0.289。这说明仅检查“value 是否唯一”不足以验证跨表达兼容性。
+For all three arms, the 64 values under each new development observation format are not exactly identical, but mean pairwise cosine is 0.918–0.970. For the augmented model, the second new observation wording has mean cosine −0.319 with the same fact's original-format value; the consistency arm gives −0.289. Checking value uniqueness alone is therefore insufficient to validate cross-expression compatibility.
 
-## 3. 线性诊断头只能说明当前读出规则的迁移能力
+## 3. Linear diagnostic heads measure transfer of a particular readout rule
 
-另训练独立的 16 类线性头判断答案词。它不属于 VeRA 模型，不写入 VDB，也不参与任何实际推理。所有头使用训练事实标签、固定 256 步 × 128 样本、Adam 0.001；不按开发表现选步数。归一化中心仅从各自训练特征计算。随机答案分类水平为 4/64，即 6.25%。
+We separately train 16-class linear heads to identify the answer word. These heads are not part of VeRA, are not written to the VDB, and do not participate in actual inference. All use training-fact labels, a fixed 256 steps × 128 examples, and Adam 0.001, with no step selection on development performance. Normalization centers come only from the corresponding training features. Random answer classification is 4/64, or 6.25%.
 
-| 诊断头输入与训练表达 | 原观测格式 | 新记录卡片 | 新观测措辞 |
+| Diagnostic input and training expressions | Original observation | New record card | New observation wording |
 |---|---:|---:|---:|
-| 单模板模型的 writer 输出 | 64/64 | 4/64 | 7/64 |
-| 增强模型的 writer 输出 | 62/64 | 11/64 | 14/64 |
-| 增强 + 一致性模型的 writer 输出 | 63/64 | 6/64 | 13/64 |
-| 冻结 backbone 层输入，单模板训练头 | 64/64 | 16/64 | 5/64 |
-| 冻结 backbone 层输入，四模板训练头 | 64/64 | 6/64 | 9/64 |
+| Single-template model's writer output | 64/64 | 4/64 | 7/64 |
+| Augmented model's writer output | 62/64 | 11/64 | 14/64 |
+| Augmentation + consistency writer output | 63/64 | 6/64 | 13/64 |
+| Frozen backbone layer input, head trained on one template | 64/64 | 16/64 | 5/64 |
+| Frozen backbone layer input, head trained on four templates | 64/64 | 6/64 | 9/64 |
 
-原格式下的 writer 输出仍携带可被另一个线性头解码的答案信息。新观测格式下，这些训练出来的读出规则迁移较差。**低分不能证明隐藏表示中不存在答案信息**：诊断头的训练方式、线性表达能力、归一化方式和有限预算都可能影响结果。单模板与多模板诊断头的训练特征池大小也不同，虽然优化步数和样本暴露数相同。尤其不能把线性头的 64/64 当作 VeRA 生成模型的 64/64。
+Original-format writer outputs still contain answer information decodable by another linear head. These learned readout rules transfer poorly to new observation formats. **Low scores do not prove that hidden representations lack answer information**: head training, linear capacity, normalization, and limited budgets can all affect the result. Single- and multi-template heads also have different training-feature pool sizes despite matched updates and example exposures. In particular, a linear head's 64/64 is not VeRA generation accuracy of 64/64.
 
-训练答案原型的余弦分类也给出一致方向：增强 writer 在原格式上的原型分类为 53/64，在两个新格式上分别为 7/64 和 11/64。先减去训练 value 均值后分别为 55/64、9/64、11/64。一致性组的原型分类分别为 51/64、9/64、7/64；减均值后为 54/64、9/64、7/64。移除单一公共均值不能恢复跨表达读出。
+Cosine classification with training-answer prototypes points in the same direction. For the augmented writer, accuracy is 53/64 on the original format and 7/64 and 11/64 on the two new formats. Subtracting the training-value mean first yields 55/64, 9/64, and 11/64. The consistency arm gives 51/64, 9/64, and 7/64 before centering, and 54/64, 9/64, and 7/64 afterward. Removing one common mean does not restore cross-expression readout.
 
-## 4. 对后续实验的具体启示
+## 4. Implications for subsequent experiments
 
-当前一致性项把模板主效应从 84.75% 降到 81.43%，但没有消除主要的模板差异；开发集未见问句的寻址依然接近随机，额外线性头在新观测格式上也没有一致提升。因此，这次结果支持“弱约束不足以形成跨表达兼容的记忆接口”，不能据此宣称泛化已解决，也不能推广成所有一致性训练均无效。
+The current consistency term reduces the template main effect from 84.75% to 81.43%, without eliminating the dominant template differences. Addressing for unseen development questions remains near random, and additional linear heads do not consistently improve on new observation formats. These findings support the limited conclusion that weak constraints have not produced a memory interface compatible across expressions. They establish neither solved generalization nor failure of every consistency-training approach.
 
-后续干预需要同时满足三项要求：在训练表达间显著减少不兼容的 value 方向；维持以其他实体为负例的可区分地址；最终改善真实稀疏检索下的生成表现。几何统计或额外诊断头提升都不足以单独确认成功。这里未使用确认集生成成绩来调整一致性权重，也未继续运行新的模型实验。
+Future interventions need to satisfy three conditions together: substantially reduce incompatible value directions across training expressions, preserve discriminating addresses with other entities as negatives, and improve actual generation under sparse retrieval. Geometry or extra diagnostic-head gains cannot establish success alone. Confirmation generation scores were not used to adjust the consistency weight here, and no additional model experiments were run.
 
-这些结论来自 64 个开发实体、16 个共享答案词和一个训练种子，适用于定位当前实现的问题。若基于这里的诊断更改实现，应保留确认集的独立角色；不能将开发集改进或已用于训练的历史 paraphrase 重新称为未见模板泛化。
+These conclusions concern 64 development entities, 16 shared answer words, and one training seed, and diagnose the current implementation. If the implementation changes based on them, confirmation must retain its independent role. Development improvements or historical paraphrases already used in training cannot be relabeled unseen-template generalization.

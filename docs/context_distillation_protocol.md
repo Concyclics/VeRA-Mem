@@ -1,49 +1,49 @@
-# 有上下文 teacher 到 VDB–VeRA student：训练方案与尝试协议
+# From a context-conditioned teacher to a VDB–VeRA student: training protocol
 
-本协议在本轮模型运行前固定。目标是学习通用的观测写入器和稀疏读取器，让输入生成的 VeRA 参数向量复现原模型看到相关文本上下文后的行为；在线遇到新事实时，仍只写入向量，不更新共享权重。先用既有机制任务作探索性实验，不把开发集改善称为确认性的语义泛化。
+This protocol was fixed before the model runs in this round. The goal is to learn a general observation writer and sparse reader so that input-generated VeRA parameter vectors reproduce the behavior of the original model when it sees the relevant text context. New facts encountered online must still require only vector writes, with no shared-weight updates. We first use the existing mechanism task for exploratory experiments; development-set improvements are not confirmatory evidence of semantic generalization.
 
-## 文献依据和方法边界
+## Literature basis and methodological limits
 
-| 原始文献 | 对本设计的支持 | 与本项目的区别 |
+| Original work | Support for this design | Difference from this project |
 | --- | --- | --- |
-| [Askell et al., 2021](https://arxiv.org/abs/2112.00861) | 用有提示上下文的模型分布训练无该上下文的模型，早期 context distillation | 知识进入模型权重；其附录也报告没有消除某些格式差异 |
-| [Agarwal et al., GKD, ICLR 2024](https://arxiv.org/abs/2306.13649) | 在学生自身前缀上接受 teacher 分布监督；轨迹来源和 KL 方向是独立因素 | 不涉及我们的可写 VDB 和 VeRA；OPD 不等于 reverse KL |
-| [Ye et al., OPCD, 2026](https://arxiv.org/abs/2602.12275) | teacher 看 context，student 不看；在相同 student 前缀上做 reverse KL；使用过 Qwen3-4B-Instruct-2507 | 未验证 hidden 蒸馏、稀疏检索或 VeRA；论文实验不能当作本架构已有结果 |
-| [Romero et al., FitNets, ICLR 2015](https://arxiv.org/abs/1412.6550) | teacher 中间表示作为辅助训练目标 | 图像网络证据；过强表示约束可能伤害性能，不保证跨上下文的 LLM 状态应完全一致 |
-| [Mu et al., Gisting, NeurIPS 2023](https://arxiv.org/abs/2304.08467) | 通用压缩器将新 context 一次编码为紧凑表示，无须每条 context 再训练 | gist tokens 是 attention 前缀，并非稀疏召回的参数向量 |
-| [Ge et al., ICAE, ICLR 2024](https://arxiv.org/abs/2307.06945) | 联合学习 context 编码与冻结语言模型的读出兼容性 | 使用 memory slots 与重建/续写训练，不是本轮 OPD 目标 |
-| [Chari et al., KV-Distill, 2025](https://arxiv.org/abs/2503.10337) | 用完整上下文的冻结模型输出监督压缩表示的输出 | KV 指 attention cache，不是 VDB；未验证 VeRA 的表示容量或寻址 |
+| [Askell et al., 2021](https://arxiv.org/abs/2112.00861) | Early context distillation trains a model without a prompt context to match the distribution of a model that receives it. | Knowledge is transferred into model weights; the appendix also reports that some formatting differences remain. |
+| [Agarwal et al., GKD, ICLR 2024](https://arxiv.org/abs/2306.13649) | Teacher-distribution supervision on the student's own prefixes; trajectory source and KL direction are separate factors. | It does not study our writable VDB and VeRA interface; OPD is not synonymous with reverse KL. |
+| [Ye et al., OPCD, 2026](https://arxiv.org/abs/2602.12275) | The teacher sees context and the student does not; reverse KL is evaluated on the same student prefix. The work uses Qwen3-4B-Instruct-2507. | It does not validate hidden-state distillation, sparse retrieval, or VeRA. Its experiments are not existing results for this architecture. |
+| [Romero et al., FitNets, ICLR 2015](https://arxiv.org/abs/1412.6550) | Intermediate teacher representations serve as auxiliary training targets. | The evidence concerns image networks. Overly strong representation constraints can hurt performance, and do not guarantee that LLM states under different contexts should match exactly. |
+| [Mu et al., Gisting, NeurIPS 2023](https://arxiv.org/abs/2304.08467) | A general compressor encodes new context into a compact representation in one pass, without retraining for each context. | Gist tokens are attention prefixes, rather than sparsely retrieved parameter vectors. |
+| [Ge et al., ICAE, ICLR 2024](https://arxiv.org/abs/2307.06945) | Jointly learning context encoding and compatibility with a frozen language-model reader. | It uses memory slots and reconstruction/continuation training, rather than this round's OPD objective. |
+| [Chari et al., KV-Distill, 2025](https://arxiv.org/abs/2503.10337) | Outputs of a frozen full-context model supervise outputs obtained from a compressed representation. | KV refers to the attention cache, not a VDB; the work does not validate VeRA's representational capacity or addressing. |
 
-因此“context-aware teacher”及“hidden hint”本身不是新概念。我们需要验证的是它们能否训练出可持续写入、可按层输入稀疏检索的参数化记忆接口；是否构成研究创新还需进一步查重和真实任务证据。
+A context-aware teacher and hidden hints are therefore not new concepts. What we need to establish is whether they can train a parameter-memory interface that supports continual writes and sparse retrieval driven by layer inputs. Any claim of research novelty additionally requires a closer prior-art review and evidence on realistic tasks.
 
-## 数据流与监督位置
+## Data flow and supervision positions
 
 ```text
-训练观测 c ──冻结基座提特征── Wk/Wv ──临时可微 memory bank
-                                               │
-问题 x + 学生前缀 y<t ──冻结基座── Wq→top-k→value→VeRA ── pS, hS
-原文 c + 同一问题 x + 同一前缀 y<t ──冻结原始基座────────── pT, hT
+Training observation c ──frozen backbone features── Wk/Wv ──temporary differentiable memory bank
+                                                                       │
+Question x + student prefix y<t ──frozen backbone── Wq→top-k→value→VeRA ── pS, hS
+Original text c + same question x + same prefix y<t ──frozen original backbone── pT, hT
 ```
 
-Teacher 禁用全部 VeRA 增量并停止梯度，读取对应训练事实的完整观测。Student prompt 仅含问题，不拼接该原文；新观测通过 writer 进入向量库。两者共用同一冻结模型与 tokenizer，分别前向，避免无意义的词表对齐。Teacher 的上下文是训练期额外信息，评测时不把 teacher 或正确事实 ID 提供给 student。
+The teacher disables all VeRA increments, stops gradients, and reads the full observation for the corresponding training fact. The student prompt contains only the question, without concatenating that observation; the writer places the new observation in the vector bank. Teacher and student share the same frozen model and tokenizer, but run separate forwards, avoiding unnecessary vocabulary alignment. Teacher context is additional training information. Neither the teacher nor the correct fact ID is supplied to the student at evaluation.
 
-每个输出位置比较各自 `prompt_length - 1 + t`，输入相同的 continuation token IDs，不按相同绝对序列下标对齐，不 decode 后重新 tokenize。第一轮 hidden 选 **最终 RMSNorm 后、lm_head 前**的状态，已位于第20层 VeRA 注入之后；不约束无法被该单层 adapter 改变的注入前9728维输入。仅约束答案预测位置，不逐位置强行对齐不同长度的上下文。
+For each output position, compare the respective `prompt_length - 1 + t` positions using exactly the same continuation token IDs. Do not align absolute sequence indices, or decode and re-tokenize the continuation. The initial hidden target is the state **after the final RMSNorm and before lm_head**, downstream of the layer-20 VeRA injection. We do not constrain the 9728-dimensional pre-injection input, which this single-layer adapter cannot alter. Only answer-prediction positions are constrained; contexts of different lengths are not forcibly aligned position by position.
 
-隐藏状态损失为 `1 - cosine(hS, stop_gradient(hT))`，权重0.1，无额外可学习投影。它只衡量表征接近，不能作为记忆准确性的替代指标。上下文长度、位置编码和表达格式都可能影响该目标。
+The hidden-state loss is `1 - cosine(hS, stop_gradient(hT))`, weighted by 0.1, without an additional learned projection. It measures representational proximity and cannot replace memory accuracy. Context length, positional encoding, and expression format may all affect this target.
 
-## 固定的五臂设计
+## Fixed five-arm design
 
-| 方法名 | 预测位置所见前缀 | 主输出损失 | hidden辅助 |
+| Method | Prefix at prediction positions | Main output loss | Hidden auxiliary |
 | --- | --- | --- | --- |
-| ce | 正确答案前缀 | 答案 CE | 无 |
-| off_kd | 正确答案前缀 | reverse KL(S‖T) | 无 |
-| off_kd_hidden | 正确答案前缀 | 同上 | 0.1×cosine距离 |
-| on_kd | 当前 student 采样前缀 | reverse KL(S‖T) | 无 |
-| on_kd_hidden | 当前 student 采样前缀 | 同上 | 0.1×cosine距离 |
+| ce | Correct-answer prefix | Answer CE | None |
+| off_kd | Correct-answer prefix | Reverse KL(S‖T) | None |
+| off_kd_hidden | Correct-answer prefix | Same as above | 0.1×cosine distance |
+| on_kd | Prefix sampled by the current student | Reverse KL(S‖T) | None |
+| on_kd_hidden | Prefix sampled by the current student | Same as above | 0.1×cosine distance |
 
-四个 KD 臂均为完整词表 KL，温度1；不将 KL 方向变化混入 on-policy 对照。采用 GKD 式固定采样前缀重算目标，不对离散采样求导，也不声称实现了包含轨迹分布梯度的完整策略梯度估计。Student sampling 温度1、最多4个新 token，保留实际 EOS；截断时不补人工 EOS。逐token批处理未结束的样本，右padding后按各自最后有效位置采样，不使用KV cache；与逐条实现具有相同条件采样分布，但随机数消费顺序不同。off-policy 使用答案 token 加 EOS。损失先在每个样本的 token 上平均，再对样本平均。
+All four KD arms use full-vocabulary KL at temperature 1; changing KL direction is not mixed into the on-policy comparison. We use a GKD-style objective recomputed on fixed sampled prefixes, without differentiating through discrete sampling. We do not claim to implement a full policy-gradient estimator that includes gradients through the trajectory distribution. Student sampling uses temperature 1 and at most 4 new tokens, retaining actual EOS tokens and adding no artificial EOS on truncation. Unfinished examples are processed in token-wise batches; after right padding, sampling uses each example's last valid position without a KV cache. This has the same conditional sampling distribution as processing examples individually, but consumes random numbers in a different order. Off-policy training uses answer tokens followed by EOS. Losses are averaged over tokens within each example, then over examples.
 
-所有组同时使用：
+All arms also use:
 
 ```text
 L = L_output + 0.2 L_all_style_address + 0.2 L_actual_token_address
@@ -51,32 +51,32 @@ L = L_output + 0.2 L_all_style_address + 0.2 L_actual_token_address
     + [every fourth update] 0.25 L_canonical_replay_CE
 ```
 
-每个 episode 包含目标事实与其他不同事实，所有8种 query×4种 support 的风格组合参与事实身份 CE。实际预测位置另用全候选 keys 做地址 CE，弥补 hard top-k 漏召回时输出损失不直接更新未选 key 的缺口。on-policy 出现错误前缀后仍以当前问题的事实作为该位置地址标签，这是明确的训练选择，并不等于模型可以撤销已输出的错误答案。
+Each episode contains target facts and other distinct facts. All 8 query styles × 4 support styles participate in fact-identity CE. Actual prediction positions additionally use address CE over all candidate keys, addressing the lack of direct output-loss gradients to unselected keys when hard top-k misses the target. After an on-policy prefix becomes incorrect, the current question's fact remains the address label. This is an explicit training choice, not an ability to retract an already emitted incorrect answer.
 
-线上 CPU VDB 路径是 detach 的推理接口。采样时不保留梯度，训练重算时使用等价 top-k 的临时 GPU bank，keys/values 由当前编码器重新产生并保留计算图；不能直接向线上 detach 路径附加 KL 就宣称训练了 Q/K/value。
+The online CPU VDB path is a detached inference interface. Sampling retains no gradients. Training recomputation uses a temporary GPU bank with equivalent top-k selection; current encoders regenerate keys and values with their computation graphs intact. Adding KL directly to the detached online path would not train Q/K/value.
 
-## 固定预算与数据范围
+## Fixed budget and data scope
 
-- 模型：Qwen3-4B-Instruct-2507，revision `cdbee75f17c01a7cc42f958dc650907174af0554`；第20层 `mlp.down_proj`，rank/key=64、top-k=4。
-- 共同初始化：上一轮 `factcentric_probe_20261006/anchored_all_view.pt` 的最终 checkpoint；选择它是保留已有 value 坐标兼容性的预定初始化，不是本轮开发集选模。额外评估其未继续训练的结果。
-- 使用既有缓存的4096训练实体、8问句/4观测表达。开发实体64个，只访问 train/dev 分支；不读取旧确认集来决定方法或选checkpoint。开发格式已在旧实验中分析过，本轮不能称为盲测。
-- 每组固定256次更新、batch8，即2048次主目标事实曝光；每4步一次8事实canonical回放，额外512次回放曝光。统一seed42、事实与视图随机序列。
-- Wq/Wk学习率1e-5，Wv为1e-4，共享b为0.005，分组梯度裁剪1。冻结基座、A/B和中心buffer。固定最后一步，不用开发集挑选步数、loss系数或臂。
-- 相同更新和事实预算不等于相同 token/FLOPs。OPD多出采样，teacher多出context前向，生成长度也不同；分别记录真实token数、teacher/student前向成本与耗时。
-- Smoke只用于检查接口与梯度，和正式结果分开保存；不使用其分数选择配方。
+- Model: Qwen3-4B-Instruct-2507, revision `cdbee75f17c01a7cc42f958dc650907174af0554`; layer-20 `mlp.down_proj`, rank/key=64, top-k=4.
+- Common initialization: the final checkpoint from `factcentric_probe_20261006/anchored_all_view.pt`. This was a predetermined initialization intended to preserve compatibility with the existing value coordinates, not a choice based on this round's development results. Its uncontinued state is also evaluated.
+- Use the existing cache of 4096 training entities, with 8 questions and 4 observation expressions each. There are 64 development entities; access is restricted to the train/dev branches. The old confirmation set is not read to choose methods or checkpoints. Development formats have already been analyzed in previous experiments and are not a blind test in this round.
+- Each arm receives 256 updates with batch size 8, or 2048 main target-fact exposures. Every 4 steps, canonical replay of 8 facts adds 512 replay exposures. Seed 42 and the fact/view sampling sequence are shared.
+- Learning rates are 1e-5 for Wq/Wk, 1e-4 for Wv, and 0.005 for shared b; gradient norm is clipped to 1 per group. The backbone, A/B, and center buffers remain frozen. Use the final step; do not select steps, loss coefficients, or arms on development results.
+- Equal update and fact budgets do not imply equal token counts or FLOPs. OPD adds sampling, the teacher adds context forwards, and generation lengths differ. Record actual tokens, teacher/student forward costs, and elapsed time separately.
+- Smoke tests check interfaces and gradients and are stored separately from formal results. Their scores are not used to select the recipe.
 
-## 评估与停止规则
+## Evaluation and stopping rules
 
-先评估有context的teacher在原/新问句×原/新观测四象限的生成效果，再评估共同初始化。最终student在相同四象限测试 real / 强制正确value / shuffled value / empty，保留逐题预测、R@1/R@4、NLL、EM、VDB和权重哈希。新观测格式按 `index % 2` 轮转，新问句格式按 `(index // 2) % 2` 轮转：64个实体中四种新问句×新观测组合各16个，避免问题风格与正确记录风格完全相关。不额外把每个表达视为独立实体。统一正确答案前缀上比较最终hidden cosine和reverse KL，以免各臂不同采样状态导致指标不可比。
+First evaluate the context-conditioned teacher in the four original/new question × original/new observation quadrants, followed by the common initialization. Evaluate each final student in the same quadrants with real retrieval, forced correct value, shuffled values, and empty memory. Preserve per-example predictions, R@1/R@4, NLL, EM, and VDB/weight hashes. Assign new observation styles by `index % 2` and new question styles by `(index // 2) % 2`: each of the four new question–observation combinations contains 16 of the 64 entities, avoiding complete correlation between question style and the correct record's style. Do not treat different expressions as independent entities. Compare final-hidden cosine and reverse KL on a common correct-answer prefix so that differing sampled states do not make arms incomparable.
 
-所有评测只写入观测生成的向量，冻结共享权重。强制正确value是诊断，不是数学上的性能上界；其分布不同于top-k混合。必须同时观察 real−shuffled、real−empty；若只接近teacher hidden而没有事实敏感的生成提升，就不能认定记忆有效。
+Evaluation only writes vectors generated from observations; shared weights stay frozen. Forced correct values are diagnostic, not a mathematical performance upper bound, because their distribution differs from top-k mixtures. Inspect both real−shuffled and real−empty. Greater similarity to teacher hidden states without fact-sensitive generation improvements does not establish effective memory.
 
-首轮是单seed、短预算、开发集、16词表的机制尝试。正确答案只有1–2个token，OPD特有轨迹收益可能主要影响第二子词/EOS；不能将其结果外推到长程推理。无论正负结果，完成既定矩阵后保留原始结果，不用同一开发集无限加预算挑选方法。
+This first round is a single-seed, short-budget development experiment with a 16-word answer vocabulary. Correct answers contain only 1–2 tokens, so trajectory-specific OPD effects may mainly concern the second subtoken or EOS. Results cannot be extrapolated to long-horizon reasoning. Complete and preserve the predetermined matrix regardless of outcome, rather than repeatedly increasing the budget on the same development set to choose a method.
 
-## 后续验证路线（首轮不混入）
+## Subsequent validation, excluded from the first round
 
-1. 使用独立的新确认实体和结构表达族；多seed，匹配token预算并报告计算量。对已分析的旧XML/CSV/对话集合仅作历史对照。
-2. 添加真实多token值或多字段事实回答，避免通过无关冗长解释人为制造OPD优势；分别报告首token、完整事实和多字段正确性。
-3. 新事实写入、同实体事实更新、干扰记录和混合格式bank；观察写后保持及正确记忆被替换后答案是否随之变化。
-4. 独立比较注入后block hidden、最终hidden、context-effect差分、不同hidden权重；差分仍可能含位置和格式影响，不能直接命名为纯语义向量。
-5. 若teacher可靠但student寻址或读出仍失败，分开研究更强写入编码器、非线性Q/K、多层VeRA与容量变化，避免把架构收益归因于蒸馏。
+1. Use independent confirmation entities and structural expression families; run multiple seeds, match token budgets, and report computation. Previously analyzed XML/CSV/dialogue sets remain historical comparisons only.
+2. Add genuinely multi-token values or multi-field answers. Do not manufacture an OPD advantage with irrelevant verbosity. Report first-token, complete-fact, and multi-field accuracy separately.
+3. Test new-fact writes, same-entity updates, distractor records, and mixed-format banks. Measure retention after writing and whether answers change when the correct memory is replaced.
+4. Independently compare post-injection block hidden states, final hidden states, context-effect differences, and hidden-loss weights. Difference vectors may still contain positional and formatting effects and cannot simply be labeled pure semantic vectors.
+5. If a reliable teacher still leaves addressing or readout failures, separately study stronger writers, nonlinear Q/K, multilayer VeRA, and capacity changes. Do not attribute architectural gains to distillation.

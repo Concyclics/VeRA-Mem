@@ -1,83 +1,83 @@
-# VeRA-Mem 表述泛化：实验结果与学生交接
+# VeRA-Mem expression generalization: results and student handoff
 
-本轮完成数据增强、Q/K/value 一致性训练，以及训练模板方向投影诊断。**在本轮保留的 XML/CSV/对话格式、单层配置与固定训练预算下，未解决格式泛化。** 普通增强在新问法上出现的少量正确答案与打乱 value 对照相当，未提供按实体正确读取记忆的证据；同时它损害了原模板性能。当前结果不支持用这些增强 checkpoint 替换已有同模板模型。
+This round completed data augmentation, Q/K/value consistency training, and a diagnostic that projects out training-template directions. **Format generalization remains unresolved on the held-out XML/CSV/dialogue formats under this single-layer configuration and fixed training budget.** The few new-question successes from ordinary augmentation match shuffled-value controls, providing no evidence of entity-correct memory reading; augmentation also damages original-template performance. These results do not support replacing the existing same-template model with the augmented checkpoints.
 
-完整数字见[经逐条审计的结果](results/generalization/report.md)与[机器可读汇总](results/generalization/summary.json)。协议在确认结果产生前固定，见[实验协议](generalization_protocol.md)。历史扩样结果保留于[上一轮报告](scaling_results.md)，它的训练和选模规则不同，本轮提升应以本轮单模板组为对照。
+Complete values are in the [individually audited results](results/generalization/report.md) and [machine-readable summary](results/generalization/summary.json). The [experimental protocol](generalization_protocol.md) was fixed before confirmation results were produced. Historical scaling results remain in the [previous report](scaling_results.md). Its training and selection rules differ, so improvements in this round should be measured against this round's single-template control.
 
-![四象限生成与寻址](results/generalization/generalization_ablations.png)
+![Generation and addressing across four conditions](results/generalization/generalization_ablations.png)
 
-## 1. 实际完成的对照
+## 1. Completed comparisons
 
-基座保持冻结的 Qwen3-4B-Instruct-2507，第 20 层 down_proj（零起始）、rank/key=64、top-k=4。每个实际 token 的层输入仍生成 query，VDB 稀疏召回的 value 调制 VeRA 分支；新观测输入产生可写入的 key/value。没有引入文本 RAG、实体字符串解析器、独立答案参数表或在线共享权重训练。
+The backbone remains frozen Qwen3-4B-Instruct-2507, with zero-indexed layer-20 down_proj, rank/key=64, and top-k=4. Each actual token's layer input generates a query; sparsely retrieved VDB values modulate the VeRA branch. New observations generate writable keys/values. No text RAG, entity-string parser, independent answer-parameter table, or online shared-weight training is introduced.
 
-三组使用相同的 4,096 个离线实体、400 次寻址预热和 1,536 次 batch-8 LM 更新，即 12,288 次目标事实暴露；前 768 次正确 value 课程训练、后 768 次真实稀疏检索。所有阶段保留实体间 InfoNCE，后半段加入实际答案预测 token 的寻址损失。独立 RNG 保证三组目标/负例实体相同，两增强组主视图相同。
+All three arms use the same 4,096 offline entities, 400 addressing warm-up updates, and 1,536 batch-8 LM updates, yielding 12,288 target-fact exposures. The first 768 LM updates use a correct-value curriculum; the last 768 use real sparse retrieval. Entity InfoNCE remains throughout, with address loss at actual answer-prediction tokens in the second half. Independent RNGs match target/negative entities across all arms and primary views across the two augmented arms.
 
-- 单模板：原问句和原观测各一种。
-- 多模板：8 种问句、4 种观测独立抽样；包含过去已经测试过的 paraphrase，因此它不再算未见表达。
-- 增强 + 一致性：相同主视图，另取同事实第二视图；对 query/key 使用余弦一致性，对 value 使用 MSE，系数均为 0.1。负样本和 LM 损失同时存在。
+- Single template: one original question form and one original observation form.
+- Multiple templates: independently sample 8 question forms and 4 observation forms. These include the previously tested paraphrase, which is no longer an unseen expression.
+- Augmentation + consistency: use the same primary views plus a second view of each fact. Apply cosine consistency to queries/keys and MSE to values, all with coefficient 0.1. Negative examples and LM loss remain active.
 
-中心仅拟合训练视图。checkpoint 按新开发实体上五种表达组合的真实检索 NLL 平均值选择；确认集不选步数。各组最后选中步数与成本如下。训练时间含周期开发验证，不含特征准备和完整生成评测。
+Centers use training views only. Checkpoints are selected by mean real-retrieval NLL over five expression combinations on new development entities; confirmation data do not select the step. Selected steps and costs follow. Training times include periodic development validation but exclude feature preparation and full generation evaluation.
 
-| 训练组 | 选中步数 | 训练 prompt token 数 | 训练阶段秒数 |
+| Training arm | Selected step | Training prompt tokens | Training-stage seconds |
 | --- | ---: | ---: | ---: |
-| 单模板对照 | 1536 | 676,617 | 150.8 |
-| 多模板增强 | 1536 | 687,838 | 146.4 |
-| 增强 + 一致性 | 1536 | 687,838 | 159.4 |
+| Single-template control | 1536 | 676,617 | 150.8 |
+| Multi-template augmentation | 1536 | 687,838 | 146.4 |
+| Augmentation + consistency | 1536 | 687,838 | 159.4 |
 
-更新次数与样本预算相同，不等于 FLOPs 完全相同：模板长度不同，一致性组还多做编码器计算。单个训练 seed=42，不能把本轮当多随机种子结论。
+Matched updates and examples do not imply identical FLOPs: template lengths differ, and consistency adds encoder computation. There is one training seed=42; this is not a multi-seed result.
 
-## 2. 确认集结果
+## 2. Confirmation results
 
-确认集使用 128 个全新实体，问句保留 XML、CSV、对话三个未参与训练/选模的表达家族。先从空 VDB 揭示并写入事实，再检查最终保留。观测分为原表达 bank 与按事实轮转三种未见表达的混合 bank；后者不是所有观测形式分别覆盖全部实体。
+The confirmation set has 128 new entities and three question-expression families—XML, CSV, and dialogue—absent from training and model selection. Facts are revealed and written into an initially empty VDB, followed by final retention checks. Observation banks use either the original expression or a mixture cycling through three unseen expressions by fact. The mixed bank does not independently cover every entity in every observation form.
 
-下表为真实稀疏检索的 exact match。新问句列是三个模板等权平均，共 384 次回答、128 个独立事实；原问句列有 128 次回答。
+The table reports exact match under real sparse retrieval. New-question columns average three templates equally, with 384 answers over 128 independent facts. Original-question columns contain 128 answers.
 
-| 训练组 | 原问句 / 原观测 | 新问句 / 原观测 | 原问句 / 新观测 | 新问句 / 新观测 |
+| Training arm | Original question / original observation | New question / original observation | Original question / new observation | New question / new observation |
 | --- | ---: | ---: | ---: | ---: |
-| 单模板对照 | 100.00% | 0.00% | 0.00% | 0.00% |
-| 多模板增强 | 24.22% | 4.17% | 0.00% | 0.78% |
-| 增强 + 一致性 | 33.59% | 3.91% | 0.00% | 0.26% |
+| Single-template control | 100.00% | 0.00% | 0.00% | 0.00% |
+| Multi-template augmentation | 24.22% | 4.17% | 0.00% | 0.78% |
+| Augmentation + consistency | 33.59% | 3.91% | 0.00% | 0.26% |
 
-评测同时包含强制正确 value、打乱 value 对应关系、零残差。强制 value 在每个 token 固定注入，改变了真实检索分布，因此不视为数学上界。三组均确认在线共享参数未改变、每套库128条观测、无在线优化步骤。
+Evaluation also includes forced correct values, shuffled value associations, and zero residual. Forced values inject a fixed value at every token and change the real retrieval distribution, so they are not a mathematical upper bound. All three arms verify unchanged online shared parameters, 128 observations per bank, and zero online optimization steps.
 
-## 3. 为什么不能把少量提升当作成功
+## 3. Why the small gains are not success
 
-有限词表共有16词，平衡确认集上固定输出任意一个候选词就有6.25%正确率。多模板组在原观测 bank 的 CSV 问句中，对全部128实体都输出 `forest`；对话问句中124次输出 `lemon`、4次输出 `forest`。这不是按实体读取正确记忆的表现。
+The vocabulary contains 16 words. On a balanced confirmation set, always emitting any one candidate word gives 6.25% accuracy. For CSV questions against the original-observation bank, the multi-template arm emits `forest` for all 128 entities. For dialogue questions it emits `lemon` 124 times and `forest` 4 times. This is not entity-specific retrieval of the correct memory.
 
-新问句 + 原观测的关键干预结果：
+Key interventions for new questions + original observations:
 
-| 训练组 | Real | Shuffled | Empty | Real − shuffled（百分点，95% CI） |
+| Training arm | Real | Shuffled | Empty | Real − shuffled (percentage points, 95% CI) |
 | --- | ---: | ---: | ---: | --- |
-| 单模板对照 | 0.00% | 0.00% | 0.00% | 0.00 [0.00, 0.00] |
-| 多模板增强 | 4.17% | 4.17% | 0.00% | 0.00 [0.00, 0.00] |
-| 增强 + 一致性 | 3.91% | 3.91% | 0.00% | 0.00 [-0.78, 0.78] |
+| Single-template control | 0.00% | 0.00% | 0.00% | 0.00 [0.00, 0.00] |
+| Multi-template augmentation | 4.17% | 4.17% | 0.00% | 0.00 [0.00, 0.00] |
+| Augmentation + consistency | 3.91% | 3.91% | 0.00% | 0.00 [-0.78, 0.78] |
 
-置信区间用128个事实作为成簇配对重采样单位，保留同一事实的所有问法，10,000次 bootstrap；它只包含事实抽样不确定性，不包含训练随机性，也没有多重比较校正。完整四象限的组间差值与记忆干预差值均在审计报告中。
+Intervals use the 128 facts as clustered paired resampling units, retaining all question forms of a fact, with 10,000 bootstrap resamples. They include fact-sampling uncertainty only, not training randomness, and have no multiple-comparison correction. All between-arm and memory-intervention differences across the four conditions appear in the audit report.
 
-## 4. 已定位的失败现象
+## 4. Observed failure patterns
 
-**寻址受格式影响很大。** 训练模板均值差异占中心化 query 能量约94.06%、support约79.94%；这不是“语义信息量”比例。训练数据估计的风格子空间投影，可将开发集“原问句 + 新观测”Recall@1从13/64、6/64提升到30/64、27/64，但新问句的Recall@1仍只有2/64、4/64。它是400步寻址探针，没有实际生成，不能代替端到端结果。见[寻址诊断](generalization_address_diagnostic.md)。
+**Addressing is strongly format-sensitive.** Training-template mean differences account for approximately 94.06% of centered query energy and 79.94% of support energy; these are not proportions of semantic information. A training-estimated style-subspace projection improves development original-question/new-observation Recall@1 from 13/64 and 6/64 to 30/64 and 27/64, but unseen-query Recall@1 remains only 2/64 and 4/64. This is a 400-step addressing probe without actual generation, not a replacement for end-to-end results. See the [addressing diagnostic](generalization_address_diagnostic.md).
 
-**Writer 未学到跨观测表达一致的 value。** 普通增强的训练 value 中，模板主效应占84.75%，答案主效应仅8.19%；同一事实的训练表达support00与support02的平均value余弦为−0.875，而00与01/03分别为+0.932/+0.940；并非所有表达对都反向。一致性组仅把模板占比降至81.43%、00/02余弦提高到−0.814，这一表达对的方向翻转仍在。原模板可被线性分类器解码，不代表新格式也能迁移，更不代表固定 VeRA reader 能正确生成。见[三组写入诊断](generalization_value_diagnostic.md)。
+**The writer has not learned values compatible across observation expressions.** In ordinary augmentation's training values, the template main effect accounts for 84.75% of variance and the answer main effect for only 8.19%. Mean same-fact value cosine between training expressions support00 and support02 is −0.875; for 00 versus 01/03 it is +0.932/+0.940. Not all expression pairs reverse direction. Consistency lowers the template fraction only to 81.43% and raises 00/02 cosine to −0.814, leaving that reversal. A linear classifier's ability to decode the original template does not establish transfer to new formats, much less correct generation by the fixed VeRA reader. See the [three-arm writer diagnostic](generalization_value_diagnostic.md).
 
-**多模板组仍有训练不足的可能。** 单模板最后一段LM损失约0.045，增强约1.826，一致性约1.720。此轮只检验固定预算，不证明增加训练、改变课程或更强一致性约束也无效；也不能仅凭这些探针断言基座隐藏状态缺少答案信息。
+**The multi-template arms may still be undertrained.** Final-segment LM loss is approximately 0.045 for the single-template arm, 1.826 for augmentation, and 1.720 for consistency. This round tests a fixed budget; it does not establish that longer training, a different curriculum, or stronger consistency would also fail. The probes alone likewise cannot establish that backbone hidden states lack answer information.
 
-## 5. 后续实验优先级
+## 5. Priorities for subsequent experiments
 
-1. 先验证写入表示的跨表达兼容性：固定训练事实，改变实体/答案位置、指令前后顺序和记录结构；比较训练内与全新格式。以同事实value一致性、答案可分性和真实生成同时作为指标，不能只优化向量余弦。
-2. 分开比较训练预算与表示改动：保留原模板回放，把增强课程逐步加入；长训练必须有相同更新预算的对照。当前0.1一致性系数只是一点，未来扫强度应只用开发集。
-3. 若未见问句寻址仍接近随机，单独测试观察序列的多位置聚合或可学习读写编码器，并明确记录参数与计算成本。真实读取仍须由VeRA层输入生成query，不能用外部实体解析器或文本RAG替代主方法。
-4. 新一轮改动使用新的确认实体与新的表达族，并增加训练seed；本轮XML/CSV/对话结果现已被分析，不能无限用同一套确认集挑方法。之后再扩展到自然语言事实和真实数据集。
+1. First test writer compatibility across expressions. Hold training facts fixed while changing entity/answer position, instruction order, and record structure; compare training and entirely new formats. Jointly measure same-fact value consistency, answer separability, and actual generation rather than optimizing vector cosine alone.
+2. Separate training budget from representation changes. Retain canonical replay and introduce augmentation gradually; longer training requires a control with the same update budget. The current 0.1 consistency coefficient is only one setting. Any future coefficient sweep should use development data only.
+3. If unseen-question addressing remains near random, separately test multi-position aggregation over observations or learned read/write encoders, reporting parameter and compute costs. Actual reading must still form queries from VeRA-layer inputs; external entity parsing or text RAG must not replace the main method.
+4. Use new confirmation entities and expression families, with more training seeds. This round's XML/CSV/dialogue results have now been analyzed and cannot be reused indefinitely to select methods. Expand to natural-language facts and real datasets afterward.
 
-这些是下一轮待验证假设。本轮没有把其中未运行的改动报告为已实现的性能提升。
+These are hypotheses for the next round. Unrun changes are not reported as implemented performance improvements.
 
-## 6. 代码、证据与复现
+## 6. Code, evidence, and reproduction
 
-主实现：[generalization_run.py](../src/vera_mem/generalization_run.py)、[表达与实体划分](../src/vera_mem/augmentation_data.py)、[冻结源码启动器](../scripts/run_generalization_suite.py)。统计汇总会核验suite/run完成与退出码、源码/缓存/模型指纹、每条预测EM、全部36个phase/method组、两套VDB写入和控制事实。三次正式运行共13,248条预测，smoke不进入结论。
+Main implementation: [generalization_run.py](../src/vera_mem/generalization_run.py), [expressions and entity splits](../src/vera_mem/augmentation_data.py), and [frozen-source launcher](../scripts/run_generalization_suite.py). Aggregation verifies suite/run completion and exit codes, source/cache/model fingerprints, every prediction's EM, all 36 phase/method groups, both VDB write streams, and control facts. The three formal runs contain 13,248 predictions; smoke results are excluded from the conclusions.
 
-原始预测、训练日志、best/last检查点、VDB、源码快照和数据缓存均保存在工作区备份，未将开源基座权重或私有学生材料上传仓库。公开仓库只收录代码、协议和聚合结果。
+Raw predictions, training logs, best/last checkpoints, VDBs, source snapshots, and data caches are backed up in the workspace. Open-source backbone weights and private student materials are not uploaded to the repository. The public repository contains code, protocols, and aggregate results only.
 
-特征准备：
+Feature preparation:
 
 ```bash
 PYTHONPATH=src python -m vera_mem.generalization_run \
@@ -85,7 +85,7 @@ PYTHONPATH=src python -m vera_mem.generalization_run \
   --cache /path/to/workspace/data/generalization/features_v1.pt --prepare-only
 ```
 
-检查目标GPU空闲后，以control、augment、invariant分别启动，使用新的唯一run名：
+After checking that the target GPU is available, launch control, augment, and invariant separately, using new unique run names:
 
 ```bash
 python scripts/run_generalization_suite.py \
@@ -94,4 +94,4 @@ python scripts/run_generalization_suite.py \
   --cache /path/to/workspace/data/generalization/features_v1.pt
 ```
 
-结束后运行 `scripts/summarize_generalization.py` 与 `scripts/plot_generalization.py`。启动器拒绝覆盖已有suite并记录GPU UUID、进程、环境及实际命令；不接管其他进程。
+After completion, run `scripts/summarize_generalization.py` and `scripts/plot_generalization.py`. The launcher refuses to overwrite an existing suite and records GPU UUID, processes, environment, and actual commands. It does not take control of other processes.

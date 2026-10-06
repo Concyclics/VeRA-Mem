@@ -1,46 +1,48 @@
-# 整块动态低秩记忆：完整实验结果
+# Dynamic Block Memory with Low-Rank Operators: Complete Results
 
-**整块动态算子带来了有限、可观察的改善，但仍未解决新内容组合与跨表达泛化。** 本轮18模型、72学生评估、5教师任务和1次特征准备共96个正式任务全部完成，教师448/448正确；全部模型固定终点、全部条件完整报告，没有结果后择臂或择种子。
+**The dynamic block operator produced limited, observable improvements, but did not solve generalization to new content combinations and expressions.** All 96 formal jobs completed:18 models,72 student evaluations,5 teacher jobs, and 1 feature-preparation job. The teacher was correct on 448/448 cases. Every model used its fixed endpoint, and every condition is reported, without selecting arms or seeds after seeing results.
 
-随机绑定的 `block_outer` 在新组合C上更新并恢复正确 `3/5/2` 条，同参数 `pooled_outer` 为 `0/0/0`；独立确认D的更新正确为 `6/7/3`，更新并恢复为 `6/6/3`，pooled相应为 `1/0/0`。方向上，逐槽构造算子比先池化在这两组新组合上更好；但相对原对角reader，C并非每个seed都改善，新实体与新问题表达仍弱，预注册的三seed一致门槛未通过。**不据此扩大Wikipedia语料。**
+With random rebinding, `block_outer` correctly updated and restored `3/5/2` novel C combinations, versus `0/0/0` for parameter-matched `pooled_outer`. On independent confirmation D, update correctness was `6/7/3` and update-and-restore correctness `6/6/3`, versus `1/0/0` for pooled on both metrics. Constructing operators per slot therefore improved on pooling first for these two sets of novel combinations. However, C did not improve over the original diagonal reader in every seed, new entities and question expressions remained weak, and the preregistered criterion requiring consistency across three seeds was not met. **These results do not justify expanding to Wikipedia.**
 
-本文所有斜杠三元组依种子91042、91043、91044排列，每项分母16，绝不是单个比率。三个seed共用微型数据，不能把重复事实当作独立语料样本。结论以[完整汇总](results/block/summary.json)、[紧凑指标](results/block/key_facts.json)、[逐词诊断](results/block/answer_diagnostics.json)为依据；实验条件见[封存协议](block_protocol.md)、[登记文件](results/block/registration.json)和[全部计划](results/block/plans.json)。
+Every slash-separated triple in this report lists counts for seeds 91042, 91043, 91044, each with denominator 16; it is not a single ratio. The three seeds share a tiny dataset, and repeated facts are not independent corpus samples. Evidence is in the [complete summary](results/block/summary.json), [compact metrics](results/block/key_facts.json), and [word-level diagnostics](results/block/answer_diagnostics.json). Conditions are recorded in the [sealed protocol](block_protocol.md), [registration](results/block/registration.json), and [complete plans](results/block/plans.json).
 
-## 1. 本轮真正改变了什么
+> This English localization preserves the historical experiment and its qualifications. The translated protocol does not replace the registered source or hashes; see [reproducibility.md](reproducibility.md).
 
-固定骨干为Qwen3-4B-Instruct-2507，原模型全部参数冻结，在第20层down projection使用rank64接口。实际层输入生成query，真实CPU VDB按QK组分数选top-1事实，返回完整的三个64维value。三种reader均采用块内uniform权重，保留相同的对角路径；CPU读取将选中块的三行value传入reader，再构造相应算子。
+## 1. What changed in this round
 
-记 `z=Ax`、`m=mean_s(v_s)`、`u(v)=L2Normalize(P_in v+c)`、`w(v)=P_out v`：
+The backbone is Qwen3-4B-Instruct-2507, with every original model parameter frozen and a rank 64 interface at the layer 20 down projection. Actual layer inputs generate queries. The real CPU VDB selects the top-1 fact using QK group scores and returns its complete three 64-dimensional values. All three readers use uniform within-block weights and retain the same diagonal path. CPU retrieval passes all three selected value rows into the reader, which constructs its operator.
 
-| reader | 作用于z的latent算子M |
+Let `z=Ax`, `m=mean_s(v_s)`, `u(v)=L2Normalize(P_in v+c)`, and `w(v)=P_out v`:
+
+| Reader | Latent operator M acting on z |
 | --- | --- |
 | diagonal | `diag(m)` |
 | pooled_outer | `diag(m)+w(m)u(m)ᵀ` |
 | block_outer | `diag(m)+mean_s[w(v_s)u(v_s)ᵀ]` |
 
-最终增量都是 `Δh=b⊙B[Mz]`。新增外积使latent坐标可非对角混合；不是把共享B搬到加权求和之前。后者在没有中间非线性时满足严格线性等价，不能增加容量。具体文献映射见[block_literature.md](block_literature.md)，固定公式、初始化和归约见[block_protocol.md](block_protocol.md)。
+Every final increment is `Δh=b⊙B[Mz]`. The added outer products allow nondiagonal mixing of latent coordinates; this is not moving shared B before a weighted sum. Without an intervening nonlinearity, that relocation is exactly linearly equivalent and cannot add capacity. See [block_literature.md](block_literature.md) for the literature mapping and [block_protocol.md](block_protocol.md) for fixed formulas, initialization, and reductions.
 
-两个outer臂的附加参数均为8,256，总可训练参数2,042,624；diagonal为2,034,368。每事实的纯FP32 K/V均为1,536 bytes，16事实为24 KiB，没有额外存储64×64矩阵；共享投影在读取时生成因子。block附加项rank≤3，pooled附加项rank≤1，**完整的对角加外积算子仍可能rank64**，三个reader最终均经过共同宽度64的B。相同参数与记忆字节不等于相同FLOPs。
+Both outer arms add 8,256 parameters, totaling 2,042,624 trainable parameters, versus 2,034,368 for diagonal. Pure FP32 K/V storage is 1,536 bytes per fact, or 24 KiB for 16 facts. No additional 64×64 matrix is stored; shared projections generate factors during reading. The added block term has rank≤3 and the pooled term rank≤1, but **the full diagonal-plus-outer operator can still have rank 64**. All three readers ultimately pass through B with shared width 64. Equal parameters and memory bytes do not imply equal FLOPs.
 
-这一reader在选中事实后，对V的行置换不变。它不是有显式槽顺序的逐词解码器，也不是多头原生Transformer KV attention；contextual word-span向量可携带原文前缀和顺序信息，不能由行置换不变再推断完全没有顺序信息。本轮没有测试多头、非共享slot映射、多个原生注意力层或更宽B。
+After fact selection, this reader is invariant to permutations of V's rows. It is neither a word-by-word decoder with explicit slot order nor native multihead Transformer KV attention. Contextual word-span vectors can carry original-prefix and order information, so row-permutation invariance does not imply a complete absence of order information. This round did not test multihead readers, unshared slot mappings, multiple native attention layers, or wider B.
 
-## 2. 数据、预算和封存边界
+## 2. Data, budget, and sealing boundaries
 
-新数据种子221042，排除reconstruction/QKV历史208实体和608个完整答案。训练为64实体、128个三词payload；每个训练支持均按真实entity+payload文本重编码，共8,192个冻结特征组合。writer用已观察支持文本中已标注/可定位的三词span；这仍是结构化任务，尚未实现从任意Wikipedia文档自动发现事实边界。
+The new data seed is 221042, excluding 208 historical entities and 608 complete answers from reconstruction/QKV. Training uses 64 entities and 128 three-word payloads. Actual entity+payload support texts are re-encoded, yielding 8,192 frozen feature combinations. The writer uses annotated/locatable three-word spans in observed support text. This remains a structured task, not automatic discovery of fact boundaries in arbitrary Wikipedia documents.
 
-static对每实体固定A/B；rebind每epoch重新排列绑定。每模型2,048更新，batch8目标、合计16个A/B序列，每样本有独立16事实银行，B仅更新自身目标。每8步覆盖所有64实体及128payload；训练只有含EOS的完整答案CE和0.2 dense地址CE。6臂×3seed，共18模型，全部评估固定最终checkpoint；没有根据C筛选模型或早停。
+Static fixes A/B per entity; rebind reshuffles bindings each epoch. Each model receives 2,048 updates with batch 8 targets, totaling 16 A/B sequences. Each sample has an independent 16-fact bank; B updates only its own target. Every 8 steps cover all 64 entities and 128 payloads. Training uses only full-answer CE including EOS and 0.2 dense address CE. There are 6 arms×3 seeds, or 18 models, all evaluated at their fixed final checkpoint, with no C-based model selection or early stopping.
 
-known/dev/confirm银行均为16条，后两者实体新；三个packet按行共享payload以隔离实体变化。C/D各只改A的一个词，组件词均已训练、完整组合未训练。heldout模板仅相对本轮训练未见，历史研究已经使用。D/confirm特征可提前编码，其评分不用于梯度、统计或模型选择。
+Known/dev/confirm banks all contain 16 facts; the latter two use new entities. Payloads are shared row by row across the three packets to isolate entity changes. C/D each change one word of A; all component words have been trained, but complete combinations have not. Held-out templates are unseen only within this round's training and have been used in earlier research. D/confirm features may be encoded in advance; their scores do not affect gradients, statistics, or model selection.
 
-known A/B应称“训练出现的实体与完整payload的固定配对测试”。在rebind中，这些特定绑定的目标监督平均次数分别为4.0625、4.40625、4.21875；seed91042有两条A绑定从未作为目标监督，另外两seed无此零项。static每条固定绑定为256次。零目标曝光不代表未做过特征编码、训练统计或背景驻留，不能笼统叫“完全未见”。
+Known A/B should be described as “fixed-pair tests of training-seen entities and complete payloads.” Under rebind, these specific bindings received mean target-supervision counts 4.0625,4.40625,4.21875. Seed 91042 has two A bindings never supervised as targets; the other seeds have no such zero entries. Each static binding receives 256 exposures. Zero target exposure does not mean absence from feature encoding, training statistics, or background residence, and should not be called “entirely unseen.”
 
-教师只用于资格检查：原始骨干获得当前目标单条context和相同问题，不访问VDB、不追加gold标签，不参与蒸馏。最终教师448/448正确：训练A/B预检128、known/dev开发各48、known D确认32、新实体四相位A/B/D确认192。每个新实体phase的A/B/D各16/16，所以有教师对应的非SWAP学生条件，其teacher合格子集与全样本一致，未按教师成功筛题。
+The teacher is used only for qualification: the original backbone receives the target's single context and the same question, without VDB access, additional gold labels, or distillation training. Final teacher correctness is 448/448:128 training A/B preflight,48 each for known/dev development,32 for known D confirmation, and 192 for new-entity A/B/D across four phases. A/B/D each score 16/16 in every new-entity phase. Thus teacher-qualified subsets equal the full samples for corresponding non-SWAP student conditions; no items were selected by teacher success.
 
-## 3. 开发终点：部分组合信号，不是稳定胜出
+## 3. Development endpoints: partial combination signal, no consistent winner
 
-所有数字均为三seed正确数，分母16。C的`update_restore`要求写入C后正确且回写A后正确；本表中的C updated与update_restore逐项相同，不把二者视为天然等价。
+All entries are correct counts for the three seeds, each out of 16. C `update_restore` requires correct output after writing C and after restoring A. C updated and update_restore happen to match entry by entry in this table; they are not equivalent by definition.
 
-| 臂 | known A/B pair | known C updated | known C update_restore | dev新实体C updated |
+| Arm | Known A/B pair | Known C updated | Known C update_restore | New-entity dev C updated |
 | --- | --- | --- | --- | --- |
 | static_diagonal | 16/16/16 | 0/2/0 | 0/2/0 | 0/0/0 |
 | static_pooled_outer | 16/16/16 | 0/1/0 | 0/1/0 | 0/0/0 |
@@ -49,11 +51,11 @@ known A/B应称“训练出现的实体与完整payload的固定配对测试”�
 | rebind_pooled_outer | 15/16/13 | 0/0/0 | 0/0/0 | 0/0/0 |
 | rebind_block_outer | 15/15/14 | **3/5/2** | **3/5/2** | **1/5/0** |
 
-known C的shuffle/empty全部为0。rebind block的邻居before/after联合正确为15/15/15；其余static为16/16/16，rebind diagonal和pooled均15/16/14。这个联合指标比“输出文本未变”严格，不把两次都错算作局部性成功。
+All known C shuffle/empty scores are 0. Rebind block's joint neighbor correctness before/after is 15/15/15. Static arms score 16/16/16; rebind diagonal and pooled both score 15/16/14. This joint metric is stricter than “unchanged output text”: two wrong answers do not count as successful locality.
 
-严格恰好三个规范化词的诊断如下。“保留两词”要求另两个词同时正确，但不要求改动词正确；两列的成功样本未必相同，不能相加。
+The following diagnostics require exactly three normalized words. “Both retained words” requires both unchanged words to be correct, without requiring a correct edited word. Successful cases in the two columns can differ and cannot be added.
 
-| 臂 | known C改动词正确 | known C另两词同时正确 | dev C改动词正确 | dev C另两词同时正确 |
+| Arm | Known C edited word correct | Known C both retained words correct | Dev C edited word correct | Dev C both retained words correct |
 | --- | --- | --- | --- | --- |
 | static_diagonal | 3/5/3 | 6/5/3 | 2/5/4 | 0/0/0 |
 | static_pooled_outer | 2/2/1 | 3/6/6 | 2/2/4 | 1/0/0 |
@@ -62,13 +64,13 @@ known C的shuffle/empty全部为0。rebind block的邻居before/after联合正�
 | rebind_pooled_outer | 4/4/6 | 4/5/5 | 3/4/4 | 1/3/5 |
 | rebind_block_outer | 9/12/7 | 8/8/8 | 6/8/4 | 4/8/5 |
 
-逐词改善说明不能再概括成“完全没有读取新内容”，但只有完整答案正确才能说明三词组合在该例成功。格式、长度、完整答案包含率、旧A/B回退和任意训练payload输出比例在[answer_diagnostics.json](results/block/answer_diagnostics.json)逐条件保留，不以首词或单槽命中代替EM。
+Word-level improvements rule out the blanket description “no new content is read,” but only a correct complete answer establishes successful three-word composition for a case. [answer_diagnostics.json](results/block/answer_diagnostics.json) retains format, length, full-answer containment, fallback to old A/B, and arbitrary training-payload output rates per condition. Neither first-word accuracy nor a slot hit substitutes for EM.
 
-## 4. D确认：局部收益延续，完整门槛未通过
+## 4. D confirmation: local gains persist, the full criterion fails
 
-D是训练与开发评分均未使用的新完整组合。各模型都从独立A银行开始写入D并回写A。**updated正确和update_restore联合正确须分开：** rebind block的seed91043有7条D答对，但其中只有6条回写A也正确。
+D contains new complete combinations unused in training or development scoring. Each model independently writes D into an A bank, then restores A. **Updated correctness and joint update_restore correctness must remain separate:** rebind block answers 7 D cases correctly for seed 91043, but only 6 also restore A correctly.
 
-| 臂 | known D updated | known D update_restore | known D shuffle | known D empty | known D locality_joint |
+| Arm | Known D updated | Known D update_restore | Known D shuffle | Known D empty | Known D locality_joint |
 | --- | --- | --- | --- | --- | --- |
 | static_diagonal | 0/2/1 | 0/2/1 | 0/0/0 | 0/0/0 | 16/16/16 |
 | static_pooled_outer | 0/0/0 | 0/0/0 | 0/0/0 | 0/0/0 | 16/16/16 |
@@ -77,11 +79,11 @@ D是训练与开发评分均未使用的新完整组合。各模型都从独立A
 | rebind_pooled_outer | 1/0/0 | 1/0/0 | 0/0/0 | 0/0/0 | 15/16/14 |
 | rebind_block_outer | **6/7/3** | **6/6/3** | 0/0/0 | 0/0/0 | 15/15/15 |
 
-同参数对照中，rebind block相对pooled的D update_restore提升为5/6/3条；相对diagonal为3/3/1条。已知实体的新D内容有改善，但静态block的开发C仍为0/0/0、D才达到2/3/3，不能据确认D改称“所有新组合均稳定改善”。
+In the parameter-matched comparison, rebind block improves D update_restore over pooled by 5/6/3 cases and over diagonal by 3/3/1. New D content for known entities improves, but static block scored 0/0/0 on development C before reaching 2/3/3 on D. Confirmation D cannot retroactively support “consistent improvement on all novel combinations.”
 
-新实体确认D的单边完整答案正确数如下。CC/HC/CH/HH依次指canonical/canonical、heldout support/canonical query、canonical support/heldout query和两者均heldout。
+Single-sided complete-answer correctness for new-entity confirmation D is below. CC/HC/CH/HH denote canonical/canonical, held-out support/canonical query, canonical support/held-out query, and both held out, respectively.
 
-| 臂 | confirm CC D | HC D | CH D | HH D |
+| Arm | Confirm CC D | HC D | CH D | HH D |
 | --- | --- | --- | --- | --- |
 | static_diagonal | 0/1/0 | 0/0/0 | 0/0/0 | 0/0/0 |
 | static_pooled_outer | 0/0/0 | 0/0/0 | 0/0/0 | 0/0/0 |
@@ -90,11 +92,11 @@ D是训练与开发评分均未使用的新完整组合。各模型都从独立A
 | rebind_pooled_outer | 1/0/0 | 0/0/0 | 0/0/0 | 0/0/0 |
 | rebind_block_outer | **3/1/1** | **1/0/0** | 0/0/0 | 0/0/0 |
 
-新实体CC的update_restore为：static diagonal 0/0/0、pooled 0/0/0、block 0/1/0；rebind diagonal 1/1/0、pooled 1/0/0、block 3/1/1。所有D的shuffle/empty在四相位均为0。CC邻居联合正确，static三个reader分别为2/3/2、2/4/1、2/4/2，rebind为10/9/10、10/10/10、10/10/10；新实体初始重构本来就弱，不能把这种联合低分全部归因于在线更新破坏。
+New-entity CC update_restore is 0/0/0 for static diagonal,0/0/0 for pooled, and 0/1/0 for block; rebind scores are 1/1/0 for diagonal,1/0/0 for pooled, and 3/1/1 for block. All D shuffle/empty scores are 0 in all four phases. CC joint neighbor correctness for the three static readers is 2/3/2,2/4/1,2/4/2; for rebind it is 10/9/10,10/10/10,10/10/10. Initial new-entity reconstruction is already weak, so low joint correctness cannot be attributed entirely to damage from online updates.
 
-已训练完整payload的新实体CC A/B pair在static三reader都是1/0/1，在rebind三reader都是8/7/8。随机绑定帮助迁移实体—已训练完整内容的对应关系，但新组合、特别是heldout问题表达仍明显困难。所有phase的A/B、更新/恢复、locality和controls均保留在完整summary，没有只挑最好格式。
+For trained complete payloads, new-entity CC A/B pair scores are 1/0/1 for all three static readers and 8/7/8 for all three rebind readers. Random rebinding helps transfer associations between entities and trained complete content, but novel combinations, especially with held-out question expressions, remain difficult. The full summary retains A/B, update/restoration, locality, and controls for every phase, rather than choosing the best format.
 
-| 臂 | known D改动词正确 | known D另两词同时正确 |
+| Arm | Known D edited word correct | Known D both retained words correct |
 | --- | --- | --- |
 | static_diagonal | 5/3/4 | 6/8/6 |
 | static_pooled_outer | 3/4/3 | 6/3/6 |
@@ -103,23 +105,23 @@ D是训练与开发评分均未使用的新完整组合。各模型都从独立A
 | rebind_pooled_outer | 7/7/5 | 4/6/6 |
 | rebind_block_outer | 11/11/10 | 9/10/7 |
 
-低完整EM不能仅解释为输出格式：known D的288次real updated生成中287次恰为三词，答案包含正确数与EM同为36；新实体四phase D的1,152次中1,110次恰为三词，答案包含数与EM同为15。两组都没有32-token截断。这里是跨模型的重复测量计数，不是独立样本推断。
+Low full-answer EM is not merely formatting failure. Among 288 real updated known D generations,287 have exactly three words; answer containment and EM both count 36 correct. Among 1,152 new-entity D generations across four phases,1,110 have exactly three words; containment and EM both count 15. Neither group has 32-token truncation. These are repeated measurements across models, not independent-sample inference.
 
-预设继续研究门槛要求**三个seed全部**满足：known C和D update_restore相对同seed pooled各增加至少4/16；known A/B pair至少12/16；C/D real单边对shuffle及empty各领先至少4/16；教师合格。static的三个seed都未过；rebind只有91043单seed全过，91042未过C项、91044未过C/D项。因此两个regime的完整门槛都为false。它是事先声明的证据标准，不是统计显著性或“绝对无研究价值”的证明；本轮没有自动扩大语料，也不把最佳seed代表架构成功。
+The preregistered continuation criterion requires **all three seeds** to improve known C and D update_restore over same-seed pooled by at least 4/16 each; achieve known A/B pair≥12/16; exceed both shuffle and empty by at least 4/16 on single-sided real C/D; and have qualified teachers. No static seed passes. Only rebind seed 91043 passes individually:91042 fails C, and 91044 fails C/D. Thus both regimes fail the complete criterion. This is a declared evidence standard, not a statistical-significance test or proof of “no research value.” No corpus expansion occurred, and the best seed is not treated as architectural success.
 
-## 5. 机制证据：路径有效，但不能把收益唯一归于rank
+## 5. Mechanism evidence: an active path, without uniquely attributing gains to rank
 
-独立训练审计确认18模型中，同seed六臂的共同初值逐位相同，同seed四个outer臂新增参数初值也逐位相同；12个outer模型全部8,256个新增坐标在训练后发生变化。新增参数各有2,047步非零梯度：第1步b=0使其梯度为0，是预定初始化行为，不是reader未接入。见[training_audit.json](results/block/training_audit.json)与[operator_diagnostics.json](results/block/operator_diagnostics.json)。
+Across all 18 models, the independent training audit confirms bitwise-identical shared initialization for all six arms within each seed, and identical added-parameter initialization for all four outer arms within each seed. All 8,256 added coordinates changed in each of the 12 outer models. Added parameters received nonzero gradients on 2,047 steps; step 1 has gradient 0 because b=0, as specified, rather than because the reader is disconnected. See [training_audit.json](results/block/training_audit.json) and [operator_diagnostics.json](results/block/operator_diagnostics.json).
 
-同seed、同regime三个reader训练终点的Wq/Wk/slot_position逐位相同；六组全部成立。第一步known C fact召回也完全一致：static为12/12/13，rebind为15/16/15。因此reader之间的差异不能由寻址参数学成不同值解释。不同生成答案会改变后续前缀及query，仍可能造成decode路由分歧；不能由参数相同宣称所有自由生成轨迹相同。该事后核对见[qk_matched.json](results/block/qk_matched.json)，不参与选择。
+Final Wq/Wk/slot_position tensors are bitwise identical among the three readers within each seed/regime, for all six groups. First-prediction known C fact recall also matches exactly:12/12/13 for static and 15/16/15 for rebind. Reader differences therefore cannot be explained by different learned address parameters. Different generated answers can still change later prefixes and queries, causing decode-routing differences; identical parameters do not imply identical free-generation trajectories. This post hoc check is in [qk_matched.json](results/block/qk_matched.json) and did not affect selection.
 
-rebind block额外项在更新2048**之前**的gold-prefix诊断位置，平均有序奇异谱的`mean(σ₂)/mean(σ₁)`为0.126118/0.126156/0.126593，第三奇异值相应比为0.045665/0.046692/0.047933；该均值谱的熵有效rank约1.6515/1.6555/1.6613。它没有在这个汇总意义上完全变成一个外积，但第二、三方向较弱。
+At gold-prefix diagnostic positions **before** update 2048, rebind block's added term has ratios `mean(σ₂)/mean(σ₁)` of 0.126118/0.126156/0.126593 and corresponding third-singular-value ratios 0.045665/0.046692/0.047933. The entropy effective rank of this mean spectrum is approximately 1.6515/1.6555/1.6613. In this aggregate sense, it has not completely collapsed to one outer product, although its second and third directions are weaker.
 
-这些是先逐位置做SVD、再平均**额外outer项的有序谱**，不是平均矩阵的谱、不是每位置有效rank的均值，也不是完整diag+outer矩阵的谱；更不是最终checkpoint之后重新测的自由生成机制。非零次奇异值或梯度都不能证明其携带了有用的新组合信息。
+These statistics perform SVD at each position and then average the **ordered spectra of the additional outer term**. They are not the spectrum of an averaged matrix, the mean per-position effective rank, or the full diag+outer spectrum. They are also not free-generation measurements rerun after the final checkpoint. Nonzero secondary singular values or gradients do not establish that useful novel-combination information is carried.
 
-末128步训练CE（含EOS、序列等权）为：
+Training CE over the last 128 steps, including EOS with equal sequence weighting:
 
-| 臂 | 91042 | 91043 | 91044 |
+| Arm | 91042 | 91043 | 91044 |
 | --- | ---: | ---: | ---: |
 | static_diagonal | 0.016650 | 0.009072 | 0.011087 |
 | static_pooled_outer | 0.009743 | 0.008515 | 0.020774 |
@@ -128,23 +130,23 @@ rebind block额外项在更新2048**之前**的gold-prefix诊断位置，平均�
 | rebind_pooled_outer | 0.101995 | 0.093737 | 0.090810 |
 | rebind_block_outer | 0.103902 | 0.092485 | 0.085125 |
 
-outer在rebind中的训练拟合优于diagonal，但pooled与block平均CE很近，完整组合结果仍不同。相同步数不保证同样优化程度；CE小也不等于新组合生成成功。不能据固定预算负结果声称容量不可能。
+Outer readers fit rebind training better than diagonal, but pooled and block have similar mean CE while their complete-combination results differ. Equal steps do not guarantee equal optimization, and low CE does not establish successful novel-combination generation. Fixed-budget negative results do not prove a capacity impossibility.
 
-开发事后案例提供一个失败边界：seed91042、known的dataset_index=2（第三条），A为`window lilac eagle`，C为`window lilac badger`，static三reader全程都读取正确事实，仍全部输出旧A；三槽全部被取回没有自动保证编辑词被读出。另一个rebind的dataset_index=0，C为`pencil jade dolphin`，diagonal/pooled输出`pencil jade badger`，block输出`pencil jade salmon`；三者全程读取正确事实且改对第一词，却都损坏未修改的第三词。这是按固定规则挑出的事后示例，不代表总体分母；[公开案例](results/block/examples.json)保留原始行号、来源SHA、完整轨迹与选例规则。
+A post hoc development example illustrates the failure boundary: for seed 91042 and known dataset_index=2 (the third record), A is `window lilac eagle` and C is `window lilac badger`. All three static readers retrieve the correct fact throughout decoding yet output old A. Retrieving all three slots does not guarantee reading the edited word. In another rebind example, dataset_index=0 has C=`pencil jade dolphin`: diagonal/pooled output `pencil jade badger`, and block outputs `pencil jade salmon`. All retrieve the correct fact throughout and correct the first word, but corrupt the unchanged third word. These examples were selected post hoc under fixed rules and do not represent the aggregate denominator. The [public examples](results/block/examples.json) retain raw line numbers, source SHAs, complete traces, and selection rules.
 
-## 6. 成本、执行正确性与复算
+## 6. Costs, execution correctness, and reproduction
 
-已完成训练的总计为36,864更新、294,912目标、589,824序列、3,059,712个含EOS gold tokens、44,845,056实际输入位置、46,396,368 padded位置、36,864次backbone forward。训练过程秒数之和3,410.352；并行运行会重叠，不可称独占GPU耗时或用户等待延迟。
+Completed training totals 36,864 updates,294,912 targets,589,824 sequences,3,059,712 EOS-inclusive gold tokens,44,845,056 actual input positions,46,396,368 padded positions, and 36,864 backbone forwards. Summed training-process time is 3,410.352 seconds. Parallel runs overlap; this is neither exclusive GPU time nor user waiting latency.
 
-全部正式学生评估实际21,600次生成、106,565个生成tokens、92,502个答案评分tokens、4,032次目标干预及4,032次恢复，共8,064次real group写入。教师448次生成、2,347个生成tokens；正式总生成22,048次。学生generation过程秒数之和4,718.977，教师69.185，同样不可相加解释为独占GPU墙时。初始化填库、控制银行物化与smoke不计入这些在线logical writes或正式成本。
+Formal student evaluations produced 21,600 generations,106,565 generated tokens,92,502 answer-scoring tokens,4,032 target interventions, and 4,032 restorations, totaling 8,064 real group writes. The teacher produced 448 generations and 2,347 tokens; formal generations total 22,048. Summed generation-process times are 4,718.977 seconds for students and 69.185 for the teacher; they likewise cannot be added and interpreted as exclusive GPU wall time. Initial bank population, control-bank materialization, and smoke runs are excluded from these online logical-write and formal-cost totals.
 
-答案NLL不含EOS，是teacher-forced辅助指标；含EOS的训练CE不能直接按同口径比较。rebind known D的逐seedtoken NLL为diagonal 1.25623/1.16319/1.50252、pooled 2.04645/2.90323/2.55018、block 0.75091/0.82072/1.32259；更低NLL伴随部分EM提升，但不是完整组合泛化已经成立。
+Answer NLL excludes EOS and is a teacher-forced auxiliary metric, so it is not directly comparable with EOS-inclusive training CE. Per-seed rebind known D token NLL is 1.25623/1.16319/1.50252 for diagonal,2.04645/2.90323/2.55018 for pooled, and 0.75091/0.82072/1.32259 for block. Lower NLL accompanies partial EM improvement but does not establish generalization to complete combinations.
 
-最终[独立CPU审计](results/block/independent_audit.json)完整通过，耗时116.695秒，无CUDA。它对72个正式学生评估的106,565个保存query逐一重放全库选组与完整三槽读取，同时复核银行写改、恢复、controls和token对齐；selected cosine最大差约2.98e-7，writer重编码key/value最大差约6.16e-7/5.28e-6。正式96任务全部完整，无pending；另6个smoke有39次生成、117个query及12次group写入，单列而未混入正式成本。
+The final [independent CPU audit](results/block/independent_audit.json) passed completely in 116.695 seconds without CUDA. For all 106,565 saved queries across 72 formal student evaluations, it replayed full-bank group selection and complete three-slot retrieval, also checking bank modifications, restoration, controls, and token alignment. Maximum selected-cosine error is approximately 2.98e-7; maximum re-encoded writer key/value errors are approximately 6.16e-7/5.28e-6. All 96 formal jobs are complete with none pending. The separate 6 smoke jobs have 39 generations,117 queries, and 12 group writes and are excluded from formal costs.
 
-审计没有重跑LM生成或重新提取原始冻结特征；query来源仍依靠冻结源码及运行遥测。真实query的全库winner可以离线复核，但这不是独立重训/重生成整个实验；uniform权重也不代表signed outer因子的实际贡献。早期[开发审计](results/block/development_audit.json)保留其partial范围，最终完整性以independent_audit为准。
+The audit did not rerun LM generation or extract the original frozen features again. Query provenance still relies on frozen source and runtime telemetry. Actual queries permit offline verification of full-bank winners, but this is not independent retraining/regeneration of the entire experiment. Uniform weights also do not represent the actual contributions of signed outer factors. The earlier [development audit](results/block/development_audit.json) retains its partial scope; final completeness is established by independent_audit.
 
-最终复算入口：
+Final recomputation commands:
 
 ```bash
 python scripts/summarize_block.py \
@@ -159,25 +161,25 @@ python scripts/audit_block.py \
   --require-final
 ```
 
-第二条命令要求输出文件尚不存在，以保留审计回执。
+The second command requires a nonexistent output file to preserve audit receipts.
 
-其输出summary、training_convergence、answer_diagnostics和key_facts都绑定实际来源SHA。[测试回执](results/block/tests.json)记录完整仓库1,249项通过；随后注册与新汇总器85项通过，另有CPU审计14项和训练机制诊断10项自测。不是宣称1,334项做过一次统一全量重跑。冻结正式运行源码的49个Python文件由登记与不可变快照核对；准备/预检早于最后遥测补充，各自源快照及回执保留，未强行改写成相同版本。
+The generated summary, training_convergence, answer_diagnostics, and key_facts bind their actual source SHAs. The [test receipt](results/block/tests.json) records 1,249 passing full-repository tests, followed by 85 passing registration/new-summarizer tests, plus 14 CPU-audit and 10 training-mechanism diagnostic self-tests. This does not claim a single full rerun of 1,334 tests. Registration and immutable snapshots verify all 49 frozen formal-runtime Python files. Preparation/preflight preceded the final telemetry additions; their own snapshots and receipts remain intact rather than being rewritten as identical versions.
 
-## 7. 下一轮建议：只作为待验证提案
+## 7. Next-round proposals, still untested
 
-D延续了有限的开发信号，但未达到完整门槛。如果继续做机制研究，应先留在同一小任务上，增加一个**不先混合原始value、但仍为rank1**的配平对照：
+D preserves a limited development signal but does not meet the full criterion. If mechanism research continues, it should first remain on the same small task and add a matched control that **does not pool raw values first, yet still has rank 1**:
 
 ```
 M_mean_factors = diag(m) + mean_s[w(v_s)] mean_s[u(v_s)]ᵀ
 ```
 
-保留现有u/w定义，不对`mean(u)`再作隐式归一化。这能与已有pooled外积比较“先对原始value池化再生成因子”与“先逐槽生成因子再平均”的区别；与block的差恰为因子的跨槽协方差项：
+Retain the current u/w definitions without implicitly renormalizing `mean(u)`. Compared with the existing pooled outer product, this separates “pool raw values, then generate factors” from “generate factors per slot, then average.” Its difference from block is exactly the cross-slot covariance term of the factors:
 
 ```
 mean_s[w_s u_sᵀ] - mean(w) mean(u)ᵀ
   = mean_s[(w_s-mean(w))(u_s-mean(u))ᵀ]
 ```
 
-这样才比直接把block胜出叫作“rank3胜过rank1”更可判别。另可在只做机制诊断时，固定已选事实及各因子边缘集合，打乱u/w的行配对，测`mean_s[w_s u_perm(s)ᵀ]`的变化；该操作改变关联，不是现有实验结果，也不应用测试分数挑排列。
+This is more identifiable than directly calling a block advantage “rank 3 beating rank 1.” A further mechanism-only diagnostic could hold the selected fact and each factor's marginal set fixed, scramble u/w row pairing, and measure changes in `mean_s[w_s u_perm(s)ᵀ]`. This changes associations; it is not an existing result, and permutations must not be selected using test scores.
 
-这些仍需新协议、配平预算和独立确认，不能在本轮追加后冒充预注册臂。本轮未证实先扩大Wikipedia会解决问题。当前更直接的问题是：非线性因子生成顺序、槽内关联与符号系数是否帮助完整内容组合，同时能否保留未改词和无关事实。只有在小任务上形成稳定证据，才讨论增加文本复杂度或规模。
+These proposals require a new protocol, matched budgets, and independent confirmation. They must not be appended to this round and presented as preregistered arms. This round did not establish that first expanding Wikipedia would solve the problem. The more immediate question is whether nonlinear factor-generation order, within-slot association, and signed coefficients help reconstruct complete content while preserving unchanged words and unrelated facts. Text complexity or scale should be reconsidered only after stable evidence on the small task.

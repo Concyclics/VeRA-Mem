@@ -167,7 +167,7 @@ def test_complete_audit_recomputes_metrics_costs_and_removes_private_fields(tmp_
     serialized = json.dumps(result)+SUMMARY.report(result)
     for private in ("PRIVATE_ENTITY", "PRIVATE_ANSWER", "PRIVATE_PROMPT", "PRIVATE_COMMAND", "PRIVATE_ROLLOUT", "/private/", str(tmp_path), "continuation_token_ids"):
         assert private not in serialized
-    assert "首 token" in SUMMARY.report(result)
+    assert "First-token" in SUMMARY.report(result)
     assert "no-memory" in SUMMARY.report(result)
 
 

@@ -21,7 +21,7 @@ class OffsetTokenizer:
                 "offset_mapping": [(0, 0)] + [(i, i + 1) for i in range(len(text))]}
 
 
-@pytest.mark.parametrize("support", ["fact=orange", "  value: red\n", "事实：蓝色", "PREFIX again: " + PREFIX + "blue"])
+@pytest.mark.parametrize("support", ["fact=orange", "  value: red\n", "café: naïve", "PREFIX again: " + PREFIX + "blue"])
 def test_content_prompt_mask_selects_raw_support_not_instruction_or_chat_tokens(support):
     tokenizer = OffsetTokenizer()
     ids, mask = content_prompt(tokenizer, support)
@@ -100,7 +100,7 @@ class FeatureBackend:
 
 def test_support_features_pool_only_content_and_last_is_final_real_prompt_token():
     backend = FeatureBackend()
-    supports = ["blue", "a longer amber support", "世界"]
+    supports = ["blue", "a longer amber support", "résumé"]
     last, pooled = support_features(backend, supports, batch_size=2)
     assert last.shape == pooled.shape == (3, 3)
     for row, text in enumerate(supports):

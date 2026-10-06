@@ -1,0 +1,52 @@
+{
+  "schema": "vera-mem-handoff-validation-v1",
+  "checked_at_utc": "2026-10-06T16:02:52.322310+00:00",
+  "complete": true,
+  "task_scope": "English localization, experimental narrative, code navigation, and collaborator handoff; no new model training or inference.",
+  "pytest": {
+    "command": "/home/chenhan/miniconda3/envs/agent/bin/python -m pytest -q tests/test_context_distillation_summary.py tests/test_summarize_counterfactual.py tests/test_summarize_generalization.py tests/test_summarize_scaling.py tests/test_interface_features.py",
+    "passed": 155,
+    "failed": 0,
+    "seconds": 67.53,
+    "scope": "Affected report generators and support-feature Unicode contracts, not a new full-repository test run."
+  },
+  "self_tests": [
+    {
+      "command": "python3 scripts/summarize_interface.py --self-test",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "command": "python3 scripts/audit_interface_answers.py --self-test",
+      "passed": 10,
+      "failed": 0
+    }
+  ],
+  "preservation_guard": {
+    "changed_numeric_metric_rejected": true,
+    "changed_scalar_type_rejected": true,
+    "changed_array_length_rejected": true,
+    "changed_identifier_rejected": true
+  },
+  "generated_reports": {
+    "count": 5,
+    "exactly_match_english_renderer_and_stored_summary": true,
+    "model_outputs_not_regenerated": true
+  },
+  "changed_historical_files": 50,
+  "unchanged_runtime_files": 49,
+  "unchanged_public_evidence_json_files": 61,
+  "localized_json_string_fields": 241,
+  "independent_review": "A separate reviewer checked the six new handoff documents against source code, CLI parsers, and stored results; no blocking findings remain.",
+  "localization_manifest_sha256": "8e9e0a453aae97186d436c543cf058e8ff98568f87d7868c119f953b49378f6f",
+  "repository_check": {
+    "passed": true,
+    "files_checked": 327,
+    "text_files_checked": 323,
+    "json_files_checked": 78,
+    "local_links_checked": 266,
+    "localized_files": 50,
+    "original_git_blobs_verified": 160,
+    "errors": []
+  }
+}

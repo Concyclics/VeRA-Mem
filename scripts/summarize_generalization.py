@@ -382,10 +382,10 @@ def collect(runs_root, samples=10000, seed=123):
 
 
 def render(summary):
-    lines = ["# 模板泛化实验汇总", "", "生成时间（UTC）: " + summary["generated_at"], "",
-             "仅纳入 suite、run 均完成且逐条预测与统计一致的运行。四象限将查询格式与观测格式分别控制。",
-             "新查询列为 XML、CSV、对话三个保留模板的等权平均；三种视图属于同一事实，不能作为独立样本。", "",
-             "| Condition | selected / updates | 原查询+原观测 | 新查询+原观测 | 原查询+新观测 | 新查询+新观测 |",
+    lines = ["# Template generalization experiment summary", "", "Generated at (UTC): " + summary["generated_at"], "",
+             "Include only completed suites/runs with predictions consistent with statistics. The four quadrants independently vary query and observation formats.",
+             "Heldout-query columns equally average XML, CSV, and dialogue templates. The three views refer to the same facts and are not independent samples.", "",
+             "| Condition | selected / updates | canonical query + canonical support | heldout query + canonical support | canonical query + heldout support | heldout query + heldout support |",
              "| --- | ---: | ---: | ---: | ---: | ---: |"]
     order = ("canonical_query/canonical_support", "heldout_query/canonical_support",
              "canonical_query/heldout_support", "heldout_query/heldout_support")
@@ -393,28 +393,28 @@ def render(summary):
         cells = [record["condition"], f"{record['selected_step']} / {record['configuration']['updates']}"]
         cells.extend(f"{record['quadrants'][key]['real']['em']:.1%}" for key in order)
         lines.append("| " + " | ".join(cells) + " |")
-    lines.extend(["", "各象限的真实检索、强制正确 value、打乱 value、零残差诊断：", "",
+    lines.extend(["", "Real retrieval, forced-correct-value, shuffled-value, and zero-residual diagnostics for each quadrant:", "",
                   "| Condition | Quadrant | Real | Forced value | Shuffled | Empty |", "| --- | --- | ---: | ---: | ---: | ---: |"])
     for record in summary["runs"]:
         for key in order:
             lines.append("| " + " | ".join([record["condition"], key, *[f"{record['quadrants'][key][method]['em']:.1%}" for method in METHODS]]) + " |")
-    lines.extend(["", "保留查询模板分项（真实检索）：", "", "| Condition | Support bank | Query template | EM | Recall@4 |",
+    lines.extend(["", "Heldout query templates, using real retrieval:", "", "| Condition | Support bank | Query template | EM | Recall@4 |",
                   "| --- | --- | --- | ---: | ---: |"])
     for record in summary["runs"]:
         for bank in BANKS:
             for template in HELDOUT_QUERIES:
                 phase = record["phases"][bank + "/" + template + "/real"]
                 lines.append(f"| {record['condition']} | {bank} | {template} | {phase['em']:.1%} | {phase.get('recall_at_4', 0):.1%} |")
-    lines.extend(["", "配对差值与 95% bootstrap CI（百分点；以事实为重采样单位）：", "",
+    lines.extend(["", "Paired differences with 95% bootstrap CIs, in percentage points, resampling facts:", "",
                   "| Contrast | Quadrant | Δ EM (pp) | 95% CI (pp) | Facts |",
                   "| --- | --- | ---: | --- | ---: |"])
     for row in summary["paired_comparisons"]:
         lo, hi = row["ci95"]
         lines.append(f"| {row['contrast']} | {row['quadrant']} | {100 * row['delta_em']:.2f} | [{100 * lo:.2f}, {100 * hi:.2f}] | {row['n_paired_facts']} |")
-    lines.extend(["", "同一 checkpoint 的记忆干预差值（百分点；事实聚类 95% CI）：", "",
-                  "16 个候选词上的均匀猜测期望为 6.25%；在本轮平衡事实中，始终输出同一个候选词也会得到 6.25%。"
-                  "因此，训练条件之间从 0% 提升到约 6% 不能单独证明记忆泛化。应同时检查真实检索相对打乱 value 和零残差的差值；"
-                  "只优于零残差而不优于打乱 value，仍可能只是学会输出候选词。CI 反映事实抽样波动，不涵盖训练种子变化。", "",
+    lines.extend(["", "Memory intervention differences within the same checkpoint, in percentage points with fact-clustered 95% CIs:", "",
+                  "Uniform guessing over 16 candidates has expected accuracy 6.25%; always outputting one candidate also scores 6.25% on these balanced facts. "
+                  "Therefore, an increase from 0% to roughly 6% between training conditions cannot establish memory generalization by itself. Also examine real retrieval against shuffled values and zero residuals; "
+                  "beating zero residuals without beating shuffled values may only reflect learning to output candidate words. CIs reflect fact sampling, not training-seed variation.", "",
                   "| Condition | Quadrant | Control | Real / control EM | Δ EM (pp) | 95% CI (pp) |",
                   "| --- | --- | --- | --- | ---: | --- |"])
     for row in summary.get("within_run_memory_effects", []):
@@ -422,9 +422,9 @@ def render(summary):
         lines.append(f"| {row['condition']} | {row['quadrant']} | {row['second_method']} | "
                      f"{row['first_em']:.1%} / {row['second_em']:.1%} | {100 * row['delta_em']:.2f} | "
                      f"[{100 * lo:.2f}, {100 * hi:.2f}] |")
-    lines.extend(["", "限制：", "", *["- " + limitation for limitation in summary["limitations"]]])
+    lines.extend(["", "Limitations:", "", *["- " + limitation for limitation in summary["limitations"]]])
     if summary["skipped_runs"] or summary["refused_comparisons"]:
-        lines.extend(["", "未纳入的运行或比较：", ""])
+        lines.extend(["", "Excluded runs or comparisons:", ""])
         for row in summary["skipped_runs"]:
             lines.append("- " + row["run"] + ": " + row["reason"])
         for row in summary["refused_comparisons"]:

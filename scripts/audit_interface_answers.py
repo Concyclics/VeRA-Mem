@@ -95,11 +95,11 @@ def event_summary(rows):
                 prediction=row['prediction'], expected=desc['answer'], shape=desc['shape'],
                 generation_tokens=desc['generation_tokens'], budget_hit=bool(desc['budget_hit'])))
     if sums['em'] == 0 and sums['containment'] == 0:
-        interpretation = '零完整 EM 且无输出含完整正确答案；不能仅用删除额外标签/格式解释。它不单独区分提示导致内容遗漏、知识绑定、寻址或读出错误。'
+        interpretation = 'Full EM is zero and no output contains the complete correct answer; removing extra labels or formatting alone cannot explain this. This diagnostic does not distinguish prompt-induced omission, knowledge binding, addressing, or readout errors.'
     elif sums['em'] == 0:
-        interpretation = '零完整 EM 中有一部分输出包含完整答案，存在可见额外文字/格式问题；仅对这些 containment 命中能由删除多余文字恢复，不推广到全部错误。'
+        interpretation = 'Some zero-EM outputs contain the complete answer with visible extra text or formatting. Removing extra text can recover only these containment hits; this explanation does not extend to all errors.'
     else:
-        interpretation = '分别报告严格正确、完整答案包含和缺词/错词；containment 是宽松文本指标，不能替代语义正确或完整答案 EM。'
+        interpretation = 'Report strict correctness, complete-answer containment, and missing/incorrect words separately. Containment is a relaxed textual metric, not semantic correctness or full-answer EM.'
     return dict(count=n, numerators=sums, rates={k:v/n for k,v in sums.items()},
         normalized_word_count_distribution=dict(sorted(Counter(x['word_count'] for x in d).items())),
         generation_token_count_distribution=dict(sorted(Counter(x['generation_tokens'] for x in d).items())),
@@ -238,15 +238,15 @@ def execute(runs, tag, output):
             == [(x['name'],x['metadata_hashes'],x['suite_sha256']) for x in after], 'Metadata changed during full audit')
     result = dict(schema_version=1,audited_at_utc=datetime.now(timezone.utc).isoformat(),
         complete=True,required_complete_evaluations=11,real_rows=22528,script_sha256=sha(Path(__file__)),
-        scope='本地已全部完成的 stage3 六组与 stage4 五组；real 四 phase 全样本，teacher 仅已存控制；未推理或改模型。',
-        definitions=dict(full_em='与主报告完全相同的 NFKC+casefold+Unicode punctuation/whitespace normalization 后整串相等',
-            first_word_accuracy='normalized 输出首词严格等于 gold 首词；标签前缀也会使其错误，另列 gold_first_word_anywhere',
-            containment='完整 normalized 三词 gold 以词边界连续出现在输出中；非语义裁判',
-            budget_hit='generation_tokens >= 32；只表示达到预算，未保存 EOS token 时不进一步断言截断',
-            format_markers='非互斥可见标记，不等价错误；引用/标点已被原 EM normalization 容忍',
-            output_shape='empty / legacy_16_single_word / other_single_word / three_words / other_multiword 互斥',
-            changed_both_wrong='A/B normalized 输出不同且 A、B 各自完整 EM 均为 0；区别于仅未两边同时答对',
-            statistics='重复模型/phase/世界共用同一256facts；不把22528行当独立样本，不按本诊断选模型'),
+        scope='All six stage3 and five stage4 runs completed locally; all real-retrieval samples from four phases, with only stored teacher controls. No inference or model modification was performed.',
+        definitions=dict(full_em='Whole-string equality after the same NFKC, casefold, and Unicode punctuation/whitespace normalization as the main report',
+            first_word_accuracy='The first normalized output word exactly equals the first gold word; label prefixes can make it incorrect. gold_first_word_anywhere is reported separately',
+            containment='The complete normalized three-word gold answer occurs contiguously at word boundaries in the output; this is not a semantic judge',
+            budget_hit='generation_tokens >= 32 indicates reaching the budget; without saved EOS tokens, it does not establish truncation',
+            format_markers='Visible, nonexclusive markers, not necessarily errors; the original EM normalization already tolerates quotes and punctuation',
+            output_shape='Mutually exclusive: empty / legacy_16_single_word / other_single_word / three_words / other_multiword',
+            changed_both_wrong='A/B normalized outputs differ and both have full EM 0; this is stricter than merely lacking joint correctness',
+            statistics='Models/phases/worlds reuse the same 256 facts; 22528 rows are not independent samples. This diagnostic does not select models'),
         runs=reports)
     output.parent.mkdir(parents=True,exist_ok=True)
     with output.open('x') as f:

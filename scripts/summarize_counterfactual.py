@@ -861,51 +861,51 @@ def summarize(initial, warm, trainings, evaluations, *, preparation, samples=200
 
 
 def report(summary):
-    labels = {phase: label for phase, label in zip(PHASES, ("规范/规范", "规范/新问句", "新支持/规范", "新支持/新问句"))}
+    labels = {phase: label for phase, label in zip(PHASES, ("canonical/canonical", "canonical/heldout query", "heldout support/canonical", "heldout support/heldout query"))}
     percent = lambda value: "—" if value is None else f"{100*value:.1f}%"
     def interval(value):
         return f"{100*value['delta']:+.1f} [{100*value['ci95'][0]:+.1f}, {100*value['ci95'][1]:+.1f}]"
     prefix_check = summary["preparation"]["historical_prefix_feature_check"]
-    lines = ["# 反事实记忆蒸馏：严格审计结果", "",
-             f"v2缓存预检通过：固定writer前缀已核验，历史16个训练事实×4种支持表达共64组特征复算的最小cosine={prefix_check['min_cosine']:.8f}，最大relative RMSE={prefix_check['max_relative_rmse']:.8f}；固定门槛为cosine≥0.999、relative RMSE≤0.05。训练/确认缓存文件SHA与运行记录一致；准备过程teacher生成次数为0。v1无效结果不进入本报告，新确认实体seed为37042。", "",
-             "A/B为同一问题、不同目标事实；P只改目标观察的表达。主指标要求A、B两个世界同时正确，不能用输出发生变化代替成功。", "",
-             f"共同warm {summary['comparability']['warm_updates']}步；四组各续训 {summary['comparability']['continuation_updates']}步，target/episode schedule SHA一致。Initial是warm前的原始anchored checkpoint。", "",
-             "## 四条件的真实读出", "", "单元格：A/B成对正确率 / A与P同时正确率。每列64个事实。", "",
-             "| 方法 | "+" | ".join(labels.values())+" |", "|---|"+"---|"*4]
+    lines = ["# Counterfactual memory distillation: strictly audited results", "",
+             f"The v2 cache preflight passed: the fixed writer prefix was verified. Recomputing 64 feature groups (16 historical training facts x 4 support formats) gave minimum cosine={prefix_check['min_cosine']:.8f} and maximum relative RMSE={prefix_check['max_relative_rmse']:.8f}; fixed thresholds are cosine >=0.999 and relative RMSE <=0.05. Training/confirmation cache SHAs match the run records. Preparation used 0 teacher generations. Invalid v1 results are excluded; fresh confirmation entity seed is 37042.", "",
+             "A/B share the question but differ in the target fact; P changes only the target observation wording. The primary metric requires correct answers in both worlds; an output change alone is not success.", "",
+             f"The common warm-up uses {summary['comparability']['warm_updates']} updates; each of four arms continues for {summary['comparability']['continuation_updates']} updates with matching target/episode schedule SHA. Initial is the original anchored checkpoint before warm-up.", "",
+             "## Real retrieval across four conditions", "", "Cells: A/B paired accuracy / A-and-P joint accuracy. Each column contains 64 facts.", "",
+             "| Method | "+" | ".join(labels.values())+" |", "|---|"+"---|"*4]
     for run in summary["runs"]:
         cells = [percent(run["phases"][phase]["methods"]["real"]["paired_switch_em"])+" / "+percent(run["phases"][phase]["paraphrase"]["joint_em"]) for phase in PHASES]
         lines.append("| "+run["method"]+" | "+" | ".join(cells)+" |")
-    lines += ["", "## 检索、错误切换与打乱对照", "", "R@1为A/B两世界；swapped指A答B且B答A。wrong/wrong包括两边都错但输出相同的情况；变化且两边都错要求normalize_answer后的输出确实不同。Δ为real−shuffled paired switch，百分点及95%按事实成对bootstrap区间。", "",
-              "| 方法 | 条件 | A/B R@1 | swapped | wrong/wrong | 变化且两边都错 | 变化但未同时正确 | Δreal−shuffled (pp, CI) |", "|---|---|---|---|---|---|---|---|"]
+    lines += ["", "## Retrieval, incorrect switches, and shuffled controls", "", "R@1 is reported for both A/B worlds; swapped means answering B in world A and A in world B. Wrong/wrong includes identical incorrect outputs; changed-and-both-wrong additionally requires different normalize_answer outputs. Delta is real minus shuffled paired-switch accuracy, in percentage points with 95% fact-paired bootstrap intervals.", "",
+              "| Method | Condition | A/B R@1 | swapped | wrong/wrong | Changed and both wrong | Changed without joint correctness | Δreal−shuffled (pp, CI) |", "|---|---|---|---|---|---|---|---|"]
     for run in summary["runs"]:
         for phase in PHASES:
             row = run["phases"][phase]; score = row["methods"]["real"]
             lines.append(f"| {run['method']} | {labels[phase]} | {percent(score['a_recall_at_1'])}/{percent(score['b_recall_at_1'])} | {percent(score['swapped_answer_rate'])} | {percent(score['wrong_wrong_rate'])} | {percent(score['changed_both_wrong_rate'])} | {percent(score['changed_but_not_both_correct_rate'])} | {interval(row['paired']['real_minus_shuffled_switch'])} |")
-    lines += ["", "## Teacher可用性", "", "所有事实仍在主表分母中。条件分数仅作诊断；teacher正确性是自由生成结果，不等同训练loss的margin/hidden门控。", "",
-              "| 条件 | Teacher A/B joint | Teacher A/P joint | Teacher A/B/P全对数量 |", "|---|---|---|---|"]
+    lines += ["", "## Teacher qualification", "", "All facts remain in the main-table denominators. Conditional scores are diagnostic; teacher correctness comes from free generation and differs from margin/hidden gates in the training loss.", "",
+              "| Condition | Teacher A/B joint | Teacher A/P joint | Teacher A/B/P all-correct count |", "|---|---|---|---|"]
     for phase in PHASES:
         teacher = summary["teacher_acceptance"][phase]
         eligible = summary["runs"][0]["phases"][phase]["teacher_eligibility"]
         lines.append(f"| {labels[phase]} | {percent(teacher['counterfactual']['paired_switch_em'])} | {percent(teacher['paraphrase']['joint_em'])} | {eligible['teacher_abp_eligible_count']}/{eligible['all_facts']} |")
-    lines += ["", "| 方法 | 条件 | 全部事实A/B joint | Teacher A/B均正确子集 | 子集分母 | A/P joint(全部/teacher合格) |", "|---|---|---|---|---|---|"]
+    lines += ["", "| Method | Condition | All-fact A/B joint | Teacher A/B-correct subset | Subset denominator | A/P joint (all/teacher-qualified) |", "|---|---|---|---|---|---|"]
     for run in summary["runs"]:
         for phase in PHASES:
             row = run["phases"][phase]["teacher_eligibility"]
             lines.append(f"| {run['method']} | {labels[phase]} | {percent(row['student_real_switch_all_facts'])} | {percent(row['student_real_switch_on_teacher_ab_eligible'])} | {row['teacher_ab_eligible_count']} | {percent(row['student_paraphrase_joint_all_facts'])}/{percent(row['student_paraphrase_joint_on_teacher_ap_eligible'])} |")
-    lines += ["", "## 跨条件成对比较", "", "每个实体的四个条件一起重采样，不能把256行当作256个独立事实。以下为相对base的百分点差及95%区间。", "",
-              "| 方法 | A/B joint | A/P joint | swapped | wrong/wrong | 无关实体joint(两个条件) |", "|---|---|---|---|---|---|"]
+    lines += ["", "## Paired comparisons across conditions", "", "The four conditions for each entity are resampled together; 256 rows are not 256 independent facts. Values below are percentage-point differences from base with 95% intervals.", "",
+              "| Method | A/B joint | A/P joint | swapped | wrong/wrong | Unrelated-entity joint (two conditions) |", "|---|---|---|---|---|---|"]
     for method in ARMS:
         pair = summary["comparisons"][method]["minus_base"]
         lines.append("| "+method+" | "+" | ".join(interval(pair[key]) for key in ("paired_switch", "paraphrase_joint", "swapped", "wrong_wrong", "unrelated_joint"))+" |")
-    lines += ["", "## 实际训练成本与teacher训练覆盖率", "",
-              "| 阶段 | 更新 | Pair exposures | sampled tokens | 总input tokens | 训练秒数 | Teacher首token A/B全对 | Behavior有效 | Hidden有效 |", "|---|---|---|---|---|---|---|---|---|"]
-    stages = [("共同warm", summary["warm"]["training"])]+[(run["method"], run["training"]) for run in summary["runs"][1:]]
+    lines += ["", "## Actual training cost and teacher training coverage", "",
+              "| Stage | Updates | Pair exposures | sampled tokens | Total input tokens | Training seconds | Teacher first-token A/B joint | Valid behavior pairs | Valid hidden pairs |", "|---|---|---|---|---|---|---|---|---|"]
+    stages = [("Common warm-up", summary["warm"]["training"])]+[(run["method"], run["training"]) for run in summary["runs"][1:]]
     for name, row in stages:
         rates = row["diagnostic_pair_rates"]
         lines.append(f"| {name} | {row['updates']} | {row['target_pair_exposures']} | {row['token_totals']['sampled_tokens']} | {row['processed_input_tokens_total']} | {row['elapsed_seconds']:.1f} | {percent(rates['teacher_first_token_joint_correct'])} | {percent(rates['behavior_valid_pairs'])} | {percent(rates['hidden_valid_pairs'])} |")
-    lines += ["", "共同warm在物理成本总量中只计一次；每个续训方法的完整训练还需加上该共同warm。初始checkpoint的历史训练和数据缓存准备成本不计入此次成本。", "",
-              "## 范围与限制", ""]+["- "+item for item in summary["limitations"]]
-    lines += ["", "summary.json包含所有real/shuffled/oracle/empty、teacher、paraphrase、unrelated指标、成对区间、日志成本与SHA。原始问题、观察、token ID、实体ID和本地路径不进入公开输出。", ""]
+    lines += ["", "The common warm-up is counted once in total physical cost. Each continuation arm inherits that warm-up in its full training lineage. Historical training of the initial checkpoint and feature-cache preparation are outside this cost scope.", "",
+              "## Scope and limitations", ""]+["- "+item for item in summary["limitations"]]
+    lines += ["", "summary.json contains all real/shuffled/oracle/empty, teacher, paraphrase, and unrelated metrics, paired intervals, logged costs, and SHAs. Raw questions, observations, token IDs, entity IDs, and local paths are excluded from this public export.", ""]
     return "\n".join(lines)
 
 

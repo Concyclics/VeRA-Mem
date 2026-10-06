@@ -1,0 +1,1526 @@
+{
+  "qkv_train_81042_20261006.json": [
+    {
+      "name": "static_flat_seed81042",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81042",
+        "--regime",
+        "static",
+        "--read-mode",
+        "flat",
+        "--readout",
+        "vera",
+        "--updates",
+        "2048"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81042",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81042",
+        "--regime",
+        "static",
+        "--read-mode",
+        "grouped",
+        "--readout",
+        "vera",
+        "--updates",
+        "2048"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81042",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81042",
+        "--regime",
+        "rebind",
+        "--read-mode",
+        "flat",
+        "--readout",
+        "vera",
+        "--updates",
+        "2048"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81042",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81042",
+        "--regime",
+        "rebind",
+        "--read-mode",
+        "grouped",
+        "--readout",
+        "vera",
+        "--updates",
+        "2048"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81042",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81042",
+        "--regime",
+        "rebind",
+        "--read-mode",
+        "grouped",
+        "--readout",
+        "additive",
+        "--updates",
+        "2048"
+      ]
+    }
+  ],
+  "qkv_development_81042_20261006.json": [
+    {
+      "name": "static_flat_seed81042_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/static_flat_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "static_flat_seed81042_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/static_flat_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81042_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/static_grouped_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81042_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/static_grouped_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81042_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/rebind_flat_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81042_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/rebind_flat_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81042_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/rebind_grouped_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81042_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/rebind_grouped_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81042_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/rebind_grouped_additive_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81042_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/rebind_grouped_additive_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "development"
+      ]
+    }
+  ],
+  "qkv_confirmation_81042_20261006.json": [
+    {
+      "name": "static_flat_seed81042_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/static_flat_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "static_flat_seed81042_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/static_flat_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81042_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/static_grouped_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81042_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/static_grouped_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81042_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/rebind_flat_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81042_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/rebind_flat_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81042_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/rebind_grouped_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81042_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/rebind_grouped_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81042_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/rebind_grouped_additive_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81042_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81042_20261006/rebind_grouped_additive_seed81042/last.pt",
+        "--seed",
+        "81042",
+        "--eval-part",
+        "confirmation"
+      ]
+    }
+  ],
+  "qkv_train_81043_20261006.json": [
+    {
+      "name": "static_flat_seed81043",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81043",
+        "--regime",
+        "static",
+        "--read-mode",
+        "flat",
+        "--readout",
+        "vera",
+        "--updates",
+        "2048"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81043",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81043",
+        "--regime",
+        "static",
+        "--read-mode",
+        "grouped",
+        "--readout",
+        "vera",
+        "--updates",
+        "2048"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81043",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81043",
+        "--regime",
+        "rebind",
+        "--read-mode",
+        "flat",
+        "--readout",
+        "vera",
+        "--updates",
+        "2048"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81043",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81043",
+        "--regime",
+        "rebind",
+        "--read-mode",
+        "grouped",
+        "--readout",
+        "vera",
+        "--updates",
+        "2048"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81043",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81043",
+        "--regime",
+        "rebind",
+        "--read-mode",
+        "grouped",
+        "--readout",
+        "additive",
+        "--updates",
+        "2048"
+      ]
+    }
+  ],
+  "qkv_development_81043_20261006.json": [
+    {
+      "name": "static_flat_seed81043_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/static_flat_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "static_flat_seed81043_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/static_flat_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81043_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/static_grouped_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81043_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/static_grouped_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81043_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/rebind_flat_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81043_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/rebind_flat_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81043_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/rebind_grouped_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81043_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/rebind_grouped_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81043_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/rebind_grouped_additive_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81043_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/rebind_grouped_additive_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "development"
+      ]
+    }
+  ],
+  "qkv_confirmation_81043_20261006.json": [
+    {
+      "name": "static_flat_seed81043_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/static_flat_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "static_flat_seed81043_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/static_flat_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81043_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/static_grouped_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81043_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/static_grouped_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81043_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/rebind_flat_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81043_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/rebind_flat_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81043_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/rebind_grouped_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81043_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/rebind_grouped_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81043_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/rebind_grouped_additive_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81043_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81043_20261006/rebind_grouped_additive_seed81043/last.pt",
+        "--seed",
+        "81043",
+        "--eval-part",
+        "confirmation"
+      ]
+    }
+  ],
+  "qkv_train_81044_20261006.json": [
+    {
+      "name": "static_flat_seed81044",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81044",
+        "--regime",
+        "static",
+        "--read-mode",
+        "flat",
+        "--readout",
+        "vera",
+        "--updates",
+        "2048"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81044",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81044",
+        "--regime",
+        "static",
+        "--read-mode",
+        "grouped",
+        "--readout",
+        "vera",
+        "--updates",
+        "2048"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81044",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81044",
+        "--regime",
+        "rebind",
+        "--read-mode",
+        "flat",
+        "--readout",
+        "vera",
+        "--updates",
+        "2048"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81044",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81044",
+        "--regime",
+        "rebind",
+        "--read-mode",
+        "grouped",
+        "--readout",
+        "vera",
+        "--updates",
+        "2048"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81044",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--seed",
+        "81044",
+        "--regime",
+        "rebind",
+        "--read-mode",
+        "grouped",
+        "--readout",
+        "additive",
+        "--updates",
+        "2048"
+      ]
+    }
+  ],
+  "qkv_development_81044_20261006.json": [
+    {
+      "name": "static_flat_seed81044_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/static_flat_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "static_flat_seed81044_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/static_flat_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81044_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/static_grouped_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81044_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/static_grouped_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81044_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/rebind_flat_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81044_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/rebind_flat_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81044_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/rebind_grouped_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81044_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/rebind_grouped_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81044_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/rebind_grouped_additive_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81044_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/rebind_grouped_additive_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "development"
+      ]
+    }
+  ],
+  "qkv_confirmation_81044_20261006.json": [
+    {
+      "name": "static_flat_seed81044_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/static_flat_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "static_flat_seed81044_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/static_flat_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81044_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/static_grouped_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "static_grouped_seed81044_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/static_grouped_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81044_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/rebind_flat_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_flat_seed81044_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/rebind_flat_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81044_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/rebind_grouped_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_grouped_seed81044_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/rebind_grouped_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81044_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/rebind_grouped_additive_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "rebind_grouped_additive_seed81044_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_train_81044_20261006/rebind_grouped_additive_seed81044/last.pt",
+        "--seed",
+        "81044",
+        "--eval-part",
+        "confirmation"
+      ]
+    }
+  ],
+  "qkv_teacher_development_20261006.json": [
+    {
+      "name": "teacher_known_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "teacher",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--eval-part",
+        "development"
+      ]
+    },
+    {
+      "name": "teacher_dev_development",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "teacher",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/dev.pt",
+        "--eval-part",
+        "development"
+      ]
+    }
+  ],
+  "qkv_teacher_confirmation_20261006.json": [
+    {
+      "name": "teacher_known_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "teacher",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--eval-part",
+        "confirmation"
+      ]
+    },
+    {
+      "name": "teacher_confirm_confirmation",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "teacher",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/confirm.pt",
+        "--eval-part",
+        "confirmation"
+      ]
+    }
+  ],
+  "qkv_telemetry_smoke_20261006.json": [
+    {
+      "name": "smoke_grouped_telemetry",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "train",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/train.pt",
+        "--updates",
+        "2",
+        "--regime",
+        "rebind",
+        "--read-mode",
+        "grouped"
+      ]
+    },
+    {
+      "name": "smoke_grouped_telemetry_eval",
+      "entry": "qkv",
+      "arguments": [
+        "--stage",
+        "eval",
+        "--model",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+        "--cache",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_prepare_20261006/features/known.pt",
+        "--checkpoint",
+        "/ssd3/chenhan/VeRA-Mem-Workspace/runs/qkv_telemetry_smoke_20261006/smoke_grouped_telemetry/last.pt",
+        "--eval-part",
+        "smoke"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3575 @@
+{
+  "protocol": "qkv-development-teaching-examples-v1",
+  "created_at_utc": "2026-10-06T13:56:16.906181+00:00",
+  "confirmation_predictions_read": false,
+  "selection": {
+    "post_hoc_purposive": true,
+    "seed_policy": "Use only the first preregistered seed 81042; no best-seed selection.",
+    "primary_comparison_arms": [
+      "static_grouped",
+      "rebind_grouped",
+      "rebind_grouped_additive"
+    ],
+    "additional_context_arms": [
+      "static_flat",
+      "rebind_flat"
+    ],
+    "selected_case_indices": [
+      0,
+      7,
+      5
+    ],
+    "scope": "Known-entity canonical C updates only, covering edited positions 0, 1, 2.",
+    "rule": "After inspecting completed development outputs, select one first-word partial reconstruction case, one all-grouped-target-hit middle-word improvement case, and one full-route stale-A third-word case. These are illustrative cases, not a random or representative sample."
+  },
+  "definitions": {
+    "first_mass": "Target-fact attention weight at the prefill final position predicting the first generated token.",
+    "decode_mass": "Arithmetic mean across subsequent actual free-generation prediction positions, including the EOS-prediction step when present.",
+    "word_correct": "Only an output with exactly three normalized words can receive per-position credit.",
+    "routing_scope": "Recorded generated-token trajectories; no alignment to gold word positions and no causal attribution from attention weights alone."
+  },
+  "limitations": [
+    "All selected C strict EM values are zero. Examples are not a replacement for complete per-arm/seed denominators or sealed gates.",
+    "The first three primary rows hold grouped lookup fixed while contrasting training regime/readout. Additive is an ineligible diagnostic, not a VeRA success.",
+    "Known/new entity datasets deliberately share payloads; these examples use only known entities and do not establish new-entity generalization.",
+    "Target fact mass near one proves recorded reads concentrate on that fact, not that its edited slot receives useful weight or its content is decoded correctly.",
+    "Decoding position masses include EOS and are not assigned to the gold first/second/third word."
+  ],
+  "examples": [
+    {
+      "seed": 81042,
+      "split": "known",
+      "part": "development",
+      "phase": "CC",
+      "row_index": 0,
+      "id": "qkv-9eee858a8a16778d509f5396",
+      "entity": "R713522fd90f2e8a1",
+      "question": "Reconstruct the stored content for entity R713522fd90f2e8a1.\n\nReturn only the stored three words in their original order. Do not add a label, quotes, or an explanation.",
+      "original_A": "basket granite badger",
+      "target_C": "candle granite badger",
+      "edited_word_index_zero_based": 0,
+      "actual_A_observation": "Entity R713522fd90f2e8a1 stores the content: basket granite badger.",
+      "actual_C_observation": "Entity R713522fd90f2e8a1 stores the content: candle granite badger.",
+      "teaching_point_zh": "多个结构输出了正确的新第一词，但未改动的两个词没有完整保留。",
+      "comparisons": {
+        "static_flat": {
+          "prediction": "candle prairie geranium",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            1,
+            0,
+            0
+          ],
+          "edited_word_correct": 1,
+          "both_unchanged_words_correct": 0,
+          "output_is_training_payload": false,
+          "output_is_old_A": false,
+          "first_target_fact_mass": 0.9855428636074066,
+          "decode_target_fact_mass_mean": 0.8451032811957097,
+          "decode_target_fact_mass_min": 0.22397494316101074,
+          "decode_target_fact_mass_max": 0.999925702197288,
+          "decode_target_fact_hits": 6,
+          "decode_queries": 6,
+          "first_fact_recall_at_1": 1,
+          "first_fact_recall_at_read": 1,
+          "first_edited_slot_mass": 0.6707966923713684,
+          "all_generation_edited_slot_mass_mean": 0.7879301650183541,
+          "generation_tokens": 7,
+          "generated_token_ids": [
+            66,
+            3316,
+            548,
+            74590,
+            17239,
+            34722,
+            151645
+          ],
+          "bank_hash": "a9f2e1bea49e35c7a8e9412e9db2a59aa2c86a95c34f726a7eeb2b844c11b8c3",
+          "actual_read_slots": 4,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 66,
+              "indices": [
+                [
+                  0,
+                  1,
+                  19,
+                  46
+                ]
+              ],
+              "weights": [
+                [
+                  0.6707966923713684,
+                  0.3147461712360382,
+                  0.010586326010525227,
+                  0.003870755434036255
+                ]
+              ],
+              "scores": [
+                [
+                  0.5041953325271606,
+                  0.46636033058166504,
+                  0.29675015807151794,
+                  0.2464444935321808
+                ]
+              ],
+              "target_slot_mass": [
+                0.6707966923713684,
+                0.3147461712360382,
+                0
+              ],
+              "target_fact_mass": 0.9855428636074066
+            },
+            {
+              "phase": "decode",
+              "token_id": 3316,
+              "indices": [
+                [
+                  0,
+                  3,
+                  21,
+                  15
+                ]
+              ],
+              "weights": [
+                [
+                  0.9916461110115051,
+                  0.0059928083792328835,
+                  0.0015510414959862828,
+                  0.0008099937695078552
+                ]
+              ],
+              "scores": [
+                [
+                  0.5248427391052246,
+                  0.2694024443626404,
+                  0.2018207609653473,
+                  0.16933798789978027
+                ]
+              ],
+              "target_slot_mass": [
+                0.9916461110115051,
+                0,
+                0
+              ],
+              "target_fact_mass": 0.9916461110115051
+            },
+            {
+              "phase": "decode",
+              "token_id": 548,
+              "indices": [
+                [
+                  0,
+                  21,
+                  1,
+                  36
+                ]
+              ],
+              "weights": [
+                [
+                  0.9998997449874878,
+                  5.616909766104072e-05,
+                  2.5957209800253622e-05,
+                  1.812724076444283e-05
+                ]
+              ],
+              "scores": [
+                [
+                  0.6559964418411255,
+                  0.16664424538612366,
+                  0.1280483901500702,
+                  0.11009669303894043
+                ]
+              ],
+              "target_slot_mass": [
+                0.9998997449874878,
+                2.5957209800253622e-05,
+                0
+              ],
+              "target_fact_mass": 0.999925702197288
+            },
+            {
+              "phase": "decode",
+              "token_id": 74590,
+              "indices": [
+                [
+                  0,
+                  36,
+                  16,
+                  22
+                ]
+              ],
+              "weights": [
+                [
+                  0.9608275890350342,
+                  0.030854251235723495,
+                  0.004590477328747511,
+                  0.0037276989314705133
+                ]
+              ],
+              "scores": [
+                [
+                  0.4352431893348694,
+                  0.26331716775894165,
+                  0.16805261373519897,
+                  0.15764299035072327
+                ]
+              ],
+              "target_slot_mass": [
+                0.9608275890350342,
+                0,
+                0
+              ],
+              "target_fact_mass": 0.9608275890350342
+            },
+            {
+              "phase": "decode",
+              "token_id": 17239,
+              "indices": [
+                [
+                  0,
+                  1,
+                  12,
+                  16
+                ]
+              ],
+              "weights": [
+                [
+                  0.995064914226532,
+                  0.0019043240463361144,
+                  0.001738194958306849,
+                  0.0012926515191793442
+                ]
+              ],
+              "scores": [
+                [
+                  0.5220737457275391,
+                  0.20913970470428467,
+                  0.20457571744918823,
+                  0.18976812064647675
+                ]
+              ],
+              "target_slot_mass": [
+                0.995064914226532,
+                0.0019043240463361144,
+                0
+              ],
+              "target_fact_mass": 0.9969692382728681
+            },
+            {
+              "phase": "decode",
+              "token_id": 34722,
+              "indices": [
+                [
+                  33,
+                  37,
+                  38,
+                  2
+                ]
+              ],
+              "weights": [
+                [
+                  0.2770504653453827,
+                  0.25427544116973877,
+                  0.24469923973083496,
+                  0.22397494316101074
+                ]
+              ],
+              "scores": [
+                [
+                  0.22037333250045776,
+                  0.21608424186706543,
+                  0.2141648232936859,
+                  0.2097400426864624
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0.22397494316101074
+              ],
+              "target_fact_mass": 0.22397494316101074
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  0,
+                  38,
+                  20,
+                  36
+                ]
+              ],
+              "weights": [
+                [
+                  0.8972761034965515,
+                  0.05447641760110855,
+                  0.028759025037288666,
+                  0.019488612189888954
+                ]
+              ],
+              "scores": [
+                [
+                  0.3874397873878479,
+                  0.2473599910736084,
+                  0.21541917324066162,
+                  0.19596311450004578
+                ]
+              ],
+              "target_slot_mass": [
+                0.8972761034965515,
+                0,
+                0
+              ],
+              "target_fact_mass": 0.8972761034965515
+            }
+          ],
+          "initial_A_prediction": "basket granite badger",
+          "initial_A_em": 1,
+          "restored_A_prediction": "basket granite badger",
+          "restored_A_em": 1,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "flat",
+            "readout": "vera",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/static_flat_seed81042_known_development/predictions.jsonl",
+            "updated_line": 97,
+            "initial_line": 1,
+            "restored_line": 99,
+            "checkpoint_sha256": "c4a1e4abb71f9e681e9bc6512b1e9e77763d0a2af0627dda4de37630b74105a0",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        },
+        "static_grouped": {
+          "prediction": "candle jade dolphin",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            1,
+            0,
+            0
+          ],
+          "edited_word_correct": 1,
+          "both_unchanged_words_correct": 0,
+          "output_is_training_payload": true,
+          "output_is_old_A": false,
+          "first_target_fact_mass": 1.0000000232830644,
+          "decode_target_fact_mass_mean": 1.00000002830825,
+          "decode_target_fact_mass_min": 0.9999999677884261,
+          "decode_target_fact_mass_max": 1.0000000948566594,
+          "decode_target_fact_hits": 4,
+          "decode_queries": 4,
+          "first_fact_recall_at_1": 1,
+          "first_fact_recall_at_read": 1,
+          "first_edited_slot_mass": 0.9955005049705505,
+          "all_generation_edited_slot_mass_mean": 0.9740147471427918,
+          "generation_tokens": 5,
+          "generated_token_ids": [
+            66,
+            3316,
+            85015,
+            98169,
+            151645
+          ],
+          "bank_hash": "526a6c47d20212f9ac6d425c184b4149e7fcc088f81d9caaefc6052775684308",
+          "actual_read_slots": 3,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 66,
+              "indices": [
+                [
+                  0,
+                  1,
+                  2
+                ]
+              ],
+              "weights": [
+                [
+                  0.9955005049705505,
+                  0.002274232218042016,
+                  0.0022252860944718122
+                ]
+              ],
+              "scores": [
+                [
+                  0.43255266547203064,
+                  0.12847253680229187,
+                  0.12738466262817383
+                ]
+              ],
+              "target_slot_mass": [
+                0.9955005049705505,
+                0.002274232218042016,
+                0.0022252860944718122
+              ],
+              "target_fact_mass": 1.0000000232830644
+            },
+            {
+              "phase": "decode",
+              "token_id": 3316,
+              "indices": [
+                [
+                  0,
+                  1,
+                  2
+                ]
+              ],
+              "weights": [
+                [
+                  0.9983483552932739,
+                  7.881408237153664e-05,
+                  0.0015729254810139537
+                ]
+              ],
+              "scores": [
+                [
+                  0.5067774057388306,
+                  0.034439101815223694,
+                  0.1841191202402115
+                ]
+              ],
+              "target_slot_mass": [
+                0.9983483552932739,
+                7.881408237153664e-05,
+                0.0015729254810139537
+              ],
+              "target_fact_mass": 1.0000000948566594
+            },
+            {
+              "phase": "decode",
+              "token_id": 85015,
+              "indices": [
+                [
+                  0,
+                  1,
+                  2
+                ]
+              ],
+              "weights": [
+                [
+                  0.9999655485153198,
+                  1.2047049494867679e-05,
+                  2.237222361145541e-05
+                ]
+              ],
+              "scores": [
+                [
+                  0.6380417943000793,
+                  0.07170894742012024,
+                  0.10265897214412689
+                ]
+              ],
+              "target_slot_mass": [
+                0.9999655485153198,
+                1.2047049494867679e-05,
+                2.237222361145541e-05
+              ],
+              "target_fact_mass": 0.9999999677884261
+            },
+            {
+              "phase": "decode",
+              "token_id": 98169,
+              "indices": [
+                [
+                  0,
+                  1,
+                  2
+                ]
+              ],
+              "weights": [
+                [
+                  0.9998169541358948,
+                  0.0001749706716509536,
+                  8.110879207379185e-06
+                ]
+              ],
+              "scores": [
+                [
+                  0.5567933320999146,
+                  0.1242578774690628,
+                  -0.02931274101138115
+                ]
+              ],
+              "target_slot_mass": [
+                0.9998169541358948,
+                0.0001749706716509536,
+                8.110879207379185e-06
+              ],
+              "target_fact_mass": 1.000000035686753
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  0,
+                  1,
+                  2
+                ]
+              ],
+              "weights": [
+                [
+                  0.8764423727989197,
+                  0.06838233023881912,
+                  0.055175311863422394
+                ]
+              ],
+              "scores": [
+                [
+                  0.33109983801841736,
+                  0.20356202125549316,
+                  0.1928320825099945
+                ]
+              ],
+              "target_slot_mass": [
+                0.8764423727989197,
+                0.06838233023881912,
+                0.055175311863422394
+              ],
+              "target_fact_mass": 1.0000000149011612
+            }
+          ],
+          "initial_A_prediction": "basket granite badger",
+          "initial_A_em": 1,
+          "restored_A_prediction": "basket granite badger",
+          "restored_A_em": 1,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "grouped",
+            "readout": "vera",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/static_grouped_seed81042_known_development/predictions.jsonl",
+            "updated_line": 97,
+            "initial_line": 1,
+            "restored_line": 99,
+            "checkpoint_sha256": "cb01ab09e20c08798a57f101803763764b9f9945448a6597a665226b63682e24",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        },
+        "rebind_flat": {
+          "prediction": "candle jade camel",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            1,
+            0,
+            0
+          ],
+          "edited_word_correct": 1,
+          "both_unchanged_words_correct": 0,
+          "output_is_training_payload": false,
+          "output_is_old_A": false,
+          "first_target_fact_mass": 0.9993972778320312,
+          "decode_target_fact_mass_mean": 0.6402860339730978,
+          "decode_target_fact_mass_min": 0.06754850596189499,
+          "decode_target_fact_mass_max": 0.9973676800727844,
+          "decode_target_fact_hits": 4,
+          "decode_queries": 4,
+          "first_fact_recall_at_1": 1,
+          "first_fact_recall_at_read": 1,
+          "first_edited_slot_mass": 0.9993972778320312,
+          "all_generation_edited_slot_mass_mean": 0.49886342138051987,
+          "generation_tokens": 5,
+          "generated_token_ids": [
+            66,
+            3316,
+            85015,
+            49152,
+            151645
+          ],
+          "bank_hash": "f798c1a9d61755de1d5c264b7439a2524742c9c32c7dbc1efc91cf8a7494d7be",
+          "actual_read_slots": 4,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 66,
+              "indices": [
+                [
+                  0,
+                  12,
+                  9,
+                  13
+                ]
+              ],
+              "weights": [
+                [
+                  0.9993972778320312,
+                  0.000470692670205608,
+                  7.405727228615433e-05,
+                  5.789464557892643e-05
+                ]
+              ],
+              "scores": [
+                [
+                  0.7405883073806763,
+                  0.3575531840324402,
+                  0.2650848627090454,
+                  0.2527741491794586
+                ]
+              ],
+              "target_slot_mass": [
+                0.9993972778320312,
+                0,
+                0
+              ],
+              "target_fact_mass": 0.9993972778320312
+            },
+            {
+              "phase": "decode",
+              "token_id": 3316,
+              "indices": [
+                [
+                  0,
+                  33,
+                  12,
+                  39
+                ]
+              ],
+              "weights": [
+                [
+                  0.9973676800727844,
+                  0.0012355338549241424,
+                  0.0010066861286759377,
+                  0.0003900967712979764
+                ]
+              ],
+              "scores": [
+                [
+                  0.6350997090339661,
+                  0.300418883562088,
+                  0.2901769280433655,
+                  0.24277570843696594
+                ]
+              ],
+              "target_slot_mass": [
+                0.9973676800727844,
+                0,
+                0
+              ],
+              "target_fact_mass": 0.9973676800727844
+            },
+            {
+              "phase": "decode",
+              "token_id": 85015,
+              "indices": [
+                [
+                  1,
+                  34,
+                  4,
+                  10
+                ]
+              ],
+              "weights": [
+                [
+                  0.9228163361549377,
+                  0.03273596614599228,
+                  0.0239051915705204,
+                  0.020542476326227188
+                ]
+              ],
+              "scores": [
+                [
+                  0.6340811252593994,
+                  0.4671333432197571,
+                  0.45141440629959106,
+                  0.4438343644142151
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0.9228163361549377,
+                0
+              ],
+              "target_fact_mass": 0.9228163361549377
+            },
+            {
+              "phase": "decode",
+              "token_id": 49152,
+              "indices": [
+                [
+                  0,
+                  10,
+                  1,
+                  34
+                ]
+              ],
+              "weights": [
+                [
+                  0.43000364303588867,
+                  0.2958209812641144,
+                  0.14340797066688538,
+                  0.13076753914356232
+                ]
+              ],
+              "scores": [
+                [
+                  0.36643511056900024,
+                  0.34773313999176025,
+                  0.31153008341789246,
+                  0.3069164752960205
+                ]
+              ],
+              "target_slot_mass": [
+                0.43000364303588867,
+                0.14340797066688538,
+                0
+              ],
+              "target_fact_mass": 0.573411613702774
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  11,
+                  12,
+                  0,
+                  45
+                ]
+              ],
+              "weights": [
+                [
+                  0.5688914060592651,
+                  0.307629257440567,
+                  0.06754850596189499,
+                  0.05593077465891838
+                ]
+              ],
+              "scores": [
+                [
+                  0.4200732111930847,
+                  0.3893335163593292,
+                  0.3135310411453247,
+                  0.30409449338912964
+                ]
+              ],
+              "target_slot_mass": [
+                0.06754850596189499,
+                0,
+                0
+              ],
+              "target_fact_mass": 0.06754850596189499
+            }
+          ],
+          "initial_A_prediction": "basket granite badger",
+          "initial_A_em": 1,
+          "restored_A_prediction": "basket granite badger",
+          "restored_A_em": 1,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "flat",
+            "readout": "vera",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/rebind_flat_seed81042_known_development/predictions.jsonl",
+            "updated_line": 97,
+            "initial_line": 1,
+            "restored_line": 99,
+            "checkpoint_sha256": "348eb3622bbb5d0f00bf7ccabfff59278af2e985b1d42894e4d31d5564ed80e6",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        },
+        "rebind_grouped": {
+          "prediction": "candle lagoon polaris",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            1,
+            0,
+            0
+          ],
+          "edited_word_correct": 1,
+          "both_unchanged_words_correct": 0,
+          "output_is_training_payload": false,
+          "output_is_old_A": false,
+          "first_target_fact_mass": 1.0000000957516022,
+          "decode_target_fact_mass_mean": 0.5000000053714757,
+          "decode_target_fact_mass_min": 0,
+          "decode_target_fact_mass_max": 1.0000000420077413,
+          "decode_target_fact_hits": 3,
+          "decode_queries": 6,
+          "first_fact_recall_at_1": 1,
+          "first_fact_recall_at_read": 1,
+          "first_edited_slot_mass": 0.0001550994929857552,
+          "all_generation_edited_slot_mass_mean": 0.0007194483410525468,
+          "generation_tokens": 7,
+          "generated_token_ids": [
+            66,
+            3316,
+            326,
+            67413,
+            24660,
+            285,
+            151645
+          ],
+          "bank_hash": "ca733ea14ca208c44b155eed4f4e34fed67cfd6cf965792bdde9dd25809afad1",
+          "actual_read_slots": 3,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 66,
+              "indices": [
+                [
+                  0,
+                  1,
+                  2
+                ]
+              ],
+              "weights": [
+                [
+                  0.0001550994929857552,
+                  0.9968165755271912,
+                  0.0030284207314252853
+                ]
+              ],
+              "scores": [
+                [
+                  0.0661339983344078,
+                  0.5045467615127563,
+                  0.2147204726934433
+                ]
+              ],
+              "target_slot_mass": [
+                0.0001550994929857552,
+                0.9968165755271912,
+                0.0030284207314252853
+              ],
+              "target_fact_mass": 1.0000000957516022
+            },
+            {
+              "phase": "decode",
+              "token_id": 3316,
+              "indices": [
+                [
+                  0,
+                  1,
+                  2
+                ]
+              ],
+              "weights": [
+                [
+                  0.004434071481227875,
+                  0.4379827380180359,
+                  0.5575831532478333
+                ]
+              ],
+              "scores": [
+                [
+                  0.11982697248458862,
+                  0.34947001934051514,
+                  0.36154162883758545
+                ]
+              ],
+              "target_slot_mass": [
+                0.004434071481227875,
+                0.4379827380180359,
+                0.5575831532478333
+              ],
+              "target_fact_mass": 0.999999962747097
+            },
+            {
+              "phase": "decode",
+              "token_id": 326,
+              "indices": [
+                [
+                  33,
+                  34,
+                  35
+                ]
+              ],
+              "weights": [
+                [
+                  0.009638728573918343,
+                  0.00013670466432813555,
+                  0.9902245402336121
+                ]
+              ],
+              "scores": [
+                [
+                  0.22557038068771362,
+                  0.012784305959939957,
+                  0.4571774899959564
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0
+              ],
+              "target_fact_mass": 0
+            },
+            {
+              "phase": "decode",
+              "token_id": 67413,
+              "indices": [
+                [
+                  12,
+                  13,
+                  14
+                ]
+              ],
+              "weights": [
+                [
+                  0.0004807585501112044,
+                  0.9874522089958191,
+                  0.012067001312971115
+                ]
+              ],
+              "scores": [
+                [
+                  0.013911614194512367,
+                  0.39528751373291016,
+                  0.17505484819412231
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0
+              ],
+              "target_fact_mass": 0
+            },
+            {
+              "phase": "decode",
+              "token_id": 24660,
+              "indices": [
+                [
+                  12,
+                  13,
+                  14
+                ]
+              ],
+              "weights": [
+                [
+                  0.0014466866850852966,
+                  0.9820775389671326,
+                  0.016475776210427284
+                ]
+              ],
+              "scores": [
+                [
+                  0.05430407449603081,
+                  0.3803237974643707,
+                  0.175934836268425
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0
+              ],
+              "target_fact_mass": 0
+            },
+            {
+              "phase": "decode",
+              "token_id": 285,
+              "indices": [
+                [
+                  0,
+                  1,
+                  2
+                ]
+              ],
+              "weights": [
+                [
+                  0.0004228479228913784,
+                  0.06958265602588654,
+                  0.929994523525238
+                ]
+              ],
+              "scores": [
+                [
+                  -0.00675409659743309,
+                  0.24840882420539856,
+                  0.37804198265075684
+                ]
+              ],
+              "target_slot_mass": [
+                0.0004228479228913784,
+                0.06958265602588654,
+                0.929994523525238
+              ],
+              "target_fact_mass": 1.000000027474016
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  0,
+                  1,
+                  2
+                ]
+              ],
+              "weights": [
+                [
+                  2.4119490262819454e-05,
+                  0.014559092931449413,
+                  0.985416829586029
+                ]
+              ],
+              "scores": [
+                [
+                  -0.138291135430336,
+                  0.1818564236164093,
+                  0.39259886741638184
+                ]
+              ],
+              "target_slot_mass": [
+                2.4119490262819454e-05,
+                0.014559092931449413,
+                0.985416829586029
+              ],
+              "target_fact_mass": 1.0000000420077413
+            }
+          ],
+          "initial_A_prediction": "basket granite badger",
+          "initial_A_em": 1,
+          "restored_A_prediction": "basket granite badger",
+          "restored_A_em": 1,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "grouped",
+            "readout": "vera",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/rebind_grouped_seed81042_known_development/predictions.jsonl",
+            "updated_line": 97,
+            "initial_line": 1,
+            "restored_line": 99,
+            "checkpoint_sha256": "8f060df9a2ae24c9a96b25492e8f457c7a3506d320db23fc84e5c95b9cc8ffee",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        },
+        "rebind_grouped_additive": {
+          "prediction": "candle granite dolphin",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            1,
+            1,
+            0
+          ],
+          "edited_word_correct": 1,
+          "both_unchanged_words_correct": 0,
+          "output_is_training_payload": false,
+          "output_is_old_A": false,
+          "first_target_fact_mass": 1.0000000094005372,
+          "decode_target_fact_mass_mean": 0.7499999720309213,
+          "decode_target_fact_mass_min": 0,
+          "decode_target_fact_mass_max": 0.9999999942126041,
+          "decode_target_fact_hits": 3,
+          "decode_queries": 4,
+          "first_fact_recall_at_1": 1,
+          "first_fact_recall_at_read": 1,
+          "first_edited_slot_mass": 0.9984741806983948,
+          "all_generation_edited_slot_mass_mean": 0.5965865229256451,
+          "generation_tokens": 5,
+          "generated_token_ids": [
+            66,
+            3316,
+            37290,
+            98169,
+            151645
+          ],
+          "bank_hash": "5d6335e365fcedf55291896c74c5aac074400a9379072016f51db063312edd72",
+          "actual_read_slots": 3,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 66,
+              "indices": [
+                [
+                  0,
+                  1,
+                  2
+                ]
+              ],
+              "weights": [
+                [
+                  0.9984741806983948,
+                  0.001304555218666792,
+                  0.00022127348347567022
+                ]
+              ],
+              "scores": [
+                [
+                  0.510093629360199,
+                  0.17807534337043762,
+                  0.0893644168972969
+                ]
+              ],
+              "target_slot_mass": [
+                0.9984741806983948,
+                0.001304555218666792,
+                0.00022127348347567022
+              ],
+              "target_fact_mass": 1.0000000094005372
+            },
+            {
+              "phase": "decode",
+              "token_id": 3316,
+              "indices": [
+                [
+                  0,
+                  1,
+                  2
+                ]
+              ],
+              "weights": [
+                [
+                  0.9812560677528381,
+                  0.018726250156760216,
+                  1.7655542251304723e-05
+                ]
+              ],
+              "scores": [
+                [
+                  0.6223785877227783,
+                  0.42443326115608215,
+                  0.0761016458272934
+                ]
+              ],
+              "target_slot_mass": [
+                0.9812560677528381,
+                0.018726250156760216,
+                1.7655542251304723e-05
+              ],
+              "target_fact_mass": 0.9999999734518497
+            },
+            {
+              "phase": "decode",
+              "token_id": 37290,
+              "indices": [
+                [
+                  0,
+                  1,
+                  2
+                ]
+              ],
+              "weights": [
+                [
+                  0.003853785339742899,
+                  0.9961462020874023,
+                  6.7854588614579825e-09
+                ]
+              ],
+              "scores": [
+                [
+                  0.48233431577682495,
+                  0.7600762248039246,
+                  -0.1801549196243286
+                ]
+              ],
+              "target_slot_mass": [
+                0.003853785339742899,
+                0.9961462020874023,
+                6.7854588614579825e-09
+              ],
+              "target_fact_mass": 0.9999999942126041
+            },
+            {
+              "phase": "decode",
+              "token_id": 98169,
+              "indices": [
+                [
+                  0,
+                  1,
+                  2
+                ]
+              ],
+              "weights": [
+                [
+                  0.9993485808372498,
+                  0.0003577296156436205,
+                  0.0002936100063379854
+                ]
+              ],
+              "scores": [
+                [
+                  0.5706836581230164,
+                  0.1739295870065689,
+                  0.16405335068702698
+                ]
+              ],
+              "target_slot_mass": [
+                0.9993485808372498,
+                0.0003577296156436205,
+                0.0002936100063379854
+              ],
+              "target_fact_mass": 0.9999999204592314
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  45,
+                  46,
+                  47
+                ]
+              ],
+              "weights": [
+                [
+                  4.992753019905649e-05,
+                  2.2776799596613273e-05,
+                  0.999927282333374
+                ]
+              ],
+              "scores": [
+                [
+                  -0.15881091356277466,
+                  -0.19805242121219635,
+                  0.3364323377609253
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0
+              ],
+              "target_fact_mass": 0
+            }
+          ],
+          "initial_A_prediction": "basket granite badger",
+          "initial_A_em": 1,
+          "restored_A_prediction": "basket granite badger",
+          "restored_A_em": 1,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "grouped",
+            "readout": "additive",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/rebind_grouped_additive_seed81042_known_development/predictions.jsonl",
+            "updated_line": 97,
+            "initial_line": 1,
+            "restored_line": 99,
+            "checkpoint_sha256": "af9e2f08f3d6196c2f1882f7c64b9694dec01f23ea04123b2cf54e9968cde09d",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        }
+      }
+    },
+    {
+      "seed": 81042,
+      "split": "known",
+      "part": "development",
+      "phase": "CC",
+      "row_index": 7,
+      "id": "qkv-c00c4e1033d23f3e7d188fcb",
+      "entity": "R0644eb450736a0a8",
+      "question": "Reconstruct the stored content for entity R0644eb450736a0a8.\n\nReturn only the stored three words in their original order. Do not add a label, quotes, or an explanation.",
+      "original_A": "mirror crystal badger",
+      "target_C": "mirror delta badger",
+      "edited_word_index_zero_based": 1,
+      "actual_A_observation": "Entity R0644eb450736a0a8 stores the content: mirror crystal badger.",
+      "actual_C_observation": "Entity R0644eb450736a0a8 stores the content: mirror delta badger.",
+      "teaching_point_zh": "同一目标在三个 grouped 臂全部生成位置都被检索到；rebind 与 additive 改对第二词，但第三词仍错。",
+      "comparisons": {
+        "static_flat": {
+          "prediction": "light amber rabbit",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            0,
+            0,
+            0
+          ],
+          "edited_word_correct": 0,
+          "both_unchanged_words_correct": 0,
+          "output_is_training_payload": false,
+          "output_is_old_A": false,
+          "first_target_fact_mass": 0.6898673474788666,
+          "decode_target_fact_mass_mean": 0.05194820215304693,
+          "decode_target_fact_mass_min": 0,
+          "decode_target_fact_mass_max": 0.11805697530508041,
+          "decode_target_fact_hits": 2,
+          "decode_queries": 3,
+          "first_fact_recall_at_1": 1,
+          "first_fact_recall_at_read": 1,
+          "first_edited_slot_mass": 0,
+          "all_generation_edited_slot_mass_mean": 0.009446907788515091,
+          "generation_tokens": 4,
+          "generated_token_ids": [
+            4145,
+            67605,
+            38724,
+            151645
+          ],
+          "bank_hash": "1eb94b76ef169bcfc2d4b00c3f57084c6bf34ac9e50ded46efb06828ed7e8607",
+          "actual_read_slots": 4,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 4145,
+              "indices": [
+                [
+                  23,
+                  21,
+                  43,
+                  26
+                ]
+              ],
+              "weights": [
+                [
+                  0.42425939440727234,
+                  0.26560795307159424,
+                  0.23725146055221558,
+                  0.07288117706775665
+                ]
+              ],
+              "scores": [
+                [
+                  0.35451817512512207,
+                  0.3311019837856293,
+                  0.3254569470882416,
+                  0.2664424479007721
+                ]
+              ],
+              "target_slot_mass": [
+                0.26560795307159424,
+                0,
+                0.42425939440727234
+              ],
+              "target_fact_mass": 0.6898673474788666
+            },
+            {
+              "phase": "decode",
+              "token_id": 67605,
+              "indices": [
+                [
+                  24,
+                  19,
+                  18,
+                  21
+                ]
+              ],
+              "weights": [
+                [
+                  0.5255645513534546,
+                  0.18259093165397644,
+                  0.17378747463226318,
+                  0.11805697530508041
+                ]
+              ],
+              "scores": [
+                [
+                  0.2891771197319031,
+                  0.23631587624549866,
+                  0.23384511470794678,
+                  0.21451182663440704
+                ]
+              ],
+              "target_slot_mass": [
+                0.11805697530508041,
+                0,
+                0
+              ],
+              "target_fact_mass": 0.11805697530508041
+            },
+            {
+              "phase": "decode",
+              "token_id": 38724,
+              "indices": [
+                [
+                  18,
+                  24,
+                  42,
+                  22
+                ]
+              ],
+              "weights": [
+                [
+                  0.6082124710083008,
+                  0.31442683935165405,
+                  0.03957308456301689,
+                  0.037787631154060364
+                ]
+              ],
+              "scores": [
+                [
+                  0.3666442632675171,
+                  0.33365562558174133,
+                  0.2300255000591278,
+                  0.22771713137626648
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0.037787631154060364,
+                0
+              ],
+              "target_fact_mass": 0.037787631154060364
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  20,
+                  26,
+                  0,
+                  35
+                ]
+              ],
+              "weights": [
+                [
+                  0.9159848093986511,
+                  0.03743460029363632,
+                  0.0362839475274086,
+                  0.010296689346432686
+                ]
+              ],
+              "scores": [
+                [
+                  0.5362770557403564,
+                  0.37640684843063354,
+                  0.37484583258628845,
+                  0.31186819076538086
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0
+              ],
+              "target_fact_mass": 0
+            }
+          ],
+          "initial_A_prediction": "mirror crystal badger",
+          "initial_A_em": 1,
+          "restored_A_prediction": "mirror crystal badger",
+          "restored_A_em": 1,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "flat",
+            "readout": "vera",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/static_flat_seed81042_known_development/predictions.jsonl",
+            "updated_line": 132,
+            "initial_line": 8,
+            "restored_line": 134,
+            "checkpoint_sha256": "c4a1e4abb71f9e681e9bc6512b1e9e77763d0a2af0627dda4de37630b74105a0",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        },
+        "static_grouped": {
+          "prediction": "mirror glass frame",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            1,
+            0,
+            0
+          ],
+          "edited_word_correct": 0,
+          "both_unchanged_words_correct": 0,
+          "output_is_training_payload": false,
+          "output_is_old_A": false,
+          "first_target_fact_mass": 0.9999999786041229,
+          "decode_target_fact_mass_mean": 1.0000000337774206,
+          "decode_target_fact_mass_min": 0.9999999993015081,
+          "decode_target_fact_mass_max": 1.0000000694344635,
+          "decode_target_fact_hits": 3,
+          "decode_queries": 3,
+          "first_fact_recall_at_1": 1,
+          "first_fact_recall_at_read": 1,
+          "first_edited_slot_mass": 7.033939652956178e-08,
+          "all_generation_edited_slot_mass_mean": 0.002400989954136179,
+          "generation_tokens": 4,
+          "generated_token_ids": [
+            73225,
+            8991,
+            4034,
+            151645
+          ],
+          "bank_hash": "715c12bca4776bc645d1cee92cfef0b9d14c6a6b7fce0849e07b305bf527d35c",
+          "actual_read_slots": 3,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 73225,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  0.9971951246261597,
+                  7.033939652956178e-08,
+                  0.0028047836385667324
+                ]
+              ],
+              "scores": [
+                [
+                  0.6238011717796326,
+                  -0.19955506920814514,
+                  0.33012017607688904
+                ]
+              ],
+              "target_slot_mass": [
+                0.9971951246261597,
+                7.033939652956178e-08,
+                0.0028047836385667324
+              ],
+              "target_fact_mass": 0.9999999786041229
+            },
+            {
+              "phase": "decode",
+              "token_id": 8991,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  0.011152039282023907,
+                  9.02410174603574e-05,
+                  0.9887577891349792
+                ]
+              ],
+              "scores": [
+                [
+                  0.49451133608818054,
+                  0.25366663932800293,
+                  0.7187526822090149
+                ]
+              ],
+              "target_slot_mass": [
+                0.011152039282023907,
+                9.02410174603574e-05,
+                0.9887577891349792
+              ],
+              "target_fact_mass": 1.0000000694344635
+            },
+            {
+              "phase": "decode",
+              "token_id": 4034,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  0.2859008014202118,
+                  0.002029507653787732,
+                  0.7120696902275085
+                ]
+              ],
+              "scores": [
+                [
+                  0.44712650775909424,
+                  0.1997338980436325,
+                  0.4927530586719513
+                ]
+              ],
+              "target_slot_mass": [
+                0.2859008014202118,
+                0.002029507653787732,
+                0.7120696902275085
+              ],
+              "target_fact_mass": 0.9999999993015081
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  0.3691674768924713,
+                  0.007484140805900097,
+                  0.6233484148979187
+                ]
+              ],
+              "scores": [
+                [
+                  0.3809499740600586,
+                  0.18602678179740906,
+                  0.4071427285671234
+                ]
+              ],
+              "target_slot_mass": [
+                0.3691674768924713,
+                0.007484140805900097,
+                0.6233484148979187
+              ],
+              "target_fact_mass": 1.0000000325962901
+            }
+          ],
+          "initial_A_prediction": "mirror crystal badger",
+          "initial_A_em": 1,
+          "restored_A_prediction": "mirror crystal badger",
+          "restored_A_em": 1,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "grouped",
+            "readout": "vera",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/static_grouped_seed81042_known_development/predictions.jsonl",
+            "updated_line": 132,
+            "initial_line": 8,
+            "restored_line": 134,
+            "checkpoint_sha256": "cb01ab09e20c08798a57f101803763764b9f9945448a6597a665226b63682e24",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        },
+        "rebind_flat": {
+          "prediction": "mirror delta cougar",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            1,
+            1,
+            0
+          ],
+          "edited_word_correct": 1,
+          "both_unchanged_words_correct": 0,
+          "output_is_training_payload": true,
+          "output_is_old_A": false,
+          "first_target_fact_mass": 0.9937981963157654,
+          "decode_target_fact_mass_mean": 0.9196291814247767,
+          "decode_target_fact_mass_min": 0.7873260378837585,
+          "decode_target_fact_mass_max": 0.9878318905830383,
+          "decode_target_fact_hits": 3,
+          "decode_queries": 3,
+          "first_fact_recall_at_1": 1,
+          "first_fact_recall_at_read": 1,
+          "first_edited_slot_mass": 0,
+          "all_generation_edited_slot_mass_mean": 0.49127717316150665,
+          "generation_tokens": 4,
+          "generated_token_ids": [
+            73225,
+            9477,
+            47091,
+            151645
+          ],
+          "bank_hash": "24a5ac26c49f3d54644efc7ab7eb6ecf566b2bbfdb9e27a21466526855c3eec1",
+          "actual_read_slots": 4,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 73225,
+              "indices": [
+                [
+                  21,
+                  0,
+                  18,
+                  4
+                ]
+              ],
+              "weights": [
+                [
+                  0.9937981963157654,
+                  0.005311682354658842,
+                  0.0004984606057405472,
+                  0.00039161817403510213
+                ]
+              ],
+              "scores": [
+                [
+                  0.6729053258895874,
+                  0.41132405400276184,
+                  0.29301705956459045,
+                  0.2809551954269409
+                ]
+              ],
+              "target_slot_mass": [
+                0.9937981963157654,
+                0,
+                0
+              ],
+              "target_fact_mass": 0.9937981963157654
+            },
+            {
+              "phase": "decode",
+              "token_id": 9477,
+              "indices": [
+                [
+                  22,
+                  37,
+                  10,
+                  43
+                ]
+              ],
+              "weights": [
+                [
+                  0.9878318905830383,
+                  0.006914069410413504,
+                  0.002643573796376586,
+                  0.0026104762218892574
+                ]
+              ],
+              "scores": [
+                [
+                  0.7492187023162842,
+                  0.5011209845542908,
+                  0.4530496597290039,
+                  0.4524196982383728
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0.9878318905830383,
+                0
+              ],
+              "target_fact_mass": 0.9878318905830383
+            },
+            {
+              "phase": "decode",
+              "token_id": 47091,
+              "indices": [
+                [
+                  22,
+                  40,
+                  1,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  0.9772768020629883,
+                  0.008379331789910793,
+                  0.007891030050814152,
+                  0.006452813744544983
+                ]
+              ],
+              "scores": [
+                [
+                  0.6476479172706604,
+                  0.40969783067703247,
+                  0.40669575333595276,
+                  0.3966352343559265
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0.9772768020629883,
+                0.006452813744544983
+              ],
+              "target_fact_mass": 0.9837296158075333
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  23,
+                  38,
+                  37,
+                  0
+                ]
+              ],
+              "weights": [
+                [
+                  0.7873260378837585,
+                  0.13779057562351227,
+                  0.06441887468099594,
+                  0.01046452485024929
+                ]
+              ],
+              "scores": [
+                [
+                  0.5425300598144531,
+                  0.4553847014904022,
+                  0.4173682630062103,
+                  0.32649749517440796
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0.7873260378837585
+              ],
+              "target_fact_mass": 0.7873260378837585
+            }
+          ],
+          "initial_A_prediction": "mirror crystal eagle",
+          "initial_A_em": 0,
+          "restored_A_prediction": "mirror crystal eagle",
+          "restored_A_em": 0,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "flat",
+            "readout": "vera",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/rebind_flat_seed81042_known_development/predictions.jsonl",
+            "updated_line": 132,
+            "initial_line": 8,
+            "restored_line": 134,
+            "checkpoint_sha256": "348eb3622bbb5d0f00bf7ccabfff59278af2e985b1d42894e4d31d5564ed80e6",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        },
+        "rebind_grouped": {
+          "prediction": "mirror delta cougar",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            1,
+            1,
+            0
+          ],
+          "edited_word_correct": 1,
+          "both_unchanged_words_correct": 0,
+          "output_is_training_payload": true,
+          "output_is_old_A": false,
+          "first_target_fact_mass": 1.000000024214387,
+          "decode_target_fact_mass_mean": 0.9999999842172352,
+          "decode_target_fact_mass_min": 0.9999999374012987,
+          "decode_target_fact_mass_max": 1.0000000508734956,
+          "decode_target_fact_hits": 3,
+          "decode_queries": 3,
+          "first_fact_recall_at_1": 1,
+          "first_fact_recall_at_read": 1,
+          "first_edited_slot_mass": 0.967488706111908,
+          "all_generation_edited_slot_mass_mean": 0.4722754102185718,
+          "generation_tokens": 4,
+          "generated_token_ids": [
+            73225,
+            9477,
+            47091,
+            151645
+          ],
+          "bank_hash": "c8b91ae819c311941a1ce3375e30deb1f77f7c33b486ff02de3f0acb0519082f",
+          "actual_read_slots": 3,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 73225,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  0.001026039943099022,
+                  0.967488706111908,
+                  0.03148527815937996
+                ]
+              ],
+              "scores": [
+                [
+                  0.030818533152341843,
+                  0.37326839566230774,
+                  0.20200921595096588
+                ]
+              ],
+              "target_slot_mass": [
+                0.001026039943099022,
+                0.967488706111908,
+                0.03148527815937996
+              ],
+              "target_fact_mass": 1.000000024214387
+            },
+            {
+              "phase": "decode",
+              "token_id": 9477,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  1.638493631617166e-05,
+                  4.2918691178783774e-05,
+                  0.9999406337738037
+                ]
+              ],
+              "scores": [
+                [
+                  0.03365142643451691,
+                  0.08179868757724762,
+                  0.584605872631073
+                ]
+              ],
+              "target_slot_mass": [
+                1.638493631617166e-05,
+                4.2918691178783774e-05,
+                0.9999406337738037
+              ],
+              "target_fact_mass": 0.9999999374012987
+            },
+            {
+              "phase": "decode",
+              "token_id": 47091,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  0.0006768943276256323,
+                  0.9160438179969788,
+                  0.08327925205230713
+                ]
+              ],
+              "scores": [
+                [
+                  0.12170006334781647,
+                  0.4822152554988861,
+                  0.36232203245162964
+                ]
+              ],
+              "target_slot_mass": [
+                0.0006768943276256323,
+                0.9160438179969788,
+                0.08327925205230713
+              ],
+              "target_fact_mass": 0.9999999643769115
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  0.0001446983078494668,
+                  0.005526198074221611,
+                  0.9943291544914246
+                ]
+              ],
+              "scores": [
+                [
+                  -0.008117225021123886,
+                  0.17401297390460968,
+                  0.43364137411117554
+                ]
+              ],
+              "target_slot_mass": [
+                0.0001446983078494668,
+                0.005526198074221611,
+                0.9943291544914246
+              ],
+              "target_fact_mass": 1.0000000508734956
+            }
+          ],
+          "initial_A_prediction": "mirror crystal badger",
+          "initial_A_em": 1,
+          "restored_A_prediction": "mirror crystal badger",
+          "restored_A_em": 1,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "grouped",
+            "readout": "vera",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/rebind_grouped_seed81042_known_development/predictions.jsonl",
+            "updated_line": 132,
+            "initial_line": 8,
+            "restored_line": 134,
+            "checkpoint_sha256": "8f060df9a2ae24c9a96b25492e8f457c7a3506d320db23fc84e5c95b9cc8ffee",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        },
+        "rebind_grouped_additive": {
+          "prediction": "mirror delta cougar",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            1,
+            1,
+            0
+          ],
+          "edited_word_correct": 1,
+          "both_unchanged_words_correct": 0,
+          "output_is_training_payload": true,
+          "output_is_old_A": false,
+          "first_target_fact_mass": 1.0000000571017154,
+          "decode_target_fact_mass_mean": 0.999999964182886,
+          "decode_target_fact_mass_min": 0.9999999511055648,
+          "decode_target_fact_mass_max": 0.9999999861465767,
+          "decode_target_fact_hits": 3,
+          "decode_queries": 3,
+          "first_fact_recall_at_1": 1,
+          "first_fact_recall_at_read": 1,
+          "first_edited_slot_mass": 0.0009378244285471737,
+          "all_generation_edited_slot_mass_mean": 0.24184777947084513,
+          "generation_tokens": 4,
+          "generated_token_ids": [
+            73225,
+            9477,
+            47091,
+            151645
+          ],
+          "bank_hash": "870a9cda0374f2662c7b99e5413cf63a55be5af2f86d2e36441bd5d0876d2d62",
+          "actual_read_slots": 3,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 73225,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  0.9272446632385254,
+                  0.0009378244285471737,
+                  0.07181756943464279
+                ]
+              ],
+              "scores": [
+                [
+                  0.4034321904182434,
+                  0.058611687272787094,
+                  0.2755277752876282
+                ]
+              ],
+              "target_slot_mass": [
+                0.9272446632385254,
+                0.0009378244285471737,
+                0.07181756943464279
+              ],
+              "target_fact_mass": 1.0000000571017154
+            },
+            {
+              "phase": "decode",
+              "token_id": 9477,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  0.023674024268984795,
+                  0.9618042707443237,
+                  0.014521660283207893
+                ]
+              ],
+              "scores": [
+                [
+                  0.4762116074562073,
+                  0.661433219909668,
+                  0.4517747461795807
+                ]
+              ],
+              "target_slot_mass": [
+                0.023674024268984795,
+                0.9618042707443237,
+                0.014521660283207893
+              ],
+              "target_fact_mass": 0.9999999552965164
+            },
+            {
+              "phase": "decode",
+              "token_id": 47091,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  0.9826767444610596,
+                  0.001869707484729588,
+                  0.015453534200787544
+                ]
+              ],
+              "scores": [
+                [
+                  0.5538513660430908,
+                  0.24062645435333252,
+                  0.3462292551994324
+                ]
+              ],
+              "target_slot_mass": [
+                0.9826767444610596,
+                0.001869707484729588,
+                0.015453534200787544
+              ],
+              "target_fact_mass": 0.9999999861465767
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  0.007647455204278231,
+                  0.0027793152257800102,
+                  0.9895731806755066
+                ]
+              ],
+              "scores": [
+                [
+                  0.2890525460243225,
+                  0.23844411969184875,
+                  0.5321975946426392
+                ]
+              ],
+              "target_slot_mass": [
+                0.007647455204278231,
+                0.0027793152257800102,
+                0.9895731806755066
+              ],
+              "target_fact_mass": 0.9999999511055648
+            }
+          ],
+          "initial_A_prediction": "mirror crystal badger",
+          "initial_A_em": 1,
+          "restored_A_prediction": "mirror crystal badger",
+          "restored_A_em": 1,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "grouped",
+            "readout": "additive",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/rebind_grouped_additive_seed81042_known_development/predictions.jsonl",
+            "updated_line": 132,
+            "initial_line": 8,
+            "restored_line": 134,
+            "checkpoint_sha256": "af9e2f08f3d6196c2f1882f7c64b9694dec01f23ea04123b2cf54e9968cde09d",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        }
+      }
+    },
+    {
+      "seed": 81042,
+      "split": "known",
+      "part": "development",
+      "phase": "CC",
+      "row_index": 5,
+      "id": "qkv-13ace99c7f05e74097451310",
+      "entity": "R770f7d56c7f339c5",
+      "question": "Reconstruct the stored content for entity R770f7d56c7f339c5.\n\nReturn only the stored three words in their original order. Do not add a label, quotes, or an explanation.",
+      "original_A": "lemon birch goose",
+      "target_C": "lemon birch dolphin",
+      "edited_word_index_zero_based": 2,
+      "actual_A_observation": "Entity R770f7d56c7f339c5 stores the content: lemon birch goose.",
+      "actual_C_observation": "Entity R770f7d56c7f339c5 stores the content: lemon birch dolphin.",
+      "teaching_point_zh": "固定绑定与 additive 全程检索目标且仍输出旧 A；rebind 此例未检索目标，展示两种不同失败路径。",
+      "comparisons": {
+        "static_flat": {
+          "prediction": "lemon birch goose",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            1,
+            1,
+            0
+          ],
+          "edited_word_correct": 0,
+          "both_unchanged_words_correct": 1,
+          "output_is_training_payload": true,
+          "output_is_old_A": true,
+          "first_target_fact_mass": 0.9993175253621303,
+          "decode_target_fact_mass_mean": 0.9516181694423722,
+          "decode_target_fact_mass_min": 0.7583677545189857,
+          "decode_target_fact_mass_max": 0.9999663734342903,
+          "decode_target_fact_hits": 5,
+          "decode_queries": 5,
+          "first_fact_recall_at_1": 1,
+          "first_fact_recall_at_read": 1,
+          "first_edited_slot_mass": 0,
+          "all_generation_edited_slot_mass_mean": 0.0092181625465552,
+          "generation_tokens": 6,
+          "generated_token_ids": [
+            273,
+            1645,
+            15248,
+            331,
+            62137,
+            151645
+          ],
+          "bank_hash": "ff8d0e82b5f35c52c920974a84ce7bf75e8e328a1796b2cb49ea9e70108d90b4",
+          "actual_read_slots": 4,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 273,
+              "indices": [
+                [
+                  16,
+                  15,
+                  27,
+                  3
+                ]
+              ],
+              "weights": [
+                [
+                  0.9987020492553711,
+                  0.0006154761067591608,
+                  0.00044091467862017453,
+                  0.00024153092817869037
+                ]
+              ],
+              "scores": [
+                [
+                  0.658001184463501,
+                  0.28841039538383484,
+                  0.2717331647872925,
+                  0.24164047837257385
+                ]
+              ],
+              "target_slot_mass": [
+                0.0006154761067591608,
+                0.9987020492553711,
+                0
+              ],
+              "target_fact_mass": 0.9993175253621303
+            },
+            {
+              "phase": "decode",
+              "token_id": 1645,
+              "indices": [
+                [
+                  15,
+                  16,
+                  3,
+                  22
+                ]
+              ],
+              "weights": [
+                [
+                  0.9998668432235718,
+                  7.417379674734548e-05,
+                  5.099446207168512e-05,
+                  8.020876521186437e-06
+                ]
+              ],
+              "scores": [
+                [
+                  0.7218591570854187,
+                  0.24641083180904388,
+                  0.2276761531829834,
+                  0.13519269227981567
+                ]
+              ],
+              "target_slot_mass": [
+                0.9998668432235718,
+                7.417379674734548e-05,
+                0
+              ],
+              "target_fact_mass": 0.9999410170203191
+            },
+            {
+              "phase": "decode",
+              "token_id": 15248,
+              "indices": [
+                [
+                  15,
+                  24,
+                  3,
+                  16
+                ]
+              ],
+              "weights": [
+                [
+                  0.9998366832733154,
+                  0.00010476118768565357,
+                  3.3390191674698144e-05,
+                  2.509924888727255e-05
+                ]
+              ],
+              "scores": [
+                [
+                  0.690516471862793,
+                  0.23233327269554138,
+                  0.17516222596168518,
+                  0.16089099645614624
+                ]
+              ],
+              "target_slot_mass": [
+                0.9998366832733154,
+                2.509924888727255e-05,
+                0
+              ],
+              "target_fact_mass": 0.9998617825222027
+            },
+            {
+              "phase": "decode",
+              "token_id": 331,
+              "indices": [
+                [
+                  15,
+                  16,
+                  3,
+                  7
+                ]
+              ],
+              "weights": [
+                [
+                  0.9995061159133911,
+                  0.0004602575208991766,
+                  2.8347976694931276e-05,
+                  5.197525752009824e-06
+                ]
+              ],
+              "scores": [
+                [
+                  0.7430504560470581,
+                  0.3588889241218567,
+                  0.21952742338180542,
+                  0.13470874726772308
+                ]
+              ],
+              "target_slot_mass": [
+                0.9995061159133911,
+                0.0004602575208991766,
+                0
+              ],
+              "target_fact_mass": 0.9999663734342903
+            },
+            {
+              "phase": "decode",
+              "token_id": 62137,
+              "indices": [
+                [
+                  15,
+                  16,
+                  40,
+                  22
+                ]
+              ],
+              "weights": [
+                [
+                  0.9997801184654236,
+                  0.00017380125063937157,
+                  2.6352741770097055e-05,
+                  1.9836170395137742e-05
+                ]
+              ],
+              "scores": [
+                [
+                  0.7607861757278442,
+                  0.3279172480106354,
+                  0.23360027372837067,
+                  0.2193969488143921
+                ]
+              ],
+              "target_slot_mass": [
+                0.9997801184654236,
+                0.00017380125063937157,
+                0
+              ],
+              "target_fact_mass": 0.999953919716063
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  15,
+                  35,
+                  17,
+                  11
+                ]
+              ],
+              "weights": [
+                [
+                  0.7030587792396545,
+                  0.19343625009059906,
+                  0.05530897527933121,
+                  0.048195961862802505
+                ]
+              ],
+              "scores": [
+                [
+                  0.34911856055259705,
+                  0.28459393978118896,
+                  0.2219933122396469,
+                  0.21511031687259674
+                ]
+              ],
+              "target_slot_mass": [
+                0.7030587792396545,
+                0,
+                0.05530897527933121
+              ],
+              "target_fact_mass": 0.7583677545189857
+            }
+          ],
+          "initial_A_prediction": "lemon birch goose",
+          "initial_A_em": 1,
+          "restored_A_prediction": "lemon birch goose",
+          "restored_A_em": 1,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "flat",
+            "readout": "vera",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/static_flat_seed81042_known_development/predictions.jsonl",
+            "updated_line": 122,
+            "initial_line": 6,
+            "restored_line": 124,
+            "checkpoint_sha256": "c4a1e4abb71f9e681e9bc6512b1e9e77763d0a2af0627dda4de37630b74105a0",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        },
+        "static_grouped": {
+          "prediction": "lemon birch goose",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            1,
+            1,
+            0
+          ],
+          "edited_word_correct": 0,
+          "both_unchanged_words_correct": 1,
+          "output_is_training_payload": true,
+          "output_is_old_A": true,
+          "first_target_fact_mass": 1.0000000192958396,
+          "decode_target_fact_mass_mean": 1.000000006804656,
+          "decode_target_fact_mass_min": 0.9999999753058493,
+          "decode_target_fact_mass_max": 1.0000000522013295,
+          "decode_target_fact_hits": 5,
+          "decode_queries": 5,
+          "first_fact_recall_at_1": 1,
+          "first_fact_recall_at_read": 1,
+          "first_edited_slot_mass": 1.656121457926929e-05,
+          "all_generation_edited_slot_mass_mean": 0.006833816011141636,
+          "generation_tokens": 6,
+          "generated_token_ids": [
+            273,
+            1645,
+            15248,
+            331,
+            62137,
+            151645
+          ],
+          "bank_hash": "2902458933752b59cb6dda0347cd67a242a760709d141b9d04d716c75d6430ff",
+          "actual_read_slots": 3,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 273,
+              "indices": [
+                [
+                  15,
+                  16,
+                  17
+                ]
+              ],
+              "weights": [
+                [
+                  0.00035765604116022587,
+                  0.9996258020401001,
+                  1.656121457926929e-05
+                ]
+              ],
+              "scores": [
+                [
+                  0.24432982504367828,
+                  0.6411080360412598,
+                  0.09070438146591187
+                ]
+              ],
+              "target_slot_mass": [
+                0.00035765604116022587,
+                0.9996258020401001,
+                1.656121457926929e-05
+              ],
+              "target_fact_mass": 1.0000000192958396
+            },
+            {
+              "phase": "decode",
+              "token_id": 1645,
+              "indices": [
+                [
+                  15,
+                  16,
+                  17
+                ]
+              ],
+              "weights": [
+                [
+                  0.9999916553497314,
+                  8.318013897223864e-06,
+                  3.935130443721846e-09
+                ]
+              ],
+              "scores": [
+                [
+                  0.7301701307296753,
+                  0.1453161984682083,
+                  -0.2374955266714096
+                ]
+              ],
+              "target_slot_mass": [
+                0.9999916553497314,
+                8.318013897223864e-06,
+                3.935130443721846e-09
+              ],
+              "target_fact_mass": 0.9999999772987591
+            },
+            {
+              "phase": "decode",
+              "token_id": 15248,
+              "indices": [
+                [
+                  15,
+                  16,
+                  17
+                ]
+              ],
+              "weights": [
+                [
+                  0.9999960660934448,
+                  3.951607141061686e-06,
+                  9.770526609997887e-09
+                ]
+              ],
+              "scores": [
+                [
+                  0.7261446714401245,
+                  0.10407543927431107,
+                  -0.19604994356632233
+                ]
+              ],
+              "target_slot_mass": [
+                0.9999960660934448,
+                3.951607141061686e-06,
+                9.770526609997887e-09
+              ],
+              "target_fact_mass": 1.0000000274711125
+            },
+            {
+              "phase": "decode",
+              "token_id": 331,
+              "indices": [
+                [
+                  15,
+                  16,
+                  17
+                ]
+              ],
+              "weights": [
+                [
+                  0.9999755620956421,
+                  2.43603117269231e-05,
+                  1.2979396046830516e-07
+                ]
+              ],
+              "scores": [
+                [
+                  0.7554252743721008,
+                  0.22429871559143066,
+                  -0.037439391016960144
+                ]
+              ],
+              "target_slot_mass": [
+                0.9999755620956421,
+                2.43603117269231e-05,
+                1.2979396046830516e-07
+              ],
+              "target_fact_mass": 1.0000000522013295
+            },
+            {
+              "phase": "decode",
+              "token_id": 62137,
+              "indices": [
+                [
+                  15,
+                  16,
+                  17
+                ]
+              ],
+              "weights": [
+                [
+                  0.9999866485595703,
+                  1.3323149687494151e-05,
+                  3.5965914690905265e-09
+                ]
+              ],
+              "scores": [
+                [
+                  0.7943194508552551,
+                  0.23301975429058075,
+                  -0.17784383893013
+                ]
+              ],
+              "target_slot_mass": [
+                0.9999866485595703,
+                1.3323149687494151e-05,
+                3.5965914690905265e-09
+              ],
+              "target_fact_mass": 0.9999999753058493
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  15,
+                  16,
+                  17
+                ]
+              ],
+              "weights": [
+                [
+                  0.9573817849159241,
+                  0.0016320290742442012,
+                  0.040986187756061554
+                ]
+              ],
+              "scores": [
+                [
+                  0.24641206860542297,
+                  -0.07230683416128159,
+                  0.08886371552944183
+                ]
+              ],
+              "target_slot_mass": [
+                0.9573817849159241,
+                0.0016320290742442012,
+                0.040986187756061554
+              ],
+              "target_fact_mass": 1.0000000017462298
+            }
+          ],
+          "initial_A_prediction": "lemon birch goose",
+          "initial_A_em": 1,
+          "restored_A_prediction": "lemon birch goose",
+          "restored_A_em": 1,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "grouped",
+            "readout": "vera",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/static_grouped_seed81042_known_development/predictions.jsonl",
+            "updated_line": 122,
+            "initial_line": 6,
+            "restored_line": 124,
+            "checkpoint_sha256": "cb01ab09e20c08798a57f101803763764b9f9945448a6597a665226b63682e24",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        },
+        "rebind_flat": {
+          "prediction": "mirror crystal eagle",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            0,
+            0,
+            0
+          ],
+          "edited_word_correct": 0,
+          "both_unchanged_words_correct": 0,
+          "output_is_training_payload": true,
+          "output_is_old_A": false,
+          "first_target_fact_mass": 0.1573545541614294,
+          "decode_target_fact_mass_mean": 0.0,
+          "decode_target_fact_mass_min": 0,
+          "decode_target_fact_mass_max": 0,
+          "decode_target_fact_hits": 0,
+          "decode_queries": 3,
+          "first_fact_recall_at_1": 0,
+          "first_fact_recall_at_read": 1,
+          "first_edited_slot_mass": 0,
+          "all_generation_edited_slot_mass_mean": 0.0,
+          "generation_tokens": 4,
+          "generated_token_ids": [
+            73225,
+            25055,
+            59889,
+            151645
+          ],
+          "bank_hash": "fc4ea69a2234aa916dc0f461f1b2e7e35e8da906aa5c57284d9f193ae55b9e61",
+          "actual_read_slots": 4,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 73225,
+              "indices": [
+                [
+                  21,
+                  15,
+                  16,
+                  7
+                ]
+              ],
+              "weights": [
+                [
+                  0.8242021203041077,
+                  0.13456976413726807,
+                  0.02278479002416134,
+                  0.01844337210059166
+                ]
+              ],
+              "scores": [
+                [
+                  0.4848616123199463,
+                  0.3942449688911438,
+                  0.30544549226760864,
+                  0.2948760688304901
+                ]
+              ],
+              "target_slot_mass": [
+                0.13456976413726807,
+                0.02278479002416134,
+                0
+              ],
+              "target_fact_mass": 0.1573545541614294
+            },
+            {
+              "phase": "decode",
+              "token_id": 25055,
+              "indices": [
+                [
+                  22,
+                  43,
+                  37,
+                  10
+                ]
+              ],
+              "weights": [
+                [
+                  0.9941049218177795,
+                  0.0020975361112505198,
+                  0.002015842357650399,
+                  0.001781713217496872
+                ]
+              ],
+              "scores": [
+                [
+                  0.7580612897872925,
+                  0.4500073194503784,
+                  0.4480209946632385,
+                  0.44184792041778564
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0
+              ],
+              "target_fact_mass": 0
+            },
+            {
+              "phase": "decode",
+              "token_id": 59889,
+              "indices": [
+                [
+                  22,
+                  40,
+                  10,
+                  43
+                ]
+              ],
+              "weights": [
+                [
+                  0.7990139722824097,
+                  0.16651666164398193,
+                  0.01963542215526104,
+                  0.014834024012088776
+                ]
+              ],
+              "scores": [
+                [
+                  0.612006664276123,
+                  0.5335925221443176,
+                  0.4267045259475708,
+                  0.41268390417099
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0
+              ],
+              "target_fact_mass": 0
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  23,
+                  20,
+                  45,
+                  36
+                ]
+              ],
+              "weights": [
+                [
+                  0.6554083824157715,
+                  0.31577083468437195,
+                  0.01799135096371174,
+                  0.010829481296241283
+                ]
+              ],
+              "scores": [
+                [
+                  0.40763920545578003,
+                  0.3711271286010742,
+                  0.2278708517551422,
+                  0.20248989760875702
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0
+              ],
+              "target_fact_mass": 0
+            }
+          ],
+          "initial_A_prediction": "mirror crystal eagle",
+          "initial_A_em": 0,
+          "restored_A_prediction": "mirror crystal eagle",
+          "restored_A_em": 0,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "flat",
+            "readout": "vera",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/rebind_flat_seed81042_known_development/predictions.jsonl",
+            "updated_line": 122,
+            "initial_line": 6,
+            "restored_line": 124,
+            "checkpoint_sha256": "348eb3622bbb5d0f00bf7ccabfff59278af2e985b1d42894e4d31d5564ed80e6",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        },
+        "rebind_grouped": {
+          "prediction": "mirror crystal badger",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            0,
+            0,
+            0
+          ],
+          "edited_word_correct": 0,
+          "both_unchanged_words_correct": 0,
+          "output_is_training_payload": true,
+          "output_is_old_A": false,
+          "first_target_fact_mass": 0,
+          "decode_target_fact_mass_mean": 0.0,
+          "decode_target_fact_mass_min": 0,
+          "decode_target_fact_mass_max": 0,
+          "decode_target_fact_hits": 0,
+          "decode_queries": 4,
+          "first_fact_recall_at_1": 0,
+          "first_fact_recall_at_read": 0,
+          "first_edited_slot_mass": 0,
+          "all_generation_edited_slot_mass_mean": 0.0,
+          "generation_tokens": 5,
+          "generated_token_ids": [
+            73225,
+            25055,
+            3873,
+            1389,
+            151645
+          ],
+          "bank_hash": "25b97f0f69a92c233ccb281adbf81dee15149390318123af334247f906b267fc",
+          "actual_read_slots": 3,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 73225,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  0.00013868192036170512,
+                  0.9998606443405151,
+                  6.01640579134255e-07
+                ]
+              ],
+              "scores": [
+                [
+                  0.11155451834201813,
+                  0.555713951587677,
+                  -0.16045936942100525
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0
+              ],
+              "target_fact_mass": 0
+            },
+            {
+              "phase": "decode",
+              "token_id": 25055,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  8.344991329067852e-06,
+                  2.458845756336814e-06,
+                  0.9999891519546509
+                ]
+              ],
+              "scores": [
+                [
+                  0.03276239335536957,
+                  -0.02833608165383339,
+                  0.6174542903900146
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0
+              ],
+              "target_fact_mass": 0
+            },
+            {
+              "phase": "decode",
+              "token_id": 3873,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  0.00016941710782703012,
+                  0.9963405132293701,
+                  0.0034901152830570936
+                ]
+              ],
+              "scores": [
+                [
+                  0.047593630850315094,
+                  0.4815676808357239,
+                  0.19885995984077454
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0
+              ],
+              "target_fact_mass": 0
+            },
+            {
+              "phase": "decode",
+              "token_id": 1389,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  6.462782766902819e-05,
+                  1.5150983017520048e-05,
+                  0.9999202489852905
+                ]
+              ],
+              "scores": [
+                [
+                  0.09628370404243469,
+                  0.023754723370075226,
+                  0.5786229968070984
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0
+              ],
+              "target_fact_mass": 0
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  21,
+                  22,
+                  23
+                ]
+              ],
+              "weights": [
+                [
+                  4.017962419311516e-05,
+                  3.71973765140865e-05,
+                  0.9999226331710815
+                ]
+              ],
+              "scores": [
+                [
+                  0.07672222703695297,
+                  0.07286617159843445,
+                  0.5828258991241455
+                ]
+              ],
+              "target_slot_mass": [
+                0,
+                0,
+                0
+              ],
+              "target_fact_mass": 0
+            }
+          ],
+          "initial_A_prediction": "mirror crystal badger",
+          "initial_A_em": 0,
+          "restored_A_prediction": "mirror crystal badger",
+          "restored_A_em": 0,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "grouped",
+            "readout": "vera",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/rebind_grouped_seed81042_known_development/predictions.jsonl",
+            "updated_line": 122,
+            "initial_line": 6,
+            "restored_line": 124,
+            "checkpoint_sha256": "8f060df9a2ae24c9a96b25492e8f457c7a3506d320db23fc84e5c95b9cc8ffee",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        },
+        "rebind_grouped_additive": {
+          "prediction": "lemon birch goose",
+          "strict_em": 0,
+          "normalized_word_count": 3,
+          "word_position_correct": [
+            1,
+            1,
+            0
+          ],
+          "edited_word_correct": 0,
+          "both_unchanged_words_correct": 1,
+          "output_is_training_payload": true,
+          "output_is_old_A": true,
+          "first_target_fact_mass": 1.0000000276049832,
+          "decode_target_fact_mass_mean": 0.9999999588755827,
+          "decode_target_fact_mass_min": 0.9999998928979039,
+          "decode_target_fact_mass_max": 1.000000128857323,
+          "decode_target_fact_hits": 5,
+          "decode_queries": 5,
+          "first_fact_recall_at_1": 1,
+          "first_fact_recall_at_read": 1,
+          "first_edited_slot_mass": 0.00011342544166836888,
+          "all_generation_edited_slot_mass_mean": 0.0006675620625363384,
+          "generation_tokens": 6,
+          "generated_token_ids": [
+            273,
+            1645,
+            15248,
+            331,
+            62137,
+            151645
+          ],
+          "bank_hash": "ebf860623f27cd2796b0e5e3bd5906140253b33b4cac9601bf3cfd0035a7a245",
+          "actual_read_slots": 3,
+          "trace": [
+            {
+              "phase": "prefill",
+              "token_id": 273,
+              "indices": [
+                [
+                  15,
+                  16,
+                  17
+                ]
+              ],
+              "weights": [
+                [
+                  0.8456721901893616,
+                  0.15421441197395325,
+                  0.00011342544166836888
+                ]
+              ],
+              "scores": [
+                [
+                  0.33062103390693665,
+                  0.24553163349628448,
+                  -0.11521603912115097
+                ]
+              ],
+              "target_slot_mass": [
+                0.8456721901893616,
+                0.15421441197395325,
+                0.00011342544166836888
+              ],
+              "target_fact_mass": 1.0000000276049832
+            },
+            {
+              "phase": "decode",
+              "token_id": 1645,
+              "indices": [
+                [
+                  15,
+                  16,
+                  17
+                ]
+              ],
+              "weights": [
+                [
+                  0.9979185461997986,
+                  0.0020513180643320084,
+                  3.0053119189688005e-05
+                ]
+              ],
+              "scores": [
+                [
+                  0.6456661224365234,
+                  0.3363066613674164,
+                  0.1251431107521057
+                ]
+              ],
+              "target_slot_mass": [
+                0.9979185461997986,
+                0.0020513180643320084,
+                3.0053119189688005e-05
+              ],
+              "target_fact_mass": 0.9999999173833203
+            },
+            {
+              "phase": "decode",
+              "token_id": 15248,
+              "indices": [
+                [
+                  15,
+                  16,
+                  17
+                ]
+              ],
+              "weights": [
+                [
+                  0.0016293717781081796,
+                  0.9983702301979065,
+                  5.268813083603163e-07
+                ]
+              ],
+              "scores": [
+                [
+                  0.4114443361759186,
+                  0.7323408126831055,
+                  0.009607858955860138
+                ]
+              ],
+              "target_slot_mass": [
+                0.0016293717781081796,
+                0.9983702301979065,
+                5.268813083603163e-07
+              ],
+              "target_fact_mass": 1.000000128857323
+            },
+            {
+              "phase": "decode",
+              "token_id": 331,
+              "indices": [
+                [
+                  15,
+                  16,
+                  17
+                ]
+              ],
+              "weights": [
+                [
+                  0.00016351266822312027,
+                  0.999828577041626,
+                  7.817508958396502e-06
+                ]
+              ],
+              "scores": [
+                [
+                  0.2447076141834259,
+                  0.680630087852478,
+                  0.0926814004778862
+                ]
+              ],
+              "target_slot_mass": [
+                0.00016351266822312027,
+                0.999828577041626,
+                7.817508958396502e-06
+              ],
+              "target_fact_mass": 0.9999999072188075
+            },
+            {
+              "phase": "decode",
+              "token_id": 62137,
+              "indices": [
+                [
+                  15,
+                  16,
+                  17
+                ]
+              ],
+              "weights": [
+                [
+                  0.8429800271987915,
+                  0.15642192959785461,
+                  0.0005979912239126861
+                ]
+              ],
+              "scores": [
+                [
+                  0.5214582681655884,
+                  0.4372389316558838,
+                  0.1589021384716034
+                ]
+              ],
+              "target_slot_mass": [
+                0.8429800271987915,
+                0.15642192959785461,
+                0.0005979912239126861
+              ],
+              "target_fact_mass": 0.9999999480205588
+            },
+            {
+              "phase": "decode",
+              "token_id": 151645,
+              "indices": [
+                [
+                  15,
+                  16,
+                  17
+                ]
+              ],
+              "weights": [
+                [
+                  0.3260895013809204,
+                  0.670654833316803,
+                  0.0032555582001805305
+                ]
+              ],
+              "scores": [
+                [
+                  0.5005164742469788,
+                  0.5365706086158752,
+                  0.2701760530471802
+                ]
+              ],
+              "target_slot_mass": [
+                0.3260895013809204,
+                0.670654833316803,
+                0.0032555582001805305
+              ],
+              "target_fact_mass": 0.9999998928979039
+            }
+          ],
+          "initial_A_prediction": "lemon birch goose",
+          "initial_A_em": 1,
+          "restored_A_prediction": "lemon birch goose",
+          "restored_A_em": 1,
+          "architecture": {
+            "in_features": 9728,
+            "out_features": 2560,
+            "rank": 64,
+            "key_dim": 64,
+            "top_k": 4,
+            "temperature": 0.05,
+            "seed": 81042,
+            "input_epsilon": 1e-06,
+            "value_epsilon": 1e-05,
+            "writer_mode": "masked_mean",
+            "train_B": true,
+            "value_mlp_hidden": 0,
+            "architecture_version": 1,
+            "slots": 3,
+            "reconstruction_version": 1,
+            "read_mode": "grouped",
+            "readout": "additive",
+            "qkv_version": 1
+          },
+          "source": {
+            "predictions_path": "../runs/xtrah100/qkv_development_81042_20261006/rebind_grouped_additive_seed81042_known_development/predictions.jsonl",
+            "updated_line": 122,
+            "initial_line": 6,
+            "restored_line": 124,
+            "checkpoint_sha256": "af9e2f08f3d6196c2f1882f7c64b9694dec01f23ea04123b2cf54e9968cde09d",
+            "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+          }
+        }
+      }
+    }
+  ],
+  "input_sha256": {
+    "../runs/xtrah100/qkv_prepare_20261006/features/known.json": "5d62bf4652649fd3483e210135f577395f95cb59974be6680f5076ad27f1b8a5",
+    "../runs/xtrah100/qkv_prepare_20261006/features/train.json": "8fd1a21c34236643f15ce9c3566f578150e27ccd1595c98b0f0fed355ccbe45d",
+    "../runs/xtrah100/qkv_development_81042_20261006/static_flat_seed81042_known_development/manifest.json": "f871de7962deabc476bbd9a7db7e0408114545207168526e015bd5260501b431",
+    "../runs/xtrah100/qkv_development_81042_20261006/static_flat_seed81042_known_development/predictions.jsonl": "a45c5065a824f36260f13448b3578e202df7dcf416c5f043239c6a327613e236",
+    "../runs/xtrah100/qkv_development_81042_20261006/static_grouped_seed81042_known_development/manifest.json": "6b3bda2d94954244c9a7003d1ae3c6f4145673752e1e8a840be1923ed4f49170",
+    "../runs/xtrah100/qkv_development_81042_20261006/static_grouped_seed81042_known_development/predictions.jsonl": "228c3f45394bb7d0b210ebe54f655b5114fb31d1fc0a0b8ad2d928e6198dfe7a",
+    "../runs/xtrah100/qkv_development_81042_20261006/rebind_flat_seed81042_known_development/manifest.json": "fd71a49fbf934052e62f2bc5e4e1137a659274c53d7d0dff48c311d45bcd1c96",
+    "../runs/xtrah100/qkv_development_81042_20261006/rebind_flat_seed81042_known_development/predictions.jsonl": "722cc37e469eff40e217e33527f8d510de498d1a491669404e75b9416acc1f8c",
+    "../runs/xtrah100/qkv_development_81042_20261006/rebind_grouped_seed81042_known_development/manifest.json": "4b02d690c035d173ab774c939f9239a651420655e0bd66a6fca244e6a98cdf28",
+    "../runs/xtrah100/qkv_development_81042_20261006/rebind_grouped_seed81042_known_development/predictions.jsonl": "0f2915794d9d1634a43b1e4a48b6cd2e206dbe4d5f5bbfd093793d8065ff8686",
+    "../runs/xtrah100/qkv_development_81042_20261006/rebind_grouped_additive_seed81042_known_development/manifest.json": "086c9c25d94d24605eec0d0831a67c73ea8c72c2d6d5c937256d6828c6b9ce72",
+    "../runs/xtrah100/qkv_development_81042_20261006/rebind_grouped_additive_seed81042_known_development/predictions.jsonl": "7309ce7bdfb2518f7dcbaf5956dc81c9b82c7b3965001df1a477bc6643e18291"
+  }
+}

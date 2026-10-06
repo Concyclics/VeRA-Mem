@@ -1,0 +1,1399 @@
+{
+  "protocol": "qkv-key-facts-v1",
+  "complete": true,
+  "sources": {
+    "summary.json": {
+      "path": "summary.json",
+      "sha256": "d1876f4720cbfd0f906e1d874a75f094d10b0008c3ad4fb9c58775606e5a6ba7"
+    },
+    "selection.json": {
+      "path": "selection.json",
+      "sha256": "c6979915d7edc2aaaffda0f609ef45bf830590a752350ac16003069e7e587628"
+    },
+    "answer_diagnostics.json": {
+      "path": "answer_diagnostics.json",
+      "sha256": "cc1f95f9bf11608b45a3a8a01de54d752646167e801540fb889205169bd83b21"
+    },
+    "training_convergence.json": {
+      "path": "training_convergence.json",
+      "sha256": "9c07be4e7302f4681a3e48c462bbe6a401da40cc125ec5cb60722b44ba60840a"
+    },
+    "registration.json": {
+      "path": "registration.json",
+      "sha256": "51d88985f47b74b6cc5038f2ad0f640aafaeeebe5450a2722213491fa233b432"
+    },
+    "tests.json": {
+      "path": "tests.json",
+      "sha256": "03d969314fb7d5152941efb81c4aa88b9d9148e10e5f0e682b52bae9b13e56b6"
+    },
+    "independent_audit.json": {
+      "path": "independent_audit.json",
+      "sha256": "d8e06f63503268ff22a52590df863b78fdf943f0a95ebf7ccc97e54c4b0348ed"
+    },
+    "binding_exposures.json": {
+      "path": "binding_exposures.json",
+      "sha256": "4849c77ab7af9350a066a9aee0ac65be2ec1cd56ba3e890bd396094f31d277dc"
+    }
+  },
+  "headline": {
+    "selected_arm": null,
+    "eligible_to_expand": false,
+    "conclusion": "No evaluated arm learned complete novel C/D payload reconstruction under this fixed budget; partial word/content-transfer changes are not full-memory success.",
+    "main_arms": 4,
+    "diagnostic_additive_arms": 1,
+    "models": 15,
+    "formal_train": 15,
+    "formal_student_evaluations": 60,
+    "teacher_jobs": 5,
+    "complete_model_conditions": 75,
+    "raw_summary_records": 80,
+    "prepare_jobs_separate": 1,
+    "novel_real_updated_cells": 105,
+    "cases_per_cell": 16,
+    "novel_real_updated_predictions": 1680,
+    "novel_real_updated_full_em_correct": 0,
+    "teacher_correct": 448,
+    "teacher_generations": 448,
+    "all_novel_single_world_real_shuffle_empty_em_zero": true,
+    "selected_seed_gate_applicability": "not_applicable_no_development_candidate",
+    "all_formal_results_complete": true
+  },
+  "seed_order": [
+    81042,
+    81043,
+    81044
+  ],
+  "records": [
+    {
+      "arm": "static_flat",
+      "main_vera_candidate": true,
+      "seed_order": [
+        81042,
+        81043,
+        81044
+      ],
+      "denominator_per_seed": 16,
+      "trainable_parameters": 2034368,
+      "bytes_per_fact": 1536,
+      "known_development": {
+        "ab_pair_correct": [
+          16,
+          16,
+          15
+        ],
+        "c_correct": [
+          0,
+          0,
+          0
+        ],
+        "c_update_restore_correct": [
+          0,
+          0,
+          0
+        ],
+        "c_locality_joint_correct": [
+          16,
+          16,
+          14
+        ],
+        "b_locality_joint_correct": [
+          14,
+          15,
+          14
+        ],
+        "swap_correct": [
+          1,
+          2,
+          1
+        ],
+        "nll_without_eos": [
+          3.9092446939269108,
+          3.5014965854473967,
+          4.348926871570189
+        ],
+        "first_fact_recall_at_read_correct": [
+          15,
+          15,
+          15
+        ],
+        "strict_three_word_edited_correct": [
+          3,
+          3,
+          2
+        ],
+        "strict_three_word_both_unchanged_correct": [
+          8,
+          7,
+          5
+        ]
+      },
+      "new_entity_development": {
+        "ab_pair_correct": [
+          0,
+          0,
+          0
+        ],
+        "c_correct": [
+          0,
+          0,
+          0
+        ]
+      },
+      "known_confirmation": {
+        "d_correct": [
+          0,
+          0,
+          0
+        ],
+        "d_update_restore_correct": [
+          0,
+          0,
+          0
+        ],
+        "d_locality_joint_correct": [
+          16,
+          16,
+          15
+        ],
+        "nll_without_eos": [
+          3.8760556483614272,
+          3.699237180792767,
+          4.875027380127838
+        ],
+        "first_fact_recall_at_read_correct": [
+          16,
+          15,
+          15
+        ],
+        "strict_three_word_edited_correct": [
+          3,
+          3,
+          1
+        ],
+        "strict_three_word_both_unchanged_correct": [
+          7,
+          6,
+          5
+        ]
+      },
+      "new_entity_confirmation": {
+        "CC": {
+          "ab_pair_correct": [
+            1,
+            1,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            1,
+            1,
+            1
+          ]
+        },
+        "HC": {
+          "ab_pair_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            0,
+            0,
+            0
+          ]
+        },
+        "CH": {
+          "ab_pair_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            0,
+            0,
+            1
+          ]
+        },
+        "HH": {
+          "ab_pair_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "arm": "static_grouped",
+      "main_vera_candidate": true,
+      "seed_order": [
+        81042,
+        81043,
+        81044
+      ],
+      "denominator_per_seed": 16,
+      "trainable_parameters": 2034368,
+      "bytes_per_fact": 1536,
+      "known_development": {
+        "ab_pair_correct": [
+          16,
+          16,
+          16
+        ],
+        "c_correct": [
+          0,
+          0,
+          0
+        ],
+        "c_update_restore_correct": [
+          0,
+          0,
+          0
+        ],
+        "c_locality_joint_correct": [
+          16,
+          16,
+          16
+        ],
+        "b_locality_joint_correct": [
+          15,
+          16,
+          15
+        ],
+        "swap_correct": [
+          1,
+          2,
+          0
+        ],
+        "nll_without_eos": [
+          4.1835660792108795,
+          4.610711076366368,
+          4.663585691309687
+        ],
+        "first_fact_recall_at_read_correct": [
+          14,
+          13,
+          12
+        ],
+        "strict_three_word_edited_correct": [
+          2,
+          2,
+          2
+        ],
+        "strict_three_word_both_unchanged_correct": [
+          5,
+          6,
+          5
+        ]
+      },
+      "new_entity_development": {
+        "ab_pair_correct": [
+          0,
+          0,
+          0
+        ],
+        "c_correct": [
+          0,
+          0,
+          0
+        ]
+      },
+      "known_confirmation": {
+        "d_correct": [
+          0,
+          0,
+          0
+        ],
+        "d_update_restore_correct": [
+          0,
+          0,
+          0
+        ],
+        "d_locality_joint_correct": [
+          16,
+          16,
+          16
+        ],
+        "nll_without_eos": [
+          4.446186894955843,
+          4.693746152131454,
+          5.4113327385722725
+        ],
+        "first_fact_recall_at_read_correct": [
+          13,
+          13,
+          11
+        ],
+        "strict_three_word_edited_correct": [
+          1,
+          4,
+          4
+        ],
+        "strict_three_word_both_unchanged_correct": [
+          7,
+          6,
+          6
+        ]
+      },
+      "new_entity_confirmation": {
+        "CC": {
+          "ab_pair_correct": [
+            1,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            1,
+            0,
+            0
+          ]
+        },
+        "HC": {
+          "ab_pair_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            0,
+            0,
+            0
+          ]
+        },
+        "CH": {
+          "ab_pair_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            0,
+            0,
+            0
+          ]
+        },
+        "HH": {
+          "ab_pair_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "arm": "rebind_flat",
+      "main_vera_candidate": true,
+      "seed_order": [
+        81042,
+        81043,
+        81044
+      ],
+      "denominator_per_seed": 16,
+      "trainable_parameters": 2034368,
+      "bytes_per_fact": 1536,
+      "known_development": {
+        "ab_pair_correct": [
+          5,
+          1,
+          0
+        ],
+        "c_correct": [
+          0,
+          0,
+          0
+        ],
+        "c_update_restore_correct": [
+          0,
+          0,
+          0
+        ],
+        "c_locality_joint_correct": [
+          8,
+          2,
+          2
+        ],
+        "b_locality_joint_correct": [
+          8,
+          3,
+          2
+        ],
+        "swap_correct": [
+          10,
+          2,
+          1
+        ],
+        "nll_without_eos": [
+          3.0030318729913055,
+          3.234915761805292,
+          3.1610284919169414
+        ],
+        "first_fact_recall_at_read_correct": [
+          16,
+          16,
+          16
+        ],
+        "strict_three_word_edited_correct": [
+          8,
+          5,
+          6
+        ],
+        "strict_three_word_both_unchanged_correct": [
+          4,
+          1,
+          1
+        ]
+      },
+      "new_entity_development": {
+        "ab_pair_correct": [
+          4,
+          0,
+          0
+        ],
+        "c_correct": [
+          0,
+          0,
+          0
+        ]
+      },
+      "known_confirmation": {
+        "d_correct": [
+          0,
+          0,
+          0
+        ],
+        "d_update_restore_correct": [
+          0,
+          0,
+          0
+        ],
+        "d_locality_joint_correct": [
+          8,
+          2,
+          2
+        ],
+        "nll_without_eos": [
+          2.6839145370151685,
+          3.3029446118119834,
+          3.05029238825259
+        ],
+        "first_fact_recall_at_read_correct": [
+          16,
+          16,
+          16
+        ],
+        "strict_three_word_edited_correct": [
+          7,
+          5,
+          6
+        ],
+        "strict_three_word_both_unchanged_correct": [
+          4,
+          2,
+          1
+        ]
+      },
+      "new_entity_confirmation": {
+        "CC": {
+          "ab_pair_correct": [
+            2,
+            0,
+            1
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            6,
+            0,
+            2
+          ]
+        },
+        "HC": {
+          "ab_pair_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            0,
+            0,
+            0
+          ]
+        },
+        "CH": {
+          "ab_pair_correct": [
+            1,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            1,
+            0,
+            0
+          ]
+        },
+        "HH": {
+          "ab_pair_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "arm": "rebind_grouped",
+      "main_vera_candidate": true,
+      "seed_order": [
+        81042,
+        81043,
+        81044
+      ],
+      "denominator_per_seed": 16,
+      "trainable_parameters": 2034368,
+      "bytes_per_fact": 1536,
+      "known_development": {
+        "ab_pair_correct": [
+          6,
+          1,
+          0
+        ],
+        "c_correct": [
+          0,
+          0,
+          0
+        ],
+        "c_update_restore_correct": [
+          0,
+          0,
+          0
+        ],
+        "c_locality_joint_correct": [
+          7,
+          3,
+          3
+        ],
+        "b_locality_joint_correct": [
+          8,
+          3,
+          2
+        ],
+        "swap_correct": [
+          9,
+          3,
+          0
+        ],
+        "nll_without_eos": [
+          3.2574430437230353,
+          3.2476020428671766,
+          3.1993434891771915
+        ],
+        "first_fact_recall_at_read_correct": [
+          8,
+          16,
+          16
+        ],
+        "strict_three_word_edited_correct": [
+          4,
+          7,
+          6
+        ],
+        "strict_three_word_both_unchanged_correct": [
+          1,
+          2,
+          1
+        ]
+      },
+      "new_entity_development": {
+        "ab_pair_correct": [
+          2,
+          2,
+          0
+        ],
+        "c_correct": [
+          0,
+          0,
+          0
+        ]
+      },
+      "known_confirmation": {
+        "d_correct": [
+          0,
+          0,
+          0
+        ],
+        "d_update_restore_correct": [
+          0,
+          0,
+          0
+        ],
+        "d_locality_joint_correct": [
+          8,
+          3,
+          2
+        ],
+        "nll_without_eos": [
+          3.2684904803400454,
+          3.151836367620938,
+          3.34237175402434
+        ],
+        "first_fact_recall_at_read_correct": [
+          7,
+          16,
+          16
+        ],
+        "strict_three_word_edited_correct": [
+          4,
+          6,
+          6
+        ],
+        "strict_three_word_both_unchanged_correct": [
+          0,
+          2,
+          1
+        ]
+      },
+      "new_entity_confirmation": {
+        "CC": {
+          "ab_pair_correct": [
+            3,
+            1,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            4,
+            2,
+            3
+          ]
+        },
+        "HC": {
+          "ab_pair_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            0,
+            0,
+            0
+          ]
+        },
+        "CH": {
+          "ab_pair_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            1,
+            0,
+            0
+          ]
+        },
+        "HH": {
+          "ab_pair_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            1,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "arm": "rebind_grouped_additive",
+      "main_vera_candidate": false,
+      "seed_order": [
+        81042,
+        81043,
+        81044
+      ],
+      "denominator_per_seed": 16,
+      "trainable_parameters": 2034368,
+      "bytes_per_fact": 1536,
+      "known_development": {
+        "ab_pair_correct": [
+          4,
+          10,
+          4
+        ],
+        "c_correct": [
+          0,
+          0,
+          0
+        ],
+        "c_update_restore_correct": [
+          0,
+          0,
+          0
+        ],
+        "c_locality_joint_correct": [
+          10,
+          14,
+          11
+        ],
+        "b_locality_joint_correct": [
+          10,
+          14,
+          11
+        ],
+        "swap_correct": [
+          9,
+          13,
+          11
+        ],
+        "nll_without_eos": [
+          2.028621460074809,
+          2.629823015696967,
+          2.5530451376046708
+        ],
+        "first_fact_recall_at_read_correct": [
+          14,
+          15,
+          16
+        ],
+        "strict_three_word_edited_correct": [
+          10,
+          8,
+          11
+        ],
+        "strict_three_word_both_unchanged_correct": [
+          5,
+          5,
+          4
+        ]
+      },
+      "new_entity_development": {
+        "ab_pair_correct": [
+          5,
+          2,
+          3
+        ],
+        "c_correct": [
+          0,
+          0,
+          0
+        ]
+      },
+      "known_confirmation": {
+        "d_correct": [
+          0,
+          0,
+          0
+        ],
+        "d_update_restore_correct": [
+          0,
+          0,
+          0
+        ],
+        "d_locality_joint_correct": [
+          10,
+          14,
+          12
+        ],
+        "nll_without_eos": [
+          2.139992682830147,
+          2.693205411883368,
+          2.8945642070493838
+        ],
+        "first_fact_recall_at_read_correct": [
+          14,
+          16,
+          16
+        ],
+        "strict_three_word_edited_correct": [
+          6,
+          7,
+          7
+        ],
+        "strict_three_word_both_unchanged_correct": [
+          6,
+          5,
+          4
+        ]
+      },
+      "new_entity_confirmation": {
+        "CC": {
+          "ab_pair_correct": [
+            3,
+            4,
+            3
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            7,
+            8,
+            7
+          ]
+        },
+        "HC": {
+          "ab_pair_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            0,
+            0,
+            0
+          ]
+        },
+        "CH": {
+          "ab_pair_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            0,
+            0,
+            0
+          ]
+        },
+        "HH": {
+          "ab_pair_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_update_restore_correct": [
+            0,
+            0,
+            0
+          ],
+          "d_locality_joint_correct": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    }
+  ],
+  "teacher_qualification": [
+    {
+      "split": "train",
+      "part": "preflight",
+      "groups": {
+        "CC_A": {
+          "count": 64,
+          "correct": 64,
+          "em": 1.0
+        },
+        "CC_B": {
+          "count": 64,
+          "correct": 64,
+          "em": 1.0
+        }
+      },
+      "qualified": true
+    },
+    {
+      "split": "confirm",
+      "part": "confirmation",
+      "groups": {
+        "CC_A": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "CC_B": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "CC_D": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "HC_A": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "HC_B": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "HC_D": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "CH_A": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "CH_B": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "CH_D": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "HH_A": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "HH_B": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "HH_D": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        }
+      },
+      "qualified": true
+    },
+    {
+      "split": "known",
+      "part": "confirmation",
+      "groups": {
+        "CC_A": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "CC_D": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        }
+      },
+      "qualified": true
+    },
+    {
+      "split": "dev",
+      "part": "development",
+      "groups": {
+        "CC_A": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "CC_B": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "CC_C": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        }
+      },
+      "qualified": true
+    },
+    {
+      "split": "known",
+      "part": "development",
+      "groups": {
+        "CC_A": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "CC_B": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        },
+        "CC_C": {
+          "count": 16,
+          "correct": 16,
+          "em": 1.0
+        }
+      },
+      "qualified": true
+    }
+  ],
+  "independent_raw_novel_check": {
+    "scope": "Read actual completed raw real/updated C/D predictions, not summary-derived EM; all seeds/arms retained; repeated shared payloads are not independent cases.",
+    "groups": {
+      "confirm_D": {
+        "predictions": 960,
+        "full_em_correct": 0,
+        "full_answer_containment": 0,
+        "exactly_three_words": 868,
+        "budget_hits": 6
+      },
+      "known_D": {
+        "predictions": 240,
+        "full_em_correct": 0,
+        "full_answer_containment": 0,
+        "exactly_three_words": 238,
+        "budget_hits": 0
+      },
+      "dev_C": {
+        "predictions": 240,
+        "full_em_correct": 0,
+        "full_answer_containment": 0,
+        "exactly_three_words": 240,
+        "budget_hits": 0
+      },
+      "known_C": {
+        "predictions": 240,
+        "full_em_correct": 0,
+        "full_answer_containment": 0,
+        "exactly_three_words": 238,
+        "budget_hits": 0
+      }
+    }
+  },
+  "training_last128_ce": {
+    "scope": "descriptive last128 training updates, teacher-forced metrics; no checkpoint selection",
+    "static_range": [
+      0.002320943328413705,
+      0.01411965509851143
+    ],
+    "rebind_including_additive_range": [
+      0.31947876513004303,
+      0.5772867910563946
+    ],
+    "limitation": "Equal update/exposure budget is not equal optimization difficulty or convergence; no capacity-impossibility conclusion."
+  },
+  "costs": {
+    "training_target_exposures": 245760.0,
+    "training_gold_tokens": 2549760.0,
+    "training_input_positions": 37524480.0,
+    "training_padded_input_positions": 38682400.0,
+    "training_backbone_calls": 30720.0,
+    "training_process_seconds": 2745.2076287511736,
+    "training_updates": 30720.0,
+    "evaluation_generation_calls": 18000.0,
+    "evaluation_generation_tokens": 90306.0,
+    "evaluation_generation_seconds": 3757.202297747135,
+    "evaluation_answer_scoring_tokens": 77175.0,
+    "evaluation_independent_interventions": 3360.0,
+    "evaluation_restoration_writes": 3360.0,
+    "evaluation_real_group_write_events": 6720.0,
+    "teacher_generation_calls": 448.0,
+    "teacher_generation_tokens": 2359.0,
+    "teacher_generation_seconds": 69.86738976091146
+  },
+  "formal_student_sequences": 491520,
+  "formal_total_generations": 18448,
+  "selection": {
+    "created_at": "2026-10-06T13:50:07.472005+00:00",
+    "selected_arm": null,
+    "sha256": "c6979915d7edc2aaaffda0f609ef45bf830590a752350ac16003069e7e587628",
+    "development_evidence_runs": 46
+  },
+  "metric_boundaries": [
+    "All per-seed integer results use denominator16; seeds and entity groups share payloads, so do not pool as independent samples.",
+    "Strict per-word diagnostics require exactly three normalized output words; the summary auxiliary position-match metric merely requires that position to exist.",
+    "R@read means actual four flat slots or three grouped slots, never equal R@4; R@1 uses the maximum weight.",
+    "Contextual word slots may carry information from preceding changed words. Token-aligned weight traces are not causal evidence or gold-word alignment.",
+    "Additive readout is diagnostic and never participates in VeRA selection. Its full-novel failure prevents attributing all failure solely to multiplicative injection.",
+    "No selected candidate means final_gate.per_seed.complete=false is not a missing-job signal; all75 model conditions and5 teacher jobs completed.",
+    "Teacher-forced evaluation NLL excludes EOS; training CE includes EOS and averages sequences. Process seconds may overlap.",
+    "The writer receives annotated/locatable three-word payload spans inside observed support; arbitrary natural-document fact discovery and writing are not demonstrated.",
+    "Actual complete query vectors were not saved. The audit replays bank edits and checks recorded selected indices/scores/softmax/slot masses; it does not independently recompute global top-k or winning-group optimality for each generated token."
+  ],
+  "independent_audit": {
+    "complete": true,
+    "checks_passed": true,
+    "formal_inventory_complete": true,
+    "elapsed_seconds": 79.51427105301991,
+    "cuda_initialized": false,
+    "scopes": {
+      "formal": {
+        "jobs": 81,
+        "stages": {
+          "eval": 60,
+          "teacher": 5,
+          "prepare": 1,
+          "train": 15
+        },
+        "generation_calls": 18448,
+        "independent_interventions": 3360,
+        "restorations": 3360,
+        "real_group_write_events": 6720
+      },
+      "smoke": {
+        "jobs": 8,
+        "stages": {
+          "train": 4,
+          "eval": 4
+        },
+        "generation_calls": 52,
+        "independent_interventions": 8,
+        "restorations": 8,
+        "real_group_write_events": 16
+      }
+    },
+    "writer_max_abs_errors": {
+      "keys": 5.21540641784668e-07,
+      "values": 3.3676624298095703e-06
+    },
+    "sealed_development_evidence_files": 288,
+    "confirmation_selection_snapshots": 4,
+    "writer_max_abs_errors_scope": "All evaluated artifacts including explicitly separated smoke; not a formal-only maximum."
+  },
+  "rebind_known_canonical_target_binding_exposure": {
+    "scope": "Actual target-supervision episodes for first16 training entities and their fixed canonical A/B payloads; same seed schedule shared by all rebind arms; distinct from background residency, frozen feature extraction, and initialization statistics.",
+    "per_seed": [
+      {
+        "seed": 81042,
+        "bindings": 32,
+        "minimum": 1,
+        "maximum": 10,
+        "zero_target_supervision": 0,
+        "training_jsonl_sha256": "1d8f6a2b666bfaf4c91c0dbefbcf7dfeb85cab23d6f1999fd33c53350ed08c2f"
+      },
+      {
+        "seed": 81043,
+        "bindings": 32,
+        "minimum": 1,
+        "maximum": 8,
+        "zero_target_supervision": 0,
+        "training_jsonl_sha256": "aab5bb96160bc52d92e9bd132cf548851dbc608fa78fca961d4b80d7f8fd62a6"
+      },
+      {
+        "seed": 81044,
+        "bindings": 32,
+        "minimum": 0,
+        "maximum": 7,
+        "zero_target_supervision": 3,
+        "zero_bindings": [
+          {
+            "entity_index": 3,
+            "world": "A",
+            "payload_index": 6
+          },
+          {
+            "entity_index": 10,
+            "world": "B",
+            "payload_index": 21
+          },
+          {
+            "entity_index": 12,
+            "world": "B",
+            "payload_index": 25
+          }
+        ],
+        "training_jsonl_sha256": "e14b3d3e3a71008c13259668887386806e8ff46cb7b40177fc7b5fdc757aed03"
+      }
+    ]
+  }
+}

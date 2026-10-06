@@ -1,0 +1,122 @@
+{
+  "protocol": "qkv-registration-v1",
+  "sealed_at_utc": "2026-10-06T13:25:16.495254+00:00",
+  "teacher_preflight_passed": true,
+  "smoke_passed": true,
+  "protocol_document_sha256": "b91e7d74603d635d0969458e8a4ba9a52910bb88c8eed16deb155e58971e257a",
+  "source_python_sha256": {
+    "src/vera_mem/__init__.py": "31a77f7d06208e712fe5e7fa4e7ed109d2675b5533aeaa650a005a618f73f7b7",
+    "src/vera_mem/augmentation_data.py": "1c0c878e8d60424a055adba065c30a6e98d2d1680283ed4664056734d2edc422",
+    "src/vera_mem/backend.py": "0e577deabdeae59f10b0b003293ef003219c167fdb65603b8ee222ca0dedbf0c",
+    "src/vera_mem/coldstart_data.py": "58ac7ecae53dbd1a4ab9b4aeba50abe0da76b756d316194af00b1f4e4a8dd70b",
+    "src/vera_mem/coldstart_eval.py": "64a29a289382679e5eaffdbe9d66c4c7afa8e1de61ab700a682273e3d6ad6a9b",
+    "src/vera_mem/coldstart_run.py": "61b2a8fdab99efeb19b59ce51f5c443f34fc18a08e38616fd5baf2e00873a3fe",
+    "src/vera_mem/coldstart_teacher.py": "ea80d05953377943eec45aaf9d1a00ae520b4a9e2a6cbde74dbd6226494f4ba7",
+    "src/vera_mem/context_distillation.py": "32f043d24df845749f1cf170225e13b8aedfde618495f12fb1cb118e601d252f",
+    "src/vera_mem/context_distillation_run.py": "5cf4b38c329a2638617a88fb48f326631723c35fb8a04abcc3636dda23674d3e",
+    "src/vera_mem/counterfactual_backend.py": "fb1cf6d04227ef32307b3dd3880156a36ae121b07f85aa44721a5826c0437d30",
+    "src/vera_mem/counterfactual_data.py": "0bd406b7740c9483d17b8a4e782d1de4693681d54a8fc4725d110764a8c99b32",
+    "src/vera_mem/counterfactual_eval.py": "63ef61d168264b1df87cc2e60294c7380ee8f06e9b15cbbf58843ede678832c5",
+    "src/vera_mem/counterfactual_losses.py": "bab125cda0ce86f2c576f3d9140507f7fb1ae8626085767794c1bda8e3db3b8a",
+    "src/vera_mem/counterfactual_run.py": "1aabac2c4799af22ba893046bc9ad685950c2eadeb9b1e41c90f6ac556e03dee",
+    "src/vera_mem/data.py": "2101304ce146971dae6d14b11a2553cc89b815a2dcd87953b4dcccab7cc4c998",
+    "src/vera_mem/dictionary_vera.py": "bc8095a4e3f679e923a9a8f02f535639ad7e7201a73658fc710024ca77180028",
+    "src/vera_mem/factcentric_losses.py": "7d02921f21cc7945491d546cd3166d5da0be1b728727c1c84b056f00f8b2984d",
+    "src/vera_mem/generalization_run.py": "9dcec94f7f05c80040bfbd3a86e2ceb13916019999ac4c150e3f82ccf04b058e",
+    "src/vera_mem/interface_data.py": "1d7de4fd49f3499a177e6d97090ed9d39b3d8ee45e33b7061666f9df88e6cdb0",
+    "src/vera_mem/interface_diagnostic.py": "a763b5e821261350b4632f9983a4b8b293990a7520c1cc58274545533dc4c5b3",
+    "src/vera_mem/interface_eval.py": "596111bcbf581f435b6e6d042e3c9dbf9d62eb211dd01e89b438194b8fee515e",
+    "src/vera_mem/interface_features.py": "a0452552db4c895e659ab3deed7c792bd5f7fb117130f15688acd5b9069d480d",
+    "src/vera_mem/interface_losses.py": "52ad91621b8537aeacf1bd889aa9dc05496a189e4b5c0f28160f7a94f204964a",
+    "src/vera_mem/interface_run.py": "261eff85484fe42397b5cb07006b51aa958b392bbbb6eae1151c46b204335838",
+    "src/vera_mem/interface_training.py": "f69730b76ae1834b4a44defee4b71f7ed5d23d1729d662ac776c6c6f022f4ac0",
+    "src/vera_mem/interface_variants.py": "d6a8dd4199d4430e8922982c96a675acc7f05a78ae70bff027fbbab5c88efad4",
+    "src/vera_mem/interface_writer.py": "4f7dfc3461428d9d2b96445e6a9035b1f7cb2dce161698de7bebc78dcd27f7ae",
+    "src/vera_mem/memory.py": "1a59cc41f096ab8cc86f9d846133cf1c34ad19751a56b90353217f497af50698",
+    "src/vera_mem/metrics.py": "2f800e410ed6a46cf74e694a64fceb2b4ba5c7269809e8a1cb952e436e84e66b",
+    "src/vera_mem/qkv_data.py": "0507444d34e255529be5c937e708b9fb051c6518a5f9fd0acc56dfef80a6de1f",
+    "src/vera_mem/qkv_eval.py": "c0c9929953c07f23059516772e1fe9b6549cb2e50ab3af86d02b317fcc5e8e41",
+    "src/vera_mem/qkv_run.py": "d4179d7397b9f22ea1805e24b16866e9bc99faaff663f7cd32b89be34cd832ca",
+    "src/vera_mem/qkv_vera.py": "1bfc63b90a1659c419c96903777a44ac3003f75ca9726de63f577a8f76f2f84a",
+    "src/vera_mem/reconstruction_data.py": "6e5087b2cc41df205177208422148c8d3030d529bed573c4b364df4d4f8bfe52",
+    "src/vera_mem/reconstruction_eval.py": "aae431bd7ab76b1a38277d7660c977ff2343350629c82a614edc83680cb364cc",
+    "src/vera_mem/reconstruction_run.py": "97a33bb778feed32dbf4f93462c1449ea7cdf9e0bf1614f122f26371e414f3de",
+    "src/vera_mem/reconstruction_vera.py": "a28244924d429ecb658d00cf8b7b8715daa98371654e157b814de690eadb9e0f",
+    "src/vera_mem/run.py": "f5001509179164b271e7b8f68ec157264aaf4c1b2de3741a0194794e21c95565",
+    "src/vera_mem/scaling_backend.py": "a12d3f08989135a1324f0cd0b3c97db84d167bfd21f648c32cad7e8f85faefcd",
+    "src/vera_mem/scaling_run.py": "8af0f0038faff92544f40c5280a689a67c1e0b71a30762577e90c5f9b3540937",
+    "src/vera_mem/stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539",
+    "src/vera_mem/vector_run.py": "c5f48e6e968a71be3dbb15c9554ec24fc195ee4af116fed8fa29aca20fa3ddc3",
+    "src/vera_mem/vector_store.py": "4a278b7fa647d9d762c5ac970ada86f2c29722f7e557c1bf796f1f559e214fa9",
+    "src/vera_mem/vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8"
+  },
+  "plans_sha256": {
+    "qkv_train_81042_20261006.json": "9156b6b334332f3306a8bf1165d9d8f3b59c523261775ddb860f1e27539d1fe6",
+    "qkv_development_81042_20261006.json": "13827b2d6af74d5bba6d1714aabd4cfb0369d4c3c17d94b2984b9f4685c24cd5",
+    "qkv_confirmation_81042_20261006.json": "34993ccc560e152b0550546458ecf328711a8a536bb33a805a276b65928e73fc",
+    "qkv_train_81043_20261006.json": "1925cca6b8e4b9ca9215a5d1d4451c4f991cc68122cf7498bba7a5d0af2bf516",
+    "qkv_development_81043_20261006.json": "36c2f20665b830d31a0a7e958c25150ded08f0a88f7ff4c499b792a70dafaab5",
+    "qkv_confirmation_81043_20261006.json": "947dfcb1d57183d68a43fd34fb3b25d51eee6137dd41805f8907314fff055fb5",
+    "qkv_train_81044_20261006.json": "d79465a506121bb16c2bde1622e5cb4279342a6a5301d3d4d7ba968a04840a40",
+    "qkv_development_81044_20261006.json": "b434b45df48a7a23511302491fa00b1987e0507fcdba9df28f0004a94bafdd63",
+    "qkv_confirmation_81044_20261006.json": "c9ce08ffeca3784c9780da014e39f4b482b7f6021fd1bdffd1f9d3476a2b5ca8",
+    "qkv_teacher_development_20261006.json": "b63af52a72ab09217a0e54c5833a1b1a0b70f41170972499d6e9fe70320bfe4c",
+    "qkv_teacher_confirmation_20261006.json": "df5560538524a8338a0359b185ca566cf1b0d11a26d2a42974e0331af6e99ab2",
+    "qkv_telemetry_smoke_20261006.json": "ac5fa4a583c31713ca7e170517f0c61bbb8d7b6ab821a1040b39a48d341eb964"
+  },
+  "preflight_artifacts_sha256": {
+    "runs/xtrah100/qkv_preflight_20261006/suite.json": "aba627ca4fc3cdb37675289638835c5c0da292d0c640e44bdabe14502fa6c8b1",
+    "runs/xtrah100/qkv_preflight_20261006/teacher_preflight/manifest.json": "f1d861d54e9c1022cc67dde7202884b0868a73549e79f7f55422f327c096f810",
+    "runs/xtrah100/qkv_preflight_20261006/teacher_preflight/summary.json": "4c5fd61eed001999da90a84d328ce5aa2de7041499262f489d8693cc0c8c9597",
+    "runs/xtrah100/qkv_telemetry_smoke_20261006/suite.json": "743ab9e70553645b21b3d0c94de3e9d812e776c98851bdfcdcf5ef486871abd9",
+    "runs/xtrah100/qkv_prepare_20261006/suite.json": "54737a188f8885e032bb29d5e181e5bf3f543fc80a7de2d64d1db9caa2bb433d"
+  },
+  "feature_result": {
+    "caches": {
+      "train": {
+        "entities": 64,
+        "payloads": 128,
+        "contextual_observations": 8192,
+        "cache_sha256": "8666df85d3901296ccae2ad894cb2afeef115487f1d71415bfaeabcff132f835"
+      },
+      "known": {
+        "records": 16,
+        "cache_sha256": "921f58df273d57a268721e5f788d906a180842c7f0bb7612ebbf8de16453a968"
+      },
+      "dev": {
+        "records": 16,
+        "cache_sha256": "64703679e91b39e8faf957df0e039fbe46bda7de899681f80f823427436aed09"
+      },
+      "confirm": {
+        "records": 16,
+        "cache_sha256": "992c81577ed5deb99e6e75a478e77786c53a42a3172dede2c654f5816e0e190d"
+      }
+    },
+    "dataset_sha256": "76f9e539dddda8dc7ee0c7f300eea42d5e74c15abca2fde4407f0d4eba71de93"
+  },
+  "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+  "arms": [
+    "static_flat",
+    "static_grouped",
+    "rebind_flat",
+    "rebind_grouped",
+    "rebind_grouped_additive"
+  ],
+  "seeds": [
+    81042,
+    81043,
+    81044
+  ],
+  "updates": 2048,
+  "main_endpoint": "fixed final2048; no early stopping",
+  "tests": {
+    "command": "/home/chenhan/miniconda3/envs/agent/bin/python -m pytest -q",
+    "passed": 1085,
+    "seconds": 108.83,
+    "exit_code": 0
+  },
+  "notes": [
+    "Preflight source snapshots precede optional read_diagnostics; formal runtime source identical across arms.",
+    "Remote clock approximately315seconds ahead of local; compare source/data hashes and causal launch order."
+  ]
+}

@@ -1,0 +1,257 @@
+{
+  "protocol": "qkv-architecture-review-v1",
+  "created_at_utc": "2026-10-06T13:30:00.283164+00:00",
+  "reviewer": "architecture_audit",
+  "status": "pass_no_critical_mismatch",
+  "critical_findings": [],
+  "scope": {
+    "read_only_runtime_review": [
+      "src/vera_mem/qkv_run.py",
+      "src/vera_mem/qkv_eval.py",
+      "src/vera_mem/qkv_vera.py"
+    ],
+    "protocol_document": "docs/qkv_protocol.md",
+    "confirmation_predictions_read": false,
+    "gpu_or_ssh_used": false,
+    "runtime_or_protocol_modified": false,
+    "completed_runtime_evidence": "Local prepare, teacher preflight and four smoke runs only; no claim about completion or outputs of formal training."
+  },
+  "registration": {
+    "path": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/plans/qkv_registration_20261006.json",
+    "sha256": "51d88985f47b74b6cc5038f2ad0f640aafaeeebe5450a2722213491fa233b432",
+    "sealed_at_utc": "2026-10-06T13:25:16.495254+00:00",
+    "protocol_sha256": "b91e7d74603d635d0969458e8a4ba9a52910bb88c8eed16deb155e58971e257a",
+    "source_files_verified": 44,
+    "plans_verified": 12,
+    "preflight_artifacts_verified": 5,
+    "feature_files_verified": 4,
+    "dataset_file_verified": true,
+    "complete_current_python_source_inventory": true,
+    "detailed_checks_path": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/plans/qkv_architecture_review_checks_20261006.json",
+    "detailed_checks_sha256": "48ea95fa295a1ee3d6174e0dcb1443aa80a67f8a26d67ddfa90a699532b62ee0",
+    "formal_remote_snapshot_verification": "Pending future local backup; current local runtime files exactly match registration."
+  },
+  "mechanism_checks": [
+    {
+      "check": "Actual layer input query and CPU grouped lookup",
+      "result": "pass",
+      "basis": "Grouped search normalizes actual encoded layer queries and scans all stored keys; logsumexp cosine/T chooses one fact, then softmax mixes its three values. No target-ID filter, gold slot selector or eval oracle."
+    },
+    {
+      "check": "Training/evaluation read consistency",
+      "result": "pass",
+      "basis": "Tensor training and CPU grouped evaluation share _grouped_read; flat uses corresponding existing top-4 paths. Hard group choice is nondifferentiable; dense group_address_loss supplies routing gradients outside the selected fact."
+    },
+    {
+      "check": "Independent counterfactual branches",
+      "result": "pass",
+      "basis": "A8/B8 examples use 16 independent banks. Each B bank changes only its own target payload under the same entity/question; target_answers aligns world order and ep.local_targets."
+    },
+    {
+      "check": "Exposure control and feature provenance",
+      "result": "pass",
+      "basis": "Actual 64x128 entity-plus-payload observations are independently frozen-encoded. Static/rebind share target/background/order RNG, exhaust 64 entities per eight-step epoch and supervise all 128 payloads once per epoch. Statistics use only 128 static AB observations and 64 training queries."
+    },
+    {
+      "check": "Teacher and held-out isolation",
+      "result": "pass",
+      "basis": "Teacher has current single support and bypasses VDB; training contains sequence CE plus address CE only. initialize enforces canonical training AB whitelist. Development axes exclude D; eval uses frozen modules and current observed vectors. Precomputed D features do not enter optimization/statistics/selection."
+    },
+    {
+      "check": "Online mutations and controls",
+      "result": "pass",
+      "basis": "Each target/world starts from clean A, writes all three target slots atomically, checks non-target preservation, evaluates fixed neighbor, restores A and checks keys/values. Shuffling cycles whole fact values while preserving keys and order within each three-slot group; empty bank is actually empty."
+    },
+    {
+      "check": "Metrics and generation",
+      "result": "pass",
+      "basis": "Greedy max_new_tokens=32, one route per generated token including initial prediction, strict full-answer normalized EM, R1 from maximal weight rather than list order, current question only. Target IDs are consulted only after generation for metric annotation."
+    }
+  ],
+  "confirmed_budgets": {
+    "plans": {
+      "train": 15,
+      "development": 30,
+      "confirmation": 30
+    },
+    "models": 15,
+    "per_model_updates": 2048,
+    "per_model_entity_exposures": 256,
+    "per_model_payload_exposures": 256,
+    "per_model_target_exposures": 16384,
+    "per_model_supervised_sequences": 32768,
+    "per_model_backbone_training_calls": 2048,
+    "per_model_student_generation_calls": 1200,
+    "formal_student_generation_calls": 18000,
+    "formal_teacher_generation_calls": 448,
+    "formal_generation_calls": 18448,
+    "formal_interventions": 3360,
+    "formal_restorations": 3360,
+    "formal_real_group_writes": 6720,
+    "notes": "Formal budget counts are protocol/plan/code derived, not completed-run claims; smoke calls and bank/control materialization are separate."
+  },
+  "completed_teacher_evidence": {
+    "predictions_sha256": "7fa67f1e722e9d61bb25a948b7e8b3f5717bfc7e761f945cae03c5c63bfd5675",
+    "raw_rows": 128,
+    "unique_entities": 64,
+    "A_correct": 64,
+    "B_correct": 64,
+    "pair_correct": 64,
+    "all_memory_bypass_records_valid": true,
+    "EM_recomputed_from_raw_text": true
+  },
+  "completed_smoke_evidence": {
+    "four_train_and_eval_pairs_complete": true,
+    "training_updates": [
+      4,
+      4,
+      4,
+      2
+    ],
+    "eval_calls_per_pair": 13,
+    "each_eval_interventions": 2,
+    "each_eval_restorations": 2,
+    "all_backbones_unchanged": true,
+    "interpretation": "Pipeline, differentiability and lifecycle checks, not learning efficacy."
+  },
+  "nonblocking_reporting_boundaries": [
+    "Grouped selected_fact is not a standalone serialized prediction trace field; it is exactly recoverable as indices[0]//3 because all three indices belong to one fact. Empty retrieval has no selected fact. Flat may mix several facts and must not be assigned one grouped selected_fact.",
+    "Training read_diagnostics uses captured gold-prefix prediction inputs including EOS, before optimizer update, under no_grad without another backbone forward. residual_rms is the adapter delta before addition/BF16 rounding, not post-addition residual/base RMS ratio or free-generation residual.",
+    "Same target/payload exposure and gold-token multiset hold across full epochs, not necessarily within one step or separately within A and B sides. Background content residency can differ with regime and is logged.",
+    "Grouped reads three values versus flat four; both scan all keys. This is not identical value-read budget or independent address/content encoding.",
+    "Additive readout is a diagnostic excluded from candidate selection; success/failure alone cannot isolate multiplicative VeRA as the sole cause.",
+    "A/B values are deliberately shared across known/new-entity banks to isolate entity generalization. C/D are paired single-word replacements and templates are historically known; this is not arbitrary unseen-language or cross-domain generalization."
+  ],
+  "test_evidence": {
+    "owned_tests_previously_run": 73,
+    "root_full_suite_registered": {
+      "command": "/home/chenhan/miniconda3/envs/agent/bin/python -m pytest -q",
+      "passed": 1085,
+      "seconds": 108.83,
+      "exit_code": 0
+    },
+    "repeated_tests_during_this_read_only_review": false
+  },
+  "formal_training_plan": [
+    {
+      "name": "static_flat_seed81042",
+      "seed": 81042,
+      "regime": "static",
+      "read_mode": "flat",
+      "readout": "vera",
+      "updates": 2048
+    },
+    {
+      "name": "static_grouped_seed81042",
+      "seed": 81042,
+      "regime": "static",
+      "read_mode": "grouped",
+      "readout": "vera",
+      "updates": 2048
+    },
+    {
+      "name": "rebind_flat_seed81042",
+      "seed": 81042,
+      "regime": "rebind",
+      "read_mode": "flat",
+      "readout": "vera",
+      "updates": 2048
+    },
+    {
+      "name": "rebind_grouped_seed81042",
+      "seed": 81042,
+      "regime": "rebind",
+      "read_mode": "grouped",
+      "readout": "vera",
+      "updates": 2048
+    },
+    {
+      "name": "rebind_grouped_additive_seed81042",
+      "seed": 81042,
+      "regime": "rebind",
+      "read_mode": "grouped",
+      "readout": "additive",
+      "updates": 2048
+    },
+    {
+      "name": "static_flat_seed81043",
+      "seed": 81043,
+      "regime": "static",
+      "read_mode": "flat",
+      "readout": "vera",
+      "updates": 2048
+    },
+    {
+      "name": "static_grouped_seed81043",
+      "seed": 81043,
+      "regime": "static",
+      "read_mode": "grouped",
+      "readout": "vera",
+      "updates": 2048
+    },
+    {
+      "name": "rebind_flat_seed81043",
+      "seed": 81043,
+      "regime": "rebind",
+      "read_mode": "flat",
+      "readout": "vera",
+      "updates": 2048
+    },
+    {
+      "name": "rebind_grouped_seed81043",
+      "seed": 81043,
+      "regime": "rebind",
+      "read_mode": "grouped",
+      "readout": "vera",
+      "updates": 2048
+    },
+    {
+      "name": "rebind_grouped_additive_seed81043",
+      "seed": 81043,
+      "regime": "rebind",
+      "read_mode": "grouped",
+      "readout": "additive",
+      "updates": 2048
+    },
+    {
+      "name": "static_flat_seed81044",
+      "seed": 81044,
+      "regime": "static",
+      "read_mode": "flat",
+      "readout": "vera",
+      "updates": 2048
+    },
+    {
+      "name": "static_grouped_seed81044",
+      "seed": 81044,
+      "regime": "static",
+      "read_mode": "grouped",
+      "readout": "vera",
+      "updates": 2048
+    },
+    {
+      "name": "rebind_flat_seed81044",
+      "seed": 81044,
+      "regime": "rebind",
+      "read_mode": "flat",
+      "readout": "vera",
+      "updates": 2048
+    },
+    {
+      "name": "rebind_grouped_seed81044",
+      "seed": 81044,
+      "regime": "rebind",
+      "read_mode": "grouped",
+      "readout": "vera",
+      "updates": 2048
+    },
+    {
+      "name": "rebind_grouped_additive_seed81044",
+      "seed": 81044,
+      "regime": "rebind",
+      "read_mode": "grouped",
+      "readout": "additive",
+      "updates": 2048
+    }
+  ]
+}

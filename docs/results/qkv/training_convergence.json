@@ -1,0 +1,95 @@
+{
+  "scope": "descriptive last128 training updates, teacher-forced metrics; no checkpoint selection",
+  "records": [
+    {
+      "model": "rebind_flat_seed81042",
+      "updates": 2048,
+      "last128_ce": 0.32862150837900117,
+      "last128_address": 0.2260188409127295
+    },
+    {
+      "model": "rebind_grouped_additive_seed81042",
+      "updates": 2048,
+      "last128_ce": 0.4529505310347304,
+      "last128_address": 0.24441385769750923
+    },
+    {
+      "model": "rebind_grouped_seed81042",
+      "updates": 2048,
+      "last128_ce": 0.5081725082127377,
+      "last128_address": 0.29397107957629487
+    },
+    {
+      "model": "static_flat_seed81042",
+      "updates": 2048,
+      "last128_ce": 0.002320943328413705,
+      "last128_address": 0.01665870130636904
+    },
+    {
+      "model": "static_grouped_seed81042",
+      "updates": 2048,
+      "last128_ce": 0.009448085650547,
+      "last128_address": 0.01626622311960091
+    },
+    {
+      "model": "rebind_flat_seed81043",
+      "updates": 2048,
+      "last128_ce": 0.5772867910563946,
+      "last128_address": 0.17913396476069465
+    },
+    {
+      "model": "rebind_grouped_additive_seed81043",
+      "updates": 2048,
+      "last128_ce": 0.31947876513004303,
+      "last128_address": 0.14114309381693602
+    },
+    {
+      "model": "rebind_grouped_seed81043",
+      "updates": 2048,
+      "last128_ce": 0.5556511289905757,
+      "last128_address": 0.17190046346513554
+    },
+    {
+      "model": "static_flat_seed81043",
+      "updates": 2048,
+      "last128_ce": 0.004585955939546693,
+      "last128_address": 0.03226625160459662
+    },
+    {
+      "model": "static_grouped_seed81043",
+      "updates": 2048,
+      "last128_ce": 0.004192017742752796,
+      "last128_address": 0.022341735331792734
+    },
+    {
+      "model": "rebind_flat_seed81044",
+      "updates": 2048,
+      "last128_ce": 0.564525097142905,
+      "last128_address": 0.1670819801511243
+    },
+    {
+      "model": "rebind_grouped_additive_seed81044",
+      "updates": 2048,
+      "last128_ce": 0.3694360457593575,
+      "last128_address": 0.14938248071121052
+    },
+    {
+      "model": "rebind_grouped_seed81044",
+      "updates": 2048,
+      "last128_ce": 0.5386368113104254,
+      "last128_address": 0.09714122519653756
+    },
+    {
+      "model": "static_flat_seed81044",
+      "updates": 2048,
+      "last128_ce": 0.006954513195523759,
+      "last128_address": 0.019116154706352972
+    },
+    {
+      "model": "static_grouped_seed81044",
+      "updates": 2048,
+      "last128_ce": 0.01411965509851143,
+      "last128_address": 0.01965944975745515
+    }
+  ]
+}

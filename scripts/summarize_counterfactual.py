@@ -1,6 +1,6 @@
 """Strict, aggregate-only audit of the five-arm counterfactual confirmation.
 
-Example: python scripts/summarize_counterfactual.py --initial EVAL_INITIAL
+Example: python scripts/summarize_counterfactual.py --preparation PREPARATION --initial EVAL_INITIAL
   --warm WARM --training base=TRAIN_BASE --evaluation base=EVAL_BASE
   [repeat --training/--evaluation for behavior, hidden, mixed] --output PUBLIC
 
@@ -36,10 +36,13 @@ PHASES = tuple(f"{support}_support/{query}_query" for support in ("canonical", "
                for query in ("canonical", "heldout"))
 UNRELATED_PHASES = (PHASES[0], PHASES[-1])
 METHODS = ("real", "shuffled", "oracle", "empty")
-PROTOCOL = "counterfactual-context-v1"
+PROTOCOL = "counterfactual-context-v2"
 EVALUATION_PROTOCOL = "counterfactual-cpu-vdb-eval-v1"
 MODEL_REVISION = "cdbee75f17c01a7cc42f958dc650907174af0554"
 CONFIRMATION_FACTS = 64
+WRITER_INPUT_PREFIX = "Remember this information: "
+PREFIX_MIN_COSINE = .999
+PREFIX_MAX_RELATIVE_RMSE = .05
 CORE_SOURCE_FILES = (
     "counterfactual_backend.py", "counterfactual_losses.py", "counterfactual_run.py",
     "counterfactual_eval.py", "counterfactual_data.py", "context_distillation.py",
@@ -79,6 +82,127 @@ def _safe_relative(value):
 def _identity(value):
     _require(isinstance(value, str) and bool(value), "Missing/invalid fact identifier")
     return value
+
+
+def audit_preparation(directory):
+    """Require the v2 writer-input repair and verify cache bytes before scoring.
+
+    The 64 feature comparisons are recomputed from their recorded numeric rows;
+    only aggregates and hashes are published. Cache files are streamed through
+    SHA256 and never torch-loaded. Preparation script provenance comes from its
+    immutable suite snapshot, matched to the completed launcher command.
+    """
+    directory = Path(directory)
+    manifest = read_json(directory/"manifest.json")
+    _require(manifest.get("protocol") == PROTOCOL, "Preparation must use counterfactual-context-v2")
+    _require(manifest.get("complete") is True and manifest.get("smoke") is False,
+             "Preparation must be complete and non-smoke")
+    _require(manifest.get("model_revision") == MODEL_REVISION, "Preparation model revision mismatch")
+    _require(require_int(manifest.get("train_size"), "preparation training size") == 4096
+             and require_int(manifest.get("evaluation_size"), "preparation evaluation size") == CONFIRMATION_FACTS,
+             "Preparation requires 4096 training and 64 fresh confirmation facts")
+    _require(manifest.get("writer_input_prefix") == WRITER_INPUT_PREFIX, "Historical writer input prefix mismatch")
+    _require(require_int(manifest.get("teacher_generations_performed"), "preparation teacher generations") == 0,
+             "Preparation must not generate teacher answers")
+    _require(require_int(manifest.get("train_context_length_matched"), "matched context lengths") == 4096*4,
+             "A/B teacher context-length check coverage mismatch")
+    check = manifest.get("historical_prefix_feature_check")
+    _require(isinstance(check, dict) and check.get("passed") is True, "Historical prefix feature check did not pass")
+    _require(check.get("split") == "historical_train_only"
+             and check.get("writer_input_prefix") == WRITER_INPUT_PREFIX,
+             "Prefix feature check used the wrong split or writer instruction")
+    _require(require_int(check.get("facts"), "prefix check fact count") == 16
+             and require_int(check.get("feature_pairs"), "prefix feature pairs") == 64,
+             "Prefix feature check must contain 16 facts and 64 feature pairs")
+    styles = [f"train_support_{index:02d}" for index in range(4)]
+    _require(check.get("support_templates") == styles, "Prefix feature check style coverage differs")
+    _require(require_finite(check.get("min_cosine_required"), "minimum cosine threshold") == PREFIX_MIN_COSINE
+             and require_finite(check.get("max_relative_rmse_allowed"), "maximum relative RMSE threshold") == PREFIX_MAX_RELATIVE_RMSE,
+             "Prefix feature check thresholds differ from the fixed protocol")
+    rows = check.get("per_feature")
+    _require(isinstance(rows, list) and len(rows) == 64, "Prefix check per-feature coverage is incomplete")
+    seen, by_fact, cosine, rmse = set(), defaultdict(set), [], []
+    for row in rows:
+        _require(isinstance(row, dict), "Invalid per-feature check row")
+        identity, style = _identity(row.get("id")), row.get("support_template")
+        _require(style in styles and (identity, style) not in seen, "Duplicate/unknown historical feature pair")
+        seen.add((identity, style))
+        by_fact[identity].add(style)
+        c = require_finite(row.get("cosine"), "historical feature cosine")
+        error = require_finite(row.get("relative_rmse"), "historical feature relative RMSE")
+        _require(-1-1e-5 <= c <= 1+1e-5 and error >= 0, "Historical feature metric is outside its valid range")
+        cosine.append(c)
+        rmse.append(error)
+    _require(len(by_fact) == 16 and all(value == set(styles) for value in by_fact.values()),
+             "Historical prefix check is not 16 facts crossed with all four styles")
+    failed = sum(c < PREFIX_MIN_COSINE or error > PREFIX_MAX_RELATIVE_RMSE for c, error in zip(cosine, rmse))
+    _require(require_int(check.get("failed_feature_pairs"), "failed feature pairs") == failed == 0,
+             "Historical per-feature thresholds failed despite the aggregate pass flag")
+    assert_equal(check.get("min_cosine"), min(cosine), "historical check min cosine")
+    assert_equal(check.get("max_relative_rmse"), max(rmse), "historical check max relative RMSE")
+    public_check = {name: check[name] for name in (
+        "passed", "split", "facts", "feature_pairs", "support_templates", "writer_input_prefix",
+        "min_cosine_required", "max_relative_rmse_allowed", "min_cosine", "max_relative_rmse", "failed_feature_pairs")}
+    public_check.update(mean_cosine=sum(cosine)/len(cosine), mean_relative_rmse=sum(rmse)/len(rmse),
+                        writer_text_sha256=require_hash(check.get("writer_text_sha256"), "writer text SHA"),
+                        writer_prompt_token_ids_sha256=require_hash(check.get("writer_prompt_token_ids_sha256"), "writer prompt token SHA"))
+    cache_hashes = {}
+    for name, filename in (("train_cache_sha256", "train.pt"), ("confirmation_cache_sha256", "confirmation.pt")):
+        expected = require_hash(manifest.get(name), name)
+        _require(digest_file(directory/filename) == expected, "Preparation cache file SHA mismatch: "+filename)
+        cache_hashes[name] = expected
+    _require(cache_hashes["train_cache_sha256"] != cache_hashes["confirmation_cache_sha256"], "Preparation train/confirmation caches are identical")
+    suite = read_json(directory.parent/"suite.json")
+    _require(suite.get("protocol") == PROTOCOL, "Preparation suite protocol mismatch")
+    sources = suite.get("source_files_sha256")
+    _require(isinstance(sources, dict), "Preparation suite source manifest missing")
+    script_name = "scripts/prepare_counterfactual.py"
+    script_sha = require_hash(sources.get(script_name), "immutable preparation script SHA")
+    _require(digest_file(directory.parent/"source"/script_name) == script_sha, "Immutable preparation snapshot hash mismatch")
+    jobs = suite.get("jobs")
+    _require(isinstance(jobs, list), "Preparation suite jobs missing")
+    matching = [job for job in jobs if isinstance(job, dict) and job.get("name") == directory.name]
+    _require(len(matching) == 1, "Preparation launcher job is missing or duplicated")
+    job = matching[0]
+    _require(job.get("status") == "complete" and type(job.get("exit_code")) is int and job["exit_code"] == 0,
+             "Preparation launcher job did not complete successfully")
+    command = job.get("command")
+    _require(isinstance(command, list) and all(isinstance(value, str) for value in command), "Preparation command missing")
+    scripts = [value for value in command if Path(value).name == "prepare_counterfactual.py"]
+    _require(len(scripts) == 1 and Path(scripts[0]).parts[-3:] == ("source", "scripts", "prepare_counterfactual.py"),
+             "Preparation command does not execute the immutable snapshot")
+    _require(command.count("--output") == 1 and command.index("--output")+1 < len(command)
+             and Path(command[command.index("--output")+1]).name == directory.name
+             and isinstance(job.get("output"), str) and Path(job["output"]).name == directory.name
+             and "--smoke" not in command, "Preparation command output/smoke policy mismatch")
+    runtime_sources = {Path(name).name: digest for name, digest in sources.items()
+                       if isinstance(name, str) and name.startswith("src/vera_mem/")
+                       and len(Path(name).parts) == 3 and name.endswith(".py")}
+    _require(set(CORE_SOURCE_FILES).issubset(runtime_sources), "Preparation runtime source hashes missing")
+    for name, expected in runtime_sources.items():
+        _require(require_hash(expected, "preparation runtime source SHA") == digest_file(directory.parent/"source/src/vera_mem"/name),
+                 "Preparation runtime snapshot hash mismatch")
+    data = read_json(directory/"data_manifest.json")
+    _require(data.get("protocol") == "counterfactual-memory-pairs-v2"
+             and data.get("model_revision") == MODEL_REVISION, "Preparation data protocol is not pinned v2")
+    _require(data.get("counts") == dict(train=4096, dev=64, confirmation=64)
+             and data.get("seeds", {}).get("confirmation_entities") == 37042,
+             "Preparation fresh confirmation count/seed mismatch")
+    _require("invalid counterfactual v1 seed27042" in data.get("historical_exclusion_sources", []),
+             "Preparation does not exclude invalid v1 confirmation entities")
+    return dict(complete=True, protocol=PROTOCOL, model_revision=MODEL_REVISION, smoke=False,
+                train_size=4096, evaluation_size=CONFIRMATION_FACTS, writer_input_prefix=WRITER_INPUT_PREFIX,
+                teacher_generations_performed=0, train_context_length_matched=4096*4,
+                historical_prefix_feature_check=public_check,
+                data_protocol=dict(protocol=data["protocol"], counts=data["counts"], confirmation_seed=37042,
+                                   excludes_invalid_v1_confirmation=True),
+                provenance=dict(**cache_hashes,
+                    original_cache_sha256=require_hash(manifest.get("original_cache_sha256"), "original cache SHA"),
+                    immutable_preparation_snapshot_sha256=script_sha,
+                    manifest_sha256=digest_file(directory/"manifest.json"),
+                    suite_manifest_sha256=digest_file(directory.parent/"suite.json"),
+                    data_manifest_sha256=digest_file(directory/"data_manifest.json"),
+                    runtime_source_files_sha256=runtime_sources, runtime_source_sha256=object_digest(runtime_sources)))
 
 
 def audit_manifest(directory, *, evaluation):
@@ -263,14 +387,18 @@ def pair_summary(pairs, labels=("A", "B"), *, invariant=False):
 
 
 def pair_diagnostics(pairs):
-    swapped = wrong_wrong = stale_b = 0
+    swapped = wrong_wrong = changed_both_wrong = stale_b = 0
     for a, b in pairs:
         score_a, score_b = a["answer_results"]["A"], b["answer_results"]["B"]
         swapped += bool(exact_match(a["prediction"], score_b["answer"]) and exact_match(b["prediction"], score_a["answer"]))
-        wrong_wrong += not score_a["em"] and not score_b["em"]
+        both_wrong = not score_a["em"] and not score_b["em"]
+        changed = normalize_answer(a["prediction"]) != normalize_answer(b["prediction"])
+        wrong_wrong += both_wrong
+        changed_both_wrong += changed and both_wrong
         stale_b += bool(exact_match(b["prediction"], score_a["answer"]))
     return dict(swapped_answer_count=swapped, swapped_answer_rate=swapped/len(pairs),
                 wrong_wrong_count=wrong_wrong, wrong_wrong_rate=wrong_wrong/len(pairs),
+                changed_both_wrong_count=changed_both_wrong, changed_both_wrong_rate=changed_both_wrong/len(pairs),
                 b_outputs_old_a_count=stale_b, b_outputs_old_a_rate=stale_b/len(pairs))
 
 
@@ -602,13 +730,20 @@ def _metric_vectors(private, phases, field, method="real"):
                        else private["phases"][phase][identity][field] for phase in phases] for identity in ids}
 
 
-def summarize(initial, warm, trainings, evaluations, *, samples=2000, seed=123):
+def summarize(initial, warm, trainings, evaluations, *, preparation, samples=2000, seed=123):
     _require(set(trainings) == set(evaluations) == set(ARMS), "All four training/evaluation arms are required")
     paths = [Path(initial).resolve(), Path(warm).resolve(), *(Path(p).resolve() for p in trainings.values()), *(Path(p).resolve() for p in evaluations.values())]
     _require(len(paths) == len(set(paths)), "Run directories must be distinct")
+    prepared = audit_preparation(preparation)
     warmed = audit_training(warm)
     _require(warmed["configuration"]["method"] == "base" and warmed["configuration"]["start_step"] == 0, "Common warm-up must be base from step zero")
     initial_public, initial_private = audit_evaluation(initial, include_teacher=True)
+    _require(prepared["provenance"]["train_cache_sha256"] == warmed["provenance"]["cache_sha256"],
+             "Warm training cache does not match audited preparation")
+    _require(prepared["provenance"]["confirmation_cache_sha256"] == initial_public["provenance"]["cache_sha256"],
+             "Initial confirmation cache does not match audited preparation")
+    _require(prepared["provenance"]["runtime_source_sha256"] == warmed["provenance"]["runtime_source_sha256"],
+             "Preparation/training runtime sources differ")
     trained = {name: audit_training(trainings[name]) for name in ARMS}
     evaluated = {name: audit_evaluation(evaluations[name], include_teacher=False) for name in ARMS}
     all_evidence = [warmed, initial_public, *trained.values(), *(pair[0] for pair in evaluated.values())]
@@ -690,12 +825,12 @@ def summarize(initial, warm, trainings, evaluations, *, samples=2000, seed=123):
                     _metric_vectors(all_runs[reference][1], UNRELATED_PHASES, "unrelated_joint"), samples=samples, seed=seed)
             comparisons[name] = comparison
     cost_stages = [warmed, *trained.values()]
-    return dict(protocol="counterfactual-public-audit-v1", complete=True,
+    return dict(protocol="counterfactual-public-audit-v2", complete=True,
                 audited_at=datetime.now(timezone.utc).isoformat(), audit_numeric_tolerance=1e-7,
                 evaluation=dict(facts=CONFIRMATION_FACTS, phases=list(PHASES), split="fresh confirmation",
                                 fact_label_sha256=initial_public["provenance"]["fact_label_sha256"],
                                 raw_prediction_count=sum(run[0]["evaluation_cost"]["generation_calls"] for run in all_runs.values())),
-                warm=warmed, runs=[all_runs[name][0] for name in EVAL_ARMS], comparisons=comparisons,
+                preparation=prepared, warm=warmed, runs=[all_runs[name][0] for name in EVAL_ARMS], comparisons=comparisons,
                 teacher_acceptance={phase: dict(counterfactual=initial_public["phases"][phase]["methods"]["teacher"],
                                                 paraphrase=initial_public["phases"][phase]["teacher_paraphrase"]) for phase in PHASES},
                 comparability=dict(common_initial_checkpoint_sha256=warmed["provenance"]["checkpoint_sha256"],
@@ -712,6 +847,7 @@ def summarize(initial, warm, trainings, evaluations, *, samples=2000, seed=123):
                     elapsed_stage_seconds_sum=sum(item["training"]["elapsed_seconds"] for item in cost_stages)),
                 limitations=[
                     "64 fresh entities, a finite 16-word answer vocabulary, two reserved structure families and one training seed; broader semantic generalization is untested.",
+                    "Only v2 caches with the historical writer prefix and a passing 64-feature training-only reproduction check are admitted. Invalid v1 results are excluded; confirmation uses fresh seed37042.",
                     "A/B must both be correct for paired_switch_em. Changed predictions alone, swapped wrong answers, and wrong/wrong changes are not successes.",
                     "Teacher eligibility conditions are reported alongside all-fact scores; no difficult teacher-ineligible facts are silently discarded.",
                     "A/B/P and all four phases share an entity. Bootstrap samples target-fact clusters, not individual world/phase rows; intervals exclude seed/family uncertainty.",
@@ -729,7 +865,9 @@ def report(summary):
     percent = lambda value: "—" if value is None else f"{100*value:.1f}%"
     def interval(value):
         return f"{100*value['delta']:+.1f} [{100*value['ci95'][0]:+.1f}, {100*value['ci95'][1]:+.1f}]"
+    prefix_check = summary["preparation"]["historical_prefix_feature_check"]
     lines = ["# 反事实记忆蒸馏：严格审计结果", "",
+             f"v2缓存预检通过：固定writer前缀已核验，历史16个训练事实×4种支持表达共64组特征复算的最小cosine={prefix_check['min_cosine']:.8f}，最大relative RMSE={prefix_check['max_relative_rmse']:.8f}；固定门槛为cosine≥0.999、relative RMSE≤0.05。训练/确认缓存文件SHA与运行记录一致；准备过程teacher生成次数为0。v1无效结果不进入本报告，新确认实体seed为37042。", "",
              "A/B为同一问题、不同目标事实；P只改目标观察的表达。主指标要求A、B两个世界同时正确，不能用输出发生变化代替成功。", "",
              f"共同warm {summary['comparability']['warm_updates']}步；四组各续训 {summary['comparability']['continuation_updates']}步，target/episode schedule SHA一致。Initial是warm前的原始anchored checkpoint。", "",
              "## 四条件的真实读出", "", "单元格：A/B成对正确率 / A与P同时正确率。每列64个事实。", "",
@@ -737,12 +875,12 @@ def report(summary):
     for run in summary["runs"]:
         cells = [percent(run["phases"][phase]["methods"]["real"]["paired_switch_em"])+" / "+percent(run["phases"][phase]["paraphrase"]["joint_em"]) for phase in PHASES]
         lines.append("| "+run["method"]+" | "+" | ".join(cells)+" |")
-    lines += ["", "## 检索、错误切换与打乱对照", "", "R@1为A/B两世界；swapped指A答B且B答A。wrong/wrong包含两世界都错误的情况。Δ为real−shuffled paired switch，百分点及95%按事实成对bootstrap区间。", "",
-              "| 方法 | 条件 | A/B R@1 | swapped | wrong/wrong | 变化但未同时正确 | Δreal−shuffled (pp, CI) |", "|---|---|---|---|---|---|---|"]
+    lines += ["", "## 检索、错误切换与打乱对照", "", "R@1为A/B两世界；swapped指A答B且B答A。wrong/wrong包括两边都错但输出相同的情况；变化且两边都错要求normalize_answer后的输出确实不同。Δ为real−shuffled paired switch，百分点及95%按事实成对bootstrap区间。", "",
+              "| 方法 | 条件 | A/B R@1 | swapped | wrong/wrong | 变化且两边都错 | 变化但未同时正确 | Δreal−shuffled (pp, CI) |", "|---|---|---|---|---|---|---|---|"]
     for run in summary["runs"]:
         for phase in PHASES:
             row = run["phases"][phase]; score = row["methods"]["real"]
-            lines.append(f"| {run['method']} | {labels[phase]} | {percent(score['a_recall_at_1'])}/{percent(score['b_recall_at_1'])} | {percent(score['swapped_answer_rate'])} | {percent(score['wrong_wrong_rate'])} | {percent(score['changed_but_not_both_correct_rate'])} | {interval(row['paired']['real_minus_shuffled_switch'])} |")
+            lines.append(f"| {run['method']} | {labels[phase]} | {percent(score['a_recall_at_1'])}/{percent(score['b_recall_at_1'])} | {percent(score['swapped_answer_rate'])} | {percent(score['wrong_wrong_rate'])} | {percent(score['changed_both_wrong_rate'])} | {percent(score['changed_but_not_both_correct_rate'])} | {interval(row['paired']['real_minus_shuffled_switch'])} |")
     lines += ["", "## Teacher可用性", "", "所有事实仍在主表分母中。条件分数仅作诊断；teacher正确性是自由生成结果，不等同训练loss的margin/hidden门控。", "",
               "| 条件 | Teacher A/B joint | Teacher A/P joint | Teacher A/B/P全对数量 |", "|---|---|---|---|"]
     for phase in PHASES:
@@ -783,6 +921,7 @@ def _assignments(values, kind):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--preparation", type=Path, required=True)
     parser.add_argument("--initial", type=Path, required=True)
     parser.add_argument("--warm", type=Path, required=True)
     parser.add_argument("--training", action="append", required=True, metavar="METHOD=DIR")
@@ -792,7 +931,8 @@ def main(argv=None):
     parser.add_argument("--bootstrap-seed", type=int, default=123)
     args = parser.parse_args(argv)
     summary = summarize(args.initial, args.warm, _assignments(args.training, "training"),
-                        _assignments(args.evaluation, "evaluation"), samples=args.bootstrap_samples, seed=args.bootstrap_seed)
+                        _assignments(args.evaluation, "evaluation"), preparation=args.preparation,
+                        samples=args.bootstrap_samples, seed=args.bootstrap_seed)
     args.output.mkdir(parents=True, exist_ok=True)
     for name, contents in (("summary.json", json.dumps(summary, ensure_ascii=False, indent=2, allow_nan=False)+"\n"),
                            ("report.md", report(summary))):

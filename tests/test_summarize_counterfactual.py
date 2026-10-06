@@ -16,7 +16,7 @@ import pytest
 import torch
 from torch import nn
 
-from vera_mem.counterfactual_data import datasets
+from vera_mem.counterfactual_data import datasets, protocol_manifest
 from vera_mem.counterfactual_eval import evaluate_counterfactual
 from vera_mem.data import MEMORY_WORDS
 from vera_mem.run import tensor_digest
@@ -24,6 +24,7 @@ from vera_mem.run import tensor_digest
 
 ROOT = Path(__file__).resolve().parents[1]
 REVISION = "cdbee75f17c01a7cc42f958dc650907174af0554"
+WRITER_PREFIX = "Remember this information: "
 ARMS = ("base", "behavior", "hidden", "mixed")
 PHASES = ("canonical_support/canonical_query", "canonical_support/heldout_query",
           "heldout_support/canonical_query", "heldout_support/heldout_query")
@@ -189,7 +190,7 @@ def training_artifacts(directory, method, start_step, module, checkpoint_hash, s
     status = dict(complete=True, step=start_step+4, updates=4, target_pair_exposures=8,
                   episode_schedule_sha256=schedule.hexdigest(), token_totals=total, elapsed_seconds=4.)
     write_json(directory/"training_status.json", status)
-    torch.save(dict(protocol="counterfactual-context-v1", module=module.state_dict(), optimizer={},
+    torch.save(dict(protocol="counterfactual-context-v2", module=module.state_dict(), optimizer={},
                     step=start_step+4, configuration=cfg), directory/"last.pt")
     manifest = common_manifest(cfg, sources, module, checkpoint_hash, "train")
     manifest["training"] = status
@@ -197,13 +198,71 @@ def training_artifacts(directory, method, start_step, module, checkpoint_hash, s
 
 
 def common_manifest(cfg, sources, module, checkpoint_hash, split):
-    return dict(protocol="counterfactual-context-v1", complete=True, configuration=cfg,
-        source_files_sha256=sources, cache_sha256=("1" if split == "train" else "2")*64,
+    preparation = Path(cfg["run_dir"]).parent/"prepare"
+    return dict(protocol="counterfactual-context-v2", complete=True, configuration=cfg,
+        source_files_sha256=sources, cache_sha256=digest(preparation/(split+".pt")),
         checkpoint_sha256=checkpoint_hash, model_revision=REVISION,
         teacher_parameter_sha256_before="3"*64, teacher_parameter_sha256_after="3"*64,
         teacher_parameters_unchanged=True, module_sha256_before=tensor_digest(module),
         module_sha256_after=tensor_digest(module), cache_split=split,
         started_at="2026-10-06T00:00:00Z", finished_at="2026-10-06T00:00:01Z")
+
+
+def preparation_artifacts(root):
+    """Small actual-hash caches; metadata follows prepare_counterfactual.main."""
+    directory = root/"prepare"
+    directory.mkdir()
+    source = root/"source/src/vera_mem"
+    if not source.exists():
+        shutil.copytree(ROOT/"src/vera_mem", source, ignore=shutil.ignore_patterns("__pycache__"))
+    script = root/"source/scripts/prepare_counterfactual.py"
+    script.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(ROOT/"scripts/prepare_counterfactual.py", script)
+    (directory/"train.pt").write_bytes(b"private-small-train-cache-v2")
+    (directory/"confirmation.pt").write_bytes(b"private-small-confirmation-cache-v2")
+    styles = [f"train_support_{index:02d}" for index in range(4)]
+    features = [dict(id=f"PRIVATE_PREFIX_FACT_{index:02d}", support_template=style,
+                     cosine=1.-(index*4+view)*1e-6, relative_rmse=.001+(index*4+view)*1e-6)
+                for index in range(16) for view, style in enumerate(styles)]
+    prefix_check = dict(passed=True, split="historical_train_only", facts=16,
+        feature_pairs=64, support_templates=styles, writer_input_prefix=WRITER_PREFIX,
+        min_cosine_required=.999, max_relative_rmse_allowed=.05,
+        min_cosine=min(row["cosine"] for row in features),
+        max_relative_rmse=max(row["relative_rmse"] for row in features),
+        failed_feature_pairs=0, writer_text_sha256="a"*64,
+        writer_prompt_token_ids_sha256="b"*64, per_feature=features)
+    manifest = dict(protocol="counterfactual-context-v2", complete=True, smoke=False,
+        writer_input_prefix=WRITER_PREFIX, historical_prefix_feature_check=prefix_check,
+        train_size=4096, evaluation_size=64, model_revision=REVISION,
+        original_cache_sha256="9"*64, train_cache_sha256=digest(directory/"train.pt"),
+        confirmation_cache_sha256=digest(directory/"confirmation.pt"),
+        train_context_length_matched=4096*4, teacher_generations_performed=0,
+        started_at="2026-10-06T00:00:00Z", finished_at="2026-10-06T00:00:01Z")
+    write_json(directory/"manifest.json", manifest)
+    write_json(directory/"data_manifest.json", protocol_manifest())
+    snapshots = {str(path.relative_to(root/"source")): digest(path)
+                 for path in [*source.glob("*.py"), script]}
+    suite = dict(protocol="counterfactual-context-v2", complete=True, status="complete",
+        source_files_sha256=snapshots,
+        jobs=[dict(name="prepare", status="complete", exit_code=0, output=str(directory),
+                   command=["/usr/bin/python3", "-u", str(script), "--model", "/private/model",
+                            "--original-cache", "/private/original.pt", "--output", str(directory)])])
+    write_json(root/"suite.json", suite)
+    return directory
+
+
+@pytest.fixture(scope="module")
+def preparation_template(tmp_path_factory):
+    root = tmp_path_factory.mktemp("counterfactual_preparation")
+    preparation_artifacts(root)
+    return root
+
+
+@pytest.fixture
+def preparation(tmp_path, preparation_template):
+    root = tmp_path/"PRIVATE_PREPARATION"
+    shutil.copytree(preparation_template, root)
+    return root/"prepare"
 
 
 @pytest.fixture(scope="module")
@@ -213,6 +272,7 @@ def original_fixture(tmp_path_factory):
     source = root/"source/src/vera_mem"
     shutil.copytree(ROOT/"src/vera_mem", source, ignore=shutil.ignore_patterns("__pycache__"))
     sources = {path.name: digest(path) for path in source.glob("*.py")}
+    preparation_artifacts(root)
     module, packet = TinyMemory(), evaluation_packet()
     training_artifacts(root/"warm", "base", 0, module, "4"*64, sources)
     for arm in ARMS:
@@ -247,6 +307,7 @@ def evidence(tmp_path, original_fixture):
 
 def summarize(summary, root, samples=40):
     return summary.summarize(initial=root/"initial_eval", warm=root/"warm",
+        preparation=root/"prepare",
         trainings={arm: root/(arm+"_train") for arm in ARMS},
         evaluations={arm: root/(arm+"_eval") for arm in ARMS}, samples=samples, seed=123)
 
@@ -270,6 +331,8 @@ def test_real_evaluator_end_to_end_and_public_privacy(summary, evidence):
         assert actual["methods"]["real"]["swapped_answer_rate"] == 1/64
         # A swapped answer is also a both-wrong pair, not a disjoint category.
         assert actual["methods"]["real"]["wrong_wrong_count"] == 2
+        assert actual["methods"]["real"]["changed_both_wrong_count"] == 2
+        assert actual["methods"]["real"]["changed_both_wrong_rate"] == 2/64
         assert actual["paraphrase"]["joint_em"] == 62/64
         assert actual["methods"]["empty"]["paired_switch_em"] == 0.
         eligible = actual["teacher_eligibility"]
@@ -285,6 +348,25 @@ def test_real_evaluator_end_to_end_and_public_privacy(summary, evidence):
     first_row = read_jsonl(evidence/"base_eval/predictions.jsonl")[0]
     assert first_row["target_id"] not in serialized
     assert first_row["question"] not in serialized
+
+
+@pytest.mark.parametrize("prediction_a,prediction_b,both_wrong,changed_wrong,swapped", [
+    ("unknown", "unknown", 1, 0, 0),
+    (" UNKNOWN! ", "unknown", 1, 0, 0),  # Metric normalization removes case/punctuation/spacing.
+    ("unknown", "different", 1, 1, 0),
+    ("river", "apple", 1, 1, 1),  # Swapped answers are also changed-and-both-wrong.
+    ("apple", "unknown", 0, 0, 0),  # A changed answer with one correct side is not wrong->wrong.
+])
+def test_changed_both_wrong_requires_an_actual_normalized_output_change(
+        summary, prediction_a, prediction_b, both_wrong, changed_wrong, swapped):
+    a = dict(prediction=prediction_a, answer_results={"A": {
+        "answer": "apple", "em": int(summary.exact_match(prediction_a, "apple"))}})
+    b = dict(prediction=prediction_b, answer_results={"B": {
+        "answer": "river", "em": int(summary.exact_match(prediction_b, "river"))}})
+    result = summary.pair_diagnostics([(a, b)])
+    assert result["wrong_wrong_count"] == result["wrong_wrong_rate"] == both_wrong
+    assert result["changed_both_wrong_count"] == result["changed_both_wrong_rate"] == changed_wrong
+    assert result["swapped_answer_count"] == swapped
 
 
 @pytest.mark.parametrize("mutation", ["missing", "duplicate", "false_em", "false_nll", "read_mutation", "fabricated_bank", "context_leak", "query_identity"])
@@ -436,3 +518,155 @@ def test_cluster_bootstrap_uses_facts_not_phase_observations(summary):
 def test_bootstrap_rejects_misaligned_or_nonfinite_facts(summary, first, second):
     with pytest.raises(ValueError):
         summary.paired_cluster_bootstrap(first, second, samples=10)
+
+
+def test_preparation_audit_validates_v2_evidence_and_redacts_per_feature_rows(summary, preparation):
+    protected = [preparation/"manifest.json", preparation/"data_manifest.json",
+                 preparation/"train.pt", preparation/"confirmation.pt"]
+    before = {path: digest(path) for path in protected}
+    result = summary.audit_preparation(preparation)
+    assert {path: digest(path) for path in protected} == before
+    assert result["complete"] and not result["smoke"]
+    assert result["protocol"] == "counterfactual-context-v2"
+    assert result["writer_input_prefix"] == WRITER_PREFIX
+    assert result["train_size"] == 4096 and result["evaluation_size"] == 64
+    assert result["teacher_generations_performed"] == 0
+    prefix = result["historical_prefix_feature_check"]
+    assert prefix["passed"] and prefix["facts"] == 16 and prefix["feature_pairs"] == 64
+    assert prefix["min_cosine_required"] == .999 and prefix["max_relative_rmse_allowed"] == .05
+    assert result["data_protocol"]["confirmation_seed"] == 37042
+    assert result["data_protocol"]["excludes_invalid_v1_confirmation"]
+    assert result["provenance"]["train_cache_sha256"] == digest(preparation/"train.pt")
+    assert result["provenance"]["confirmation_cache_sha256"] == digest(preparation/"confirmation.pt")
+    public = json.dumps(result)
+    for private in ("PRIVATE_", str(preparation.parent), "/private/", "per_feature", '"templates":'):
+        assert private not in public
+
+
+@pytest.mark.parametrize("field,value", [
+    ("protocol", "counterfactual-context-v1"), ("complete", False), ("smoke", True),
+    ("model_revision", "unvalidated-revision"), ("train_size", 32), ("evaluation_size", 4),
+    ("writer_input_prefix", "Remember this information:"),
+    ("writer_input_prefix", "Remember the information: "),
+    ("teacher_generations_performed", 1), ("train_context_length_matched", 4096),
+])
+def test_preparation_requires_complete_uncontaminated_v2_configuration(summary, preparation, field, value):
+    mutate_json(preparation/"manifest.json", lambda row: row.__setitem__(field, value))
+    with pytest.raises(ValueError):
+        summary.audit_preparation(preparation)
+
+
+@pytest.mark.parametrize("mutation", [
+    "failed", "missing_row", "duplicate_row", "wrong_style", "only_fifteen_facts",
+    "cosine_fails", "rmse_fails", "nonfinite", "negative_rmse", "wrong_min", "wrong_max",
+    "failed_count", "loose_cosine", "loose_rmse", "trimmed_prefix", "wrong_split",
+])
+def test_preparation_recomputes_all_sixty_four_historical_prefix_checks(summary, preparation, mutation):
+    def change(manifest):
+        report = manifest["historical_prefix_feature_check"]
+        rows = report["per_feature"]
+        if mutation == "failed":
+            report["passed"] = False
+        elif mutation == "missing_row":
+            rows.pop()
+        elif mutation == "duplicate_row":
+            rows[-1] = copy.deepcopy(rows[0])
+        elif mutation == "wrong_style":
+            rows[0]["support_template"] = "PRIVATE_UNDECLARED_STYLE"
+        elif mutation == "only_fifteen_facts":
+            last = rows[-1]["id"]
+            for row in rows:
+                if row["id"] == last:
+                    row["id"] = rows[0]["id"]
+        elif mutation == "cosine_fails":
+            rows[0]["cosine"] = report["min_cosine"] = .998
+        elif mutation == "rmse_fails":
+            rows[0]["relative_rmse"] = report["max_relative_rmse"] = .06
+        elif mutation == "nonfinite":
+            rows[0]["cosine"] = float("nan")
+        elif mutation == "negative_rmse":
+            rows[0]["relative_rmse"] = -.01
+        elif mutation == "wrong_min":
+            report["min_cosine"] = 1.
+        elif mutation == "wrong_max":
+            report["max_relative_rmse"] = .01
+        elif mutation == "failed_count":
+            report["failed_feature_pairs"] = 1
+        elif mutation == "loose_cosine":
+            report["min_cosine_required"] = .998
+        elif mutation == "loose_rmse":
+            report["max_relative_rmse_allowed"] = .06
+        elif mutation == "trimmed_prefix":
+            report["writer_input_prefix"] = WRITER_PREFIX.rstrip()
+        else:
+            report["split"] = "confirmation"
+    mutate_json(preparation/"manifest.json", change)
+    with pytest.raises(ValueError):
+        summary.audit_preparation(preparation)
+
+
+@pytest.mark.parametrize("filename", ["train.pt", "confirmation.pt"])
+def test_preparation_binds_report_to_actual_cache_bytes(summary, preparation, filename):
+    with (preparation/filename).open("ab") as handle:
+        handle.write(b"changed after manifest")
+    with pytest.raises(ValueError):
+        summary.audit_preparation(preparation)
+
+
+@pytest.mark.parametrize("split", ["train", "confirmation"])
+def test_coherently_relabelled_run_caches_still_must_match_preparation(summary, evidence, split):
+    # Internal arm agreement cannot substitute for linkage to actual cache files.
+    directories = (["warm", *(arm+"_train" for arm in ARMS)] if split == "train"
+                   else ["initial_eval", *(arm+"_eval" for arm in ARMS)])
+    for directory in directories:
+        mutate_json(evidence/directory/"manifest.json", lambda row: row.__setitem__("cache_sha256", "e"*64))
+    with pytest.raises(ValueError, match="audited preparation"):
+        summarize(summary, evidence)
+
+
+@pytest.mark.parametrize("mutation", ["old_protocol", "old_seed", "missing_exclusion", "count"])
+def test_preparation_requires_new_confirmation_and_v1_entity_exclusion(summary, preparation, mutation):
+    def change(data):
+        if mutation == "old_protocol":
+            data["protocol"] = "counterfactual-memory-pairs-v1"
+        elif mutation == "old_seed":
+            data["seeds"]["confirmation_entities"] = 27042
+        elif mutation == "missing_exclusion":
+            data["historical_exclusion_sources"] = []
+        else:
+            data["counts"]["confirmation"] = 4
+    mutate_json(preparation/"data_manifest.json", change)
+    with pytest.raises(ValueError):
+        summary.audit_preparation(preparation)
+
+
+@pytest.mark.parametrize("mutation", ["source", "source_record", "command", "output", "job_failed", "protocol"])
+def test_preparation_requires_immutable_snapshot_and_matching_successful_job(summary, preparation, mutation):
+    root = preparation.parent
+    if mutation == "source":
+        with (root/"source/scripts/prepare_counterfactual.py").open("a") as handle:
+            handle.write("\n# altered writer after cache creation\n")
+    else:
+        def change(suite):
+            job = suite["jobs"][0]
+            if mutation == "source_record":
+                suite["source_files_sha256"]["scripts/prepare_counterfactual.py"] = "0"*64
+            elif mutation == "command":
+                job["command"][2] = "/private/unrelated/prepare_counterfactual.py"
+            elif mutation == "output":
+                job["command"][-1] = "/private/different-preparation"
+            elif mutation == "job_failed":
+                job.update(status="failed", exit_code=1)
+            else:
+                suite["protocol"] = "counterfactual-context-v1"
+        mutate_json(root/"suite.json", change)
+    with pytest.raises(ValueError):
+        summary.audit_preparation(preparation)
+
+
+def test_cli_requires_preparation_evidence(summary, capsys):
+    with pytest.raises(SystemExit) as raised:
+        summary.main(["--initial", "initial", "--warm", "warm", "--training", "base=train",
+                      "--evaluation", "base=eval", "--output", "public"])
+    assert raised.value.code == 2
+    assert "--preparation" in capsys.readouterr().err

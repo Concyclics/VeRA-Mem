@@ -28,6 +28,7 @@ p.add_argument("--host", required=True, help="Existing SSH alias")
 p.add_argument("--remote-root", required=True)
 p.add_argument("--local-root", type=Path, required=True)
 p.add_argument("--verify", action="store_true")
+p.add_argument("--ssh-control-path",type=Path,help="Optional caller-owned SSH control socket; remains open for reuse")
 a = p.parse_args()
 if not re.fullmatch(r"[A-Za-z0-9_.@-]+", a.host) or a.host.startswith("-"):
     raise ValueError("Use a plain SSH alias or user@hostname")
@@ -59,9 +60,16 @@ save_manifest()
 with tempfile.TemporaryDirectory(prefix="vera_mem_sync_") as socket_directory:
     # Reuse one authenticated transport, avoiding bursts of SSH connections.
     # The private temporary directory prevents socket-name collisions.
-    control = str(Path(socket_directory) / "connection")
+    if a.ssh_control_path is not None:
+        if not a.ssh_control_path.is_absolute(): raise ValueError("Control path must be absolute")
+        import os
+        parent=a.ssh_control_path.parent
+        if parent.is_symlink() or parent.stat().st_uid!=os.getuid() or parent.stat().st_mode & 0o077:
+            raise ValueError("Caller control socket must be in an owned private directory")
+    control = str(a.ssh_control_path or Path(socket_directory) / "connection")
     transport = shlex.join(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15",
-        "-o", "ControlMaster=auto", "-o", "ControlPersist=60", "-o", "ControlPath=" + control])
+        "-o", "ServerAliveInterval=15", "-o", "ServerAliveCountMax=3",
+        "-o", "ControlMaster=auto", "-o", "ControlPersist=120", "-o", "ControlPath=" + control])
     common = ["--protect-args", "-e", transport, "--exclude=.git", "--exclude=__pycache__", "--exclude=.pytest_cache"]
     try:
         for source, destination in plans:
@@ -83,6 +91,7 @@ with tempfile.TemporaryDirectory(prefix="vera_mem_sync_") as socket_directory:
         raise
     finally:
         save_manifest()
-        subprocess.run(["ssh", "-S", control, "-O", "exit", a.host],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+        if a.ssh_control_path is None:
+            subprocess.run(["ssh", "-S", control, "-O", "exit", a.host],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
 print(json.dumps(manifest, indent=2))

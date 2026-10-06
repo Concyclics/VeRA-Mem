@@ -4,7 +4,9 @@ VeRA-Mem 是基于 **Qwen3-4B-Instruct-2507** 的可写向量记忆研究原型�
 
 主方法扩展了 [VeRA](https://arxiv.org/abs/2310.11454) 的冻结随机矩阵参数化。研究重点是寻址、读出、连续写入与成本的关系；LoRA bank、文本 RAG 和加性 latent reader 属于对照，不能代替主方法的结果。
 
-最新 Wikipedia 冷启动实验已完成：八个主方案与一个教师修复补充方案，覆盖无热身、匹配模板、自然段落、可学习基础向量、稠密热身、straight-through 和聚类压缩。32K 候选中的 8,192 个目标参与语料热身，全部 32K 用于原型初始化。答案 NLL 与梯度覆盖有所改善，但教师合格的合成确认任务中，九个模型四种表达条件均 **0/64**，已见事实小探针均 **0/8**；尚未获得完整多词事实读出或泛化收益。原始 Wiki 教师本身失败，不能把该域零分单独归因于学生。33,216 次正式生成和 9,960 次单条更新通过独立审计。详见[冷启动结果与下一步](docs/coldstart_results.md)、[固定协议](docs/coldstart_protocol.md)及[文献依据](docs/coldstart_literature.md)。
+最新小数据重构实验已完成 **四种结构 × 三个种子**：三向量写入、可学习 B 及两者结合，都使 16 条已见事实的 A/B 成对重构达到 **16/16 × 3**，单向量固定 B 为 **14/16、13/16、13/16**。但四种结构对同实体未训练的新组合 C/D 均 **0/16**，新实体确认四种表达条件均 **0/64**，相应原文教师全部正确。已见拟合可以稳定成功，尚未获得新内容的可靠在线写读，因此按预定门槛停止扩样。详见[完整结果与学生交接](docs/reconstruction_results.md)、[固定协议](docs/reconstruction_protocol.md)和[关键结果](docs/results/reconstruction/key_facts.json)。
+
+此前 Wikipedia 冷启动实验已完成：八个主方案与一个教师修复补充方案，覆盖无热身、匹配模板、自然段落、可学习基础向量、稠密热身、straight-through 和聚类压缩。32K 候选中的 8,192 个目标参与语料热身，全部 32K 用于原型初始化。答案 NLL 与梯度覆盖有所改善，但教师合格的合成确认任务中，九个模型四种表达条件均 **0/64**，已见事实小探针均 **0/8**；尚未获得完整多词事实读出或泛化收益。原始 Wiki 教师本身失败，不能把该域零分单独归因于学生。33,216 次正式生成和 9,960 次单条更新通过独立审计。详见[冷启动结果与下一步](docs/coldstart_results.md)、[固定协议](docs/coldstart_protocol.md)及[文献依据](docs/coldstart_literature.md)。
 
 此前四步接口实验已完成：四银行干预表明更换 key 或 value 都会退化；三个 seed 的已选 writer 在新观测确认条件均 **0/128**。扩展为四关系、三词答案后，key 一致性对照的六组和蒸馏五臂在四种表达条件均 **0/256**，原文 teacher 均 **256/256**。11 个模型的 22,528 条真实检索输出也全部未包含完整正确答案；on-policy 多处理约43%的输入位置，没有完整答案收益。本轮支持暂停给当前固定单层随机读出继续叠加损失，先检验读写接口的表达能力；三词任务连原格式也未学会，不能只归为格式泛化失败。详见[四步结果与学生交接](docs/interface_results.md)。
 
@@ -14,6 +16,7 @@ VeRA-Mem 是基于 **Qwen3-4B-Instruct-2507** 的可写向量记忆研究原型�
 
 上一轮表述泛化对照中，相同更新预算下，单模板、多模板增强、增强加一致性三组的原模板 EM 为 **100.0% / 24.2% / 33.6%**；保留 XML/CSV/对话问法、原观测 bank 的 EM 为 **0.0% / 4.2% / 3.9%**。后两组打乱 value 后仍为 **4.2% / 3.9%**。历史同模板127/128及全部失败记录均保留；不同数据、预算和初始化的实验不能直接横比。
 
+- [小数据重构与结构对照](docs/reconstruction_results.md)：三种子、单/三向量写入、固定/可学习 B、已见重构、新组合写入、邻居干扰和独立确认。
 - [Wikipedia 冷启动与可学习基础向量](docs/coldstart_results.md)：八臂主实验、教师修复、向量利用率、压缩、确认结果和审计证据。
 - [四步接口实验结果](docs/interface_results.md)与[固定协议](docs/interface_protocol.md)：四银行、三种writer、key一致性、多词答案、五臂蒸馏及完整失败诊断。
 - [反事实蒸馏结果与学生交接](docs/counterfactual_results.md)：四组正式对照、teacher验收、严格成对指标、原始预测审计与下一步方案。
@@ -63,6 +66,8 @@ value_new = tanh(Wv · norm(support_x))
 中心化诊断将 Wv 的输入改为 `norm(support_x) - mean_offline_train`，均值作为固定 buffer 随 checkpoint 保存。它不改变 Wq/Wk 输入。
 
 新增 `StableVectorVeRA` 分别对 query/support 做训练集中心化后重新 RMS 归一化，value 使用线性投影后的 RMSNorm；它保留同一动态 VeRA 分支。旧 tanh 版本留作诊断对照，不覆盖历史 checkpoint。
+
+`ReconstructionVeRA` 用于小数据结构对照：每条事实保存一槽 payload mean 或三槽 word-span mean，Wk/Wv 共享，整组原子覆盖。可选地将 B 从相同随机初值设为离线可训练，A 仍冻结；线上全部共享权重冻结。三槽仍按 slot 稀疏 top-4 并混为一个 rank-64 value，不能把它当成显式逐词解码器或更高秩读出。
 
 `support_x` 来自完整已观察文本在同一层的输入。写入特征提取时关闭记忆增量，保持表示来源稳定。主读取路径在层 hook 内为每个 token 更新 query，prefill 与 decode 都检索；一次回答只固定 VDB 快照，检索结果可以随 token 变化。
 
@@ -216,6 +221,24 @@ python scripts/replay_coldstart_banks.py \
 ```
 
 这些检查重算原始计数并重建持久化银行，不重新执行 CUDA 编码或语言模型生成。`analysis_excluded.json` 标记的旧运行保留，但不进入有效结果。教师答案标注补充臂、smoke、废弃计算和主实验分别统计。
+
+## 小数据重构与结构对照
+
+入口 `python -m vera_mem.reconstruction_run --stage prepare|train|eval|teacher` 使用独立微型数据：固定 16 条训练事实、32 条开发和 64 条确认事实。训练只见 canonical A/B；同实体新组合 C 用于开发门槛，D 的生成与评分留到选择封存之后。D 特征虽已预计算，但不参与训练梯度或开发选型。具体定义见[协议](docs/reconstruction_protocol.md)。
+
+`scripts/run_reconstruction_suite.py` 冻结源码并顺序运行准备、训练或教师；`scripts/run_reconstruction_eval_suite.py` 只并行只读学生评估。确认评估要求 `--selection-evidence`，核验完整开发矩阵、门槛与选择证据后才启动。历史 [19 份执行计划](docs/results/reconstruction/plans.json)包含机器路径，复现须新建目录、映射路径并重新检查资源；不能覆盖既有运行。
+
+完整备份之后，可在本地 CPU 复算结果：
+
+```bash
+python scripts/summarize_reconstruction.py \
+  --runs-root ../runs/xtrah100 --output ../reconstruction_summary_new.json \
+  --selection ../plans/reconstruction_selection_20261006.json
+python scripts/audit_reconstruction.py \
+  --runs-root ../runs/xtrah100 --output ../reconstruction_audit_new.json
+```
+
+汇总器重算自由生成和配对指标；独立审计重编码 writer、重放银行更新/恢复，并检查同种子初值、优化器和预算。它们不重新执行基座生成。没有通过新组合门槛时停止扩样，不能用确认集事后选择另一个结构。
 
 ## 目录与实验产物
 

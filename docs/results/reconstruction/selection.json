@@ -1,0 +1,692 @@
+{
+  "protocol": "reconstruction-selection-v1",
+  "sealed": true,
+  "created_at": "2026-10-06T12:36:47.921214+00:00",
+  "script_sha256": "1e33864b6e831a624acfebd444e1cd7a952d9ee4844f74919e9e603e468768d4",
+  "protocol_sha256": "38ff9df8681757dd963e2cb4b63405c7f306d887b8b0442f7db823625896e7e5",
+  "decision": {
+    "policy": {
+      "ab_pair_min": 0.9375,
+      "c_update_restore_min": 0.9375,
+      "c_real_minus_shuffle_min": 0.5,
+      "c_real_minus_empty_min": 0.5,
+      "c_locality_joint_min": 0.95,
+      "d_update_restore_min": 0.9375,
+      "confirm_cc_pair_min": 0.8,
+      "selection_order": [
+        "maximum minimum-seed C update_restore_em",
+        "minimum trainable_parameters",
+        "minimum bytes_per_fact",
+        "fixed arm order"
+      ],
+      "seeds": [
+        71042,
+        71043,
+        71044
+      ],
+      "arm_order": [
+        "S1_fixedB",
+        "S3_fixedB",
+        "S1_trainB",
+        "S3_trainB"
+      ]
+    },
+    "selected_arm": null,
+    "candidates": [
+      {
+        "arm": "S1_fixedB",
+        "eligible": false,
+        "per_seed": [
+          {
+            "seed": 71042,
+            "passed": false,
+            "checks": {
+              "ab_pair": false,
+              "c_update_restore": false,
+              "c_real_minus_shuffle": false,
+              "c_real_minus_empty": false,
+              "c_locality_joint": false
+            },
+            "ab_pair": 0.875,
+            "c_update_restore": 0.0,
+            "c_real": 0.0,
+            "c_shuffle": 0.0,
+            "c_empty": 0.0,
+            "c_locality_joint": 0.9375
+          },
+          {
+            "seed": 71043,
+            "passed": false,
+            "checks": {
+              "ab_pair": false,
+              "c_update_restore": false,
+              "c_real_minus_shuffle": false,
+              "c_real_minus_empty": false,
+              "c_locality_joint": false
+            },
+            "ab_pair": 0.8125,
+            "c_update_restore": 0.0,
+            "c_real": 0.0,
+            "c_shuffle": 0.0,
+            "c_empty": 0.0,
+            "c_locality_joint": 0.875
+          },
+          {
+            "seed": 71044,
+            "passed": false,
+            "checks": {
+              "ab_pair": false,
+              "c_update_restore": false,
+              "c_real_minus_shuffle": false,
+              "c_real_minus_empty": false,
+              "c_locality_joint": false
+            },
+            "ab_pair": 0.8125,
+            "c_update_restore": 0.0,
+            "c_real": 0.0,
+            "c_shuffle": 0.0,
+            "c_empty": 0.0,
+            "c_locality_joint": 0.875
+          }
+        ],
+        "minimum_seed_c_update_restore": 0.0,
+        "trainable_parameters": 1870336,
+        "bytes_per_fact": 512
+      },
+      {
+        "arm": "S3_fixedB",
+        "eligible": false,
+        "per_seed": [
+          {
+            "seed": 71042,
+            "passed": false,
+            "checks": {
+              "ab_pair": true,
+              "c_update_restore": false,
+              "c_real_minus_shuffle": false,
+              "c_real_minus_empty": false,
+              "c_locality_joint": true
+            },
+            "ab_pair": 1.0,
+            "c_update_restore": 0.0,
+            "c_real": 0.0,
+            "c_shuffle": 0.0,
+            "c_empty": 0.0,
+            "c_locality_joint": 1.0
+          },
+          {
+            "seed": 71043,
+            "passed": false,
+            "checks": {
+              "ab_pair": true,
+              "c_update_restore": false,
+              "c_real_minus_shuffle": false,
+              "c_real_minus_empty": false,
+              "c_locality_joint": false
+            },
+            "ab_pair": 1.0,
+            "c_update_restore": 0.0,
+            "c_real": 0.0,
+            "c_shuffle": 0.0,
+            "c_empty": 0.0,
+            "c_locality_joint": 0.9375
+          },
+          {
+            "seed": 71044,
+            "passed": false,
+            "checks": {
+              "ab_pair": true,
+              "c_update_restore": false,
+              "c_real_minus_shuffle": false,
+              "c_real_minus_empty": false,
+              "c_locality_joint": false
+            },
+            "ab_pair": 1.0,
+            "c_update_restore": 0.0,
+            "c_real": 0.0,
+            "c_shuffle": 0.0,
+            "c_empty": 0.0,
+            "c_locality_joint": 0.9375
+          }
+        ],
+        "minimum_seed_c_update_restore": 0.0,
+        "trainable_parameters": 1870336,
+        "bytes_per_fact": 1536
+      },
+      {
+        "arm": "S1_trainB",
+        "eligible": false,
+        "per_seed": [
+          {
+            "seed": 71042,
+            "passed": false,
+            "checks": {
+              "ab_pair": true,
+              "c_update_restore": false,
+              "c_real_minus_shuffle": false,
+              "c_real_minus_empty": false,
+              "c_locality_joint": true
+            },
+            "ab_pair": 1.0,
+            "c_update_restore": 0.0,
+            "c_real": 0.0,
+            "c_shuffle": 0.0,
+            "c_empty": 0.0,
+            "c_locality_joint": 1.0
+          },
+          {
+            "seed": 71043,
+            "passed": false,
+            "checks": {
+              "ab_pair": true,
+              "c_update_restore": false,
+              "c_real_minus_shuffle": false,
+              "c_real_minus_empty": false,
+              "c_locality_joint": false
+            },
+            "ab_pair": 1.0,
+            "c_update_restore": 0.0,
+            "c_real": 0.0,
+            "c_shuffle": 0.0,
+            "c_empty": 0.0,
+            "c_locality_joint": 0.9375
+          },
+          {
+            "seed": 71044,
+            "passed": false,
+            "checks": {
+              "ab_pair": true,
+              "c_update_restore": false,
+              "c_real_minus_shuffle": false,
+              "c_real_minus_empty": false,
+              "c_locality_joint": true
+            },
+            "ab_pair": 1.0,
+            "c_update_restore": 0.0,
+            "c_real": 0.0,
+            "c_shuffle": 0.0,
+            "c_empty": 0.0,
+            "c_locality_joint": 1.0
+          }
+        ],
+        "minimum_seed_c_update_restore": 0.0,
+        "trainable_parameters": 2034176,
+        "bytes_per_fact": 512
+      },
+      {
+        "arm": "S3_trainB",
+        "eligible": false,
+        "per_seed": [
+          {
+            "seed": 71042,
+            "passed": false,
+            "checks": {
+              "ab_pair": true,
+              "c_update_restore": false,
+              "c_real_minus_shuffle": false,
+              "c_real_minus_empty": false,
+              "c_locality_joint": true
+            },
+            "ab_pair": 1.0,
+            "c_update_restore": 0.0,
+            "c_real": 0.0,
+            "c_shuffle": 0.0,
+            "c_empty": 0.0,
+            "c_locality_joint": 1.0
+          },
+          {
+            "seed": 71043,
+            "passed": false,
+            "checks": {
+              "ab_pair": true,
+              "c_update_restore": false,
+              "c_real_minus_shuffle": false,
+              "c_real_minus_empty": false,
+              "c_locality_joint": true
+            },
+            "ab_pair": 1.0,
+            "c_update_restore": 0.0,
+            "c_real": 0.0,
+            "c_shuffle": 0.0,
+            "c_empty": 0.0,
+            "c_locality_joint": 1.0
+          },
+          {
+            "seed": 71044,
+            "passed": false,
+            "checks": {
+              "ab_pair": true,
+              "c_update_restore": false,
+              "c_real_minus_shuffle": false,
+              "c_real_minus_empty": false,
+              "c_locality_joint": true
+            },
+            "ab_pair": 1.0,
+            "c_update_restore": 0.0,
+            "c_real": 0.0,
+            "c_shuffle": 0.0,
+            "c_empty": 0.0,
+            "c_locality_joint": 1.0
+          }
+        ],
+        "minimum_seed_c_update_restore": 0.0,
+        "trainable_parameters": 2034176,
+        "bytes_per_fact": 1536
+      }
+    ],
+    "evidence": [
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_baseline_71042_20261006/S1_fixedB_seed71042",
+        "artifacts": {
+          "manifest.json": "d541d7b04e35a51ceb5e708b16d7c62e4355c4a5a0bad37d1b90166745a10eee",
+          "training_status.json": "a927e86f3e1599cb404dc118464843439171814a7ab1bd9344e6c1f3591c7fb0",
+          "training.jsonl": "04080665dc0acaf57842be3f998bdd9c395c3d6a91d957cfd14d4ea359ea99c8",
+          "initial.pt": "f262c101a83a0d9b0ab8f293bde7ca221cb3bc6dc375530cdee19c5cd54b7466",
+          "last.pt": "69f7d1bc802f05d3354bbffbbefa53604ed26c578faa3eaa8a69c1e79634d2c8",
+          "step_1024.pt": "ea2c5524aa7e8edd15b4d6b203cff659a01249041504498bc01accfb3de22860"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_baseline_71043_20261006/S1_fixedB_seed71043",
+        "artifacts": {
+          "manifest.json": "f464013d7edca057abc2f85a9e4b1fa9b52fd8406035c1b5ba5f654703f67206",
+          "training_status.json": "71161e9294e71f5e41fdf39898ccec343e3aa3766b78d1a4081b0fe0a10f746f",
+          "training.jsonl": "38380a737515d69de0422b2d73d6fad1337b3c63c2d9f7ac02a4c3d956e85df6",
+          "initial.pt": "ec537e2714b11c059e393ddbf82d827dadfd6f9a766b5f01dffea340522a2af8",
+          "last.pt": "1f9d057ddf131fd1162055247e17be4c1547608e30d429d54eb83bd7b02378e4",
+          "step_1024.pt": "b35e123260f125995f686865f8152ee3b273d32402bbc87c89f41499468878d2"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_baseline_71044_20261006/S1_fixedB_seed71044",
+        "artifacts": {
+          "manifest.json": "091074cb9f10a118e0741c4d41d92b60fcd45dbf524057bae0513ff6b8a0c9e4",
+          "training_status.json": "bcc734c259390543852e5f972a43f9e4d259ecd2d39729f4939287cd65f72cc5",
+          "training.jsonl": "2faa66d04375af8d26908842091175c3901883b37245ff013587541f04cdf70b",
+          "initial.pt": "5153a7c898c09d1a8d435e614e02ee9c04401a6d9acfffbbbd8ec21bffdeb863",
+          "last.pt": "d0629aba6cf6ab6cbf8a3beedece53a9301abf855daa5ca1512e1b9b91acd517",
+          "step_1024.pt": "9f6382bf7263aee88d376e0bd7b72c3884c22c29f48f9d3606a7e8d96c7f5987"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_baseline_eval_71042_20261006/S1_fixedB_seed71042_dev_development",
+        "artifacts": {
+          "manifest.json": "1fbabb2ff5a3f10f05faf38b0b2c006fd4a1122757f83c2da250b8a8dbfbc7ff",
+          "summary.json": "e33358fa7af6b94d8bf6210d8d01f65ccb746d2acc7b60c57dc92abbf03ab543",
+          "predictions.jsonl": "3219bff2e952c6ca321345ca7377e7b8498c265603ccb79f70e69deea7481a59",
+          "pairs.json": "d2fbd9361b8543dbde20054f09ca2c4b9211c4d35ac7e4fbe2a2485f96b2bb81",
+          "encoded_payloads.pt": "7de206ce2c2cd31dc7342d9fc6493520ede8d2d49d329e66b6cd77450c4491d9",
+          "bank_events.pt": "c276928f00f4e57296f3d0c3a4d69efb4dfa48d770101b9000a227f6eb03439b"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_baseline_eval_71042_20261006/S1_fixedB_seed71042_known_development",
+        "artifacts": {
+          "manifest.json": "f6b001ddd58fe4592f9a99cfe835169faafa8860ae396c3d929e31da0aa16d4c",
+          "summary.json": "f47307f675f4dae0c9d814bf0e6e4132112e882e7b7831171d532dbd242ea103",
+          "predictions.jsonl": "b6590a34768bad0df4c12fc0d9d5d033d23817b77bbc113cb560bd749789db05",
+          "pairs.json": "4f8dc27756b14f8ea6e8e1b1140b588f75f0b8903defc80b60f9294a22917913",
+          "encoded_payloads.pt": "a3d37ad7dac598fa2007048e47c73408bd3a7cdad005e3598cf3fa6856393767",
+          "bank_events.pt": "98521eec29ffa3fc49ba47c5ff7ebd8e8484e7af8dd03667d826dbbbfd1211fa"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_baseline_eval_71043_20261006/S1_fixedB_seed71043_dev_development",
+        "artifacts": {
+          "manifest.json": "b165d4c21a6910ef0927243c2c55f890ca88a7830ff7f931fceb6631989381ac",
+          "summary.json": "e82add502426bb6c5e30a535254d11acfbdf26997b2f516be9f6209745f669e5",
+          "predictions.jsonl": "2a47f6a79dd256c59a8caec761b353f6cc358c7134c13906f1005ee24b03d682",
+          "pairs.json": "d2fbd9361b8543dbde20054f09ca2c4b9211c4d35ac7e4fbe2a2485f96b2bb81",
+          "encoded_payloads.pt": "1c5e4248ebcc13947c6c5ef912e6e51fde8509c3273d5d991cd5a319f05220b6",
+          "bank_events.pt": "05a4d33b904194da6619137a9909bdf614b4a16ad841d397298e84f91f7895d0"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_baseline_eval_71043_20261006/S1_fixedB_seed71043_known_development",
+        "artifacts": {
+          "manifest.json": "dac12b942b4a136feb03917e157b95d1c3929b1bf6854b7c16d33a104e83bf76",
+          "summary.json": "9748a9086efb61206e2c914c7b37fb57a996bce732858762279ec4b3a1220ce9",
+          "predictions.jsonl": "5e8530daab5d618d28358df1f87e119b7876c15ec2ba76480e0e3e363061e48d",
+          "pairs.json": "618b5daeb9d4bee7a6ba9b8b927ac0a41ea5e2389373055310df1501df2a8df1",
+          "encoded_payloads.pt": "a6c3cec34c5e00810fa22ce0433851587ff5aad7e76ecaa2b0810e711ee4a669",
+          "bank_events.pt": "b3dd3d008fb9ead71e2d6d05bee095e171c33ad3d3242b00ec5572161cb90202"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_baseline_eval_71044_20261006/S1_fixedB_seed71044_dev_development",
+        "artifacts": {
+          "manifest.json": "1faf12c43d9424a2d6cd0fae09d6099ff8af6606586fe44a71a800047416b459",
+          "summary.json": "977f4c0463c8fa3013c0d3c20585c5ad7025bad21fcf0808dd8c04ea05e77892",
+          "predictions.jsonl": "ea674995c3d6b25af8ea22d1b01bef279a0d3c39d42f4e7c2f74ced81a0d8977",
+          "pairs.json": "d2fbd9361b8543dbde20054f09ca2c4b9211c4d35ac7e4fbe2a2485f96b2bb81",
+          "encoded_payloads.pt": "e2f6a25c27acc597c9b05739bdba3e8f6bb1843bdb3e1b1ecfa0667232b4cd8c",
+          "bank_events.pt": "2ce7b9211c58cac622847d4d1535a96c667d32d88429d47c996696a16948f2ea"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_baseline_eval_71044_20261006/S1_fixedB_seed71044_known_development",
+        "artifacts": {
+          "manifest.json": "ef4c4f92a7ad6549bdc061c538ebba88638d55b5f6c7ef6930b8efa9bd4c93f6",
+          "summary.json": "55f1266ff0c0d67642e73c8d53cc8ef9bb7ece7d47a8d67d14af48f221d9337c",
+          "predictions.jsonl": "ccdf9dafe1ba5178e20e16c897b59c60d351a8258dac6f0578ab57edcbded93f",
+          "pairs.json": "3b4dbfdd567da27009323359db31711b0ec96f58c4ae95d6b5a827b67e0e47d3",
+          "encoded_payloads.pt": "a113cbde22f7b1e6dbebe10971ad4c5f5d01a6cd85ec17fab84c0c3e28524aa5",
+          "bank_events.pt": "35ad8b6bf9e1b3388f3641e81c75c6eadf9734e3c9e521a1de8a145266366c5d"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_prepare_20261006/teacher_preflight",
+        "artifacts": {
+          "manifest.json": "69f2eb5779cd3a190dff3de34fc3e1a329ce212e7baa3dda9669da1355633759",
+          "summary.json": "e568ee9111b1c906112bd34c1cb3b009f9ae1698c88c32711985cd8bb742a2ec",
+          "predictions.jsonl": "511cbbc6121f3429eed80f770ca4a77ccba8d48a5b45280270e27ff641027d96"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_71042_20261006/S1_trainB_seed71042",
+        "artifacts": {
+          "manifest.json": "ac04c65c010099424762cc35aba90345b1afd7eeba651a6b3a1498abd28c146b",
+          "training_status.json": "fb028fb7d2a56db9dc2e240a85180c2f1342b7b8ab33df1ae45c7b57b249dd65",
+          "training.jsonl": "c49433759519654d3b6e26417210469cc1e6385c8c629d6e4a51df812509df9a",
+          "initial.pt": "b8f2d0b8d6c93427fa090a185bce816adf8dc5c10400cad8a4d2aeceb1f450c9",
+          "last.pt": "6ab931d67a9de6e3a802f01bdb30636bec50b2235ff52e6b6575f72ffb2ca3e9",
+          "step_1024.pt": "f0cadcd9fb578f98a1b1da0e662ff6500aea0bb55388e2c5ebc9b245b411072e"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_71042_20261006/S3_fixedB_seed71042",
+        "artifacts": {
+          "manifest.json": "1aef4e893d37319fcb2a74fbb85068accf55f609c93e0294ddf1c7c4a17b8515",
+          "training_status.json": "0b954d7a6fe9639c5054f8a24df2501c6ad6b83b4a577aab41e716652a27aa82",
+          "training.jsonl": "45a84bee81e293e222fa11d15fd0d93c40509b9fb483dc2b44fddefbd9766d90",
+          "initial.pt": "0d97948a9bb6c9eb0e8bebe778cc92e5ee46145dcc455eedb6d153ac3b7ebb2f",
+          "last.pt": "dc6c47d5c2ae38d36ac77e1c0fe6c6192189595b5bc75f881afa78c578e977a4",
+          "step_1024.pt": "04438de4abe122c4ce14680a93970cb9d755cfab6f1c087165d23558f425e6ae"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_71042_20261006/S3_trainB_seed71042",
+        "artifacts": {
+          "manifest.json": "889a3913f3726fd4875c74c0c931b89571c56a0d4b6b75ce7e4394ae4bb1bcfc",
+          "training_status.json": "7091e6f23e7d429f635b6d923cd7470d16d57728bd37f5ef3c86daf192b2bec5",
+          "training.jsonl": "a16f01c88f0bc495a5ad60a9af20421562f9298306e9524bfdf8820a2caf4866",
+          "initial.pt": "e1fe2ca28238c31c5885461b4d2fa4594a4b134651685cd9f482f849eeb4af40",
+          "last.pt": "f3660e885c96f0ee7321523866186b56b51456fe3870b33ce395e40b5d1a151d",
+          "step_1024.pt": "cbd39f82714cba1c4258ba50ce89f9b9a82a1e662aac6f92d49f4383f4f1658c"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_71043_20261006/S1_trainB_seed71043",
+        "artifacts": {
+          "manifest.json": "13fc638b5ec9823070374f217f57b343e4777987fcb40d93593d87bd7120d56c",
+          "training_status.json": "2ada183427bd2beb9b4cf44c042ab81808fd585ffdc1137eef826af847b58d16",
+          "training.jsonl": "275a8d28cc47ca6eb566bfbffe879d3ab1bc822c6600486df79509b43c05e5ca",
+          "initial.pt": "9fbddd524387101e0142b5a6478cfd7f9c318c225fe1cdac819304c23c1c13ac",
+          "last.pt": "e9f3a2782a552ab01c7bb677ddd537af53842b738796d2905ac99a4543ed65eb",
+          "step_1024.pt": "d4066f06cdd48a926b841f00ea65b75059175ca7d6d83f9b56e93adc4cf82a3e"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_71043_20261006/S3_fixedB_seed71043",
+        "artifacts": {
+          "manifest.json": "fb823231aec7b92242f8d059d4abdad23f6322078076fd31539c0d66d2ed467c",
+          "training_status.json": "17ea72f35a186422e78acc5917f58148497b103b962464ae7bce6cbcab4c74cb",
+          "training.jsonl": "1ff3c2ef61273c5f456f5cceeb34bb145b8f72df460f46facb5db5e1f1fc794b",
+          "initial.pt": "2574235e276a6df85c0f0366c6178126fac5cc8d3815474e4a60cf5070367684",
+          "last.pt": "b43f8f4b23fc1b9bcd7c0b9c51f0c9864aa1444e1e8f81c6961c89c51bb4e3a6",
+          "step_1024.pt": "f055971bfc6efdb459e81e404fb54f3bae594e134df1f7205ad8092d4bf4eef7"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_71043_20261006/S3_trainB_seed71043",
+        "artifacts": {
+          "manifest.json": "63a879ad52dda3e9d1e7150926fcc871b176322051b9c23b4eacada6596993b8",
+          "training_status.json": "356df99c91206270c4ffe81509da5bd41e39e6befe834965679c8fe9f55497bb",
+          "training.jsonl": "3951a22f6023aaa52d20b27dee4ca5735bc6befa241ad383bdc95c85600d07c3",
+          "initial.pt": "6106ebb1ccca5ab0ed86d66b704df08c8c8fc0d912f6d1d8679e6072f1af212a",
+          "last.pt": "2d9991c391745a36dbc1426f99938cd7c3bb9645cde649e1697829f10ef00bf3",
+          "step_1024.pt": "14dbbb11c4445a48b30c91a35a5f39599ce0a480b8d5bfc610aeaa15f7513419"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_71044_20261006/S1_trainB_seed71044",
+        "artifacts": {
+          "manifest.json": "59d11e1b983591bab791fa2d7e66274c3aaa617cda044fd5df1573c4d2ed78a8",
+          "training_status.json": "a9ca0bdaa30de7bf3258b2624d0c8eb3eff73d607f08d9d9f03f0797af4321ac",
+          "training.jsonl": "cdec85558619c572712dbdeb2af9006b5d4399adcc43e6d81be43d1b55d9dd8d",
+          "initial.pt": "4f78ab0bdfee6e8c0f1457981a8a3a0a889dde447a4bfd76433638c8093a70ae",
+          "last.pt": "62bdfbb5db9bd96fcdedf2c8954ed6ae9fd3f4ad9cb3af7e0ac24a1b89f59307",
+          "step_1024.pt": "648bb61ab8fd11e1b0137fefef6a59803f8c1f3ccecf04d51b64217a71c006c2"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_71044_20261006/S3_fixedB_seed71044",
+        "artifacts": {
+          "manifest.json": "17f00bde59de100d85aad4c60c01b244e39d362efebbcd959c156033a4b9dac7",
+          "training_status.json": "1dfc1811deb41dcb8b1390bd035c9ab19028bc0b81425de1f8272dc5fa32e97d",
+          "training.jsonl": "2923963327a3e831655c6156d3b01cfa802e732a9e4b8eff0a1af147a1e4413d",
+          "initial.pt": "798a77d45dd7934dc6fdb68e1aaf1e5325881e28e9de003c4d96f59284a5d9a8",
+          "last.pt": "23ef9b4e25cd6b78762384c05d893239cc8187ecba32dae36fc2d450a10bdb96",
+          "step_1024.pt": "233e9c849470a4790ad5c1e04c224e461d664207598fa7da49c6a3685337ffe6"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_71044_20261006/S3_trainB_seed71044",
+        "artifacts": {
+          "manifest.json": "be425500cd59dc9fade12529cefd8f264a7c120aa1f426e4497bcef3970ddc08",
+          "training_status.json": "6887918261c04254cb8a2c2dd6ad7308686d134314d29159783139ee9cf0dd45",
+          "training.jsonl": "441d6f107611073660236d777d1acf2214d553ff7e35e9824a5c64fe573eb111",
+          "initial.pt": "b3797f999ef50adbb2924dbfa7a6ace2cd65044138f491514b1eb5aa5d01ede5",
+          "last.pt": "8707eef619e44b6b6e9a532f29698b0d57831d424b7f790a9f65245882b56ceb",
+          "step_1024.pt": "239931d86a63ee4d37831b646d8a9b6afd8ab6001a7b17ffc8c9c732809776af"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71042_20261006/S1_trainB_seed71042_dev_development",
+        "artifacts": {
+          "manifest.json": "148be3f5eeaaf1da45a4158c1b85fe8c62e9ff26a21de06c384d280c0d2011ef",
+          "summary.json": "06a7301a541075c86b1faf506ae09f99d7dbc42f60632bd0ee2aab00791742da",
+          "predictions.jsonl": "26291517a4746d53fd1b5936c789878cd48e015b2c55d7768bc8410d76ffc45c",
+          "pairs.json": "d2fbd9361b8543dbde20054f09ca2c4b9211c4d35ac7e4fbe2a2485f96b2bb81",
+          "encoded_payloads.pt": "5e0b36132c6128782ec2c23597b010f0623af128a91c25467bd3aecb11016e95",
+          "bank_events.pt": "949da3eb518ca65874a827a5148a0ca835461d49fcaadc2a7cc939e1c30cb924"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71042_20261006/S1_trainB_seed71042_known_development",
+        "artifacts": {
+          "manifest.json": "3812841053c41bc0e83748a8b95543abbb4b8fddf9e1bf869b1526bc871c47dc",
+          "summary.json": "4c3958e763908a161e223118307eeb91e998b24c33c6e03d5bc95deb0e4a07af",
+          "predictions.jsonl": "939749d87341a8f29e9ff48a885e261d9ffa8e9e9ccfa437c7de2e085c259b22",
+          "pairs.json": "bba514690215d6a447795d3a0c7edcf59f28a2d9bd7a69292750e046d5d026d2",
+          "encoded_payloads.pt": "ea5a6d53e458021ee532a852570dd45ee9af38f411c34f3256607c3b331c4228",
+          "bank_events.pt": "f934ab293f787ded9bdad1a414d47f35a62998e9b79504a3be1d5f3334ac459b"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71042_20261006/S3_fixedB_seed71042_dev_development",
+        "artifacts": {
+          "manifest.json": "96c51df4342009dc44496e2055184abfb12877b9c00491959ca3467abad2c1e6",
+          "summary.json": "6148dc14261fc7f44ce1c47e896d4bdea042da6681b6a4858dfbd5eb5ca3be00",
+          "predictions.jsonl": "320a97b3f1c6489d4c7b55db48efa8f481d0367e9a560f4bc9ad4691f14c2dc8",
+          "pairs.json": "d2fbd9361b8543dbde20054f09ca2c4b9211c4d35ac7e4fbe2a2485f96b2bb81",
+          "encoded_payloads.pt": "f80f021f3e344a1de5806e35c035e91b42330674e203dd8eadb8e603579027bf",
+          "bank_events.pt": "8fc823824a023f2522c14db8beb5b597e58c29a8a2a74ad2399b80dc63e1a625"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71042_20261006/S3_fixedB_seed71042_known_development",
+        "artifacts": {
+          "manifest.json": "c1a57ac784618d327d748569e139586324724888e6117ce8f1ca56e746291be2",
+          "summary.json": "4236b8056943a32e17a1a56f25fc60cf08e0b65e10fc1d58ef53237f2ce2f62e",
+          "predictions.jsonl": "7c1afe65504010af2d883e12f55e87ff449178fa8d44476e1008ddaacb2d1060",
+          "pairs.json": "6d794d899fd222b9cad12c24bf2b677ae5153a00aafe0f44b8e1853f85d6ca78",
+          "encoded_payloads.pt": "6a5a9b5c80b3e1a8e366c53eb58ffb57a147383a01747e0b9ab480fb8eb08b1a",
+          "bank_events.pt": "b8cf688bce96b066ccce739414289c980fbfce8594e519cf3b1ed27d2a646d43"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71042_20261006/S3_trainB_seed71042_dev_development",
+        "artifacts": {
+          "manifest.json": "483a4768d8c56ec9742911f8557d5bd13e728d3fc1cbac592d39ce1f3b711138",
+          "summary.json": "f6462474ec0242047a982d27717be7af9d3dc7fe9263b58e586ff2413e3d35dc",
+          "predictions.jsonl": "fd35c2e250e3bf5bb1d70b2ce48783aaf6d1bf4316a9e978c08f120de67f5995",
+          "pairs.json": "d2fbd9361b8543dbde20054f09ca2c4b9211c4d35ac7e4fbe2a2485f96b2bb81",
+          "encoded_payloads.pt": "bb0da455553f80427cdfff874c414b936c21e2f8dbbd80e307c9fd6716c6a48c",
+          "bank_events.pt": "62f65c4b4f9d53485ae9ca35cb183a3fafb697a55b17da97f3c299737542ab74"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71042_20261006/S3_trainB_seed71042_known_development",
+        "artifacts": {
+          "manifest.json": "7fde187426b461ecb4c5375a6691b142754795cfe3c42652ca49cf3f384ef410",
+          "summary.json": "58adf31d82b042f4603e4a4c6275abf02fdc72b45165430a1c3ac091cf1e451e",
+          "predictions.jsonl": "4504e4b72500f7805610a48ac114d4a3f1137a55fb515f2b1498af2a74b91426",
+          "pairs.json": "9170b83860d7d9d4ec9aad6ae976b2dddf9eaa3fc3d911215f9dd852b9a50a75",
+          "encoded_payloads.pt": "898bece4fd73a525c4ae0eaf84a527679e04410232df83b3c5ad02db90e36be8",
+          "bank_events.pt": "1812c84ebb6e5e262f343678ffffc4e7db9b2f7fb533e9ed0a3642e37b300493"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71043_20261006/S1_trainB_seed71043_dev_development",
+        "artifacts": {
+          "manifest.json": "85363ea557b103160249d140f4ca63112db40fdfcbfcf6c03bb27f5557928d16",
+          "summary.json": "f7680793b0c97f5d04e1c5e4969ad7b11cb5174699f1c491ee5cba8005fec979",
+          "predictions.jsonl": "00f44a1d7849b4cefc92078a6471868c7506aa94e83833f3423259ffeead7d28",
+          "pairs.json": "d2fbd9361b8543dbde20054f09ca2c4b9211c4d35ac7e4fbe2a2485f96b2bb81",
+          "encoded_payloads.pt": "7af9242b3464ebcc319e2df5fdf0eca1dc5b253793139524e90007e9679351bb",
+          "bank_events.pt": "97f3bdf6b8d5bdaa191fcf1c3489cde77b03cd0a49223bbdc12874a16dfe2dba"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71043_20261006/S1_trainB_seed71043_known_development",
+        "artifacts": {
+          "manifest.json": "47046abeeefa8c4b0e65e57c292ea8f0e47ceee457f06a804f9c2d0c3c99bace",
+          "summary.json": "dce708a67c3b6bc2f6430fa3d398eefcf286bf81e8630c294278f4079a068a86",
+          "predictions.jsonl": "20c22a92e4a31881b51a01e8215528a6bbbc5e428e86d1a370eee9afdd5a8d5d",
+          "pairs.json": "df4495c8aef0714d11adb64ad142a449918d1ceb321a65bb3f068ef85abe30bf",
+          "encoded_payloads.pt": "e2ed7a7bea2b3947dad72bf4bf2448f14d40221c04f457ff45a6b8dbcc513947",
+          "bank_events.pt": "a02c0ebb8fda8214ca16fde2c1945d48eb368a74f9e87d2740e801ee78ec039f"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71043_20261006/S3_fixedB_seed71043_dev_development",
+        "artifacts": {
+          "manifest.json": "a7a5ed0276b2d2b561d7e1092b27dab0fb6a34337903ab36928d8b68ba8295c5",
+          "summary.json": "31ed7c1861e900298ada5858b8d5996654cdcc0cb5a752bd55aa0533803c451c",
+          "predictions.jsonl": "eea85f869c8f6f6d300a39b07ba29ac12411d1fdeb0495d4f40c4fd2e6dfc5f6",
+          "pairs.json": "d2fbd9361b8543dbde20054f09ca2c4b9211c4d35ac7e4fbe2a2485f96b2bb81",
+          "encoded_payloads.pt": "5bdbdf68374bd9005365941c8fe95f31c132e9c8fa18ae80b6bfbb95c4bfad71",
+          "bank_events.pt": "52d5137916e355726c80a5c579065c12ed86667161179831f9fc7ed0db6841b5"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71043_20261006/S3_fixedB_seed71043_known_development",
+        "artifacts": {
+          "manifest.json": "8a4d4177f97ecd6f033539c19874f03b2348e055c61881dc3cafa443a49e994d",
+          "summary.json": "d41c25563a89f177217ebbc6678d050d64a3e40139061f05a8b631406a1064ad",
+          "predictions.jsonl": "3e2bb63af77082eed1b4a24bf01f480d1396bc8c296838393051c2c95e294e5a",
+          "pairs.json": "3f712188c0721b00092af8594a97766e7d46eb4b467a9045c3033f62bebab378",
+          "encoded_payloads.pt": "5397c6887d3514badadbfa59664e8319950f9d63f222ee1bad39777f5d7ce101",
+          "bank_events.pt": "639243b331cce284a7083b13117f8e693de81823b70b4be5619c430ee5c5eaa7"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71043_20261006/S3_trainB_seed71043_dev_development",
+        "artifacts": {
+          "manifest.json": "1da4d8d5208b258ebc4521b74cb2712a8663507cc4964baa184b489d8cbe2344",
+          "summary.json": "8174efeb7aeebd22285aca491c448746a698e9e9f09a0341540ac63b2a52bcaa",
+          "predictions.jsonl": "d12764575cb34a6d4b399280b8259750fb454f85998cf4205883f470d472c827",
+          "pairs.json": "d2fbd9361b8543dbde20054f09ca2c4b9211c4d35ac7e4fbe2a2485f96b2bb81",
+          "encoded_payloads.pt": "e9b3dcc3e9aed17900c734bf6f2af86fbdad8ced645c0fc4272b5bfd20a3814d",
+          "bank_events.pt": "11f3951ede77e4a2c1db0705ce195cd4013ec91c966752f1ab21e452bd214c49"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71043_20261006/S3_trainB_seed71043_known_development",
+        "artifacts": {
+          "manifest.json": "14b2782932082e8dd7caa3bac9f3fbdc07944da65dd49fb6fb445dc06b3f29de",
+          "summary.json": "02b2fd1b0d9239bf7af1cfe204e51a759aec81008d41b6bd50ca571c7a2b3e49",
+          "predictions.jsonl": "472e1b55f0c03a7542a09bfb571d1a62c67713edc5fbc34f11dea2e28161921a",
+          "pairs.json": "60088f758538358e8d9a09eace94d167df2a18115f053b252d6e14b20e167e32",
+          "encoded_payloads.pt": "ac811637dddd8adba2a5f9bba985f9493eb0b7ad717cf10e9687d2aa82432351",
+          "bank_events.pt": "a5360821e1f7de3fd9358421ff20c7bdf3e88f94ea833dd994fd2e72e027417c"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71044_20261006/S1_trainB_seed71044_dev_development",
+        "artifacts": {
+          "manifest.json": "ee316194ec4e1d19876f8bb47cc290bd0b7536ed3bd6caf07640ccb3f3e8c17f",
+          "summary.json": "223584ab1477d7ac6f94158ed74a3a98828951d21b479afb3d0922cc0f522c2f",
+          "predictions.jsonl": "d2e01245e98291b332bb918b0c502f1329c1e2c47771c85982417df8c4789ce5",
+          "pairs.json": "d2fbd9361b8543dbde20054f09ca2c4b9211c4d35ac7e4fbe2a2485f96b2bb81",
+          "encoded_payloads.pt": "7bb148dddb97ea75a06d9cc63f8f76bd0222a742183f7c254698951c6fba374c",
+          "bank_events.pt": "49a013b1ffc72d2801095412be64a2c40d3b4762a29f54b2ca2e4fa44363b3e4"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71044_20261006/S1_trainB_seed71044_known_development",
+        "artifacts": {
+          "manifest.json": "03e7f8aa4193c5a7c16b1410a771553962d326625aa3f5824b336c7c83ea2165",
+          "summary.json": "21b378832d10739fe6c6bca55e6906c30207ac644031ef22e09c192f2e62d4c4",
+          "predictions.jsonl": "a562d5c339fc5df486f90e5598c3b0b2bf63da2b66e11b11d7e5cdd649f8ce58",
+          "pairs.json": "41c2615c11876ff5979151b2366b9370fa0b0990f8979a8c46b42f9874778f56",
+          "encoded_payloads.pt": "5f00c3301e914a896f6d767bab648f0c6eef16d1b3ddfb7b2d46ee1499767f80",
+          "bank_events.pt": "55bdd6f0d7b16ae44b39450657f4f2e21b24fb694d1f3c39279e429d2f51ca46"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71044_20261006/S3_fixedB_seed71044_dev_development",
+        "artifacts": {
+          "manifest.json": "88a82c544b52232d551e744d49761c5cef71c2a412ff390c76e84f7eff5bb48e",
+          "summary.json": "a6b0a2905412a0da746c6d3c7af6933b2dba313421e200edf3ac54ab75672906",
+          "predictions.jsonl": "ace9859ab12d8da7f34ae828e5cf0a434d4ebf9371eb0920ffa91fc3347c43cb",
+          "pairs.json": "d2fbd9361b8543dbde20054f09ca2c4b9211c4d35ac7e4fbe2a2485f96b2bb81",
+          "encoded_payloads.pt": "16a6314b26ee078c6f76ef5a3e9497f8afdc40f3cdbeb00ae64e7e11b8b380d0",
+          "bank_events.pt": "bbb23b1ec685411e1ea2aefd8547ee6d71363913e1d372f295c08489a5733790"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71044_20261006/S3_fixedB_seed71044_known_development",
+        "artifacts": {
+          "manifest.json": "ac2eff3d063e7a08f520c0add2d1367b8a312ea37d559dce2531841513c27087",
+          "summary.json": "0244136623522305db89946bd8ad669cdb5d0d4a8d0e3c5eb85cf8f3d8848ed8",
+          "predictions.jsonl": "d2f0387e682685284d67b703d93ee8f82410f2a57cc4113500912206595ab64b",
+          "pairs.json": "971801294464cfb856199ceed75f7bfd9becb8d16234adf7b609e7a896d0f1eb",
+          "encoded_payloads.pt": "c1bab4cb83eeffb2adf229d00f2e9de73acf915a894c44526253d497a96eaebe",
+          "bank_events.pt": "735cca68349499fad812edf0f9da6d6420491f98f2e70a67bbe35ff207d3d8dd"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71044_20261006/S3_trainB_seed71044_dev_development",
+        "artifacts": {
+          "manifest.json": "fd6e99a5c2aa9f867643a59cb39ced96fdb6ad6d7e8db0155632911afa93f5cb",
+          "summary.json": "aa6ecc755712e33a3d2abd48d1564c0c3a9143e67b2801beeafeb16801fddf02",
+          "predictions.jsonl": "f9aa0e931e33dfb833362cbd23dc819cc49f57cf87743d557b34e14875ec48ec",
+          "pairs.json": "d2fbd9361b8543dbde20054f09ca2c4b9211c4d35ac7e4fbe2a2485f96b2bb81",
+          "encoded_payloads.pt": "441f34de2a6098dea33087ee08a0b7435dba79110f857d9f69335a0967d4d36f",
+          "bank_events.pt": "175778450dc2e0a35415f06a506177cab8ed356d594a32fc3b679aae604ffc06"
+        }
+      },
+      {
+        "run_dir": "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_structures_eval_71044_20261006/S3_trainB_seed71044_known_development",
+        "artifacts": {
+          "manifest.json": "7ccc6d7e810e7b99d1202908ff8da8da745c5c77903dd6f9a5ae037916995443",
+          "summary.json": "991514d593c5022602f454e5d0fa57d47484775b5f4a00d81d2eebfef48655c6",
+          "predictions.jsonl": "88445c29d2605d65964bc0fd9de1f30c7e4a292b29273a8591db2bd7890c415d",
+          "pairs.json": "63738a1ca0d602b8434498d7b1bf333d92f87fba5013709f1ac98c42c130c610",
+          "encoded_payloads.pt": "5851b9952bb2a08c589ba562cc681ce2b3c511a92863326f62e5788b29db4fb8",
+          "bank_events.pt": "2b3643e2cfa8f67f5c80fc8b61779a57ab98680434e8f6194f28d7354b84f4dc"
+        }
+      }
+    ],
+    "development_barrier": {
+      "expected": 36,
+      "observed": 36,
+      "complete": true,
+      "missing": [],
+      "duplicates": []
+    },
+    "note": "Selected architecture only; all three seeds retained. No D/confirmation scores or outcome-based record filtering enter selection."
+  }
+}

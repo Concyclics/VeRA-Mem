@@ -1,0 +1,1304 @@
+{
+  "protocol": "reconstruction-execution-plans-v1",
+  "note": "Historical absolute paths; map roots and choose new output names for reproduction. GPU resources must be rechecked. These plans do not represent a current reservation.",
+  "plans": [
+    {
+      "filename": "reconstruction_baseline_71042_20261006.json",
+      "sha256": "e590d5349841d4285f69e88371f9ce0cae57cc99536b74fa77a5d8c237d588eb",
+      "plan": [
+        {
+          "name": "S1_fixedB_seed71042",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--seed",
+            "71042",
+            "--slots",
+            "1",
+            "--updates",
+            "1024"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_baseline_71043_20261006.json",
+      "sha256": "13bdca3afd84ba4872f1b0706d9dcb096645fbcbcefd6a564c4c6a1792c28c48",
+      "plan": [
+        {
+          "name": "S1_fixedB_seed71043",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--seed",
+            "71043",
+            "--slots",
+            "1",
+            "--updates",
+            "1024"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_baseline_71044_20261006.json",
+      "sha256": "fdfb9237549162ae97d5d5b7ad681968b364d41a1808d4c2f7591c1959de1ac9",
+      "plan": [
+        {
+          "name": "S1_fixedB_seed71044",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--seed",
+            "71044",
+            "--slots",
+            "1",
+            "--updates",
+            "1024"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_baseline_eval_71042_20261006.json",
+      "sha256": "45d95cb5f29778b5fe168ed1a1d04473fc302eb46fe2b5667f55a71256fda1d1",
+      "plan": [
+        {
+          "name": "S1_fixedB_seed71042_known_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_baseline_71042_20261006/S1_fixedB_seed71042/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S1_fixedB_seed71042_dev_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_baseline_71042_20261006/S1_fixedB_seed71042/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_baseline_eval_71043_20261006.json",
+      "sha256": "812f1da623b80727364d7c3eb791c3f733efdd291f5846242ac4158de82615ff",
+      "plan": [
+        {
+          "name": "S1_fixedB_seed71043_known_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_baseline_71043_20261006/S1_fixedB_seed71043/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S1_fixedB_seed71043_dev_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_baseline_71043_20261006/S1_fixedB_seed71043/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_baseline_eval_71044_20261006.json",
+      "sha256": "14d60a69873584e69fbafde24512462c1d2d015658a8a2230bb5c12e50a98fb0",
+      "plan": [
+        {
+          "name": "S1_fixedB_seed71044_known_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_baseline_71044_20261006/S1_fixedB_seed71044/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S1_fixedB_seed71044_dev_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_baseline_71044_20261006/S1_fixedB_seed71044/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_batched_smoke_20261006.json",
+      "sha256": "30bf0a3d2c400e0201a5984d5e4370fa250c8413ca240e2223c8890ab9b6d989",
+      "plan": [
+        {
+          "name": "smoke_S1",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--updates",
+            "4",
+            "--slots",
+            "1"
+          ]
+        },
+        {
+          "name": "smoke_S3",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--updates",
+            "4",
+            "--slots",
+            "3",
+            "--learned-b"
+          ]
+        },
+        {
+          "name": "smoke_eval_S3",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_batched_smoke_20261006/smoke_S3/last.pt",
+            "--eval-part",
+            "smoke"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_confirm_71042_20261006.json",
+      "sha256": "af29e440539dbd0be13765be74c6ae5bec2cf226127ceda20e8740e6bf4f2a84",
+      "plan": [
+        {
+          "name": "S1_fixedB_seed71042_known_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_baseline_71042_20261006/S1_fixedB_seed71042/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S1_fixedB_seed71042_confirm_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_baseline_71042_20261006/S1_fixedB_seed71042/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S3_fixedB_seed71042_known_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71042_20261006/S3_fixedB_seed71042/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S3_fixedB_seed71042_confirm_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71042_20261006/S3_fixedB_seed71042/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71042_known_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71042_20261006/S1_trainB_seed71042/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71042_confirm_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71042_20261006/S1_trainB_seed71042/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71042_known_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71042_20261006/S3_trainB_seed71042/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71042_confirm_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71042_20261006/S3_trainB_seed71042/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_confirm_71043_20261006.json",
+      "sha256": "865729b2bbf89c8b53c3782c0bbc17bf0b1b39bab290311d83b371ca894b091e",
+      "plan": [
+        {
+          "name": "S1_fixedB_seed71043_known_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_baseline_71043_20261006/S1_fixedB_seed71043/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S1_fixedB_seed71043_confirm_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_baseline_71043_20261006/S1_fixedB_seed71043/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S3_fixedB_seed71043_known_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71043_20261006/S3_fixedB_seed71043/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S3_fixedB_seed71043_confirm_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71043_20261006/S3_fixedB_seed71043/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71043_known_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71043_20261006/S1_trainB_seed71043/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71043_confirm_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71043_20261006/S1_trainB_seed71043/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71043_known_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71043_20261006/S3_trainB_seed71043/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71043_confirm_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71043_20261006/S3_trainB_seed71043/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_confirm_71044_20261006.json",
+      "sha256": "715bcac7b6e923362042af2f0800441a04cc966d3c6d57b4e72fa6bcc3fd8072",
+      "plan": [
+        {
+          "name": "S1_fixedB_seed71044_known_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_baseline_71044_20261006/S1_fixedB_seed71044/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S1_fixedB_seed71044_confirm_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_baseline_71044_20261006/S1_fixedB_seed71044/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S3_fixedB_seed71044_known_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71044_20261006/S3_fixedB_seed71044/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S3_fixedB_seed71044_confirm_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71044_20261006/S3_fixedB_seed71044/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71044_known_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71044_20261006/S1_trainB_seed71044/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71044_confirm_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71044_20261006/S1_trainB_seed71044/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71044_known_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71044_20261006/S3_trainB_seed71044/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71044_confirm_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/confirm.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71044_20261006/S3_trainB_seed71044/last.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_prepare_20261006.json",
+      "sha256": "b30433129096b4d5f55b37fad0c2ed5016af5bacd082705c4b8395c996c49d84",
+      "plan": [
+        {
+          "name": "features",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "prepare",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507"
+          ]
+        },
+        {
+          "name": "teacher_preflight",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "teacher",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--eval-part",
+            "preflight"
+          ]
+        },
+        {
+          "name": "smoke_S1",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--updates",
+            "4",
+            "--slots",
+            "1"
+          ]
+        },
+        {
+          "name": "smoke_S3",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--updates",
+            "4",
+            "--slots",
+            "3",
+            "--learned-b"
+          ]
+        },
+        {
+          "name": "smoke_eval_S1",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/smoke_S1/last.pt",
+            "--eval-part",
+            "smoke"
+          ]
+        },
+        {
+          "name": "smoke_eval_S3",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/smoke_S3/last.pt",
+            "--eval-part",
+            "smoke"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_structures_71042_20261006.json",
+      "sha256": "cf6943604098b246840831efa07c29a79bb51cde0a79177af2d3344806c9e94b",
+      "plan": [
+        {
+          "name": "S3_fixedB_seed71042",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--seed",
+            "71042",
+            "--slots",
+            "3",
+            "--updates",
+            "1024"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71042",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--seed",
+            "71042",
+            "--slots",
+            "1",
+            "--updates",
+            "1024",
+            "--learned-b"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71042",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--seed",
+            "71042",
+            "--slots",
+            "3",
+            "--updates",
+            "1024",
+            "--learned-b"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_structures_71043_20261006.json",
+      "sha256": "16cfa8595f96036c37f1fddd26cd32ee20b50aeadcca6d7c6a66998e8ea95e7f",
+      "plan": [
+        {
+          "name": "S3_fixedB_seed71043",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--seed",
+            "71043",
+            "--slots",
+            "3",
+            "--updates",
+            "1024"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71043",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--seed",
+            "71043",
+            "--slots",
+            "1",
+            "--updates",
+            "1024",
+            "--learned-b"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71043",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--seed",
+            "71043",
+            "--slots",
+            "3",
+            "--updates",
+            "1024",
+            "--learned-b"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_structures_71044_20261006.json",
+      "sha256": "98a21d0f6fb4dcfa7d15e79588b8a722cf8aa76ea0fb18a05a535ee3c4542c57",
+      "plan": [
+        {
+          "name": "S3_fixedB_seed71044",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--seed",
+            "71044",
+            "--slots",
+            "3",
+            "--updates",
+            "1024"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71044",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--seed",
+            "71044",
+            "--slots",
+            "1",
+            "--updates",
+            "1024",
+            "--learned-b"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71044",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "train",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/train.pt",
+            "--seed",
+            "71044",
+            "--slots",
+            "3",
+            "--updates",
+            "1024",
+            "--learned-b"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_structures_eval_71042_20261006.json",
+      "sha256": "113220c09386ace3bc9f2989e8146716013e8c666b18b4feca74939a1b1e690a",
+      "plan": [
+        {
+          "name": "S3_fixedB_seed71042_known_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71042_20261006/S3_fixedB_seed71042/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S3_fixedB_seed71042_dev_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71042_20261006/S3_fixedB_seed71042/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71042_known_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71042_20261006/S1_trainB_seed71042/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71042_dev_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71042_20261006/S1_trainB_seed71042/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71042_known_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71042_20261006/S3_trainB_seed71042/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71042_dev_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71042_20261006/S3_trainB_seed71042/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_structures_eval_71043_20261006.json",
+      "sha256": "3c12fc3d4fc0a3b73eede0f1e52e5f15a780d23c3effc22cd86104f652f13963",
+      "plan": [
+        {
+          "name": "S3_fixedB_seed71043_known_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71043_20261006/S3_fixedB_seed71043/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S3_fixedB_seed71043_dev_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71043_20261006/S3_fixedB_seed71043/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71043_known_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71043_20261006/S1_trainB_seed71043/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71043_dev_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71043_20261006/S1_trainB_seed71043/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71043_known_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71043_20261006/S3_trainB_seed71043/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71043_dev_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71043_20261006/S3_trainB_seed71043/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_structures_eval_71044_20261006.json",
+      "sha256": "0c8cd30e86f305dbc309659cb18dcdabd39ce2092b388f95777e0e34ad49e448",
+      "plan": [
+        {
+          "name": "S3_fixedB_seed71044_known_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71044_20261006/S3_fixedB_seed71044/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S3_fixedB_seed71044_dev_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71044_20261006/S3_fixedB_seed71044/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71044_known_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71044_20261006/S1_trainB_seed71044/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S1_trainB_seed71044_dev_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71044_20261006/S1_trainB_seed71044/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71044_known_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71044_20261006/S3_trainB_seed71044/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "S3_trainB_seed71044_dev_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "eval",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/dev.pt",
+            "--checkpoint",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_structures_71044_20261006/S3_trainB_seed71044/last.pt",
+            "--eval-part",
+            "development"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_teacher_confirmation_20261006.json",
+      "sha256": "4592991c73fe3604e3fe567d82e3a7a54701135053d051df533a41471424de22",
+      "plan": [
+        {
+          "name": "teacher_known_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "teacher",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "teacher_confirm_confirmation",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "teacher",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/confirm.pt",
+            "--eval-part",
+            "confirmation"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "reconstruction_teacher_development_20261006.json",
+      "sha256": "c05e984a69398c2e3ec7a416b375b854637b75511e426053c471a5c7fe10770e",
+      "plan": [
+        {
+          "name": "teacher_known_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "teacher",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/known.pt",
+            "--eval-part",
+            "development"
+          ]
+        },
+        {
+          "name": "teacher_dev_development",
+          "entry": "reconstruction",
+          "arguments": [
+            "--stage",
+            "teacher",
+            "--model",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/models/Qwen3-4B-Instruct-2507",
+            "--cache",
+            "/ssd3/chenhan/VeRA-Mem-Workspace/runs/reconstruction_prepare_20261006/features/dev.pt",
+            "--eval-part",
+            "development"
+          ]
+        }
+      ]
+    }
+  ]
+}

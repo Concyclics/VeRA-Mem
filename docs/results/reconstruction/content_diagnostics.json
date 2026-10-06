@@ -1,0 +1,3137 @@
+{
+  "protocol": "reconstruction-content-posthoc-v1",
+  "created_at": "2026-10-06T12:45:48.173135+00:00",
+  "checks_passed": true,
+  "posthoc": true,
+  "may_select_or_tune_models": false,
+  "worlds": [
+    "C",
+    "D"
+  ],
+  "cells": 24,
+  "complete_for_listed_eligible_cells": true,
+  "excluded": [],
+  "descriptive_per_arm_world": [
+    {
+      "arm": "S1_fixedB",
+      "world": "C",
+      "diagnostics": {
+        "prediction_exposures": 48,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 15,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 16,
+          "exact_other_train_AB": 1,
+          "first_two_words_preserved": 16,
+          "third_word_correct_at_position": 1,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 46,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 29,
+          "first_fact_R4": 48
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.3125,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.3333333333333333,
+          "exact_other_train_AB": 0.020833333333333332,
+          "first_two_words_preserved": 0.3333333333333333,
+          "third_word_correct_at_position": 0.020833333333333332,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 0.9583333333333334,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.6041666666666666,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 273,
+            "mean": 5.6875,
+            "minimum": 4,
+            "maximum": 11,
+            "histogram": {
+              "4": 7,
+              "5": 16,
+              "6": 17,
+              "7": 6,
+              "10": 1,
+              "11": 1
+            }
+          },
+          "normalized_words": {
+            "total": 142,
+            "mean": 2.9583333333333335,
+            "minimum": 2,
+            "maximum": 3,
+            "histogram": {
+              "2": 2,
+              "3": 46
+            }
+          },
+          "characters": {
+            "total": 874,
+            "mean": 18.208333333333332,
+            "minimum": 13,
+            "maximum": 24,
+            "histogram": {
+              "13": 1,
+              "14": 2,
+              "15": 3,
+              "16": 4,
+              "17": 10,
+              "18": 7,
+              "19": 7,
+              "20": 6,
+              "21": 4,
+              "22": 2,
+              "23": 1,
+              "24": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 162,
+          "queries": 225,
+          "hit_rate": 0.72
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S1_fixedB",
+      "world": "D",
+      "diagnostics": {
+        "prediction_exposures": 48,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 16,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 16,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 19,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 46,
+          "empty_output": 0,
+          "budget_hits": 1,
+          "first_fact_R1": 32,
+          "first_fact_R4": 48
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.3333333333333333,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.3333333333333333,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.3958333333333333,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 0.9583333333333334,
+          "empty_output": 0.0,
+          "budget_hits": 0.020833333333333332,
+          "first_fact_R1": 0.6666666666666666,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 305,
+            "mean": 6.354166666666667,
+            "minimum": 4,
+            "maximum": 32,
+            "histogram": {
+              "4": 7,
+              "5": 14,
+              "6": 16,
+              "7": 5,
+              "8": 2,
+              "9": 2,
+              "10": 1,
+              "32": 1
+            }
+          },
+          "normalized_words": {
+            "total": 147,
+            "mean": 3.0625,
+            "minimum": 2,
+            "maximum": 7,
+            "histogram": {
+              "2": 1,
+              "3": 46,
+              "7": 1
+            }
+          },
+          "characters": {
+            "total": 915,
+            "mean": 19.0625,
+            "minimum": 13,
+            "maximum": 66,
+            "histogram": {
+              "13": 1,
+              "14": 1,
+              "15": 3,
+              "16": 7,
+              "17": 6,
+              "18": 9,
+              "19": 8,
+              "20": 7,
+              "21": 2,
+              "22": 2,
+              "23": 1,
+              "66": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 157,
+          "queries": 257,
+          "hit_rate": 0.6108949416342413
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S1_trainB",
+      "world": "C",
+      "diagnostics": {
+        "prediction_exposures": 48,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 21,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 24,
+          "exact_other_train_AB": 3,
+          "first_two_words_preserved": 25,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 46,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 48,
+          "first_fact_R4": 48
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.4375,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.5,
+          "exact_other_train_AB": 0.0625,
+          "first_two_words_preserved": 0.5208333333333334,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 0.9583333333333334,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 1.0,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 275,
+            "mean": 5.729166666666667,
+            "minimum": 4,
+            "maximum": 21,
+            "histogram": {
+              "4": 9,
+              "5": 19,
+              "6": 12,
+              "7": 5,
+              "8": 2,
+              "21": 1
+            }
+          },
+          "normalized_words": {
+            "total": 145,
+            "mean": 3.0208333333333335,
+            "minimum": 2,
+            "maximum": 5,
+            "histogram": {
+              "2": 1,
+              "3": 46,
+              "5": 1
+            }
+          },
+          "characters": {
+            "total": 915,
+            "mean": 19.0625,
+            "minimum": 12,
+            "maximum": 46,
+            "histogram": {
+              "12": 2,
+              "14": 1,
+              "15": 2,
+              "16": 3,
+              "17": 8,
+              "18": 5,
+              "19": 9,
+              "20": 7,
+              "21": 8,
+              "24": 2,
+              "46": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 181,
+          "queries": 227,
+          "hit_rate": 0.7973568281938326
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S1_trainB",
+      "world": "D",
+      "diagnostics": {
+        "prediction_exposures": 48,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 29,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 34,
+          "exact_other_train_AB": 5,
+          "first_two_words_preserved": 32,
+          "third_word_correct_at_position": 1,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 48,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 48,
+          "first_fact_R4": 48
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.6041666666666666,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.7083333333333334,
+          "exact_other_train_AB": 0.10416666666666667,
+          "first_two_words_preserved": 0.6666666666666666,
+          "third_word_correct_at_position": 0.020833333333333332,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 1.0,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 261,
+            "mean": 5.4375,
+            "minimum": 4,
+            "maximum": 8,
+            "histogram": {
+              "4": 12,
+              "5": 15,
+              "6": 12,
+              "7": 6,
+              "8": 3
+            }
+          },
+          "normalized_words": {
+            "total": 144,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 48
+            }
+          },
+          "characters": {
+            "total": 892,
+            "mean": 18.583333333333332,
+            "minimum": 15,
+            "maximum": 23,
+            "histogram": {
+              "15": 1,
+              "16": 4,
+              "17": 7,
+              "18": 11,
+              "19": 13,
+              "20": 5,
+              "21": 6,
+              "23": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 182,
+          "queries": 213,
+          "hit_rate": 0.8544600938967136
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S3_fixedB",
+      "world": "C",
+      "diagnostics": {
+        "prediction_exposures": 48,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 43,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 43,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 43,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 48,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 47,
+          "first_fact_R4": 48
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.8958333333333334,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.8958333333333334,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.8958333333333334,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.9791666666666666,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 247,
+            "mean": 5.145833333333333,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 16,
+              "5": 12,
+              "6": 17,
+              "7": 3
+            }
+          },
+          "normalized_words": {
+            "total": 144,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 48
+            }
+          },
+          "characters": {
+            "total": 882,
+            "mean": 18.375,
+            "minimum": 14,
+            "maximum": 21,
+            "histogram": {
+              "14": 1,
+              "15": 2,
+              "16": 4,
+              "17": 5,
+              "18": 9,
+              "19": 18,
+              "20": 4,
+              "21": 5
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 187,
+          "queries": 199,
+          "hit_rate": 0.9396984924623115
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 48,
+          "first_position_inclusions": 11,
+          "decode_hits": 67,
+          "decode_queries": 199,
+          "any_generation_inclusions": 33,
+          "decode_hit_rate": 0.33668341708542715,
+          "no_generation_inclusions": 15
+        }
+      }
+    },
+    {
+      "arm": "S3_fixedB",
+      "world": "D",
+      "diagnostics": {
+        "prediction_exposures": 48,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 42,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 42,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 42,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 47,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 47,
+          "first_fact_R4": 48
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.875,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.875,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.875,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 0.9791666666666666,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.9791666666666666,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 247,
+            "mean": 5.145833333333333,
+            "minimum": 3,
+            "maximum": 7,
+            "histogram": {
+              "3": 1,
+              "4": 14,
+              "5": 13,
+              "6": 17,
+              "7": 3
+            }
+          },
+          "normalized_words": {
+            "total": 143,
+            "mean": 2.9791666666666665,
+            "minimum": 2,
+            "maximum": 3,
+            "histogram": {
+              "2": 1,
+              "3": 47
+            }
+          },
+          "characters": {
+            "total": 887,
+            "mean": 18.479166666666668,
+            "minimum": 11,
+            "maximum": 23,
+            "histogram": {
+              "11": 1,
+              "14": 1,
+              "16": 5,
+              "17": 5,
+              "18": 8,
+              "19": 17,
+              "20": 4,
+              "21": 5,
+              "22": 1,
+              "23": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 184,
+          "queries": 199,
+          "hit_rate": 0.9246231155778895
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 48,
+          "first_position_inclusions": 17,
+          "decode_hits": 61,
+          "decode_queries": 199,
+          "any_generation_inclusions": 37,
+          "decode_hit_rate": 0.3065326633165829,
+          "no_generation_inclusions": 11
+        }
+      }
+    },
+    {
+      "arm": "S3_trainB",
+      "world": "C",
+      "diagnostics": {
+        "prediction_exposures": 48,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 43,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 43,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 43,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 47,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 45,
+          "first_fact_R4": 47
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.8958333333333334,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.8958333333333334,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.8958333333333334,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 0.9791666666666666,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.9375,
+          "first_fact_R4": 0.9791666666666666
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 259,
+            "mean": 5.395833333333333,
+            "minimum": 4,
+            "maximum": 9,
+            "histogram": {
+              "4": 13,
+              "5": 11,
+              "6": 18,
+              "7": 5,
+              "9": 1
+            }
+          },
+          "normalized_words": {
+            "total": 143,
+            "mean": 2.9791666666666665,
+            "minimum": 2,
+            "maximum": 3,
+            "histogram": {
+              "2": 1,
+              "3": 47
+            }
+          },
+          "characters": {
+            "total": 903,
+            "mean": 18.8125,
+            "minimum": 11,
+            "maximum": 26,
+            "histogram": {
+              "11": 1,
+              "16": 4,
+              "17": 4,
+              "18": 8,
+              "19": 18,
+              "20": 5,
+              "21": 6,
+              "22": 1,
+              "26": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 188,
+          "queries": 211,
+          "hit_rate": 0.8909952606635071
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 48,
+          "first_position_inclusions": 11,
+          "decode_hits": 79,
+          "decode_queries": 211,
+          "any_generation_inclusions": 32,
+          "decode_hit_rate": 0.3744075829383886,
+          "no_generation_inclusions": 16
+        }
+      }
+    },
+    {
+      "arm": "S3_trainB",
+      "world": "D",
+      "diagnostics": {
+        "prediction_exposures": 48,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 43,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 45,
+          "exact_other_train_AB": 2,
+          "first_two_words_preserved": 43,
+          "third_word_correct_at_position": 2,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 47,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 46,
+          "first_fact_R4": 47
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.8958333333333334,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.9375,
+          "exact_other_train_AB": 0.041666666666666664,
+          "first_two_words_preserved": 0.8958333333333334,
+          "third_word_correct_at_position": 0.041666666666666664,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 0.9791666666666666,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.9583333333333334,
+          "first_fact_R4": 0.9791666666666666
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 253,
+            "mean": 5.270833333333333,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 14,
+              "5": 11,
+              "6": 19,
+              "7": 4
+            }
+          },
+          "normalized_words": {
+            "total": 143,
+            "mean": 2.9791666666666665,
+            "minimum": 2,
+            "maximum": 3,
+            "histogram": {
+              "2": 1,
+              "3": 47
+            }
+          },
+          "characters": {
+            "total": 900,
+            "mean": 18.75,
+            "minimum": 16,
+            "maximum": 22,
+            "histogram": {
+              "16": 4,
+              "17": 6,
+              "18": 8,
+              "19": 18,
+              "20": 5,
+              "21": 6,
+              "22": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 188,
+          "queries": 205,
+          "hit_rate": 0.9170731707317074
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 48,
+          "first_position_inclusions": 21,
+          "decode_hits": 83,
+          "decode_queries": 205,
+          "any_generation_inclusions": 40,
+          "decode_hit_rate": 0.40487804878048783,
+          "no_generation_inclusions": 8
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "exact_match": "Full normalized string equality, using the declared NFKC/case/punctuation/whitespace normalization.",
+    "any_train_AB": "Any complete A or B answer from the actual canonical training projection, including own A/B.",
+    "first_two_words": "First two normalized whitespace words equal target C/D prefix (the same prefix as own A).",
+    "third_word": "Normalized whitespace word at zero-based position 2 equals the new target third word; additional words allowed.",
+    "slot2": "S3 only: exact flattened index target_fact_index*3+2; S1 is not applicable.",
+    "routing": "First position predicts the first generated token; decode counts exclude first position."
+  },
+  "limitations": [
+    "Posthoc descriptive diagnostics only, never checkpoint/architecture selection, gates or training changes.",
+    "The same 16 facts recur across seeds and arms; aggregate counts are repeated prediction exposures, not independent facts.",
+    "Fact R@4 can hit any slot. It does not establish retrieval of the third-word slot.",
+    "Route traces lack generated token IDs; slot2 access is not aligned to the third-word prediction time.",
+    "Retrieval inclusion does not prove useful value contribution or causal readout failure. No gradient or intervention claim is made.",
+    "Exact old-label repetition is a description of outputs, not proof of where the label was stored or why it was emitted.",
+    "Only complete requested cells in the supplied summary are read; no claim that all planned confirmations are complete."
+  ],
+  "input_hashes_unchanged": true,
+  "elapsed_seconds": 0.8590475870296359,
+  "script_sha256": "a8689761bce228971ae24320c6e9fd069e67fc2b76dc4e01ca5bedd6f5d27378",
+  "source_report": "reconstruction_content_diagnostics_20261006.json",
+  "source_report_sha256": "23424dc2d796fa6659ad9042330f2d84e349f658f98fd45480ae92fa99a449a0",
+  "projection_scope": "Complete aggregate diagnostics and per-run numeric counts; local paths and raw source text omitted.",
+  "input_artifacts_sha_bound": 149,
+  "summary_binding": {
+    "filename": "reconstruction_summary_final_20261006.json",
+    "sha256": "050d5497d1dd5f82f820dd23f164a3960261908826ad7455ed37756511735282"
+  },
+  "per_run": [
+    {
+      "arm": "S1_fixedB",
+      "seed": 71042,
+      "world": "C",
+      "phase": "CC",
+      "split": "known",
+      "part": "development",
+      "raw_sha256": "b6590a34768bad0df4c12fc0d9d5d033d23817b77bbc113cb560bd749789db05",
+      "checkpoint_sha256": "69f7d1bc802f05d3354bbffbbefa53604ed26c578faa3eaa8a69c1e79634d2c8",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 7,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 7,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 7,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 11,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.4375,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.4375,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.4375,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.6875,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 91,
+            "mean": 5.6875,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 3,
+              "5": 2,
+              "6": 8,
+              "7": 3
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 290,
+            "mean": 18.125,
+            "minimum": 14,
+            "maximum": 22,
+            "histogram": {
+              "14": 2,
+              "15": 1,
+              "17": 4,
+              "18": 1,
+              "19": 3,
+              "20": 3,
+              "22": 2
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 57,
+          "queries": 75,
+          "hit_rate": 0.76
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S1_fixedB",
+      "seed": 71043,
+      "world": "C",
+      "phase": "CC",
+      "split": "known",
+      "part": "development",
+      "raw_sha256": "5e8530daab5d618d28358df1f87e119b7876c15ec2ba76480e0e3e363061e48d",
+      "checkpoint_sha256": "1f9d057ddf131fd1162055247e17be4c1547608e30d429d54eb83bd7b02378e4",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 5,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 5,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 5,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 15,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 7,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.3125,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.3125,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.3125,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 0.9375,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.4375,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 92,
+            "mean": 5.75,
+            "minimum": 4,
+            "maximum": 10,
+            "histogram": {
+              "4": 1,
+              "5": 7,
+              "6": 6,
+              "7": 1,
+              "10": 1
+            }
+          },
+          "normalized_words": {
+            "total": 47,
+            "mean": 2.9375,
+            "minimum": 2,
+            "maximum": 3,
+            "histogram": {
+              "2": 1,
+              "3": 15
+            }
+          },
+          "characters": {
+            "total": 289,
+            "mean": 18.0625,
+            "minimum": 13,
+            "maximum": 24,
+            "histogram": {
+              "13": 1,
+              "15": 1,
+              "16": 2,
+              "17": 3,
+              "18": 3,
+              "19": 2,
+              "20": 1,
+              "21": 2,
+              "24": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 54,
+          "queries": 76,
+          "hit_rate": 0.7105263157894737
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S1_fixedB",
+      "seed": 71044,
+      "world": "C",
+      "phase": "CC",
+      "split": "known",
+      "part": "development",
+      "raw_sha256": "ccdf9dafe1ba5178e20e16c897b59c60d351a8258dac6f0578ab57edcbded93f",
+      "checkpoint_sha256": "d0629aba6cf6ab6cbf8a3beedece53a9301abf855daa5ca1512e1b9b91acd517",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 3,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 4,
+          "exact_other_train_AB": 1,
+          "first_two_words_preserved": 4,
+          "third_word_correct_at_position": 1,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 15,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 11,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.1875,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.25,
+          "exact_other_train_AB": 0.0625,
+          "first_two_words_preserved": 0.25,
+          "third_word_correct_at_position": 0.0625,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 0.9375,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.6875,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 90,
+            "mean": 5.625,
+            "minimum": 4,
+            "maximum": 11,
+            "histogram": {
+              "4": 3,
+              "5": 7,
+              "6": 3,
+              "7": 2,
+              "11": 1
+            }
+          },
+          "normalized_words": {
+            "total": 47,
+            "mean": 2.9375,
+            "minimum": 2,
+            "maximum": 3,
+            "histogram": {
+              "2": 1,
+              "3": 15
+            }
+          },
+          "characters": {
+            "total": 295,
+            "mean": 18.4375,
+            "minimum": 15,
+            "maximum": 23,
+            "histogram": {
+              "15": 1,
+              "16": 2,
+              "17": 3,
+              "18": 3,
+              "19": 2,
+              "20": 2,
+              "21": 2,
+              "23": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 51,
+          "queries": 74,
+          "hit_rate": 0.6891891891891891
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S1_fixedB",
+      "seed": 71042,
+      "world": "D",
+      "phase": "CC",
+      "split": "known",
+      "part": "confirmation",
+      "raw_sha256": "455ef8ab14892cf96b5dcb2093918f4583a473a2baf1eb62af87ab3bc0e9031c",
+      "checkpoint_sha256": "69f7d1bc802f05d3354bbffbbefa53604ed26c578faa3eaa8a69c1e79634d2c8",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 4,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 4,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 4,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 14,
+          "empty_output": 0,
+          "budget_hits": 1,
+          "first_fact_R1": 10,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.25,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.25,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.25,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 0.875,
+          "empty_output": 0.0,
+          "budget_hits": 0.0625,
+          "first_fact_R1": 0.625,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 120,
+            "mean": 7.5,
+            "minimum": 4,
+            "maximum": 32,
+            "histogram": {
+              "4": 1,
+              "5": 5,
+              "6": 6,
+              "7": 2,
+              "9": 1,
+              "32": 1
+            }
+          },
+          "normalized_words": {
+            "total": 51,
+            "mean": 3.1875,
+            "minimum": 2,
+            "maximum": 7,
+            "histogram": {
+              "2": 1,
+              "3": 14,
+              "7": 1
+            }
+          },
+          "characters": {
+            "total": 329,
+            "mean": 20.5625,
+            "minimum": 13,
+            "maximum": 66,
+            "histogram": {
+              "13": 1,
+              "14": 1,
+              "16": 2,
+              "17": 2,
+              "18": 3,
+              "19": 4,
+              "20": 2,
+              "66": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 51,
+          "queries": 104,
+          "hit_rate": 0.49038461538461536
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S1_trainB",
+      "seed": 71042,
+      "world": "D",
+      "phase": "CC",
+      "split": "known",
+      "part": "confirmation",
+      "raw_sha256": "e009a9ceae0e52709d3649849b2e1302b7060b0a3803e5039c4931964c2ab029",
+      "checkpoint_sha256": "6ab931d67a9de6e3a802f01bdb30636bec50b2235ff52e6b6575f72ffb2ca3e9",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 11,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 12,
+          "exact_other_train_AB": 1,
+          "first_two_words_preserved": 11,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 16,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.6875,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.75,
+          "exact_other_train_AB": 0.0625,
+          "first_two_words_preserved": 0.6875,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 1.0,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 89,
+            "mean": 5.5625,
+            "minimum": 4,
+            "maximum": 8,
+            "histogram": {
+              "4": 5,
+              "5": 3,
+              "6": 4,
+              "7": 2,
+              "8": 2
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 293,
+            "mean": 18.3125,
+            "minimum": 15,
+            "maximum": 21,
+            "histogram": {
+              "15": 1,
+              "16": 2,
+              "17": 2,
+              "18": 3,
+              "19": 4,
+              "20": 2,
+              "21": 2
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 57,
+          "queries": 73,
+          "hit_rate": 0.7808219178082192
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S3_fixedB",
+      "seed": 71042,
+      "world": "D",
+      "phase": "CC",
+      "split": "known",
+      "part": "confirmation",
+      "raw_sha256": "262f576ca95a0fdb60db6b1e14449d3fb417519193ef36a850b8adeebdd27552",
+      "checkpoint_sha256": "dc6c47d5c2ae38d36ac77e1c0fe6c6192189595b5bc75f881afa78c578e977a4",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 15,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 15,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 15,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 16,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.9375,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.9375,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.9375,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 1.0,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 84,
+            "mean": 5.25,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 4,
+              "5": 5,
+              "6": 6,
+              "7": 1
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 302,
+            "mean": 18.875,
+            "minimum": 16,
+            "maximum": 23,
+            "histogram": {
+              "16": 1,
+              "17": 2,
+              "18": 3,
+              "19": 6,
+              "20": 2,
+              "21": 1,
+              "23": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 63,
+          "queries": 68,
+          "hit_rate": 0.9264705882352942
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 16,
+          "first_position_inclusions": 7,
+          "decode_hits": 23,
+          "decode_queries": 68,
+          "any_generation_inclusions": 13,
+          "decode_hit_rate": 0.3382352941176471,
+          "no_generation_inclusions": 3
+        }
+      }
+    },
+    {
+      "arm": "S3_trainB",
+      "seed": 71042,
+      "world": "D",
+      "phase": "CC",
+      "split": "known",
+      "part": "confirmation",
+      "raw_sha256": "d896cc2a0960f6c1660b894610481beb9c90faa5aaf5f44742053d99523d0696",
+      "checkpoint_sha256": "f3660e885c96f0ee7321523866186b56b51456fe3870b33ce395e40b5d1a151d",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 14,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 15,
+          "exact_other_train_AB": 1,
+          "first_two_words_preserved": 14,
+          "third_word_correct_at_position": 1,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 15,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 15,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.875,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.9375,
+          "exact_other_train_AB": 0.0625,
+          "first_two_words_preserved": 0.875,
+          "third_word_correct_at_position": 0.0625,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 0.9375,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.9375,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 83,
+            "mean": 5.1875,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 5,
+              "5": 4,
+              "6": 6,
+              "7": 1
+            }
+          },
+          "normalized_words": {
+            "total": 47,
+            "mean": 2.9375,
+            "minimum": 2,
+            "maximum": 3,
+            "histogram": {
+              "2": 1,
+              "3": 15
+            }
+          },
+          "characters": {
+            "total": 298,
+            "mean": 18.625,
+            "minimum": 16,
+            "maximum": 21,
+            "histogram": {
+              "16": 2,
+              "17": 2,
+              "18": 2,
+              "19": 6,
+              "20": 2,
+              "21": 2
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 61,
+          "queries": 67,
+          "hit_rate": 0.9104477611940298
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 16,
+          "first_position_inclusions": 7,
+          "decode_hits": 25,
+          "decode_queries": 67,
+          "any_generation_inclusions": 14,
+          "decode_hit_rate": 0.373134328358209,
+          "no_generation_inclusions": 2
+        }
+      }
+    },
+    {
+      "arm": "S1_fixedB",
+      "seed": 71043,
+      "world": "D",
+      "phase": "CC",
+      "split": "known",
+      "part": "confirmation",
+      "raw_sha256": "e9fdb8b4088dc25ff74cac9f5b97c65cd55b7917b1b9abed81ec84a108684893",
+      "checkpoint_sha256": "1f9d057ddf131fd1162055247e17be4c1547608e30d429d54eb83bd7b02378e4",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 8,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 8,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 10,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 10,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.5,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.5,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.625,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.625,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 94,
+            "mean": 5.875,
+            "minimum": 4,
+            "maximum": 10,
+            "histogram": {
+              "4": 4,
+              "5": 3,
+              "6": 6,
+              "8": 1,
+              "9": 1,
+              "10": 1
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 293,
+            "mean": 18.3125,
+            "minimum": 15,
+            "maximum": 22,
+            "histogram": {
+              "15": 2,
+              "16": 2,
+              "17": 2,
+              "18": 2,
+              "19": 3,
+              "20": 2,
+              "21": 2,
+              "22": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 64,
+          "queries": 78,
+          "hit_rate": 0.8205128205128205
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S1_trainB",
+      "seed": 71043,
+      "world": "D",
+      "phase": "CC",
+      "split": "known",
+      "part": "confirmation",
+      "raw_sha256": "d7fbdd9cbbbd320f9e91052ec0ba69f30f62c62408aca2b6854da0dc3ec0614e",
+      "checkpoint_sha256": "e9f3a2782a552ab01c7bb677ddd537af53842b738796d2905ac99a4543ed65eb",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 10,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 12,
+          "exact_other_train_AB": 2,
+          "first_two_words_preserved": 12,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 16,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.625,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.75,
+          "exact_other_train_AB": 0.125,
+          "first_two_words_preserved": 0.75,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 1.0,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 85,
+            "mean": 5.3125,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 3,
+              "5": 7,
+              "6": 4,
+              "7": 2
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 297,
+            "mean": 18.5625,
+            "minimum": 16,
+            "maximum": 21,
+            "histogram": {
+              "16": 1,
+              "17": 3,
+              "18": 3,
+              "19": 6,
+              "20": 1,
+              "21": 2
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 62,
+          "queries": 69,
+          "hit_rate": 0.8985507246376812
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S3_fixedB",
+      "seed": 71043,
+      "world": "D",
+      "phase": "CC",
+      "split": "known",
+      "part": "confirmation",
+      "raw_sha256": "fcc61f571edb2edca1ab481205200c869efdd85135617f36f690a65c5b771ac5",
+      "checkpoint_sha256": "b43f8f4b23fc1b9bcd7c0b9c51f0c9864aa1444e1e8f81c6961c89c51bb4e3a6",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 14,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 14,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 14,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 15,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.875,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.875,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.875,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.9375,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 83,
+            "mean": 5.1875,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 5,
+              "5": 4,
+              "6": 6,
+              "7": 1
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 301,
+            "mean": 18.8125,
+            "minimum": 16,
+            "maximum": 22,
+            "histogram": {
+              "16": 2,
+              "17": 2,
+              "18": 2,
+              "19": 5,
+              "20": 2,
+              "21": 2,
+              "22": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 61,
+          "queries": 67,
+          "hit_rate": 0.9104477611940298
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 16,
+          "first_position_inclusions": 5,
+          "decode_hits": 26,
+          "decode_queries": 67,
+          "any_generation_inclusions": 14,
+          "decode_hit_rate": 0.3880597014925373,
+          "no_generation_inclusions": 2
+        }
+      }
+    },
+    {
+      "arm": "S3_trainB",
+      "seed": 71043,
+      "world": "D",
+      "phase": "CC",
+      "split": "known",
+      "part": "confirmation",
+      "raw_sha256": "c7e592919fba7288b7234b8db022af740f10ae46b7c73f694a4657cfb42b4196",
+      "checkpoint_sha256": "2d9991c391745a36dbc1426f99938cd7c3bb9645cde649e1697829f10ef00bf3",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 16,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 16,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 16,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 16,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 1.0,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 1.0,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 1.0,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 1.0,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 83,
+            "mean": 5.1875,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 5,
+              "5": 4,
+              "6": 6,
+              "7": 1
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 300,
+            "mean": 18.75,
+            "minimum": 16,
+            "maximum": 21,
+            "histogram": {
+              "16": 1,
+              "17": 2,
+              "18": 3,
+              "19": 6,
+              "20": 2,
+              "21": 2
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 65,
+          "queries": 67,
+          "hit_rate": 0.9701492537313433
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 16,
+          "first_position_inclusions": 9,
+          "decode_hits": 41,
+          "decode_queries": 67,
+          "any_generation_inclusions": 15,
+          "decode_hit_rate": 0.6119402985074627,
+          "no_generation_inclusions": 1
+        }
+      }
+    },
+    {
+      "arm": "S1_fixedB",
+      "seed": 71044,
+      "world": "D",
+      "phase": "CC",
+      "split": "known",
+      "part": "confirmation",
+      "raw_sha256": "e0b2aaff56f82ce1973a1d4c7621fe858946086947500c99d0b1023366019f27",
+      "checkpoint_sha256": "d0629aba6cf6ab6cbf8a3beedece53a9301abf855daa5ca1512e1b9b91acd517",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 4,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 4,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 5,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 12,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.25,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.25,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.3125,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.75,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 91,
+            "mean": 5.6875,
+            "minimum": 4,
+            "maximum": 8,
+            "histogram": {
+              "4": 2,
+              "5": 6,
+              "6": 4,
+              "7": 3,
+              "8": 1
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 293,
+            "mean": 18.3125,
+            "minimum": 15,
+            "maximum": 23,
+            "histogram": {
+              "15": 1,
+              "16": 3,
+              "17": 2,
+              "18": 4,
+              "19": 1,
+              "20": 3,
+              "22": 1,
+              "23": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 42,
+          "queries": 75,
+          "hit_rate": 0.56
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S1_trainB",
+      "seed": 71044,
+      "world": "D",
+      "phase": "CC",
+      "split": "known",
+      "part": "confirmation",
+      "raw_sha256": "ac0a22858e7fcab3b53f2dd667029f892e3d7ab019e2c17681ceb22515b29a81",
+      "checkpoint_sha256": "62bdfbb5db9bd96fcdedf2c8954ed6ae9fd3f4ad9cb3af7e0ac24a1b89f59307",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 8,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 10,
+          "exact_other_train_AB": 2,
+          "first_two_words_preserved": 9,
+          "third_word_correct_at_position": 1,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 16,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.5,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.625,
+          "exact_other_train_AB": 0.125,
+          "first_two_words_preserved": 0.5625,
+          "third_word_correct_at_position": 0.0625,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 1.0,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 87,
+            "mean": 5.4375,
+            "minimum": 4,
+            "maximum": 8,
+            "histogram": {
+              "4": 4,
+              "5": 5,
+              "6": 4,
+              "7": 2,
+              "8": 1
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 302,
+            "mean": 18.875,
+            "minimum": 16,
+            "maximum": 23,
+            "histogram": {
+              "16": 1,
+              "17": 2,
+              "18": 5,
+              "19": 3,
+              "20": 2,
+              "21": 2,
+              "23": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 63,
+          "queries": 71,
+          "hit_rate": 0.8873239436619719
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S3_fixedB",
+      "seed": 71044,
+      "world": "D",
+      "phase": "CC",
+      "split": "known",
+      "part": "confirmation",
+      "raw_sha256": "95101eda5d18a16ed1d0e7a252ff7771b26c0579095dc5e741bafa5cc09378f6",
+      "checkpoint_sha256": "23ef9b4e25cd6b78762384c05d893239cc8187ecba32dae36fc2d450a10bdb96",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 13,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 13,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 13,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 15,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 16,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.8125,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.8125,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.8125,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 0.9375,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 1.0,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 80,
+            "mean": 5.0,
+            "minimum": 3,
+            "maximum": 7,
+            "histogram": {
+              "3": 1,
+              "4": 5,
+              "5": 4,
+              "6": 5,
+              "7": 1
+            }
+          },
+          "normalized_words": {
+            "total": 47,
+            "mean": 2.9375,
+            "minimum": 2,
+            "maximum": 3,
+            "histogram": {
+              "2": 1,
+              "3": 15
+            }
+          },
+          "characters": {
+            "total": 284,
+            "mean": 17.75,
+            "minimum": 11,
+            "maximum": 21,
+            "histogram": {
+              "11": 1,
+              "14": 1,
+              "16": 2,
+              "17": 1,
+              "18": 3,
+              "19": 6,
+              "21": 2
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 60,
+          "queries": 64,
+          "hit_rate": 0.9375
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 16,
+          "first_position_inclusions": 5,
+          "decode_hits": 12,
+          "decode_queries": 64,
+          "any_generation_inclusions": 10,
+          "decode_hit_rate": 0.1875,
+          "no_generation_inclusions": 6
+        }
+      }
+    },
+    {
+      "arm": "S3_trainB",
+      "seed": 71044,
+      "world": "D",
+      "phase": "CC",
+      "split": "known",
+      "part": "confirmation",
+      "raw_sha256": "29c1a6547506fe32cfde0b27bb8276e0851f8acce30089f247c34e24c7b24e3d",
+      "checkpoint_sha256": "8707eef619e44b6b6e9a532f29698b0d57831d424b7f790a9f65245882b56ceb",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 13,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 14,
+          "exact_other_train_AB": 1,
+          "first_two_words_preserved": 13,
+          "third_word_correct_at_position": 1,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 15,
+          "first_fact_R4": 15
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.8125,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.875,
+          "exact_other_train_AB": 0.0625,
+          "first_two_words_preserved": 0.8125,
+          "third_word_correct_at_position": 0.0625,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.9375,
+          "first_fact_R4": 0.9375
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 87,
+            "mean": 5.4375,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 4,
+              "5": 3,
+              "6": 7,
+              "7": 2
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 302,
+            "mean": 18.875,
+            "minimum": 16,
+            "maximum": 22,
+            "histogram": {
+              "16": 1,
+              "17": 2,
+              "18": 3,
+              "19": 6,
+              "20": 1,
+              "21": 2,
+              "22": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 62,
+          "queries": 71,
+          "hit_rate": 0.8732394366197183
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 16,
+          "first_position_inclusions": 5,
+          "decode_hits": 17,
+          "decode_queries": 71,
+          "any_generation_inclusions": 11,
+          "decode_hit_rate": 0.23943661971830985,
+          "no_generation_inclusions": 5
+        }
+      }
+    },
+    {
+      "arm": "S1_trainB",
+      "seed": 71042,
+      "world": "C",
+      "phase": "CC",
+      "split": "known",
+      "part": "development",
+      "raw_sha256": "939749d87341a8f29e9ff48a885e261d9ffa8e9e9ccfa437c7de2e085c259b22",
+      "checkpoint_sha256": "6ab931d67a9de6e3a802f01bdb30636bec50b2235ff52e6b6575f72ffb2ca3e9",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 9,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 9,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 10,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 16,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.5625,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.5625,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.625,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 1.0,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 90,
+            "mean": 5.625,
+            "minimum": 4,
+            "maximum": 8,
+            "histogram": {
+              "4": 3,
+              "5": 5,
+              "6": 4,
+              "7": 3,
+              "8": 1
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 300,
+            "mean": 18.75,
+            "minimum": 15,
+            "maximum": 24,
+            "histogram": {
+              "15": 1,
+              "17": 4,
+              "18": 2,
+              "19": 4,
+              "20": 3,
+              "21": 1,
+              "24": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 66,
+          "queries": 74,
+          "hit_rate": 0.8918918918918919
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S3_fixedB",
+      "seed": 71042,
+      "world": "C",
+      "phase": "CC",
+      "split": "known",
+      "part": "development",
+      "raw_sha256": "7c1afe65504010af2d883e12f55e87ff449178fa8d44476e1008ddaacb2d1060",
+      "checkpoint_sha256": "dc6c47d5c2ae38d36ac77e1c0fe6c6192189595b5bc75f881afa78c578e977a4",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 15,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 15,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 15,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 16,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.9375,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.9375,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.9375,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 1.0,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 85,
+            "mean": 5.3125,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 4,
+              "5": 4,
+              "6": 7,
+              "7": 1
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 298,
+            "mean": 18.625,
+            "minimum": 16,
+            "maximum": 21,
+            "histogram": {
+              "16": 1,
+              "17": 2,
+              "18": 3,
+              "19": 7,
+              "20": 2,
+              "21": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 62,
+          "queries": 69,
+          "hit_rate": 0.8985507246376812
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 16,
+          "first_position_inclusions": 4,
+          "decode_hits": 23,
+          "decode_queries": 69,
+          "any_generation_inclusions": 10,
+          "decode_hit_rate": 0.3333333333333333,
+          "no_generation_inclusions": 6
+        }
+      }
+    },
+    {
+      "arm": "S3_trainB",
+      "seed": 71042,
+      "world": "C",
+      "phase": "CC",
+      "split": "known",
+      "part": "development",
+      "raw_sha256": "4504e4b72500f7805610a48ac114d4a3f1137a55fb515f2b1498af2a74b91426",
+      "checkpoint_sha256": "f3660e885c96f0ee7321523866186b56b51456fe3870b33ce395e40b5d1a151d",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 14,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 14,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 14,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 15,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 15,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.875,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.875,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.875,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 0.9375,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.9375,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 88,
+            "mean": 5.5,
+            "minimum": 4,
+            "maximum": 9,
+            "histogram": {
+              "4": 4,
+              "5": 4,
+              "6": 6,
+              "7": 1,
+              "9": 1
+            }
+          },
+          "normalized_words": {
+            "total": 47,
+            "mean": 2.9375,
+            "minimum": 2,
+            "maximum": 3,
+            "histogram": {
+              "2": 1,
+              "3": 15
+            }
+          },
+          "characters": {
+            "total": 288,
+            "mean": 18.0,
+            "minimum": 11,
+            "maximum": 21,
+            "histogram": {
+              "11": 1,
+              "16": 2,
+              "17": 2,
+              "18": 2,
+              "19": 6,
+              "20": 2,
+              "21": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 66,
+          "queries": 72,
+          "hit_rate": 0.9166666666666666
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 16,
+          "first_position_inclusions": 4,
+          "decode_hits": 29,
+          "decode_queries": 72,
+          "any_generation_inclusions": 13,
+          "decode_hit_rate": 0.4027777777777778,
+          "no_generation_inclusions": 3
+        }
+      }
+    },
+    {
+      "arm": "S1_trainB",
+      "seed": 71043,
+      "world": "C",
+      "phase": "CC",
+      "split": "known",
+      "part": "development",
+      "raw_sha256": "20c22a92e4a31881b51a01e8215528a6bbbc5e428e86d1a370eee9afdd5a8d5d",
+      "checkpoint_sha256": "e9f3a2782a552ab01c7bb677ddd537af53842b738796d2905ac99a4543ed65eb",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 6,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 7,
+          "exact_other_train_AB": 1,
+          "first_two_words_preserved": 9,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 16,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.375,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.4375,
+          "exact_other_train_AB": 0.0625,
+          "first_two_words_preserved": 0.5625,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 1.0,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 83,
+            "mean": 5.1875,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 3,
+              "5": 8,
+              "6": 4,
+              "7": 1
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 285,
+            "mean": 17.8125,
+            "minimum": 12,
+            "maximum": 21,
+            "histogram": {
+              "12": 1,
+              "14": 1,
+              "16": 2,
+              "17": 3,
+              "18": 2,
+              "19": 3,
+              "20": 1,
+              "21": 3
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 58,
+          "queries": 67,
+          "hit_rate": 0.8656716417910447
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S3_fixedB",
+      "seed": 71043,
+      "world": "C",
+      "phase": "CC",
+      "split": "known",
+      "part": "development",
+      "raw_sha256": "3e2bb63af77082eed1b4a24bf01f480d1396bc8c296838393051c2c95e294e5a",
+      "checkpoint_sha256": "b43f8f4b23fc1b9bcd7c0b9c51f0c9864aa1444e1e8f81c6961c89c51bb4e3a6",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 15,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 15,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 15,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 15,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.9375,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.9375,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.9375,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.9375,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 82,
+            "mean": 5.125,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 5,
+              "5": 5,
+              "6": 5,
+              "7": 1
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 297,
+            "mean": 18.5625,
+            "minimum": 16,
+            "maximum": 21,
+            "histogram": {
+              "16": 2,
+              "17": 2,
+              "18": 3,
+              "19": 5,
+              "20": 2,
+              "21": 2
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 62,
+          "queries": 66,
+          "hit_rate": 0.9393939393939394
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 16,
+          "first_position_inclusions": 3,
+          "decode_hits": 24,
+          "decode_queries": 66,
+          "any_generation_inclusions": 14,
+          "decode_hit_rate": 0.36363636363636365,
+          "no_generation_inclusions": 2
+        }
+      }
+    },
+    {
+      "arm": "S3_trainB",
+      "seed": 71043,
+      "world": "C",
+      "phase": "CC",
+      "split": "known",
+      "part": "development",
+      "raw_sha256": "472e1b55f0c03a7542a09bfb571d1a62c67713edc5fbc34f11dea2e28161921a",
+      "checkpoint_sha256": "2d9991c391745a36dbc1426f99938cd7c3bb9645cde649e1697829f10ef00bf3",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 16,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 16,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 16,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 16,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 1.0,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 1.0,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 1.0,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 1.0,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 83,
+            "mean": 5.1875,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 5,
+              "5": 4,
+              "6": 6,
+              "7": 1
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 300,
+            "mean": 18.75,
+            "minimum": 16,
+            "maximum": 21,
+            "histogram": {
+              "16": 1,
+              "17": 2,
+              "18": 3,
+              "19": 6,
+              "20": 2,
+              "21": 2
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 64,
+          "queries": 67,
+          "hit_rate": 0.9552238805970149
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 16,
+          "first_position_inclusions": 5,
+          "decode_hits": 35,
+          "decode_queries": 67,
+          "any_generation_inclusions": 12,
+          "decode_hit_rate": 0.5223880597014925,
+          "no_generation_inclusions": 4
+        }
+      }
+    },
+    {
+      "arm": "S1_trainB",
+      "seed": 71044,
+      "world": "C",
+      "phase": "CC",
+      "split": "known",
+      "part": "development",
+      "raw_sha256": "a562d5c339fc5df486f90e5598c3b0b2bf63da2b66e11b11d7e5cdd649f8ce58",
+      "checkpoint_sha256": "62bdfbb5db9bd96fcdedf2c8954ed6ae9fd3f4ad9cb3af7e0ac24a1b89f59307",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 6,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 8,
+          "exact_other_train_AB": 2,
+          "first_two_words_preserved": 6,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 14,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 16,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.375,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.5,
+          "exact_other_train_AB": 0.125,
+          "first_two_words_preserved": 0.375,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 0.875,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 1.0,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 102,
+            "mean": 6.375,
+            "minimum": 4,
+            "maximum": 21,
+            "histogram": {
+              "4": 3,
+              "5": 6,
+              "6": 4,
+              "7": 1,
+              "8": 1,
+              "21": 1
+            }
+          },
+          "normalized_words": {
+            "total": 49,
+            "mean": 3.0625,
+            "minimum": 2,
+            "maximum": 5,
+            "histogram": {
+              "2": 1,
+              "3": 14,
+              "5": 1
+            }
+          },
+          "characters": {
+            "total": 330,
+            "mean": 20.625,
+            "minimum": 12,
+            "maximum": 46,
+            "histogram": {
+              "12": 1,
+              "15": 1,
+              "16": 1,
+              "17": 1,
+              "18": 1,
+              "19": 2,
+              "20": 3,
+              "21": 4,
+              "24": 1,
+              "46": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 57,
+          "queries": 86,
+          "hit_rate": 0.6627906976744186
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 0,
+          "first_position_inclusions": null,
+          "decode_hits": null,
+          "decode_queries": null,
+          "any_generation_inclusions": null
+        }
+      }
+    },
+    {
+      "arm": "S3_fixedB",
+      "seed": 71044,
+      "world": "C",
+      "phase": "CC",
+      "split": "known",
+      "part": "development",
+      "raw_sha256": "d2f0387e682685284d67b703d93ee8f82410f2a57cc4113500912206595ab64b",
+      "checkpoint_sha256": "23ef9b4e25cd6b78762384c05d893239cc8187ecba32dae36fc2d450a10bdb96",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 13,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 13,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 13,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 16,
+          "first_fact_R4": 16
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.8125,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.8125,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.8125,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 1.0,
+          "first_fact_R4": 1.0
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 80,
+            "mean": 5.0,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 7,
+              "5": 3,
+              "6": 5,
+              "7": 1
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 287,
+            "mean": 17.9375,
+            "minimum": 14,
+            "maximum": 21,
+            "histogram": {
+              "14": 1,
+              "15": 2,
+              "16": 1,
+              "17": 1,
+              "18": 3,
+              "19": 6,
+              "21": 2
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 63,
+          "queries": 64,
+          "hit_rate": 0.984375
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 16,
+          "first_position_inclusions": 4,
+          "decode_hits": 20,
+          "decode_queries": 64,
+          "any_generation_inclusions": 9,
+          "decode_hit_rate": 0.3125,
+          "no_generation_inclusions": 7
+        }
+      }
+    },
+    {
+      "arm": "S3_trainB",
+      "seed": 71044,
+      "world": "C",
+      "phase": "CC",
+      "split": "known",
+      "part": "development",
+      "raw_sha256": "88445c29d2605d65964bc0fd9de1f30c7e4a292b29273a8591db2bd7890c415d",
+      "checkpoint_sha256": "8707eef619e44b6b6e9a532f29698b0d57831d424b7f790a9f65245882b56ceb",
+      "diagnostics": {
+        "prediction_exposures": 16,
+        "counts": {
+          "normalized_em": 0,
+          "full_target_containment": 0,
+          "exact_own_A": 13,
+          "exact_own_B": 0,
+          "exact_any_train_AB": 13,
+          "exact_other_train_AB": 0,
+          "first_two_words_preserved": 13,
+          "third_word_correct_at_position": 0,
+          "first_two_and_third_correct": 0,
+          "three_normalized_words": 16,
+          "empty_output": 0,
+          "budget_hits": 0,
+          "first_fact_R1": 14,
+          "first_fact_R4": 15
+        },
+        "rates": {
+          "normalized_em": 0.0,
+          "full_target_containment": 0.0,
+          "exact_own_A": 0.8125,
+          "exact_own_B": 0.0,
+          "exact_any_train_AB": 0.8125,
+          "exact_other_train_AB": 0.0,
+          "first_two_words_preserved": 0.8125,
+          "third_word_correct_at_position": 0.0,
+          "first_two_and_third_correct": 0.0,
+          "three_normalized_words": 1.0,
+          "empty_output": 0.0,
+          "budget_hits": 0.0,
+          "first_fact_R1": 0.875,
+          "first_fact_R4": 0.9375
+        },
+        "lengths": {
+          "generation_tokens": {
+            "total": 88,
+            "mean": 5.5,
+            "minimum": 4,
+            "maximum": 7,
+            "histogram": {
+              "4": 4,
+              "5": 3,
+              "6": 6,
+              "7": 3
+            }
+          },
+          "normalized_words": {
+            "total": 48,
+            "mean": 3.0,
+            "minimum": 3,
+            "maximum": 3,
+            "histogram": {
+              "3": 16
+            }
+          },
+          "characters": {
+            "total": 315,
+            "mean": 19.6875,
+            "minimum": 16,
+            "maximum": 26,
+            "histogram": {
+              "16": 1,
+              "18": 3,
+              "19": 6,
+              "20": 1,
+              "21": 3,
+              "22": 1,
+              "26": 1
+            }
+          }
+        },
+        "decode_fact_routing": {
+          "hits": 58,
+          "queries": 72,
+          "hit_rate": 0.8055555555555556
+        },
+        "third_payload_slot_routing": {
+          "applicable_prediction_exposures": 16,
+          "first_position_inclusions": 2,
+          "decode_hits": 15,
+          "decode_queries": 72,
+          "any_generation_inclusions": 7,
+          "decode_hit_rate": 0.20833333333333334,
+          "no_generation_inclusions": 9
+        }
+      }
+    }
+  ]
+}

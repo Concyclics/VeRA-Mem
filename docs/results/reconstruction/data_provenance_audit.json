@@ -1,0 +1,407 @@
+{
+  "protocol": "reconstruction-data-provenance-audit-v1",
+  "complete": true,
+  "checks_passed": true,
+  "audited_at": "2026-10-06T12:31:08.885939+00:00",
+  "scope": "Completed preparation caches/text only. No training checkpoint, development generation or confirmation output read. Not a final experiment audit.",
+  "packets": {
+    "train": {
+      "records": 16,
+      "worlds": [
+        "A",
+        "B"
+      ],
+      "views": 1,
+      "rows_sha256": "af6ebe53241478402c6397e196e79338d0ede899b4bad3d9009d6a212c351978",
+      "cache_sha256": "771e9cb0ac8fbd131a8d67f76a98be9853ec3d9a3bb1bb3a5a4b62d8ab420807",
+      "tensors": {
+        "q": {
+          "shape": [
+            16,
+            1,
+            9728
+          ],
+          "dtype": "torch.float32",
+          "all_finite": true,
+          "detached": true
+        },
+        "slots1": {
+          "shape": [
+            16,
+            2,
+            1,
+            1,
+            9728
+          ],
+          "dtype": "torch.float32",
+          "all_finite": true,
+          "detached": true
+        },
+        "slots3": {
+          "shape": [
+            16,
+            2,
+            1,
+            3,
+            9728
+          ],
+          "dtype": "torch.float32",
+          "all_finite": true,
+          "detached": true
+        }
+      },
+      "payload_token_counts": {
+        "support_instances": 32,
+        "observed_tokens_min": 3,
+        "observed_tokens_max": 5,
+        "each_word_tokens_min": 1,
+        "each_word_tokens_max": 2
+      },
+      "unique_observed_payload_spans_verified": true
+    },
+    "known": {
+      "records": 16,
+      "worlds": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "SWAP"
+      ],
+      "views": 2,
+      "rows_sha256": "cb63fa81cc0522db65c412de9e61f3c0d9c2e32394066f60eda4d4e12b658158",
+      "cache_sha256": "5059000fe0eb6c319b089c5e790a85b75f89b43aab5e5a51d3cbfd1962c8e222",
+      "tensors": {
+        "q": {
+          "shape": [
+            16,
+            2,
+            9728
+          ],
+          "dtype": "torch.float32",
+          "all_finite": true,
+          "detached": true
+        },
+        "slots1": {
+          "shape": [
+            16,
+            5,
+            2,
+            1,
+            9728
+          ],
+          "dtype": "torch.float32",
+          "all_finite": true,
+          "detached": true
+        },
+        "slots3": {
+          "shape": [
+            16,
+            5,
+            2,
+            3,
+            9728
+          ],
+          "dtype": "torch.float32",
+          "all_finite": true,
+          "detached": true
+        }
+      },
+      "payload_token_counts": {
+        "support_instances": 160,
+        "observed_tokens_min": 3,
+        "observed_tokens_max": 5,
+        "each_word_tokens_min": 1,
+        "each_word_tokens_max": 2
+      },
+      "unique_observed_payload_spans_verified": true
+    },
+    "dev": {
+      "records": 32,
+      "worlds": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "SWAP"
+      ],
+      "views": 2,
+      "rows_sha256": "a885b5ce3b671424f090b01df2092f27ed753eac8d4b93d67829e9fb17fea75e",
+      "cache_sha256": "7318b4e99850e64ca13738077fd6e906d5defb0374a2691e2db0f71e965f2781",
+      "tensors": {
+        "q": {
+          "shape": [
+            32,
+            2,
+            9728
+          ],
+          "dtype": "torch.float32",
+          "all_finite": true,
+          "detached": true
+        },
+        "slots1": {
+          "shape": [
+            32,
+            5,
+            2,
+            1,
+            9728
+          ],
+          "dtype": "torch.float32",
+          "all_finite": true,
+          "detached": true
+        },
+        "slots3": {
+          "shape": [
+            32,
+            5,
+            2,
+            3,
+            9728
+          ],
+          "dtype": "torch.float32",
+          "all_finite": true,
+          "detached": true
+        }
+      },
+      "payload_token_counts": {
+        "support_instances": 320,
+        "observed_tokens_min": 3,
+        "observed_tokens_max": 5,
+        "each_word_tokens_min": 1,
+        "each_word_tokens_max": 2
+      },
+      "unique_observed_payload_spans_verified": true
+    },
+    "confirm": {
+      "records": 64,
+      "worlds": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "SWAP"
+      ],
+      "views": 2,
+      "rows_sha256": "a176c2fead44940f4892f5a7ac8e6d5b149f752dc55caac62f075e6544b5ae11",
+      "cache_sha256": "0f35e765bc5aa90d472516cef56da8c0414ade2ba1b1f2816c5c876349f29c34",
+      "tensors": {
+        "q": {
+          "shape": [
+            64,
+            2,
+            9728
+          ],
+          "dtype": "torch.float32",
+          "all_finite": true,
+          "detached": true
+        },
+        "slots1": {
+          "shape": [
+            64,
+            5,
+            2,
+            1,
+            9728
+          ],
+          "dtype": "torch.float32",
+          "all_finite": true,
+          "detached": true
+        },
+        "slots3": {
+          "shape": [
+            64,
+            5,
+            2,
+            3,
+            9728
+          ],
+          "dtype": "torch.float32",
+          "all_finite": true,
+          "detached": true
+        }
+      },
+      "payload_token_counts": {
+        "support_instances": 640,
+        "observed_tokens_min": 3,
+        "observed_tokens_max": 5,
+        "each_word_tokens_min": 1,
+        "each_word_tokens_max": 2
+      },
+      "unique_observed_payload_spans_verified": true
+    }
+  },
+  "data_checks": {
+    "complete_answers_disjoint": true,
+    "entity_ids_disjoint": true,
+    "component_vocabulary_seen_in_training": true,
+    "question_answer_component_leaks": 0,
+    "single_target_swap_has_original_bank_donor": true
+  },
+  "training_projection": {
+    "records": 16,
+    "worlds": [
+      "A",
+      "B"
+    ],
+    "views": 1,
+    "canonical_only": true,
+    "probe_fields_absent": true,
+    "balanced_component_exposure": true,
+    "records_sha256": "af6ebe53241478402c6397e196e79338d0ede899b4bad3d9009d6a212c351978"
+  },
+  "canonical_train_known_features": {
+    "q": {
+      "bitwise_equal": true,
+      "max_abs_error": 0.0
+    },
+    "slots1": {
+      "bitwise_equal": true,
+      "max_abs_error": 0.0
+    },
+    "slots3": {
+      "bitwise_equal": true,
+      "max_abs_error": 0.0
+    }
+  },
+  "split_summary": {
+    "train": {
+      "entities": 16,
+      "unique_ABCD_answers": 64,
+      "reciprocal_swap_pairs": 8,
+      "actual_A_bank_swap_donor_checks": 16,
+      "fresh_C_cases": 16,
+      "sealed_D_cases": 16,
+      "AB_word_exposure_by_position": [
+        {
+          "vocabulary_size": 16,
+          "minimum": 2,
+          "maximum": 2
+        },
+        {
+          "vocabulary_size": 16,
+          "minimum": 2,
+          "maximum": 2
+        },
+        {
+          "vocabulary_size": 16,
+          "minimum": 2,
+          "maximum": 2
+        }
+      ]
+    },
+    "dev": {
+      "entities": 32,
+      "unique_ABCD_answers": 128,
+      "reciprocal_swap_pairs": 16,
+      "actual_A_bank_swap_donor_checks": 32,
+      "fresh_C_cases": 32,
+      "sealed_D_cases": 32,
+      "AB_word_exposure_by_position": [
+        {
+          "vocabulary_size": 16,
+          "minimum": 4,
+          "maximum": 4
+        },
+        {
+          "vocabulary_size": 16,
+          "minimum": 4,
+          "maximum": 4
+        },
+        {
+          "vocabulary_size": 16,
+          "minimum": 4,
+          "maximum": 4
+        }
+      ]
+    },
+    "confirm": {
+      "entities": 64,
+      "unique_ABCD_answers": 256,
+      "reciprocal_swap_pairs": 32,
+      "actual_A_bank_swap_donor_checks": 64,
+      "fresh_C_cases": 64,
+      "sealed_D_cases": 64,
+      "AB_word_exposure_by_position": [
+        {
+          "vocabulary_size": 16,
+          "minimum": 8,
+          "maximum": 8
+        },
+        {
+          "vocabulary_size": 16,
+          "minimum": 8,
+          "maximum": 8
+        },
+        {
+          "vocabulary_size": 16,
+          "minimum": 8,
+          "maximum": 8
+        }
+      ]
+    }
+  },
+  "default_generator_records_exactly_equal": true,
+  "generator_source_sha256": "6e5087b2cc41df205177208422148c8d3030d529bed573c4b364df4d4f8bfe52",
+  "frozen_runtime_python_files_verified": {
+    "counterfactual_data.py": "0bd406b7740c9483d17b8a4e782d1de4693681d54a8fc4725d110764a8c99b32",
+    "__init__.py": "31a77f7d06208e712fe5e7fa4e7ed109d2675b5533aeaa650a005a618f73f7b7",
+    "interface_variants.py": "d6a8dd4199d4430e8922982c96a675acc7f05a78ae70bff027fbbab5c88efad4",
+    "coldstart_eval.py": "64a29a289382679e5eaffdbe9d66c4c7afa8e1de61ab700a682273e3d6ad6a9b",
+    "factcentric_losses.py": "7d02921f21cc7945491d546cd3166d5da0be1b728727c1c84b056f00f8b2984d",
+    "backend.py": "0e577deabdeae59f10b0b003293ef003219c167fdb65603b8ee222ca0dedbf0c",
+    "data.py": "2101304ce146971dae6d14b11a2553cc89b815a2dcd87953b4dcccab7cc4c998",
+    "interface_diagnostic.py": "a763b5e821261350b4632f9983a4b8b293990a7520c1cc58274545533dc4c5b3",
+    "vector_store.py": "4a278b7fa647d9d762c5ac970ada86f2c29722f7e557c1bf796f1f559e214fa9",
+    "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539",
+    "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+    "reconstruction_run.py": "ea6766d63ae1279e5b3485adbb880be89430b5e625ff8446db251bb0d3a1c49d",
+    "context_distillation_run.py": "5cf4b38c329a2638617a88fb48f326631723c35fb8a04abcc3636dda23674d3e",
+    "run.py": "f5001509179164b271e7b8f68ec157264aaf4c1b2de3741a0194794e21c95565",
+    "coldstart_data.py": "58ac7ecae53dbd1a4ab9b4aeba50abe0da76b756d316194af00b1f4e4a8dd70b",
+    "vector_run.py": "c5f48e6e968a71be3dbb15c9554ec24fc195ee4af116fed8fa29aca20fa3ddc3",
+    "memory.py": "1a59cc41f096ab8cc86f9d846133cf1c34ad19751a56b90353217f497af50698",
+    "dictionary_vera.py": "bc8095a4e3f679e923a9a8f02f535639ad7e7201a73658fc710024ca77180028",
+    "counterfactual_backend.py": "fb1cf6d04227ef32307b3dd3880156a36ae121b07f85aa44721a5826c0437d30",
+    "interface_training.py": "f69730b76ae1834b4a44defee4b71f7ed5d23d1729d662ac776c6c6f022f4ac0",
+    "coldstart_run.py": "61b2a8fdab99efeb19b59ce51f5c443f34fc18a08e38616fd5baf2e00873a3fe",
+    "counterfactual_run.py": "1aabac2c4799af22ba893046bc9ad685950c2eadeb9b1e41c90f6ac556e03dee",
+    "metrics.py": "2f800e410ed6a46cf74e694a64fceb2b4ba5c7269809e8a1cb952e436e84e66b",
+    "coldstart_teacher.py": "ea80d05953377943eec45aaf9d1a00ae520b4a9e2a6cbde74dbd6226494f4ba7",
+    "interface_run.py": "261eff85484fe42397b5cb07006b51aa958b392bbbb6eae1151c46b204335838",
+    "interface_losses.py": "52ad91621b8537aeacf1bd889aa9dc05496a189e4b5c0f28160f7a94f204964a",
+    "interface_writer.py": "4f7dfc3461428d9d2b96445e6a9035b1f7cb2dce161698de7bebc78dcd27f7ae",
+    "counterfactual_eval.py": "63ef61d168264b1df87cc2e60294c7380ee8f06e9b15cbbf58843ede678832c5",
+    "reconstruction_data.py": "3f5407e9334cac8f8f83670979e92ca100bfdfc3bdf9be135d7dbd318e30486f",
+    "interface_data.py": "1d7de4fd49f3499a177e6d97090ed9d39b3d8ee45e33b7061666f9df88e6cdb0",
+    "generalization_run.py": "9dcec94f7f05c80040bfbd3a86e2ceb13916019999ac4c150e3f82ccf04b058e",
+    "scaling_run.py": "8af0f0038faff92544f40c5280a689a67c1e0b71a30762577e90c5f9b3540937",
+    "context_distillation.py": "32f043d24df845749f1cf170225e13b8aedfde618495f12fb1cb118e601d252f",
+    "interface_features.py": "a0452552db4c895e659ab3deed7c792bd5f7fb117130f15688acd5b9069d480d",
+    "reconstruction_eval.py": "969e6ee7bf0a973303b63eaa826debec985362b19b70dfe4f67dad8948b2c0bf",
+    "scaling_backend.py": "a12d3f08989135a1324f0cd0b3c97db84d167bfd21f648c32cad7e8f85faefcd",
+    "augmentation_data.py": "1c0c878e8d60424a055adba065c30a6e98d2d1680283ed4664056734d2edc422",
+    "counterfactual_losses.py": "bab125cda0ce86f2c576f3d9140507f7fb1ae8626085767794c1bda8e3db3b8a",
+    "interface_eval.py": "596111bcbf581f435b6e6d042e3c9dbf9d62eb211dd01e89b438194b8fee515e",
+    "reconstruction_vera.py": "a28244924d429ecb658d00cf8b7b8715daa98371654e157b814de690eadb9e0f"
+  },
+  "input_sha256": {
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_prepare_20261006/features/train.pt": "771e9cb0ac8fbd131a8d67f76a98be9853ec3d9a3bb1bb3a5a4b62d8ab420807",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_prepare_20261006/features/train.json": "ce400c6837ae42754a1bde3a6daccc1710c078d4dda6cd298aff98bc98205532",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_prepare_20261006/features/known.pt": "5059000fe0eb6c319b089c5e790a85b75f89b43aab5e5a51d3cbfd1962c8e222",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_prepare_20261006/features/known.json": "a6c4c798fd9672de3c9445fe855a71f913527a7cc19480f71c63a0f496843ef6",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_prepare_20261006/features/dev.pt": "7318b4e99850e64ca13738077fd6e906d5defb0374a2691e2db0f71e965f2781",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_prepare_20261006/features/dev.json": "834f4349427658afcf849fc1ddfbb896b64b789b153765194c308421b8cfe799",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_prepare_20261006/features/confirm.pt": "0f35e765bc5aa90d472516cef56da8c0414ade2ba1b1f2816c5c876349f29c34",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_prepare_20261006/features/confirm.json": "23529ae47e8993463992e3efd799beb01a0573edf20ef6f9fb23daedf5b27a49",
+    "/mnt/storage/chenhan/xtraNet/VeRA-Mem-Workspace/runs/xtrah100/reconstruction_prepare_20261006/features/manifest.json": "4e6d2032bf6ae74cb68e61b39fc07687862059e8e51b3ac299a2ead315f2770e"
+  },
+  "cuda_initialized": false,
+  "limitations": [
+    "Payload token counts describe observed writer spans; this audit does not re-tokenize or run the backbone.",
+    "C/D text is read only for sealed-data structure/isolation, never generation or model selection.",
+    "SWAP answers intentionally reuse an in-split donor A; A/B/C/D complete labels are otherwise unique across records and splits.",
+    "Documentation snapshot copy receipt is separate; no frozen source or historical result is modified."
+  ],
+  "elapsed_seconds": 2.0542922443710268
+}

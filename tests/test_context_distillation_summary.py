@@ -87,7 +87,8 @@ def fixture_suite(tmp_path):
                         expected_in_bank=False, teacher_context="PRIVATE_TEACHER_PROMPT"))
             conditions[phase] = dict(student=scores, alignment=alignment,
                                      teacher=dict(count=2, em=1., answer_token_nll=1.) if initial else None,
-                                     records=2, numeric_vdb_bytes=1024, vdb_sha256="a"*64)
+                                     records=2, numeric_vdb_bytes=dict(key_bytes=512, value_bytes=512, total_bytes=1024),
+                                     vdb_sha256="a"*64)
         write_jsonl(directory/"predictions.jsonl", predictions)
         write_jsonl(directory/"alignment_predictions.jsonl", alignment_predictions)
         if initial:
@@ -158,6 +159,7 @@ def test_complete_audit_recomputes_metrics_costs_and_removes_private_fields(tmp_
     assert condition["student"]["real"]["em"] == .5
     assert condition["student"]["real"]["answer_token_nll"] == 1.
     assert condition["student"]["real"]["recall_at_4"] == .5
+    assert condition["numeric_vdb_bytes"] == dict(key_bytes=512, value_bytes=512, total_bytes=1024)
     assert condition["paired"]["real_minus_shuffled"]["delta_em"] == .5
     assert ce["all_conditions_real_minus_shuffled"]["n_paired_facts"] == 2
     assert ce["all_conditions_real_minus_shuffled"]["phases_per_fact"] == 4
@@ -281,3 +283,27 @@ def test_cli_accepts_manifest_path_writes_only_aggregate_artifacts_and_keeps_evi
     assert set(path.name for path in output.iterdir()) == {"summary.json", "report.md"}
     after = {str(path.relative_to(suite)): SUMMARY.digest_file(path) for path in suite.rglob("*") if path.is_file()}
     assert before == after
+
+
+def test_actual_resident_bytes_mapping_for_64_fact_64_dim_float32_bank():
+    counts = dict(key_bytes=16384, value_bytes=16384, total_bytes=32768)
+    assert SUMMARY.audit_vdb_bytes(counts, records=64) == counts
+    assert SUMMARY.VDB_NUMERIC_FORMAT == dict(key_dim=64, value_dim=64, dtype="float32", bytes_per_element=4)
+
+
+@pytest.mark.parametrize("counts,match", [
+    (1024, "must contain"),
+    ({"key_bytes": 512, "value_bytes": 512}, "must contain"),
+    ({"key_bytes": 512, "value_bytes": 512, "total_bytes": 1024, "extra": 0}, "must contain"),
+    ({"key_bytes": True, "value_bytes": 512, "total_bytes": 513}, "Invalid integer"),
+    ({"key_bytes": 512., "value_bytes": 512, "total_bytes": 1024}, "Invalid integer"),
+    ({"key_bytes": -1, "value_bytes": 512, "total_bytes": 511}, "Invalid integer"),
+    ({"key_bytes": 512, "value_bytes": 512, "total_bytes": 1025}, "total_bytes differs"),
+    ({"key_bytes": 256, "value_bytes": 768, "total_bytes": 1024}, "protocol key_dim"),
+    ({"key_bytes": 512, "value_bytes": 256, "total_bytes": 768}, "protocol value_dim"),
+])
+def test_invalid_vdb_byte_mapping_fails_full_audit(tmp_path, counts, match):
+    suite = fixture_suite(tmp_path)
+    mutate_json(suite/"ce/metrics.json", lambda value: value["conditions"][SUMMARY.PHASES[0]].__setitem__("numeric_vdb_bytes", counts))
+    with pytest.raises(ValueError, match=match):
+        SUMMARY.summarize([suite], samples=10)

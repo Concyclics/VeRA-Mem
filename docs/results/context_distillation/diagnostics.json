@@ -1,0 +1,1580 @@
+{
+  "complete": true,
+  "audit": "Independent recomputation from frozen raw logs, no new GPU execution",
+  "completed_at": "2026-10-06T02:12:31.335149+00:00",
+  "source_private_audit_sha256": "e485f6b8794384f39b75063753b3749f35958262754c6b78bbcd435c478696af",
+  "model_configuration_sha256": {
+    "generation_config.json": "835fffe355c9438e7a25be099b3fccaa98350b83451f9fd2d99512e74f1ade48",
+    "tokenizer_config.json": "a62ff0a2472a0fa1b8eaabcb57c59b58afa42a22831dc141400b6e0cf2b65ce3"
+  },
+  "runs": {
+    "initial": {
+      "evidence_sha256": {
+        "manifest.json": "20ae539c601237dd47da279db786586cce756fda4baa9f86de9e04b9ba492290",
+        "metrics.json": "1fa56fdc620675177890e2a12be3731be3ae48ff2d26bb5d96f13ba12bcb4323",
+        "predictions.jsonl": "a07656214caf184a593c01a0dd4e59694844ac3bf90d3410be6406d9ec814d16",
+        "alignment_predictions.jsonl": "8d83d90b68fa72c6ae5a1fa2b3f4be0284393a24d92fd023921d3a12aff71be8"
+      },
+      "style_pair_counts": {
+        "q1_s1": 16,
+        "q1_s2": 16,
+        "q2_s1": 16,
+        "q2_s2": 16
+      }
+    },
+    "ce": {
+      "evidence_sha256": {
+        "manifest.json": "dd4504c8e36134c93fb0887101f49d2d5b26c031055f14502e3dcbbb183ca8c1",
+        "metrics.json": "a4287ba769b2d0d3ff7ebeb85276bcde4714efdf7e05384868f5c6fccbc4d647",
+        "predictions.jsonl": "078cad7ef85cd71fc180405d3d8fad7c67f6c9acec4a3699a90eb9b2912b62d9",
+        "alignment_predictions.jsonl": "d23eea6bd9faa39d30a6c2ff5013a645373c6d30f93e7acd1fca6514bf55d78e",
+        "rollouts.jsonl": "e7053405fbab09d2240d5e9f01b3793ca1439033c6999e2ffc931c41c714d948"
+      },
+      "style_pair_counts": {
+        "q1_s1": 16,
+        "q1_s2": 16,
+        "q2_s1": 16,
+        "q2_s2": 16
+      },
+      "trajectory": {
+        "count": 2048,
+        "continuation_length_histogram": {
+          "2": 1286,
+          "3": 762
+        },
+        "gold_length_histogram": {
+          "2": 1286,
+          "3": 762
+        },
+        "mean_continuation_tokens": 2.3720703125,
+        "mean_gold_tokens": 2.3720703125,
+        "mean_first_prediction_weight_in_sequence_average": 0.43798828125000466,
+        "first_token_matches_gold": 2048,
+        "first_token_matches_gold_rate": 1.0,
+        "complete_trajectory_equals_gold": 2048,
+        "complete_trajectory_equals_gold_rate": 1.0,
+        "prediction_positions": 4858,
+        "gold_prefix_matching_positions": 4858,
+        "gold_prefix_match_rate_including_first": 1.0,
+        "post_first_prediction_positions": 2810,
+        "gold_prefix_matching_post_first_positions": 2810,
+        "gold_prefix_match_rate_excluding_first": 1.0,
+        "final_token_eos_count": 2048,
+        "final_token_eos_rate": 1.0,
+        "hit_max_tokens_without_eos_count": 0,
+        "hit_max_tokens_with_real_eos_count": 0,
+        "early_without_eos_count": 0
+      },
+      "target_exposures": 2048,
+      "unique_target_facts": 2048
+    },
+    "off_kd": {
+      "evidence_sha256": {
+        "manifest.json": "e1266332060a0b0272421fa8297b5294d05b5f484bde20b6009830194b257fc9",
+        "metrics.json": "bbf5be6d92aaef9e978a9f1e1db247bb2c3796d75d41234c8a54df0bc0031df9",
+        "predictions.jsonl": "344556419c31531c37f5a31af6e647014ff11666a1becd3fbb9477823c21f6ca",
+        "alignment_predictions.jsonl": "531d276db53e4a890b798f5f91d6788eb2a82f9aa603f42e0f76d62956040e8f",
+        "rollouts.jsonl": "7bfc82869dceafbbe672278eba50a67362953307f6fecb1e0a8d0bcba7244ad3"
+      },
+      "style_pair_counts": {
+        "q1_s1": 16,
+        "q1_s2": 16,
+        "q2_s1": 16,
+        "q2_s2": 16
+      },
+      "trajectory": {
+        "count": 2048,
+        "continuation_length_histogram": {
+          "2": 1286,
+          "3": 762
+        },
+        "gold_length_histogram": {
+          "2": 1286,
+          "3": 762
+        },
+        "mean_continuation_tokens": 2.3720703125,
+        "mean_gold_tokens": 2.3720703125,
+        "mean_first_prediction_weight_in_sequence_average": 0.43798828125000466,
+        "first_token_matches_gold": 2048,
+        "first_token_matches_gold_rate": 1.0,
+        "complete_trajectory_equals_gold": 2048,
+        "complete_trajectory_equals_gold_rate": 1.0,
+        "prediction_positions": 4858,
+        "gold_prefix_matching_positions": 4858,
+        "gold_prefix_match_rate_including_first": 1.0,
+        "post_first_prediction_positions": 2810,
+        "gold_prefix_matching_post_first_positions": 2810,
+        "gold_prefix_match_rate_excluding_first": 1.0,
+        "final_token_eos_count": 2048,
+        "final_token_eos_rate": 1.0,
+        "hit_max_tokens_without_eos_count": 0,
+        "hit_max_tokens_with_real_eos_count": 0,
+        "early_without_eos_count": 0
+      },
+      "target_exposures": 2048,
+      "unique_target_facts": 2048
+    },
+    "off_kd_hidden": {
+      "evidence_sha256": {
+        "manifest.json": "7f74eac25669dece12424b6e9212514ddcd1d21ab64e00f2e1cf2e39f0a65a54",
+        "metrics.json": "210c076ca49b51ed069998368f258a6d2307ca0b9cd0e30d32d0a55b44f2d29c",
+        "predictions.jsonl": "af6a72026cba3013ddbcc6c0d5a0b4fba54e07554f25c72709c6cefe1b510ec6",
+        "alignment_predictions.jsonl": "0277a32227026c721209464052e64fd974640f693c3bcdef740d611e09ac7f1f",
+        "rollouts.jsonl": "7bfc82869dceafbbe672278eba50a67362953307f6fecb1e0a8d0bcba7244ad3"
+      },
+      "style_pair_counts": {
+        "q1_s1": 16,
+        "q1_s2": 16,
+        "q2_s1": 16,
+        "q2_s2": 16
+      },
+      "trajectory": {
+        "count": 2048,
+        "continuation_length_histogram": {
+          "2": 1286,
+          "3": 762
+        },
+        "gold_length_histogram": {
+          "2": 1286,
+          "3": 762
+        },
+        "mean_continuation_tokens": 2.3720703125,
+        "mean_gold_tokens": 2.3720703125,
+        "mean_first_prediction_weight_in_sequence_average": 0.43798828125000466,
+        "first_token_matches_gold": 2048,
+        "first_token_matches_gold_rate": 1.0,
+        "complete_trajectory_equals_gold": 2048,
+        "complete_trajectory_equals_gold_rate": 1.0,
+        "prediction_positions": 4858,
+        "gold_prefix_matching_positions": 4858,
+        "gold_prefix_match_rate_including_first": 1.0,
+        "post_first_prediction_positions": 2810,
+        "gold_prefix_matching_post_first_positions": 2810,
+        "gold_prefix_match_rate_excluding_first": 1.0,
+        "final_token_eos_count": 2048,
+        "final_token_eos_rate": 1.0,
+        "hit_max_tokens_without_eos_count": 0,
+        "hit_max_tokens_with_real_eos_count": 0,
+        "early_without_eos_count": 0
+      },
+      "target_exposures": 2048,
+      "unique_target_facts": 2048
+    },
+    "on_kd": {
+      "evidence_sha256": {
+        "manifest.json": "01c571d5e267f0847fe0ea6922a2b47326d74f06fd01c8f34f9b1e6815612811",
+        "metrics.json": "06f802d5a3f6e4514795496a37a96c8d04d93b8e4f6c254e261850505c897407",
+        "predictions.jsonl": "528a654e1bad58b6db249cdf3b0e27c5d14f9fd8b5712804a28c165cf4934386",
+        "alignment_predictions.jsonl": "572392a10dcb2b6e1218386b9c0c315fd58442994ddb6f3f424e091e3b57ad60",
+        "rollouts.jsonl": "ce56e1acc9941a43fcbda6c05466fca36f86804b3893b602eb5dd9b783cf8840"
+      },
+      "style_pair_counts": {
+        "q1_s1": 16,
+        "q1_s2": 16,
+        "q2_s1": 16,
+        "q2_s2": 16
+      },
+      "trajectory": {
+        "count": 2048,
+        "continuation_length_histogram": {
+          "2": 715,
+          "3": 391,
+          "4": 942
+        },
+        "gold_length_histogram": {
+          "2": 1286,
+          "3": 762
+        },
+        "mean_continuation_tokens": 3.11083984375,
+        "mean_gold_tokens": 2.3720703125,
+        "mean_first_prediction_weight_in_sequence_average": 0.35319010416666796,
+        "first_token_matches_gold": 109,
+        "first_token_matches_gold_rate": 0.05322265625,
+        "complete_trajectory_equals_gold": 95,
+        "complete_trajectory_equals_gold_rate": 0.04638671875,
+        "prediction_positions": 6371,
+        "gold_prefix_matching_positions": 2164,
+        "gold_prefix_match_rate_including_first": 0.33966410296656724,
+        "post_first_prediction_positions": 4323,
+        "gold_prefix_matching_post_first_positions": 116,
+        "gold_prefix_match_rate_excluding_first": 0.02683321767291233,
+        "final_token_eos_count": 1225,
+        "final_token_eos_rate": 0.59814453125,
+        "hit_max_tokens_without_eos_count": 823,
+        "hit_max_tokens_with_real_eos_count": 119,
+        "early_without_eos_count": 0
+      },
+      "target_exposures": 2048,
+      "unique_target_facts": 2048
+    },
+    "on_kd_hidden": {
+      "evidence_sha256": {
+        "manifest.json": "f7161018d7cb0a606969db0214eed92f37ee72594800285480d225435e898885",
+        "metrics.json": "d5b2781ce0a3d955258ba5c87651ba4c47a5a5cbbc33be0b0aa608c7d55b9ab4",
+        "predictions.jsonl": "d0b47da09b2d8a04b7ce86518263ad1e80a39e7dc956c81ab41b0c8c9ea24a64",
+        "alignment_predictions.jsonl": "a9b8316bbee7c7b6e248b797e8504e869c6a0f9f5986f29157813c19a3f3b741",
+        "rollouts.jsonl": "a8081766e83f936e86b97cf1afe8c7f0726ed8e5493d998247e688906c78823f"
+      },
+      "style_pair_counts": {
+        "q1_s1": 16,
+        "q1_s2": 16,
+        "q2_s1": 16,
+        "q2_s2": 16
+      },
+      "trajectory": {
+        "count": 2048,
+        "continuation_length_histogram": {
+          "2": 679,
+          "3": 361,
+          "4": 1008
+        },
+        "gold_length_histogram": {
+          "2": 1286,
+          "3": 762
+        },
+        "mean_continuation_tokens": 3.16064453125,
+        "mean_gold_tokens": 2.3720703125,
+        "mean_first_prediction_weight_in_sequence_average": 0.34757486979166774,
+        "first_token_matches_gold": 122,
+        "first_token_matches_gold_rate": 0.0595703125,
+        "complete_trajectory_equals_gold": 109,
+        "complete_trajectory_equals_gold_rate": 0.05322265625,
+        "prediction_positions": 6473,
+        "gold_prefix_matching_positions": 2181,
+        "gold_prefix_match_rate_including_first": 0.3369380503630465,
+        "post_first_prediction_positions": 4425,
+        "gold_prefix_matching_post_first_positions": 133,
+        "gold_prefix_match_rate_excluding_first": 0.030056497175141243,
+        "final_token_eos_count": 1183,
+        "final_token_eos_rate": 0.57763671875,
+        "hit_max_tokens_without_eos_count": 865,
+        "hit_max_tokens_with_real_eos_count": 143,
+        "early_without_eos_count": 0
+      },
+      "target_exposures": 2048,
+      "unique_target_facts": 2048
+    }
+  },
+  "contrasts": {
+    "ce_minus_initial": {
+      "em": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.015625,
+          "positive": 4,
+          "negative": 3,
+          "equal": 57,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.015625,
+            "ci95": [
+              -0.0625,
+              0.09375
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.046875,
+          "positive": 3,
+          "negative": 0,
+          "equal": 61,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.046875,
+            "ci95": [
+              0.0,
+              0.109375
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.015625,
+          "positive": 0,
+          "negative": 1,
+          "equal": 63,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": -0.015625,
+            "ci95": [
+              -0.046875,
+              0.0
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.0,
+          "positive": 0,
+          "negative": 0,
+          "equal": 64,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        }
+      },
+      "reverse_kl": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.2568320187419886,
+          "positive": 34,
+          "negative": 30,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -3.0084861740469933,
+          "positive": 4,
+          "negative": 60,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.5171719044446945,
+          "positive": 15,
+          "negative": 49,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.2969641834497452,
+          "positive": 33,
+          "negative": 31,
+          "equal": 0
+        }
+      },
+      "hidden_cosine": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.011792791076004505,
+          "positive": 50,
+          "negative": 14,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.052921246737241745,
+          "positive": 64,
+          "negative": 0,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.01617629174143076,
+          "positive": 47,
+          "negative": 17,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.0091193076223135,
+          "positive": 49,
+          "negative": 15,
+          "equal": 0
+        }
+      },
+      "first_token_reverse_kl": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 2.1532723363197874,
+          "positive": 40,
+          "negative": 24,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -2.7229357808828354,
+          "positive": 8,
+          "negative": 56,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.5294106602668762,
+          "positive": 14,
+          "negative": 50,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.04204028844833374,
+          "positive": 26,
+          "negative": 38,
+          "equal": 0
+        }
+      },
+      "first_token_hidden_cosine": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.003621949814260006,
+          "positive": 36,
+          "negative": 28,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.06667484249919653,
+          "positive": 64,
+          "negative": 0,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.03969721216708422,
+          "positive": 63,
+          "negative": 1,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.030874992720782757,
+          "positive": 64,
+          "negative": 0,
+          "equal": 0
+        }
+      }
+    },
+    "off_kd_minus_ce": {
+      "em": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.3125,
+          "positive": 0,
+          "negative": 20,
+          "equal": 44,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": -0.3125,
+            "ci95": [
+              -0.421875,
+              -0.203125
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.015625,
+          "positive": 0,
+          "negative": 1,
+          "equal": 63,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": -0.015625,
+            "ci95": [
+              -0.046875,
+              0.0
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.0,
+          "positive": 0,
+          "negative": 0,
+          "equal": 64,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.0,
+          "positive": 0,
+          "negative": 0,
+          "equal": 64,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        }
+      },
+      "reverse_kl": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 4.093901775937411,
+          "positive": 50,
+          "negative": 14,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -1.2330490611493587,
+          "positive": 26,
+          "negative": 38,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 1.5104931145906448,
+          "positive": 49,
+          "negative": 15,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.6971092373132706,
+          "positive": 31,
+          "negative": 33,
+          "equal": 0
+        }
+      },
+      "hidden_cosine": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.036672391928732395,
+          "positive": 60,
+          "negative": 4,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.03964940970763564,
+          "positive": 64,
+          "negative": 0,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.02576907118782401,
+          "positive": 16,
+          "negative": 48,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.017989535816013813,
+          "positive": 47,
+          "negative": 17,
+          "equal": 0
+        }
+      },
+      "first_token_reverse_kl": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 10.44870205130428,
+          "positive": 54,
+          "negative": 10,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.3506825268268585,
+          "positive": 40,
+          "negative": 24,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.7806197702884674,
+          "positive": 44,
+          "negative": 20,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.8019538223743439,
+          "positive": 29,
+          "negative": 35,
+          "equal": 0
+        }
+      },
+      "first_token_hidden_cosine": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.03790055029094219,
+          "positive": 61,
+          "negative": 3,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.023406135849654675,
+          "positive": 57,
+          "negative": 7,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.025555829517543316,
+          "positive": 6,
+          "negative": 58,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.029219635762274265,
+          "positive": 32,
+          "negative": 32,
+          "equal": 0
+        }
+      }
+    },
+    "off_kd_hidden_minus_off_kd": {
+      "em": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.125,
+          "positive": 1,
+          "negative": 9,
+          "equal": 54,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": -0.125,
+            "ci95": [
+              -0.21875,
+              -0.03125
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.015625,
+          "positive": 1,
+          "negative": 0,
+          "equal": 63,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.015625,
+            "ci95": [
+              0.0,
+              0.046875
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.0,
+          "positive": 0,
+          "negative": 0,
+          "equal": 64,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.0,
+          "positive": 0,
+          "negative": 0,
+          "equal": 64,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        }
+      },
+      "reverse_kl": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.7593388560781023,
+          "positive": 34,
+          "negative": 30,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.4378225924447179,
+          "positive": 30,
+          "negative": 34,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.7289275228977203,
+          "positive": 20,
+          "negative": 44,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.16909685730934143,
+          "positive": 30,
+          "negative": 34,
+          "equal": 0
+        }
+      },
+      "hidden_cosine": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.010891873855143785,
+          "positive": 24,
+          "negative": 40,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.0030871685594320297,
+          "positive": 25,
+          "negative": 39,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.0018824590370059013,
+          "positive": 38,
+          "negative": 26,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.00040603941306471825,
+          "positive": 32,
+          "negative": 32,
+          "equal": 0
+        }
+      },
+      "first_token_reverse_kl": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.799162800412887,
+          "positive": 28,
+          "negative": 36,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.9247988378629088,
+          "positive": 34,
+          "negative": 30,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.8870373666286469,
+          "positive": 17,
+          "negative": 47,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.7079741954803467,
+          "positive": 25,
+          "negative": 39,
+          "equal": 0
+        }
+      },
+      "first_token_hidden_cosine": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.012883560732007027,
+          "positive": 16,
+          "negative": 48,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.0003426000475883484,
+          "positive": 31,
+          "negative": 33,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.004223419353365898,
+          "positive": 47,
+          "negative": 17,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.007069756276905537,
+          "positive": 32,
+          "negative": 32,
+          "equal": 0
+        }
+      }
+    },
+    "on_kd_minus_ce": {
+      "em": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.28125,
+          "positive": 1,
+          "negative": 19,
+          "equal": 44,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": -0.28125,
+            "ci95": [
+              -0.40625,
+              -0.171875
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.015625,
+          "positive": 1,
+          "negative": 0,
+          "equal": 63,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.015625,
+            "ci95": [
+              0.0,
+              0.046875
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.0,
+          "positive": 0,
+          "negative": 0,
+          "equal": 64,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.0,
+          "positive": 0,
+          "negative": 0,
+          "equal": 64,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        }
+      },
+      "reverse_kl": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 4.651180846805801,
+          "positive": 50,
+          "negative": 14,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.37405025213956833,
+          "positive": 34,
+          "negative": 30,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 3.1148353815078735,
+          "positive": 57,
+          "negative": 7,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 1.3757572770118713,
+          "positive": 39,
+          "negative": 25,
+          "equal": 0
+        }
+      },
+      "hidden_cosine": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.005757175851613283,
+          "positive": 40,
+          "negative": 24,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.0008539780974388123,
+          "positive": 27,
+          "negative": 37,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.06268926849588752,
+          "positive": 0,
+          "negative": 64,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.008885645307600498,
+          "positive": 27,
+          "negative": 37,
+          "equal": 0
+        }
+      },
+      "first_token_reverse_kl": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 7.726274123764597,
+          "positive": 48,
+          "negative": 16,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.12880031764507294,
+          "positive": 30,
+          "negative": 34,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.9153038859367371,
+          "positive": 47,
+          "negative": 17,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.5880965292453766,
+          "positive": 30,
+          "negative": 34,
+          "equal": 0
+        }
+      },
+      "first_token_hidden_cosine": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.0270947627723217,
+          "positive": 56,
+          "negative": 8,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.004452084191143513,
+          "positive": 34,
+          "negative": 30,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.034671513363718987,
+          "positive": 1,
+          "negative": 63,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.040713388472795486,
+          "positive": 45,
+          "negative": 19,
+          "equal": 0
+        }
+      }
+    },
+    "on_kd_minus_off_kd": {
+      "em": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.03125,
+          "positive": 6,
+          "negative": 4,
+          "equal": 54,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.03125,
+            "ci95": [
+              -0.0625,
+              0.125
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.03125,
+          "positive": 2,
+          "negative": 0,
+          "equal": 62,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.03125,
+            "ci95": [
+              0.0,
+              0.078125
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.0,
+          "positive": 0,
+          "negative": 0,
+          "equal": 64,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.0,
+          "positive": 0,
+          "negative": 0,
+          "equal": 64,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        }
+      },
+      "reverse_kl": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.5572790708683897,
+          "positive": 34,
+          "negative": 30,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 1.607099313288927,
+          "positive": 35,
+          "negative": 29,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 1.6043422669172287,
+          "positive": 56,
+          "negative": 8,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 2.072866514325142,
+          "positive": 52,
+          "negative": 12,
+          "equal": 0
+        }
+      },
+      "hidden_cosine": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.030915216077119112,
+          "positive": 4,
+          "negative": 60,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.04050338780507445,
+          "positive": 2,
+          "negative": 62,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.03692019730806351,
+          "positive": 1,
+          "negative": 63,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.02687518112361431,
+          "positive": 1,
+          "negative": 63,
+          "equal": 0
+        }
+      },
+      "first_token_reverse_kl": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -2.722427927539684,
+          "positive": 22,
+          "negative": 42,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.47948284447193146,
+          "positive": 24,
+          "negative": 40,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.13468411564826965,
+          "positive": 42,
+          "negative": 22,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.21385729312896729,
+          "positive": 40,
+          "negative": 24,
+          "equal": 0
+        }
+      },
+      "first_token_hidden_cosine": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.010805787518620491,
+          "positive": 17,
+          "negative": 47,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.018954051658511162,
+          "positive": 16,
+          "negative": 48,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.00911568384617567,
+          "positive": 11,
+          "negative": 53,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.011493752710521221,
+          "positive": 59,
+          "negative": 5,
+          "equal": 0
+        }
+      }
+    },
+    "on_kd_hidden_minus_on_kd": {
+      "em": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.015625,
+          "positive": 4,
+          "negative": 5,
+          "equal": 55,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": -0.015625,
+            "ci95": [
+              -0.109375,
+              0.078125
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.015625,
+          "positive": 0,
+          "negative": 1,
+          "equal": 63,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": -0.015625,
+            "ci95": [
+              -0.046875,
+              0.0
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.0,
+          "positive": 0,
+          "negative": 0,
+          "equal": 64,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.0,
+          "positive": 0,
+          "negative": 0,
+          "equal": 64,
+          "paired_bootstrap": {
+            "n_paired_facts": 64,
+            "phases_per_fact": 1,
+            "delta_em": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_samples": 10000,
+            "bootstrap_seed": 123,
+            "unit": "fact; all phases for one fact resampled together",
+            "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+          }
+        }
+      },
+      "reverse_kl": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.8503875260721543,
+          "positive": 23,
+          "negative": 41,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.48657505214214325,
+          "positive": 40,
+          "negative": 24,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": 0.010485082864761353,
+          "positive": 29,
+          "negative": 35,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.0351070910692215,
+          "positive": 28,
+          "negative": 36,
+          "equal": 0
+        }
+      },
+      "hidden_cosine": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.0036311373114585876,
+          "positive": 18,
+          "negative": 46,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.012117870151996613,
+          "positive": 11,
+          "negative": 53,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.005142589565366507,
+          "positive": 12,
+          "negative": 52,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.0008049611933529377,
+          "positive": 31,
+          "negative": 33,
+          "equal": 0
+        }
+      },
+      "first_token_reverse_kl": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -1.4099866962133092,
+          "positive": 23,
+          "negative": 41,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.6898945719003677,
+          "positive": 34,
+          "negative": 30,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.4768301695585251,
+          "positive": 21,
+          "negative": 43,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.764853298664093,
+          "positive": 24,
+          "negative": 40,
+          "equal": 0
+        }
+      },
+      "first_token_hidden_cosine": {
+        "canonical_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.008140822872519493,
+          "positive": 17,
+          "negative": 47,
+          "equal": 0
+        },
+        "canonical_support/heldout_query": {
+          "count": 64,
+          "mean_difference": -0.01609018910676241,
+          "positive": 4,
+          "negative": 60,
+          "equal": 0
+        },
+        "heldout_support/canonical_query": {
+          "count": 64,
+          "mean_difference": -0.006325512193143368,
+          "positive": 13,
+          "negative": 51,
+          "equal": 0
+        },
+        "heldout_support/heldout_query": {
+          "count": 64,
+          "mean_difference": 0.003646361641585827,
+          "positive": 46,
+          "negative": 18,
+          "equal": 0
+        }
+      }
+    }
+  },
+  "weak_heldout_query_signal_audit": {
+    "phase": "canonical_support/heldout_query",
+    "on_correct": 4,
+    "ce_correct": 3,
+    "shared_successes": 3,
+    "on_only_successes": 1,
+    "ce_only_successes": 0,
+    "on_success_answer_counts": {
+      "apple": 2,
+      "silver": 2
+    },
+    "correct_entity_prefill_top1": 1,
+    "correct_entity_prefill_top4": 2,
+    "correct_entity_decode_hits": 0,
+    "decode_query_count": 4,
+    "success_with_other_entity_same_answer_in_top4": 2,
+    "by_query_style": {
+      "dev_query_00": {
+        "count": 32,
+        "correct": 2,
+        "normalized_prediction_counts": {
+          "silver": 18,
+          "unavailable": 1,
+          "none": 8,
+          "error": 2,
+          "sorry i cannot": 3
+        },
+        "correct_entity_prefill_top1": 3,
+        "correct_entity_prefill_top4": 5
+      },
+      "dev_query_01": {
+        "count": 32,
+        "correct": 2,
+        "normalized_prediction_counts": {
+          "apple": 31,
+          "42": 1
+        },
+        "correct_entity_prefill_top1": 1,
+        "correct_entity_prefill_top4": 6
+      }
+    },
+    "real_minus_shuffled": {
+      "n_paired_facts": 64,
+      "phases_per_fact": 1,
+      "delta_em": 0.0625,
+      "ci95": [
+        0.015625,
+        0.125
+      ],
+      "bootstrap_samples": 10000,
+      "bootstrap_seed": 123,
+      "unit": "fact; all phases for one fact resampled together",
+      "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+    },
+    "real_minus_empty": {
+      "n_paired_facts": 64,
+      "phases_per_fact": 1,
+      "delta_em": 0.0625,
+      "ci95": [
+        0.015625,
+        0.125
+      ],
+      "bootstrap_samples": 10000,
+      "bootstrap_seed": 123,
+      "unit": "fact; all phases for one fact resampled together",
+      "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+    },
+    "on_only_success_details": [
+      {
+        "answer": "silver",
+        "query_style": "dev_query_00",
+        "correct_entity_prefill_top4": false,
+        "selected_answer_words": [
+          "silver",
+          "rabbit",
+          "window",
+          "window"
+        ],
+        "correct_entity_decode_hits": 0
+      }
+    ]
+  },
+  "interpretation_limits": [
+    "On/off fixes KL direction and the selected recipe, but also changes length/EOS distribution, first-position weight and the states seen by actual-prefix address CE.",
+    "First prediction prefixes match before any token is sampled. One/two-token answers leave little room for long-range on-policy benefits.",
+    "All arms include supervised canonical replay and fact-identity address losses; this is not pure distillation or fully unsupervised online learning.",
+    "Only half of4096 offline facts are main targets in256x8 updates; remaining facts can occur in72-record address/memory episodes.",
+    "Teacher100% greedy EM on clean questions does not by itself prove sharp entropy or correctness on wrong sampled prefixes; use answer NLL only for clean-prefix confidence.",
+    "Hidden cosine is a final-state geometry diagnostic; higher values do not establish output correctness or pure semantics.",
+    "The0.1 hidden weight has no weight sweep/gradient decomposition; failure of this setting is not failure of all hidden distillation.",
+    "64 development entities and two new-style families were previously inspected; no blind confirmation or training-seed replication.",
+    "Balanced q/s style pairs use16 different facts per cell, not every new style on every fact. Comparisons across methods remain paired by entity.",
+    "Prefix-match metric compares exact histories before each prediction; the first position always matches and is therefore reported separately.",
+    "Rollout and input token counters count unpadded valid tokens; they are not padded compute/FLOPs measurements.",
+    "Single deterministic value shuffle can assign another record with the same answer; use paired real-minus-shuffled effects rather than assuming0% shuffled chance."
+  ]
+}

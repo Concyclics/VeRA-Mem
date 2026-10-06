@@ -43,6 +43,9 @@ CONFIG_FIELDS = (
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 TOLERANCE = 1e-7
 ALIGNMENT_AGGREGATION = "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+# The accepted context-distillation-pilot-v1 runner fixes these dimensions;
+# PersistentVectorDB stores both key and value payloads as CPU float32.
+VDB_NUMERIC_FORMAT = dict(key_dim=64, value_dim=64, dtype="float32", bytes_per_element=4)
 
 
 def read_json(path):
@@ -89,6 +92,26 @@ def require_finite(value, name):
     if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
         raise ValueError(f"Nonfinite/non-numeric value: {name}")
     return value
+
+
+def audit_vdb_bytes(value, records):
+    """Validate the real resident_bytes() mapping and fixed protocol shape.
+
+    These are tensor payload bytes, excluding identifiers, timestamps and
+    Python object overhead. Never treat the mapping as a scalar byte total.
+    """
+    fields = ("key_bytes", "value_bytes", "total_bytes")
+    if not isinstance(value, dict) or set(value) != set(fields):
+        raise ValueError("VDB byte counts must contain key_bytes/value_bytes/total_bytes")
+    counts = {field: require_int(value[field], f"VDB {field}") for field in fields}
+    records = require_int(records, "VDB record count")
+    if counts["key_bytes"] + counts["value_bytes"] != counts["total_bytes"]:
+        raise ValueError("VDB total_bytes differs from key_bytes + value_bytes")
+    for field, dimension in (("key_bytes", "key_dim"), ("value_bytes", "value_dim")):
+        expected = records * VDB_NUMERIC_FORMAT[dimension] * VDB_NUMERIC_FORMAT["bytes_per_element"]
+        if counts[field] != expected:
+            raise ValueError(f"VDB {field} disagrees with record count and protocol {dimension}")
+    return counts
 
 
 def assert_equal(actual, expected, name):
@@ -395,7 +418,7 @@ def audit_run(directory, name, suite):
         if stored.get("records") != len(answers):
             raise ValueError("Bank record count mismatch")
         conditions[phase] = dict(student=student, alignment=alignment, teacher=teacher,
-                                 records=stored["records"], numeric_vdb_bytes=require_int(stored.get("numeric_vdb_bytes"), "VDB bytes"),
+                                 records=stored["records"], numeric_vdb_bytes=audit_vdb_bytes(stored.get("numeric_vdb_bytes"), stored["records"]),
                                  vdb_sha256=require_hash(stored.get("vdb_sha256"), "VDB hash"))
     training = audit_training(directory, config, manifest, initial)
     evidence_names = ["manifest.json", "config.json", "metrics.json", "dev.jsonl", "predictions.jsonl", "alignment_predictions.jsonl"]
@@ -498,6 +521,7 @@ def summarize(suites, *, samples=5000, seed=123):
         protocol="context-distillation-public-audit-v1", audited_at=datetime.now(timezone.utc).isoformat(),
         complete=True, audit_tolerance=TOLERANCE, suites=suites_public,
         evaluation=dict(split="dev", facts=initial_public["configuration"]["eval_size"], conditions=list(PHASES),
+                        vdb_numeric_format=VDB_NUMERIC_FORMAT,
                         fact_label_sha256=initial_public["provenance"]["fact_label_sha256"],
                         training_seeds=[initial_public["configuration"]["seed"]]),
         comparability=dict(shared_initialization=True, frozen_teacher_verified=True,

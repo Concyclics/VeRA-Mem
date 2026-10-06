@@ -1,0 +1,3223 @@
+{
+  "protocol": "context-distillation-public-audit-v1",
+  "audited_at": "2026-10-06T02:11:55.749457+00:00",
+  "complete": true,
+  "audit_tolerance": 1e-07,
+  "suites": [
+    {
+      "suite_manifest_sha256": "15b3d201f0015f745ad5b230f7424d8305b0bc493f63c4b94b8fd229e189d834",
+      "source_snapshot_sha256": "424101aff960e065d0c53f125f6952d627254f0947ee581605b31d84425c626d",
+      "methods": [
+        "initial",
+        "ce",
+        "on_kd"
+      ]
+    },
+    {
+      "suite_manifest_sha256": "45553a895da8c5a7ba4b90114b492e6a7ced1e4af1731bd86cc6d903216cb175",
+      "source_snapshot_sha256": "424101aff960e065d0c53f125f6952d627254f0947ee581605b31d84425c626d",
+      "methods": [
+        "off_kd",
+        "off_kd_hidden",
+        "on_kd_hidden"
+      ]
+    }
+  ],
+  "evaluation": {
+    "split": "dev",
+    "facts": 64,
+    "conditions": [
+      "canonical_support/canonical_query",
+      "canonical_support/heldout_query",
+      "heldout_support/canonical_query",
+      "heldout_support/heldout_query"
+    ],
+    "vdb_numeric_format": {
+      "key_dim": 64,
+      "value_dim": 64,
+      "dtype": "float32",
+      "bytes_per_element": 4
+    },
+    "fact_label_sha256": "2e66ddc3036c6059cddead0ecce264ea29f467fc89de98040ba62a07a6fd69e7",
+    "training_seeds": [
+      42
+    ]
+  },
+  "comparability": {
+    "shared_initialization": true,
+    "frozen_teacher_verified": true,
+    "matching_target_exposure_sha256": "d3e02d2ac2367828fc1315be6d95b63b601cd02b1c09455b745fae0930387180",
+    "matching_episode_schedule_sha256": "dd444ed1412f88658667d3818058c2e11529bfd1b443956eff321db867e0036c",
+    "matched_updates": 256,
+    "note": "Five training arms match schedules and updates; sampled lengths, teacher/rollout work and wall time can differ. Initial performs zero updates."
+  },
+  "teacher_acceptance": {
+    "canonical_support/canonical_query": {
+      "count": 64,
+      "em": 1.0,
+      "answer_token_nll": 7.247369876753592e-07
+    },
+    "canonical_support/heldout_query": {
+      "count": 64,
+      "em": 1.0,
+      "answer_token_nll": 6.488768871710188e-07
+    },
+    "heldout_support/canonical_query": {
+      "count": 64,
+      "em": 1.0,
+      "answer_token_nll": 9.292861800473546e-07
+    },
+    "heldout_support/heldout_query": {
+      "count": 64,
+      "em": 1.0,
+      "answer_token_nll": 8.818739637529337e-07
+    }
+  },
+  "runs": [
+    {
+      "method": "initial",
+      "configuration": {
+        "method": "ce",
+        "updates": 256,
+        "batch_size": 8,
+        "eval_size": 64,
+        "max_new_tokens": 4,
+        "sampling_temperature": 1.0,
+        "seed": 42,
+        "evaluate_only": true,
+        "skip_teacher_eval": false,
+        "kl_direction": "reverse",
+        "kl_temperature": 1.0,
+        "hidden_weight": 0.1,
+        "canonical_replay_frequency": 4,
+        "canonical_replay_weight": 0.25,
+        "all_view_address_weight": 0.2,
+        "actual_prefix_address_weight": 0.2,
+        "wrong_prefix_address_policy": "Every sampled prediction position targets the question's fact, even after a wrong token"
+      },
+      "initialization_step": 1600,
+      "provenance": {
+        "cache_sha256": "00b94acb30450f31285c5268bb5709485a185c81327cf0dabcf02c1e1c66ab32",
+        "checkpoint_sha256": "3c8b3ec5de85ccb07ae1f482e594258a76678ae6f96adcd30808e6de79853748",
+        "model_manifest_sha256": "0888bbb0f8e5721a20d3289ec265ba090bc180d9eb1a42264aeaf089c07860b2",
+        "data_fingerprint": "12a299d6519fc60a664484581e5709cfbc17fe1317a1d354c27867b9d7c28f38",
+        "module_sha256_before": "06eef861cc42b655c280c77b1935e7c17a0a0eaf2517169d6a0dccf1a24b964a",
+        "module_sha256_after": "06eef861cc42b655c280c77b1935e7c17a0a0eaf2517169d6a0dccf1a24b964a",
+        "runtime_source_files_sha256": {
+          "__init__.py": "31a77f7d06208e712fe5e7fa4e7ed109d2675b5533aeaa650a005a618f73f7b7",
+          "factcentric_losses.py": "7d02921f21cc7945491d546cd3166d5da0be1b728727c1c84b056f00f8b2984d",
+          "backend.py": "0e577deabdeae59f10b0b003293ef003219c167fdb65603b8ee222ca0dedbf0c",
+          "data.py": "2101304ce146971dae6d14b11a2553cc89b815a2dcd87953b4dcccab7cc4c998",
+          "vector_store.py": "4a278b7fa647d9d762c5ac970ada86f2c29722f7e557c1bf796f1f559e214fa9",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539",
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "context_distillation_run.py": "5cf4b38c329a2638617a88fb48f326631723c35fb8a04abcc3636dda23674d3e",
+          "run.py": "f5001509179164b271e7b8f68ec157264aaf4c1b2de3741a0194794e21c95565",
+          "vector_run.py": "c5f48e6e968a71be3dbb15c9554ec24fc195ee4af116fed8fa29aca20fa3ddc3",
+          "memory.py": "1a59cc41f096ab8cc86f9d846133cf1c34ad19751a56b90353217f497af50698",
+          "metrics.py": "2f800e410ed6a46cf74e694a64fceb2b4ba5c7269809e8a1cb952e436e84e66b",
+          "generalization_run.py": "9dcec94f7f05c80040bfbd3a86e2ceb13916019999ac4c150e3f82ccf04b058e",
+          "scaling_run.py": "8af0f0038faff92544f40c5280a689a67c1e0b71a30762577e90c5f9b3540937",
+          "context_distillation.py": "32f043d24df845749f1cf170225e13b8aedfde618495f12fb1cb118e601d252f",
+          "scaling_backend.py": "a12d3f08989135a1324f0cd0b3c97db84d167bfd21f648c32cad7e8f85faefcd",
+          "augmentation_data.py": "1c0c878e8d60424a055adba065c30a6e98d2d1680283ed4664056734d2edc422"
+        },
+        "runtime_source_sha256": "0a97dc0ca87cf25fbd882fb3435db7f7fd41a26024715074a3d9d9dd114e72ec",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "teacher_parameter_sha256": "4e2850c80418595bf6323fcb54200e4dbd2351b48e4bdfe6c8010ef164ad9ac0",
+        "evaluated_checkpoint_file_sha256": "3c8b3ec5de85ccb07ae1f482e594258a76678ae6f96adcd30808e6de79853748",
+        "evidence_sha256": {
+          "manifest.json": "20ae539c601237dd47da279db786586cce756fda4baa9f86de9e04b9ba492290",
+          "config.json": "7820757af4d307d1a1cd2bdc27194f3154dc79e48f0db95a71a86a2d2fa31f77",
+          "metrics.json": "1fa56fdc620675177890e2a12be3731be3ae48ff2d26bb5d96f13ba12bcb4323",
+          "dev.jsonl": "0490e21def911300b4d6603b460a1e9e62c11e0ed008cc15de2da88f9b194841",
+          "predictions.jsonl": "a07656214caf184a593c01a0dd4e59694844ac3bf90d3410be6406d9ec814d16",
+          "alignment_predictions.jsonl": "8d83d90b68fa72c6ae5a1fa2b3f4be0284393a24d92fd023921d3a12aff71be8",
+          "teacher_predictions.jsonl": "5949ad3b942156dc70d6e40c2c9174cbee290eac92cc8b19b4ddbb28599a6bb5"
+        },
+        "fact_label_sha256": "2e66ddc3036c6059cddead0ecce264ea29f467fc89de98040ba62a07a6fd69e7"
+      },
+      "training": {
+        "step": 0,
+        "selected_step": 0,
+        "target_exposures": 0,
+        "canonical_replay_exposures": 0,
+        "token_totals": {
+          "main_target_tokens": 0,
+          "teacher_target_tokens": 0,
+          "sampled_tokens": 0,
+          "student_input_tokens": 0,
+          "teacher_input_tokens": 0,
+          "rollout_input_tokens": 0,
+          "replay_target_tokens": 0,
+          "replay_input_tokens": 0
+        },
+        "elapsed_seconds": 0.0,
+        "processed_input_tokens_total": 0,
+        "selection": "Frozen initialization; no updates"
+      },
+      "conditions": {
+        "canonical_support/canonical_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.90625,
+              "answer_token_nll": 0.32077118799233256,
+              "recall_at_1": 1.0,
+              "recall_at_4": 1.0,
+              "decode_correct_residency": 0.46236559139784944,
+              "decode_query_count": 93,
+              "decode_examples": 64,
+              "switch_count_mean": 1.140625,
+              "switch_count_total": 73,
+              "retrieval_transition_count": 93,
+              "top1_switch_rate": 0.7849462365591398
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.609375,
+              "answer_token_nll": 1.5347583766349338
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0625,
+              "answer_token_nll": 8.212370247453112,
+              "recall_at_1": 1.0,
+              "recall_at_4": 1.0,
+              "decode_correct_residency": 0.15873015873015872,
+              "decode_query_count": 126,
+              "decode_examples": 64,
+              "switch_count_mean": 1.75,
+              "switch_count_total": 112,
+              "retrieval_transition_count": 126,
+              "top1_switch_rate": 0.8888888888888888
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 12.507016171108592
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 2.904716143908445,
+            "hidden_cosine": 0.6728528616949916,
+            "no_memory_reverse_kl": 23.834870144724846,
+            "no_memory_hidden_cosine": 0.5596349346451461,
+            "first_token_reverse_kl": 3.8056114487117156,
+            "first_token_hidden_cosine": 0.7076637027785182,
+            "first_token_no_memory_reverse_kl": 34.68734249472618,
+            "first_token_no_memory_hidden_cosine": 0.6033630399033427,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": {
+            "count": 64,
+            "em": 1.0,
+            "answer_token_nll": 7.247369876753592e-07
+          },
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "5d034462f72e43e768c402a0f69dfb3f13b05f1866ac5a5c4362521b028bffbb",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.84375,
+              "ci95": [
+                0.75,
+                0.921875
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.09375,
+              "ci95": [
+                0.03125,
+                0.171875
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "canonical_support/heldout_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.723634839057922,
+              "recall_at_1": 0.046875,
+              "recall_at_4": 0.15625,
+              "decode_correct_residency": 0.09243697478991597,
+              "decode_query_count": 119,
+              "decode_examples": 64,
+              "switch_count_mean": 1.8125,
+              "switch_count_total": 116,
+              "retrieval_transition_count": 119,
+              "top1_switch_rate": 0.9747899159663865
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.015625,
+              "answer_token_nll": 7.464644242924723
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 11.03142573074861,
+              "recall_at_1": 0.046875,
+              "recall_at_4": 0.15625,
+              "decode_correct_residency": 0.05154639175257732,
+              "decode_query_count": 97,
+              "decode_examples": 64,
+              "switch_count_mean": 1.375,
+              "switch_count_total": 88,
+              "retrieval_transition_count": 97,
+              "top1_switch_rate": 0.9072164948453608
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 11.132134860212153
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 19.232122913002968,
+            "hidden_cosine": 0.6128473356366158,
+            "no_memory_reverse_kl": 20.44686970114708,
+            "no_memory_hidden_cosine": 0.6039011008106172,
+            "first_token_reverse_kl": 34.67258694767952,
+            "first_token_hidden_cosine": 0.5819223467260599,
+            "first_token_no_memory_reverse_kl": 34.34621396660805,
+            "first_token_no_memory_hidden_cosine": 0.580173784866929,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": {
+            "count": 64,
+            "em": 1.0,
+            "answer_token_nll": 6.488768871710188e-07
+          },
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "5d034462f72e43e768c402a0f69dfb3f13b05f1866ac5a5c4362521b028bffbb",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "heldout_support/canonical_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.015625,
+              "answer_token_nll": 9.086934817108242,
+              "recall_at_1": 0.421875,
+              "recall_at_4": 0.609375,
+              "decode_correct_residency": 0.06779661016949153,
+              "decode_query_count": 177,
+              "decode_examples": 64,
+              "switch_count_mean": 2.4375,
+              "switch_count_total": 156,
+              "retrieval_transition_count": 177,
+              "top1_switch_rate": 0.8813559322033898
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.015625,
+              "answer_token_nll": 6.903191711414944
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.015625,
+              "answer_token_nll": 8.800283329053359,
+              "recall_at_1": 0.421875,
+              "recall_at_4": 0.609375,
+              "decode_correct_residency": 0.096045197740113,
+              "decode_query_count": 177,
+              "decode_examples": 64,
+              "switch_count_mean": 2.46875,
+              "switch_count_total": 158,
+              "retrieval_transition_count": 177,
+              "top1_switch_rate": 0.8926553672316384
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 12.507016171108592
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 19.952270478010178,
+            "hidden_cosine": 0.6183180049993098,
+            "no_memory_reverse_kl": 23.554475337266922,
+            "no_memory_hidden_cosine": 0.5622931807301939,
+            "first_token_reverse_kl": 32.701051235198975,
+            "first_token_hidden_cosine": 0.6697549913078547,
+            "first_token_no_memory_reverse_kl": 34.164299219846725,
+            "first_token_no_memory_hidden_cosine": 0.6121389595791698,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": {
+            "count": 64,
+            "em": 1.0,
+            "answer_token_nll": 9.292861800473546e-07
+          },
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "f6fa47d5a232815430a758741752d0b990da294207cee57098d88a5cbf43cfe0",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                -0.046875,
+                0.046875
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.984375,
+              "ci95": [
+                0.953125,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "heldout_support/heldout_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 8.303852644833652,
+              "recall_at_1": 0.078125,
+              "recall_at_4": 0.09375,
+              "decode_correct_residency": 0.06315789473684211,
+              "decode_query_count": 95,
+              "decode_examples": 64,
+              "switch_count_mean": 1.484375,
+              "switch_count_total": 95,
+              "retrieval_transition_count": 95,
+              "top1_switch_rate": 1.0
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.015625,
+              "answer_token_nll": 7.937385382977399
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.247698052362962,
+              "recall_at_1": 0.078125,
+              "recall_at_4": 0.09375,
+              "decode_correct_residency": 0.04918032786885246,
+              "decode_query_count": 122,
+              "decode_examples": 64,
+              "switch_count_mean": 1.640625,
+              "switch_count_total": 105,
+              "retrieval_transition_count": 122,
+              "top1_switch_rate": 0.860655737704918
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 11.132134860212153
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 17.068654388189316,
+            "hidden_cosine": 0.6442860183306038,
+            "no_memory_reverse_kl": 20.04414711892605,
+            "no_memory_hidden_cosine": 0.6049426808021963,
+            "first_token_reverse_kl": 33.06070151925087,
+            "first_token_hidden_cosine": 0.6109648868441582,
+            "first_token_no_memory_reverse_kl": 33.52086299657822,
+            "first_token_no_memory_hidden_cosine": 0.5826306072995067,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": {
+            "count": 64,
+            "em": 1.0,
+            "answer_token_nll": 8.818739637529337e-07
+          },
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "f6fa47d5a232815430a758741752d0b990da294207cee57098d88a5cbf43cfe0",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        }
+      },
+      "all_conditions_real_minus_shuffled": {
+        "n_paired_facts": 64,
+        "phases_per_fact": 4,
+        "delta_em": 0.2109375,
+        "ci95": [
+          0.1875,
+          0.234375
+        ],
+        "bootstrap_samples": 5000,
+        "bootstrap_seed": 123,
+        "unit": "fact; all phases for one fact resampled together",
+        "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+      }
+    },
+    {
+      "method": "ce",
+      "configuration": {
+        "method": "ce",
+        "updates": 256,
+        "batch_size": 8,
+        "eval_size": 64,
+        "max_new_tokens": 4,
+        "sampling_temperature": 1.0,
+        "seed": 42,
+        "evaluate_only": false,
+        "skip_teacher_eval": true,
+        "kl_direction": "reverse",
+        "kl_temperature": 1.0,
+        "hidden_weight": 0.1,
+        "canonical_replay_frequency": 4,
+        "canonical_replay_weight": 0.25,
+        "all_view_address_weight": 0.2,
+        "actual_prefix_address_weight": 0.2,
+        "wrong_prefix_address_policy": "Every sampled prediction position targets the question's fact, even after a wrong token"
+      },
+      "initialization_step": 1600,
+      "provenance": {
+        "cache_sha256": "00b94acb30450f31285c5268bb5709485a185c81327cf0dabcf02c1e1c66ab32",
+        "checkpoint_sha256": "3c8b3ec5de85ccb07ae1f482e594258a76678ae6f96adcd30808e6de79853748",
+        "model_manifest_sha256": "0888bbb0f8e5721a20d3289ec265ba090bc180d9eb1a42264aeaf089c07860b2",
+        "data_fingerprint": "12a299d6519fc60a664484581e5709cfbc17fe1317a1d354c27867b9d7c28f38",
+        "module_sha256_before": "06eef861cc42b655c280c77b1935e7c17a0a0eaf2517169d6a0dccf1a24b964a",
+        "module_sha256_after": "7e120e98875e3e2be7d8e4fbadf399001b22770c75f8ce3bcfe8d12bb5155a4e",
+        "runtime_source_files_sha256": {
+          "__init__.py": "31a77f7d06208e712fe5e7fa4e7ed109d2675b5533aeaa650a005a618f73f7b7",
+          "factcentric_losses.py": "7d02921f21cc7945491d546cd3166d5da0be1b728727c1c84b056f00f8b2984d",
+          "backend.py": "0e577deabdeae59f10b0b003293ef003219c167fdb65603b8ee222ca0dedbf0c",
+          "data.py": "2101304ce146971dae6d14b11a2553cc89b815a2dcd87953b4dcccab7cc4c998",
+          "vector_store.py": "4a278b7fa647d9d762c5ac970ada86f2c29722f7e557c1bf796f1f559e214fa9",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539",
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "context_distillation_run.py": "5cf4b38c329a2638617a88fb48f326631723c35fb8a04abcc3636dda23674d3e",
+          "run.py": "f5001509179164b271e7b8f68ec157264aaf4c1b2de3741a0194794e21c95565",
+          "vector_run.py": "c5f48e6e968a71be3dbb15c9554ec24fc195ee4af116fed8fa29aca20fa3ddc3",
+          "memory.py": "1a59cc41f096ab8cc86f9d846133cf1c34ad19751a56b90353217f497af50698",
+          "metrics.py": "2f800e410ed6a46cf74e694a64fceb2b4ba5c7269809e8a1cb952e436e84e66b",
+          "generalization_run.py": "9dcec94f7f05c80040bfbd3a86e2ceb13916019999ac4c150e3f82ccf04b058e",
+          "scaling_run.py": "8af0f0038faff92544f40c5280a689a67c1e0b71a30762577e90c5f9b3540937",
+          "context_distillation.py": "32f043d24df845749f1cf170225e13b8aedfde618495f12fb1cb118e601d252f",
+          "scaling_backend.py": "a12d3f08989135a1324f0cd0b3c97db84d167bfd21f648c32cad7e8f85faefcd",
+          "augmentation_data.py": "1c0c878e8d60424a055adba065c30a6e98d2d1680283ed4664056734d2edc422"
+        },
+        "runtime_source_sha256": "0a97dc0ca87cf25fbd882fb3435db7f7fd41a26024715074a3d9d9dd114e72ec",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "teacher_parameter_sha256": "4e2850c80418595bf6323fcb54200e4dbd2351b48e4bdfe6c8010ef164ad9ac0",
+        "evaluated_checkpoint_file_sha256": "02b874842f3ae3e05aa67fbfbebc52177e155cf405d235a7d407f053b9974333",
+        "evidence_sha256": {
+          "manifest.json": "dd4504c8e36134c93fb0887101f49d2d5b26c031055f14502e3dcbbb183ca8c1",
+          "config.json": "83379c22988f085a55eceb8d32a7cceaf38c956834096f0a0a6ba95ec116702e",
+          "metrics.json": "a4287ba769b2d0d3ff7ebeb85276bcde4714efdf7e05384868f5c6fccbc4d647",
+          "dev.jsonl": "0490e21def911300b4d6603b460a1e9e62c11e0ed008cc15de2da88f9b194841",
+          "predictions.jsonl": "078cad7ef85cd71fc180405d3d8fad7c67f6c9acec4a3699a90eb9b2912b62d9",
+          "alignment_predictions.jsonl": "d23eea6bd9faa39d30a6c2ff5013a645373c6d30f93e7acd1fca6514bf55d78e",
+          "training.jsonl": "ecb025c5fadef28a131a5b19928b0f3187d67b9456832f1ca8e5cd30216a3d3f",
+          "training_status.json": "e8d62831b2b3d0b92ea1054a60694c73d0fe747209eee53b5a7438e696768820",
+          "rollouts.jsonl": "e7053405fbab09d2240d5e9f01b3793ca1439033c6999e2ffc931c41c714d948",
+          "last.pt": "02b874842f3ae3e05aa67fbfbebc52177e155cf405d235a7d407f053b9974333"
+        },
+        "fact_label_sha256": "2e66ddc3036c6059cddead0ecce264ea29f467fc89de98040ba62a07a6fd69e7"
+      },
+      "training": {
+        "step": 256,
+        "selected_step": 256,
+        "target_exposures": 2048,
+        "canonical_replay_exposures": 512,
+        "target_exposure_sha256": "d3e02d2ac2367828fc1315be6d95b63b601cd02b1c09455b745fae0930387180",
+        "episode_schedule_sha256": "dd444ed1412f88658667d3818058c2e11529bfd1b443956eff321db867e0036c",
+        "token_totals": {
+          "main_target_tokens": 4858,
+          "teacher_target_tokens": 0,
+          "sampled_tokens": 0,
+          "student_input_tokens": 119322,
+          "teacher_input_tokens": 0,
+          "rollout_input_tokens": 0,
+          "replay_target_tokens": 1213,
+          "replay_input_tokens": 29423
+        },
+        "elapsed_seconds": 26.42476932052523,
+        "rollout_sha256": "e7053405fbab09d2240d5e9f01b3793ca1439033c6999e2ffc931c41c714d948",
+        "training_log_sha256": "ecb025c5fadef28a131a5b19928b0f3187d67b9456832f1ca8e5cd30216a3d3f",
+        "processed_input_tokens_total": 148745,
+        "selection": "fixed final update; no development selection"
+      },
+      "conditions": {
+        "canonical_support/canonical_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.921875,
+              "answer_token_nll": 0.3331630085634639,
+              "recall_at_1": 1.0,
+              "recall_at_4": 1.0,
+              "decode_correct_residency": 0.7528089887640449,
+              "decode_query_count": 89,
+              "decode_examples": 64,
+              "switch_count_mean": 0.828125,
+              "switch_count_total": 53,
+              "retrieval_transition_count": 89,
+              "top1_switch_rate": 0.5955056179775281
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.578125,
+              "answer_token_nll": 1.5152839180148228
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.109375,
+              "answer_token_nll": 7.1128021184016355,
+              "recall_at_1": 1.0,
+              "recall_at_4": 1.0,
+              "decode_correct_residency": 0.25688073394495414,
+              "decode_query_count": 109,
+              "decode_examples": 64,
+              "switch_count_mean": 1.53125,
+              "switch_count_total": 98,
+              "retrieval_transition_count": 109,
+              "top1_switch_rate": 0.8990825688073395
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 12.507016171108592
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 3.1615481626504334,
+            "hidden_cosine": 0.6846456527709961,
+            "no_memory_reverse_kl": 23.834870144724846,
+            "no_memory_hidden_cosine": 0.5596349346451461,
+            "first_token_reverse_kl": 5.958883785031503,
+            "first_token_hidden_cosine": 0.7112856525927782,
+            "first_token_no_memory_reverse_kl": 34.68734249472618,
+            "first_token_no_memory_hidden_cosine": 0.6033630399033427,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "1a0ed15a0700c2a0d898273cafeb0d95b7d221eba1f6de1de48fbbe35e3a6640",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.8125,
+              "ci95": [
+                0.703125,
+                0.90625
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.015625,
+              "ci95": [
+                -0.0625,
+                0.09375
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.078125,
+              "ci95": [
+                0.015625,
+                0.140625
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "canonical_support/heldout_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.046875,
+              "answer_token_nll": 7.919594583524899,
+              "recall_at_1": 0.046875,
+              "recall_at_4": 0.15625,
+              "decode_correct_residency": 0.07462686567164178,
+              "decode_query_count": 67,
+              "decode_examples": 64,
+              "switch_count_mean": 1.03125,
+              "switch_count_total": 66,
+              "retrieval_transition_count": 67,
+              "top1_switch_rate": 0.9850746268656716
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.046875,
+              "answer_token_nll": 6.56086887080561
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.756722206419164,
+              "recall_at_1": 0.046875,
+              "recall_at_4": 0.15625,
+              "decode_correct_residency": 0.10416666666666667,
+              "decode_query_count": 96,
+              "decode_examples": 64,
+              "switch_count_mean": 1.484375,
+              "switch_count_total": 95,
+              "retrieval_transition_count": 96,
+              "top1_switch_rate": 0.9895833333333334
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 11.132134860212153
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 16.223636738955975,
+            "hidden_cosine": 0.6657685823738575,
+            "no_memory_reverse_kl": 20.44686970114708,
+            "no_memory_hidden_cosine": 0.6039011008106172,
+            "first_token_reverse_kl": 31.949651166796684,
+            "first_token_hidden_cosine": 0.6485971892252564,
+            "first_token_no_memory_reverse_kl": 34.34621396660805,
+            "first_token_no_memory_hidden_cosine": 0.580173784866929,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "1a0ed15a0700c2a0d898273cafeb0d95b7d221eba1f6de1de48fbbe35e3a6640",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.046875,
+              "ci95": [
+                0.0,
+                0.109375
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.046875,
+              "ci95": [
+                0.0,
+                0.109375
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.953125,
+              "ci95": [
+                0.890625,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "heldout_support/canonical_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 7.144720036875118,
+              "recall_at_1": 0.34375,
+              "recall_at_4": 0.625,
+              "decode_correct_residency": 0.07446808510638298,
+              "decode_query_count": 188,
+              "decode_examples": 64,
+              "switch_count_mean": 2.59375,
+              "switch_count_total": 166,
+              "retrieval_transition_count": 188,
+              "top1_switch_rate": 0.8829787234042553
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 6.587057576938109
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 7.469808995723724,
+              "recall_at_1": 0.34375,
+              "recall_at_4": 0.625,
+              "decode_correct_residency": 0.10052910052910052,
+              "decode_query_count": 189,
+              "decode_examples": 64,
+              "switch_count_mean": 2.515625,
+              "switch_count_total": 161,
+              "retrieval_transition_count": 189,
+              "top1_switch_rate": 0.8518518518518519
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 12.507016171108592
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 19.435098573565483,
+            "hidden_cosine": 0.6344942967407405,
+            "no_memory_reverse_kl": 23.554475337266922,
+            "no_memory_hidden_cosine": 0.5622931807301939,
+            "first_token_reverse_kl": 32.1716405749321,
+            "first_token_hidden_cosine": 0.7094522034749389,
+            "first_token_no_memory_reverse_kl": 34.164299219846725,
+            "first_token_no_memory_hidden_cosine": 0.6121389595791698,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "8c0e831b6dace5cada9ddecc444170947c99cc22475bb03930f7def6e508f816",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": -0.015625,
+              "ci95": [
+                -0.046875,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "heldout_support/heldout_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 7.668169232932004,
+              "recall_at_1": 0.078125,
+              "recall_at_4": 0.09375,
+              "decode_correct_residency": 0.08080808080808081,
+              "decode_query_count": 99,
+              "decode_examples": 64,
+              "switch_count_mean": 1.46875,
+              "switch_count_total": 94,
+              "retrieval_transition_count": 99,
+              "top1_switch_rate": 0.9494949494949495
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 7.292500131509521
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 8.255270269784061,
+              "recall_at_1": 0.078125,
+              "recall_at_4": 0.09375,
+              "decode_correct_residency": 0.038461538461538464,
+              "decode_query_count": 130,
+              "decode_examples": 64,
+              "switch_count_mean": 2.03125,
+              "switch_count_total": 130,
+              "retrieval_transition_count": 130,
+              "top1_switch_rate": 1.0
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 11.132134860212153
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 17.36561857163906,
+            "hidden_cosine": 0.6534053259529173,
+            "no_memory_reverse_kl": 20.04414711892605,
+            "no_memory_hidden_cosine": 0.6049426808021963,
+            "first_token_reverse_kl": 33.018661230802536,
+            "first_token_hidden_cosine": 0.6418398795649409,
+            "first_token_no_memory_reverse_kl": 33.52086299657822,
+            "first_token_no_memory_hidden_cosine": 0.5826306072995067,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "8c0e831b6dace5cada9ddecc444170947c99cc22475bb03930f7def6e508f816",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        }
+      },
+      "all_conditions_real_minus_shuffled": {
+        "n_paired_facts": 64,
+        "phases_per_fact": 4,
+        "delta_em": 0.21484375,
+        "ci95": [
+          0.18359375,
+          0.24609375
+        ],
+        "bootstrap_samples": 5000,
+        "bootstrap_seed": 123,
+        "unit": "fact; all phases for one fact resampled together",
+        "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+      }
+    },
+    {
+      "method": "off_kd",
+      "configuration": {
+        "method": "off_kd",
+        "updates": 256,
+        "batch_size": 8,
+        "eval_size": 64,
+        "max_new_tokens": 4,
+        "sampling_temperature": 1.0,
+        "seed": 42,
+        "evaluate_only": false,
+        "skip_teacher_eval": true,
+        "kl_direction": "reverse",
+        "kl_temperature": 1.0,
+        "hidden_weight": 0.1,
+        "canonical_replay_frequency": 4,
+        "canonical_replay_weight": 0.25,
+        "all_view_address_weight": 0.2,
+        "actual_prefix_address_weight": 0.2,
+        "wrong_prefix_address_policy": "Every sampled prediction position targets the question's fact, even after a wrong token"
+      },
+      "initialization_step": 1600,
+      "provenance": {
+        "cache_sha256": "00b94acb30450f31285c5268bb5709485a185c81327cf0dabcf02c1e1c66ab32",
+        "checkpoint_sha256": "3c8b3ec5de85ccb07ae1f482e594258a76678ae6f96adcd30808e6de79853748",
+        "model_manifest_sha256": "0888bbb0f8e5721a20d3289ec265ba090bc180d9eb1a42264aeaf089c07860b2",
+        "data_fingerprint": "12a299d6519fc60a664484581e5709cfbc17fe1317a1d354c27867b9d7c28f38",
+        "module_sha256_before": "06eef861cc42b655c280c77b1935e7c17a0a0eaf2517169d6a0dccf1a24b964a",
+        "module_sha256_after": "8e4031b5211b453f14d24083b9a72a667b9bf15f4c53883ed71a965c7ba5157f",
+        "runtime_source_files_sha256": {
+          "__init__.py": "31a77f7d06208e712fe5e7fa4e7ed109d2675b5533aeaa650a005a618f73f7b7",
+          "factcentric_losses.py": "7d02921f21cc7945491d546cd3166d5da0be1b728727c1c84b056f00f8b2984d",
+          "backend.py": "0e577deabdeae59f10b0b003293ef003219c167fdb65603b8ee222ca0dedbf0c",
+          "data.py": "2101304ce146971dae6d14b11a2553cc89b815a2dcd87953b4dcccab7cc4c998",
+          "vector_store.py": "4a278b7fa647d9d762c5ac970ada86f2c29722f7e557c1bf796f1f559e214fa9",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539",
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "context_distillation_run.py": "5cf4b38c329a2638617a88fb48f326631723c35fb8a04abcc3636dda23674d3e",
+          "run.py": "f5001509179164b271e7b8f68ec157264aaf4c1b2de3741a0194794e21c95565",
+          "vector_run.py": "c5f48e6e968a71be3dbb15c9554ec24fc195ee4af116fed8fa29aca20fa3ddc3",
+          "memory.py": "1a59cc41f096ab8cc86f9d846133cf1c34ad19751a56b90353217f497af50698",
+          "metrics.py": "2f800e410ed6a46cf74e694a64fceb2b4ba5c7269809e8a1cb952e436e84e66b",
+          "generalization_run.py": "9dcec94f7f05c80040bfbd3a86e2ceb13916019999ac4c150e3f82ccf04b058e",
+          "scaling_run.py": "8af0f0038faff92544f40c5280a689a67c1e0b71a30762577e90c5f9b3540937",
+          "context_distillation.py": "32f043d24df845749f1cf170225e13b8aedfde618495f12fb1cb118e601d252f",
+          "scaling_backend.py": "a12d3f08989135a1324f0cd0b3c97db84d167bfd21f648c32cad7e8f85faefcd",
+          "augmentation_data.py": "1c0c878e8d60424a055adba065c30a6e98d2d1680283ed4664056734d2edc422"
+        },
+        "runtime_source_sha256": "0a97dc0ca87cf25fbd882fb3435db7f7fd41a26024715074a3d9d9dd114e72ec",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "teacher_parameter_sha256": "4e2850c80418595bf6323fcb54200e4dbd2351b48e4bdfe6c8010ef164ad9ac0",
+        "evaluated_checkpoint_file_sha256": "db43943d998cff0f9425bf86e05462488104c9ba4d03dc6354a1a8c7e1146723",
+        "evidence_sha256": {
+          "manifest.json": "e1266332060a0b0272421fa8297b5294d05b5f484bde20b6009830194b257fc9",
+          "config.json": "50164a3bb9656a48e8d9461fa1e9cb677d8bbd89096ff9bf2ccb2fba9ad78fbe",
+          "metrics.json": "bbf5be6d92aaef9e978a9f1e1db247bb2c3796d75d41234c8a54df0bc0031df9",
+          "dev.jsonl": "0490e21def911300b4d6603b460a1e9e62c11e0ed008cc15de2da88f9b194841",
+          "predictions.jsonl": "344556419c31531c37f5a31af6e647014ff11666a1becd3fbb9477823c21f6ca",
+          "alignment_predictions.jsonl": "531d276db53e4a890b798f5f91d6788eb2a82f9aa603f42e0f76d62956040e8f",
+          "training.jsonl": "ca97c1d02a319cd6faf8ec7ee7d271a74aeec909523d88bae491ed3e54eb9ff3",
+          "training_status.json": "c8982fe56e29b5a3b47d8f52a334efb7352e00c2a7beaf706b9add2d9251ef5b",
+          "rollouts.jsonl": "7bfc82869dceafbbe672278eba50a67362953307f6fecb1e0a8d0bcba7244ad3",
+          "last.pt": "db43943d998cff0f9425bf86e05462488104c9ba4d03dc6354a1a8c7e1146723"
+        },
+        "fact_label_sha256": "2e66ddc3036c6059cddead0ecce264ea29f467fc89de98040ba62a07a6fd69e7"
+      },
+      "training": {
+        "step": 256,
+        "selected_step": 256,
+        "target_exposures": 2048,
+        "canonical_replay_exposures": 512,
+        "target_exposure_sha256": "d3e02d2ac2367828fc1315be6d95b63b601cd02b1c09455b745fae0930387180",
+        "episode_schedule_sha256": "dd444ed1412f88658667d3818058c2e11529bfd1b443956eff321db867e0036c",
+        "token_totals": {
+          "main_target_tokens": 4858,
+          "teacher_target_tokens": 4858,
+          "sampled_tokens": 0,
+          "student_input_tokens": 119322,
+          "teacher_input_tokens": 186064,
+          "rollout_input_tokens": 0,
+          "replay_target_tokens": 1213,
+          "replay_input_tokens": 29423
+        },
+        "elapsed_seconds": 38.62967238947749,
+        "rollout_sha256": "7bfc82869dceafbbe672278eba50a67362953307f6fecb1e0a8d0bcba7244ad3",
+        "training_log_sha256": "ca97c1d02a319cd6faf8ec7ee7d271a74aeec909523d88bae491ed3e54eb9ff3",
+        "processed_input_tokens_total": 334809,
+        "selection": "fixed final update; no development selection"
+      },
+      "conditions": {
+        "canonical_support/canonical_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.609375,
+              "answer_token_nll": 1.720231387663675,
+              "recall_at_1": 1.0,
+              "recall_at_4": 1.0,
+              "decode_correct_residency": 0.5679012345679012,
+              "decode_query_count": 81,
+              "decode_examples": 64,
+              "switch_count_mean": 1.0,
+              "switch_count_total": 64,
+              "retrieval_transition_count": 81,
+              "top1_switch_rate": 0.7901234567901234
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.53125,
+              "answer_token_nll": 1.8825424801854587
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.109375,
+              "answer_token_nll": 6.069491005587307,
+              "recall_at_1": 1.0,
+              "recall_at_4": 1.0,
+              "decode_correct_residency": 0.19090909090909092,
+              "decode_query_count": 110,
+              "decode_examples": 64,
+              "switch_count_mean": 1.515625,
+              "switch_count_total": 97,
+              "retrieval_transition_count": 110,
+              "top1_switch_rate": 0.8818181818181818
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 12.507016171108592
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 7.255449938587844,
+            "hidden_cosine": 0.7213180446997285,
+            "no_memory_reverse_kl": 23.834870144724846,
+            "no_memory_hidden_cosine": 0.5596349346451461,
+            "first_token_reverse_kl": 16.407585836335784,
+            "first_token_hidden_cosine": 0.7491862028837204,
+            "first_token_no_memory_reverse_kl": 34.68734249472618,
+            "first_token_no_memory_hidden_cosine": 0.6033630399033427,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "6caf1fb6fb6a42e69b6420cd9c74209048d8b803167e061bfadf51687ddbdb60",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.5,
+              "ci95": [
+                0.359375,
+                0.640625
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": -0.296875,
+              "ci95": [
+                -0.421875,
+                -0.171875
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.390625,
+              "ci95": [
+                0.28125,
+                0.515625
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "canonical_support/heldout_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.03125,
+              "answer_token_nll": 7.367497873238542,
+              "recall_at_1": 0.0625,
+              "recall_at_4": 0.1875,
+              "decode_correct_residency": 0.04411764705882353,
+              "decode_query_count": 68,
+              "decode_examples": 64,
+              "switch_count_mean": 0.984375,
+              "switch_count_total": 63,
+              "retrieval_transition_count": 68,
+              "top1_switch_rate": 0.9264705882352942
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.09375,
+              "answer_token_nll": 6.142489621669731
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.046875,
+              "answer_token_nll": 7.476056835868142,
+              "recall_at_1": 0.0625,
+              "recall_at_4": 0.1875,
+              "decode_correct_residency": 0.057971014492753624,
+              "decode_query_count": 69,
+              "decode_examples": 64,
+              "switch_count_mean": 1.078125,
+              "switch_count_total": 69,
+              "retrieval_transition_count": 69,
+              "top1_switch_rate": 1.0
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 11.132134860212153
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 14.990587677806616,
+            "hidden_cosine": 0.7054179920814931,
+            "no_memory_reverse_kl": 20.44686970114708,
+            "no_memory_hidden_cosine": 0.6039011008106172,
+            "first_token_reverse_kl": 32.30033369362354,
+            "first_token_hidden_cosine": 0.6720033250749111,
+            "first_token_no_memory_reverse_kl": 34.34621396660805,
+            "first_token_no_memory_hidden_cosine": 0.580173784866929,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "6caf1fb6fb6a42e69b6420cd9c74209048d8b803167e061bfadf51687ddbdb60",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": -0.015625,
+              "ci95": [
+                -0.046875,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.03125,
+              "ci95": [
+                0.0,
+                0.078125
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.96875,
+              "ci95": [
+                0.921875,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "heldout_support/canonical_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.344827039675279,
+              "recall_at_1": 0.234375,
+              "recall_at_4": 0.46875,
+              "decode_correct_residency": 0.10215053763440861,
+              "decode_query_count": 186,
+              "decode_examples": 64,
+              "switch_count_mean": 2.6875,
+              "switch_count_total": 172,
+              "retrieval_transition_count": 186,
+              "top1_switch_rate": 0.9247311827956989
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 8.152509104121815
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.04167444597591,
+              "recall_at_1": 0.234375,
+              "recall_at_4": 0.46875,
+              "decode_correct_residency": 0.09375,
+              "decode_query_count": 192,
+              "decode_examples": 64,
+              "switch_count_mean": 2.71875,
+              "switch_count_total": 174,
+              "retrieval_transition_count": 192,
+              "top1_switch_rate": 0.90625
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 12.507016171108592
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 20.945591688156128,
+            "hidden_cosine": 0.6087252255529165,
+            "no_memory_reverse_kl": 23.554475337266922,
+            "no_memory_hidden_cosine": 0.5622931807301939,
+            "first_token_reverse_kl": 32.952260345220566,
+            "first_token_hidden_cosine": 0.6838963739573956,
+            "first_token_no_memory_reverse_kl": 34.164299219846725,
+            "first_token_no_memory_hidden_cosine": 0.6121389595791698,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "211b277c44e1582a230ab8741222b144dd52a80c8a9104a0802332e53ae491e4",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": -0.015625,
+              "ci95": [
+                -0.046875,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "heldout_support/heldout_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.19908271594481,
+              "recall_at_1": 0.078125,
+              "recall_at_4": 0.09375,
+              "decode_correct_residency": 0.07222222222222222,
+              "decode_query_count": 180,
+              "decode_examples": 64,
+              "switch_count_mean": 2.8125,
+              "switch_count_total": 180,
+              "retrieval_transition_count": 180,
+              "top1_switch_rate": 1.0
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 8.953976251862265
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.606430357152766,
+              "recall_at_1": 0.078125,
+              "recall_at_4": 0.09375,
+              "decode_correct_residency": 0.053763440860215055,
+              "decode_query_count": 93,
+              "decode_examples": 64,
+              "switch_count_mean": 1.453125,
+              "switch_count_total": 93,
+              "retrieval_transition_count": 93,
+              "top1_switch_rate": 1.0
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 11.132134860212153
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 16.66850933432579,
+            "hidden_cosine": 0.6713948617689312,
+            "no_memory_reverse_kl": 20.04414711892605,
+            "no_memory_hidden_cosine": 0.6049426808021963,
+            "first_token_reverse_kl": 32.21670740842819,
+            "first_token_hidden_cosine": 0.6710595153272152,
+            "first_token_no_memory_reverse_kl": 33.52086299657822,
+            "first_token_no_memory_hidden_cosine": 0.5826306072995067,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "211b277c44e1582a230ab8741222b144dd52a80c8a9104a0802332e53ae491e4",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        }
+      },
+      "all_conditions_real_minus_shuffled": {
+        "n_paired_facts": 64,
+        "phases_per_fact": 4,
+        "delta_em": 0.12109375,
+        "ci95": [
+          0.0859375,
+          0.15625
+        ],
+        "bootstrap_samples": 5000,
+        "bootstrap_seed": 123,
+        "unit": "fact; all phases for one fact resampled together",
+        "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+      }
+    },
+    {
+      "method": "off_kd_hidden",
+      "configuration": {
+        "method": "off_kd_hidden",
+        "updates": 256,
+        "batch_size": 8,
+        "eval_size": 64,
+        "max_new_tokens": 4,
+        "sampling_temperature": 1.0,
+        "seed": 42,
+        "evaluate_only": false,
+        "skip_teacher_eval": true,
+        "kl_direction": "reverse",
+        "kl_temperature": 1.0,
+        "hidden_weight": 0.1,
+        "canonical_replay_frequency": 4,
+        "canonical_replay_weight": 0.25,
+        "all_view_address_weight": 0.2,
+        "actual_prefix_address_weight": 0.2,
+        "wrong_prefix_address_policy": "Every sampled prediction position targets the question's fact, even after a wrong token"
+      },
+      "initialization_step": 1600,
+      "provenance": {
+        "cache_sha256": "00b94acb30450f31285c5268bb5709485a185c81327cf0dabcf02c1e1c66ab32",
+        "checkpoint_sha256": "3c8b3ec5de85ccb07ae1f482e594258a76678ae6f96adcd30808e6de79853748",
+        "model_manifest_sha256": "0888bbb0f8e5721a20d3289ec265ba090bc180d9eb1a42264aeaf089c07860b2",
+        "data_fingerprint": "12a299d6519fc60a664484581e5709cfbc17fe1317a1d354c27867b9d7c28f38",
+        "module_sha256_before": "06eef861cc42b655c280c77b1935e7c17a0a0eaf2517169d6a0dccf1a24b964a",
+        "module_sha256_after": "917b6af4219c54a04002542a4a12444b570442d79c8aaf17abf4b812c6d3ae06",
+        "runtime_source_files_sha256": {
+          "__init__.py": "31a77f7d06208e712fe5e7fa4e7ed109d2675b5533aeaa650a005a618f73f7b7",
+          "factcentric_losses.py": "7d02921f21cc7945491d546cd3166d5da0be1b728727c1c84b056f00f8b2984d",
+          "backend.py": "0e577deabdeae59f10b0b003293ef003219c167fdb65603b8ee222ca0dedbf0c",
+          "data.py": "2101304ce146971dae6d14b11a2553cc89b815a2dcd87953b4dcccab7cc4c998",
+          "vector_store.py": "4a278b7fa647d9d762c5ac970ada86f2c29722f7e557c1bf796f1f559e214fa9",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539",
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "context_distillation_run.py": "5cf4b38c329a2638617a88fb48f326631723c35fb8a04abcc3636dda23674d3e",
+          "run.py": "f5001509179164b271e7b8f68ec157264aaf4c1b2de3741a0194794e21c95565",
+          "vector_run.py": "c5f48e6e968a71be3dbb15c9554ec24fc195ee4af116fed8fa29aca20fa3ddc3",
+          "memory.py": "1a59cc41f096ab8cc86f9d846133cf1c34ad19751a56b90353217f497af50698",
+          "metrics.py": "2f800e410ed6a46cf74e694a64fceb2b4ba5c7269809e8a1cb952e436e84e66b",
+          "generalization_run.py": "9dcec94f7f05c80040bfbd3a86e2ceb13916019999ac4c150e3f82ccf04b058e",
+          "scaling_run.py": "8af0f0038faff92544f40c5280a689a67c1e0b71a30762577e90c5f9b3540937",
+          "context_distillation.py": "32f043d24df845749f1cf170225e13b8aedfde618495f12fb1cb118e601d252f",
+          "scaling_backend.py": "a12d3f08989135a1324f0cd0b3c97db84d167bfd21f648c32cad7e8f85faefcd",
+          "augmentation_data.py": "1c0c878e8d60424a055adba065c30a6e98d2d1680283ed4664056734d2edc422"
+        },
+        "runtime_source_sha256": "0a97dc0ca87cf25fbd882fb3435db7f7fd41a26024715074a3d9d9dd114e72ec",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "teacher_parameter_sha256": "4e2850c80418595bf6323fcb54200e4dbd2351b48e4bdfe6c8010ef164ad9ac0",
+        "evaluated_checkpoint_file_sha256": "3b9f3c5b600e0f819c6b900e331e810e6fb428bfb1edfb27d5b83006a336beb2",
+        "evidence_sha256": {
+          "manifest.json": "7f74eac25669dece12424b6e9212514ddcd1d21ab64e00f2e1cf2e39f0a65a54",
+          "config.json": "b237b44497c7bc7a5fdb5775b10372c230a98c7daa192375e8154eebbcde44ca",
+          "metrics.json": "210c076ca49b51ed069998368f258a6d2307ca0b9cd0e30d32d0a55b44f2d29c",
+          "dev.jsonl": "0490e21def911300b4d6603b460a1e9e62c11e0ed008cc15de2da88f9b194841",
+          "predictions.jsonl": "af6a72026cba3013ddbcc6c0d5a0b4fba54e07554f25c72709c6cefe1b510ec6",
+          "alignment_predictions.jsonl": "0277a32227026c721209464052e64fd974640f693c3bcdef740d611e09ac7f1f",
+          "training.jsonl": "89393d21c360f642798cab81f27bb35d288c6a8a10393a81f3f444d1cfe9c26d",
+          "training_status.json": "f20297a3b8a3e31b6a7a10f629aa1709ad2b2847b92021ba508a8eb32369fed8",
+          "rollouts.jsonl": "7bfc82869dceafbbe672278eba50a67362953307f6fecb1e0a8d0bcba7244ad3",
+          "last.pt": "3b9f3c5b600e0f819c6b900e331e810e6fb428bfb1edfb27d5b83006a336beb2"
+        },
+        "fact_label_sha256": "2e66ddc3036c6059cddead0ecce264ea29f467fc89de98040ba62a07a6fd69e7"
+      },
+      "training": {
+        "step": 256,
+        "selected_step": 256,
+        "target_exposures": 2048,
+        "canonical_replay_exposures": 512,
+        "target_exposure_sha256": "d3e02d2ac2367828fc1315be6d95b63b601cd02b1c09455b745fae0930387180",
+        "episode_schedule_sha256": "dd444ed1412f88658667d3818058c2e11529bfd1b443956eff321db867e0036c",
+        "token_totals": {
+          "main_target_tokens": 4858,
+          "teacher_target_tokens": 4858,
+          "sampled_tokens": 0,
+          "student_input_tokens": 119322,
+          "teacher_input_tokens": 186064,
+          "rollout_input_tokens": 0,
+          "replay_target_tokens": 1213,
+          "replay_input_tokens": 29423
+        },
+        "elapsed_seconds": 32.42391961440444,
+        "rollout_sha256": "7bfc82869dceafbbe672278eba50a67362953307f6fecb1e0a8d0bcba7244ad3",
+        "training_log_sha256": "89393d21c360f642798cab81f27bb35d288c6a8a10393a81f3f444d1cfe9c26d",
+        "processed_input_tokens_total": 334809,
+        "selection": "fixed final update; no development selection"
+      },
+      "conditions": {
+        "canonical_support/canonical_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.484375,
+              "answer_token_nll": 2.145453160654473,
+              "recall_at_1": 0.96875,
+              "recall_at_4": 1.0,
+              "decode_correct_residency": 0.38636363636363635,
+              "decode_query_count": 88,
+              "decode_examples": 64,
+              "switch_count_mean": 1.1875,
+              "switch_count_total": 76,
+              "retrieval_transition_count": 88,
+              "top1_switch_rate": 0.8636363636363636
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.46875,
+              "answer_token_nll": 2.362637602359014
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.046875,
+              "answer_token_nll": 6.707458674971184,
+              "recall_at_1": 0.96875,
+              "recall_at_4": 1.0,
+              "decode_correct_residency": 0.1724137931034483,
+              "decode_query_count": 116,
+              "decode_examples": 64,
+              "switch_count_mean": 1.609375,
+              "switch_count_total": 103,
+              "retrieval_transition_count": 116,
+              "top1_switch_rate": 0.8879310344827587
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 12.507016171108592
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 8.014788794665947,
+            "hidden_cosine": 0.7104261708445847,
+            "no_memory_reverse_kl": 23.834870144724846,
+            "no_memory_hidden_cosine": 0.5596349346451461,
+            "first_token_reverse_kl": 17.20674863674867,
+            "first_token_hidden_cosine": 0.7363026421517134,
+            "first_token_no_memory_reverse_kl": 34.68734249472618,
+            "first_token_no_memory_hidden_cosine": 0.6033630399033427,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "14b8a4b1127c00377012e541175b19e0cdb2d81d6173b0365df7a585021292b8",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.4375,
+              "ci95": [
+                0.3125,
+                0.546875
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": -0.421875,
+              "ci95": [
+                -0.546875,
+                -0.296875
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.515625,
+              "ci95": [
+                0.390625,
+                0.640625
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "canonical_support/heldout_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.046875,
+              "answer_token_nll": 7.794829402669248,
+              "recall_at_1": 0.046875,
+              "recall_at_4": 0.15625,
+              "decode_correct_residency": 0.078125,
+              "decode_query_count": 64,
+              "decode_examples": 64,
+              "switch_count_mean": 1.0,
+              "switch_count_total": 64,
+              "retrieval_transition_count": 64,
+              "top1_switch_rate": 1.0
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.09375,
+              "answer_token_nll": 6.033680143131113
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.03125,
+              "answer_token_nll": 7.630135453221473,
+              "recall_at_1": 0.046875,
+              "recall_at_4": 0.15625,
+              "decode_correct_residency": 0.06493506493506493,
+              "decode_query_count": 77,
+              "decode_examples": 64,
+              "switch_count_mean": 1.015625,
+              "switch_count_total": 65,
+              "retrieval_transition_count": 77,
+              "top1_switch_rate": 0.8441558441558441
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 11.132134860212153
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 14.552765085361898,
+            "hidden_cosine": 0.7023308235220611,
+            "no_memory_reverse_kl": 20.44686970114708,
+            "no_memory_hidden_cosine": 0.6039011008106172,
+            "first_token_reverse_kl": 31.375534855760634,
+            "first_token_hidden_cosine": 0.6723459251224995,
+            "first_token_no_memory_reverse_kl": 34.34621396660805,
+            "first_token_no_memory_hidden_cosine": 0.580173784866929,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "14b8a4b1127c00377012e541175b19e0cdb2d81d6173b0365df7a585021292b8",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.015625,
+              "ci95": [
+                0.0,
+                0.046875
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.046875,
+              "ci95": [
+                0.0,
+                0.109375
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.953125,
+              "ci95": [
+                0.890625,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "heldout_support/canonical_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.177575252272867,
+              "recall_at_1": 0.34375,
+              "recall_at_4": 0.59375,
+              "decode_correct_residency": 0.06842105263157895,
+              "decode_query_count": 190,
+              "decode_examples": 64,
+              "switch_count_mean": 2.734375,
+              "switch_count_total": 175,
+              "retrieval_transition_count": 190,
+              "top1_switch_rate": 0.9210526315789473
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 7.802156873724678
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 8.559104989875447,
+              "recall_at_1": 0.34375,
+              "recall_at_4": 0.59375,
+              "decode_correct_residency": 0.06806282722513089,
+              "decode_query_count": 191,
+              "decode_examples": 64,
+              "switch_count_mean": 2.765625,
+              "switch_count_total": 177,
+              "retrieval_transition_count": 191,
+              "top1_switch_rate": 0.9267015706806283
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 12.507016171108592
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 20.216664165258408,
+            "hidden_cosine": 0.6106076845899224,
+            "no_memory_reverse_kl": 23.554475337266922,
+            "no_memory_hidden_cosine": 0.5622931807301939,
+            "first_token_reverse_kl": 32.06522297859192,
+            "first_token_hidden_cosine": 0.6881197933107615,
+            "first_token_no_memory_reverse_kl": 34.164299219846725,
+            "first_token_no_memory_hidden_cosine": 0.6121389595791698,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "17c5c19d534f595506cb6dc1a1303596ced56e2e92408934eb3a89efae5474c4",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": -0.015625,
+              "ci95": [
+                -0.046875,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "heldout_support/heldout_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 8.74990503354506,
+              "recall_at_1": 0.078125,
+              "recall_at_4": 0.078125,
+              "decode_correct_residency": 0.08045977011494253,
+              "decode_query_count": 174,
+              "decode_examples": 64,
+              "switch_count_mean": 2.71875,
+              "switch_count_total": 174,
+              "retrieval_transition_count": 174,
+              "top1_switch_rate": 1.0
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 8.882373939860951
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.24231014468453,
+              "recall_at_1": 0.078125,
+              "recall_at_4": 0.078125,
+              "decode_correct_residency": 0.06382978723404255,
+              "decode_query_count": 94,
+              "decode_examples": 64,
+              "switch_count_mean": 1.375,
+              "switch_count_total": 88,
+              "retrieval_transition_count": 94,
+              "top1_switch_rate": 0.9361702127659575
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 11.132134860212153
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 16.49941247701645,
+            "hidden_cosine": 0.6718009011819959,
+            "no_memory_reverse_kl": 20.04414711892605,
+            "no_memory_hidden_cosine": 0.6049426808021963,
+            "first_token_reverse_kl": 31.508733212947845,
+            "first_token_hidden_cosine": 0.6781292716041207,
+            "first_token_no_memory_reverse_kl": 33.52086299657822,
+            "first_token_no_memory_hidden_cosine": 0.5826306072995067,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "17c5c19d534f595506cb6dc1a1303596ced56e2e92408934eb3a89efae5474c4",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        }
+      },
+      "all_conditions_real_minus_shuffled": {
+        "n_paired_facts": 64,
+        "phases_per_fact": 4,
+        "delta_em": 0.11328125,
+        "ci95": [
+          0.08203125,
+          0.14453125
+        ],
+        "bootstrap_samples": 5000,
+        "bootstrap_seed": 123,
+        "unit": "fact; all phases for one fact resampled together",
+        "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+      }
+    },
+    {
+      "method": "on_kd",
+      "configuration": {
+        "method": "on_kd",
+        "updates": 256,
+        "batch_size": 8,
+        "eval_size": 64,
+        "max_new_tokens": 4,
+        "sampling_temperature": 1.0,
+        "seed": 42,
+        "evaluate_only": false,
+        "skip_teacher_eval": true,
+        "kl_direction": "reverse",
+        "kl_temperature": 1.0,
+        "hidden_weight": 0.1,
+        "canonical_replay_frequency": 4,
+        "canonical_replay_weight": 0.25,
+        "all_view_address_weight": 0.2,
+        "actual_prefix_address_weight": 0.2,
+        "wrong_prefix_address_policy": "Every sampled prediction position targets the question's fact, even after a wrong token"
+      },
+      "initialization_step": 1600,
+      "provenance": {
+        "cache_sha256": "00b94acb30450f31285c5268bb5709485a185c81327cf0dabcf02c1e1c66ab32",
+        "checkpoint_sha256": "3c8b3ec5de85ccb07ae1f482e594258a76678ae6f96adcd30808e6de79853748",
+        "model_manifest_sha256": "0888bbb0f8e5721a20d3289ec265ba090bc180d9eb1a42264aeaf089c07860b2",
+        "data_fingerprint": "12a299d6519fc60a664484581e5709cfbc17fe1317a1d354c27867b9d7c28f38",
+        "module_sha256_before": "06eef861cc42b655c280c77b1935e7c17a0a0eaf2517169d6a0dccf1a24b964a",
+        "module_sha256_after": "52cf8e51c16dade486fd76db26a4bf97f2bd925004dce90b23c7a54310f1fc08",
+        "runtime_source_files_sha256": {
+          "__init__.py": "31a77f7d06208e712fe5e7fa4e7ed109d2675b5533aeaa650a005a618f73f7b7",
+          "factcentric_losses.py": "7d02921f21cc7945491d546cd3166d5da0be1b728727c1c84b056f00f8b2984d",
+          "backend.py": "0e577deabdeae59f10b0b003293ef003219c167fdb65603b8ee222ca0dedbf0c",
+          "data.py": "2101304ce146971dae6d14b11a2553cc89b815a2dcd87953b4dcccab7cc4c998",
+          "vector_store.py": "4a278b7fa647d9d762c5ac970ada86f2c29722f7e557c1bf796f1f559e214fa9",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539",
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "context_distillation_run.py": "5cf4b38c329a2638617a88fb48f326631723c35fb8a04abcc3636dda23674d3e",
+          "run.py": "f5001509179164b271e7b8f68ec157264aaf4c1b2de3741a0194794e21c95565",
+          "vector_run.py": "c5f48e6e968a71be3dbb15c9554ec24fc195ee4af116fed8fa29aca20fa3ddc3",
+          "memory.py": "1a59cc41f096ab8cc86f9d846133cf1c34ad19751a56b90353217f497af50698",
+          "metrics.py": "2f800e410ed6a46cf74e694a64fceb2b4ba5c7269809e8a1cb952e436e84e66b",
+          "generalization_run.py": "9dcec94f7f05c80040bfbd3a86e2ceb13916019999ac4c150e3f82ccf04b058e",
+          "scaling_run.py": "8af0f0038faff92544f40c5280a689a67c1e0b71a30762577e90c5f9b3540937",
+          "context_distillation.py": "32f043d24df845749f1cf170225e13b8aedfde618495f12fb1cb118e601d252f",
+          "scaling_backend.py": "a12d3f08989135a1324f0cd0b3c97db84d167bfd21f648c32cad7e8f85faefcd",
+          "augmentation_data.py": "1c0c878e8d60424a055adba065c30a6e98d2d1680283ed4664056734d2edc422"
+        },
+        "runtime_source_sha256": "0a97dc0ca87cf25fbd882fb3435db7f7fd41a26024715074a3d9d9dd114e72ec",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "teacher_parameter_sha256": "4e2850c80418595bf6323fcb54200e4dbd2351b48e4bdfe6c8010ef164ad9ac0",
+        "evaluated_checkpoint_file_sha256": "9b9f9aef866b445131c02056d727e7fa0603e5bdb747e570626c66bd3557bff9",
+        "evidence_sha256": {
+          "manifest.json": "01c571d5e267f0847fe0ea6922a2b47326d74f06fd01c8f34f9b1e6815612811",
+          "config.json": "ed2b9340a2683bb55625c90c912ba7c8397cc2402bda341f9199d9c44abeff3a",
+          "metrics.json": "06f802d5a3f6e4514795496a37a96c8d04d93b8e4f6c254e261850505c897407",
+          "dev.jsonl": "0490e21def911300b4d6603b460a1e9e62c11e0ed008cc15de2da88f9b194841",
+          "predictions.jsonl": "528a654e1bad58b6db249cdf3b0e27c5d14f9fd8b5712804a28c165cf4934386",
+          "alignment_predictions.jsonl": "572392a10dcb2b6e1218386b9c0c315fd58442994ddb6f3f424e091e3b57ad60",
+          "training.jsonl": "b03ccf8b35bf119ed4077880d6191a6b3c6697164fd83939ebda387cdc73f7f6",
+          "training_status.json": "1890607a68e30046714c486dc10f03149bff262d293aa8d8b95fede40953a419",
+          "rollouts.jsonl": "ce56e1acc9941a43fcbda6c05466fca36f86804b3893b602eb5dd9b783cf8840",
+          "last.pt": "9b9f9aef866b445131c02056d727e7fa0603e5bdb747e570626c66bd3557bff9"
+        },
+        "fact_label_sha256": "2e66ddc3036c6059cddead0ecce264ea29f467fc89de98040ba62a07a6fd69e7"
+      },
+      "training": {
+        "step": 256,
+        "selected_step": 256,
+        "target_exposures": 2048,
+        "canonical_replay_exposures": 512,
+        "target_exposure_sha256": "d3e02d2ac2367828fc1315be6d95b63b601cd02b1c09455b745fae0930387180",
+        "episode_schedule_sha256": "dd444ed1412f88658667d3818058c2e11529bfd1b443956eff321db867e0036c",
+        "token_totals": {
+          "main_target_tokens": 6371,
+          "teacher_target_tokens": 6371,
+          "sampled_tokens": 6371,
+          "student_input_tokens": 120835,
+          "teacher_input_tokens": 187577,
+          "rollout_input_tokens": 363204,
+          "replay_target_tokens": 1213,
+          "replay_input_tokens": 29423
+        },
+        "elapsed_seconds": 69.64718308020383,
+        "rollout_sha256": "ce56e1acc9941a43fcbda6c05466fca36f86804b3893b602eb5dd9b783cf8840",
+        "training_log_sha256": "b03ccf8b35bf119ed4077880d6191a6b3c6697164fd83939ebda387cdc73f7f6",
+        "processed_input_tokens_total": 701039,
+        "selection": "fixed final update; no development selection"
+      },
+      "conditions": {
+        "canonical_support/canonical_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.640625,
+              "answer_token_nll": 1.3945068786547794,
+              "recall_at_1": 1.0,
+              "recall_at_4": 1.0,
+              "decode_correct_residency": 0.40625,
+              "decode_query_count": 96,
+              "decode_examples": 64,
+              "switch_count_mean": 1.25,
+              "switch_count_total": 80,
+              "retrieval_transition_count": 96,
+              "top1_switch_rate": 0.8333333333333334
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.515625,
+              "answer_token_nll": 2.120443944421078
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.09375,
+              "answer_token_nll": 7.254263861570507,
+              "recall_at_1": 1.0,
+              "recall_at_4": 1.0,
+              "decode_correct_residency": 0.19672131147540983,
+              "decode_query_count": 122,
+              "decode_examples": 64,
+              "switch_count_mean": 1.71875,
+              "switch_count_total": 110,
+              "retrieval_transition_count": 122,
+              "top1_switch_rate": 0.9016393442622951
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 12.507016171108592
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 7.812729009456234,
+            "hidden_cosine": 0.6904028286226094,
+            "no_memory_reverse_kl": 23.834870144724846,
+            "no_memory_hidden_cosine": 0.5596349346451461,
+            "first_token_reverse_kl": 13.6851579087961,
+            "first_token_hidden_cosine": 0.7383804153650999,
+            "first_token_no_memory_reverse_kl": 34.68734249472618,
+            "first_token_no_memory_hidden_cosine": 0.6033630399033427,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "ef14b2fa7a11a109007954674707f2f2b397d237938ffdf5494b9d1470f1ec6c",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.546875,
+              "ci95": [
+                0.421875,
+                0.671875
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": -0.265625,
+              "ci95": [
+                -0.390625,
+                -0.15625
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.359375,
+              "ci95": [
+                0.25,
+                0.484375
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "canonical_support/heldout_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.0625,
+              "answer_token_nll": 7.607308543202552,
+              "recall_at_1": 0.0625,
+              "recall_at_4": 0.171875,
+              "decode_correct_residency": 0.056338028169014086,
+              "decode_query_count": 71,
+              "decode_examples": 64,
+              "switch_count_mean": 1.015625,
+              "switch_count_total": 65,
+              "retrieval_transition_count": 71,
+              "top1_switch_rate": 0.9154929577464789
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.0625,
+              "answer_token_nll": 6.127578138966452
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 8.33919797702269,
+              "recall_at_1": 0.0625,
+              "recall_at_4": 0.171875,
+              "decode_correct_residency": 0.09322033898305085,
+              "decode_query_count": 118,
+              "decode_examples": 64,
+              "switch_count_mean": 1.59375,
+              "switch_count_total": 102,
+              "retrieval_transition_count": 118,
+              "top1_switch_rate": 0.864406779661017
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 11.132134860212153
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 16.597686991095543,
+            "hidden_cosine": 0.6649146042764187,
+            "no_memory_reverse_kl": 20.44686970114708,
+            "no_memory_hidden_cosine": 0.6039011008106172,
+            "first_token_reverse_kl": 31.82085084915161,
+            "first_token_hidden_cosine": 0.6530492734164,
+            "first_token_no_memory_reverse_kl": 34.34621396660805,
+            "first_token_no_memory_hidden_cosine": 0.580173784866929,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "ef14b2fa7a11a109007954674707f2f2b397d237938ffdf5494b9d1470f1ec6c",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0625,
+              "ci95": [
+                0.015625,
+                0.125
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0625,
+              "ci95": [
+                0.015625,
+                0.125
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.9375,
+              "ci95": [
+                0.875,
+                0.984375
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "heldout_support/canonical_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 10.41479148648002,
+              "recall_at_1": 0.34375,
+              "recall_at_4": 0.546875,
+              "decode_correct_residency": 0.041666666666666664,
+              "decode_query_count": 192,
+              "decode_examples": 64,
+              "switch_count_mean": 2.375,
+              "switch_count_total": 152,
+              "retrieval_transition_count": 192,
+              "top1_switch_rate": 0.7916666666666666
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.636591185222972
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 10.097463163462551,
+              "recall_at_1": 0.34375,
+              "recall_at_4": 0.546875,
+              "decode_correct_residency": 0.08900523560209424,
+              "decode_query_count": 191,
+              "decode_examples": 64,
+              "switch_count_mean": 2.53125,
+              "switch_count_total": 162,
+              "retrieval_transition_count": 191,
+              "top1_switch_rate": 0.8481675392670157
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 12.507016171108592
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 22.549933955073357,
+            "hidden_cosine": 0.571805028244853,
+            "no_memory_reverse_kl": 23.554475337266922,
+            "no_memory_hidden_cosine": 0.5622931807301939,
+            "first_token_reverse_kl": 33.086944460868835,
+            "first_token_hidden_cosine": 0.6747806901112199,
+            "first_token_no_memory_reverse_kl": 34.164299219846725,
+            "first_token_no_memory_hidden_cosine": 0.6121389595791698,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "f6ad0e2d29b77c1aec2dd0ba3c460caebe4523ecb772f2b69ba7734f5b9d1cad",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": -0.015625,
+              "ci95": [
+                -0.046875,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "heldout_support/heldout_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 10.723456751216542,
+              "recall_at_1": 0.078125,
+              "recall_at_4": 0.109375,
+              "decode_correct_residency": 0.07954545454545454,
+              "decode_query_count": 176,
+              "decode_examples": 64,
+              "switch_count_mean": 2.671875,
+              "switch_count_total": 171,
+              "retrieval_transition_count": 176,
+              "top1_switch_rate": 0.9715909090909091
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 10.368412505496632
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.799185991287231,
+              "recall_at_1": 0.078125,
+              "recall_at_4": 0.109375,
+              "decode_correct_residency": 0.06802721088435375,
+              "decode_query_count": 147,
+              "decode_examples": 64,
+              "switch_count_mean": 2.28125,
+              "switch_count_total": 146,
+              "retrieval_transition_count": 147,
+              "top1_switch_rate": 0.9931972789115646
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 11.132134860212153
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 18.741375848650932,
+            "hidden_cosine": 0.6445196806453168,
+            "no_memory_reverse_kl": 20.04414711892605,
+            "no_memory_hidden_cosine": 0.6049426808021963,
+            "first_token_reverse_kl": 32.43056470155716,
+            "first_token_hidden_cosine": 0.6825532680377364,
+            "first_token_no_memory_reverse_kl": 33.52086299657822,
+            "first_token_no_memory_hidden_cosine": 0.5826306072995067,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "f6ad0e2d29b77c1aec2dd0ba3c460caebe4523ecb772f2b69ba7734f5b9d1cad",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        }
+      },
+      "all_conditions_real_minus_shuffled": {
+        "n_paired_facts": 64,
+        "phases_per_fact": 4,
+        "delta_em": 0.15234375,
+        "ci95": [
+          0.1171875,
+          0.1875
+        ],
+        "bootstrap_samples": 5000,
+        "bootstrap_seed": 123,
+        "unit": "fact; all phases for one fact resampled together",
+        "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+      }
+    },
+    {
+      "method": "on_kd_hidden",
+      "configuration": {
+        "method": "on_kd_hidden",
+        "updates": 256,
+        "batch_size": 8,
+        "eval_size": 64,
+        "max_new_tokens": 4,
+        "sampling_temperature": 1.0,
+        "seed": 42,
+        "evaluate_only": false,
+        "skip_teacher_eval": true,
+        "kl_direction": "reverse",
+        "kl_temperature": 1.0,
+        "hidden_weight": 0.1,
+        "canonical_replay_frequency": 4,
+        "canonical_replay_weight": 0.25,
+        "all_view_address_weight": 0.2,
+        "actual_prefix_address_weight": 0.2,
+        "wrong_prefix_address_policy": "Every sampled prediction position targets the question's fact, even after a wrong token"
+      },
+      "initialization_step": 1600,
+      "provenance": {
+        "cache_sha256": "00b94acb30450f31285c5268bb5709485a185c81327cf0dabcf02c1e1c66ab32",
+        "checkpoint_sha256": "3c8b3ec5de85ccb07ae1f482e594258a76678ae6f96adcd30808e6de79853748",
+        "model_manifest_sha256": "0888bbb0f8e5721a20d3289ec265ba090bc180d9eb1a42264aeaf089c07860b2",
+        "data_fingerprint": "12a299d6519fc60a664484581e5709cfbc17fe1317a1d354c27867b9d7c28f38",
+        "module_sha256_before": "06eef861cc42b655c280c77b1935e7c17a0a0eaf2517169d6a0dccf1a24b964a",
+        "module_sha256_after": "8af4de2adcd3c9ab485a5e900ea1a8e02b53e9826f152c7906e31ecd50c3385e",
+        "runtime_source_files_sha256": {
+          "__init__.py": "31a77f7d06208e712fe5e7fa4e7ed109d2675b5533aeaa650a005a618f73f7b7",
+          "factcentric_losses.py": "7d02921f21cc7945491d546cd3166d5da0be1b728727c1c84b056f00f8b2984d",
+          "backend.py": "0e577deabdeae59f10b0b003293ef003219c167fdb65603b8ee222ca0dedbf0c",
+          "data.py": "2101304ce146971dae6d14b11a2553cc89b815a2dcd87953b4dcccab7cc4c998",
+          "vector_store.py": "4a278b7fa647d9d762c5ac970ada86f2c29722f7e557c1bf796f1f559e214fa9",
+          "stable_vector_vera.py": "28aa3b70748ed61d47756889a25f31c6f7b7a6377bb2d3370ef8704ce14c9539",
+          "vector_vera.py": "8848c5a90b6cc0bc056437543e74aab4253f8c95e76925902c6adc5b00f993c8",
+          "context_distillation_run.py": "5cf4b38c329a2638617a88fb48f326631723c35fb8a04abcc3636dda23674d3e",
+          "run.py": "f5001509179164b271e7b8f68ec157264aaf4c1b2de3741a0194794e21c95565",
+          "vector_run.py": "c5f48e6e968a71be3dbb15c9554ec24fc195ee4af116fed8fa29aca20fa3ddc3",
+          "memory.py": "1a59cc41f096ab8cc86f9d846133cf1c34ad19751a56b90353217f497af50698",
+          "metrics.py": "2f800e410ed6a46cf74e694a64fceb2b4ba5c7269809e8a1cb952e436e84e66b",
+          "generalization_run.py": "9dcec94f7f05c80040bfbd3a86e2ceb13916019999ac4c150e3f82ccf04b058e",
+          "scaling_run.py": "8af0f0038faff92544f40c5280a689a67c1e0b71a30762577e90c5f9b3540937",
+          "context_distillation.py": "32f043d24df845749f1cf170225e13b8aedfde618495f12fb1cb118e601d252f",
+          "scaling_backend.py": "a12d3f08989135a1324f0cd0b3c97db84d167bfd21f648c32cad7e8f85faefcd",
+          "augmentation_data.py": "1c0c878e8d60424a055adba065c30a6e98d2d1680283ed4664056734d2edc422"
+        },
+        "runtime_source_sha256": "0a97dc0ca87cf25fbd882fb3435db7f7fd41a26024715074a3d9d9dd114e72ec",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "teacher_parameter_sha256": "4e2850c80418595bf6323fcb54200e4dbd2351b48e4bdfe6c8010ef164ad9ac0",
+        "evaluated_checkpoint_file_sha256": "1e643c2df6acac6d1416c86470a2e648ce00045c4707b5d43d68157714dbce92",
+        "evidence_sha256": {
+          "manifest.json": "f7161018d7cb0a606969db0214eed92f37ee72594800285480d225435e898885",
+          "config.json": "9ec12c8828547e3161d9f75875f8958719744ee26402419278b75504ae48de19",
+          "metrics.json": "d5b2781ce0a3d955258ba5c87651ba4c47a5a5cbbc33be0b0aa608c7d55b9ab4",
+          "dev.jsonl": "0490e21def911300b4d6603b460a1e9e62c11e0ed008cc15de2da88f9b194841",
+          "predictions.jsonl": "d0b47da09b2d8a04b7ce86518263ad1e80a39e7dc956c81ab41b0c8c9ea24a64",
+          "alignment_predictions.jsonl": "a9b8316bbee7c7b6e248b797e8504e869c6a0f9f5986f29157813c19a3f3b741",
+          "training.jsonl": "578168459ebd435c2f72116c08d64b41be7cb0dd994a9b9477680dffc415366a",
+          "training_status.json": "e2651ddf882ee3e25da8668b9a7e6a59601b7193b8605c565ac8647ec04bd499",
+          "rollouts.jsonl": "a8081766e83f936e86b97cf1afe8c7f0726ed8e5493d998247e688906c78823f",
+          "last.pt": "1e643c2df6acac6d1416c86470a2e648ce00045c4707b5d43d68157714dbce92"
+        },
+        "fact_label_sha256": "2e66ddc3036c6059cddead0ecce264ea29f467fc89de98040ba62a07a6fd69e7"
+      },
+      "training": {
+        "step": 256,
+        "selected_step": 256,
+        "target_exposures": 2048,
+        "canonical_replay_exposures": 512,
+        "target_exposure_sha256": "d3e02d2ac2367828fc1315be6d95b63b601cd02b1c09455b745fae0930387180",
+        "episode_schedule_sha256": "dd444ed1412f88658667d3818058c2e11529bfd1b443956eff321db867e0036c",
+        "token_totals": {
+          "main_target_tokens": 6473,
+          "teacher_target_tokens": 6473,
+          "sampled_tokens": 6473,
+          "student_input_tokens": 120937,
+          "teacher_input_tokens": 187679,
+          "rollout_input_tokens": 368759,
+          "replay_target_tokens": 1213,
+          "replay_input_tokens": 29423
+        },
+        "elapsed_seconds": 68.98646962922066,
+        "rollout_sha256": "a8081766e83f936e86b97cf1afe8c7f0726ed8e5493d998247e688906c78823f",
+        "training_log_sha256": "578168459ebd435c2f72116c08d64b41be7cb0dd994a9b9477680dffc415366a",
+        "processed_input_tokens_total": 706798,
+        "selection": "fixed final update; no development selection"
+      },
+      "conditions": {
+        "canonical_support/canonical_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.625,
+              "answer_token_nll": 1.3804137459674992,
+              "recall_at_1": 1.0,
+              "recall_at_4": 1.0,
+              "decode_correct_residency": 0.3402061855670103,
+              "decode_query_count": 97,
+              "decode_examples": 64,
+              "switch_count_mean": 1.3125,
+              "switch_count_total": 84,
+              "retrieval_transition_count": 97,
+              "top1_switch_rate": 0.865979381443299
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.53125,
+              "answer_token_nll": 2.0110912092297273
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0625,
+              "answer_token_nll": 7.650219477183947,
+              "recall_at_1": 1.0,
+              "recall_at_4": 1.0,
+              "decode_correct_residency": 0.15702479338842976,
+              "decode_query_count": 121,
+              "decode_examples": 64,
+              "switch_count_mean": 1.765625,
+              "switch_count_total": 113,
+              "retrieval_transition_count": 121,
+              "top1_switch_rate": 0.9338842975206612
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 12.507016171108592
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 6.96234148338408,
+            "hidden_cosine": 0.6867716913111508,
+            "no_memory_reverse_kl": 23.834870144724846,
+            "no_memory_hidden_cosine": 0.5596349346451461,
+            "first_token_reverse_kl": 12.27517121258279,
+            "first_token_hidden_cosine": 0.7302395924925804,
+            "first_token_no_memory_reverse_kl": 34.68734249472618,
+            "first_token_no_memory_hidden_cosine": 0.6033630399033427,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "44d11f3b3a4679372795b6366059b2a976d15df205553602759f2132d5cb3feb",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.5625,
+              "ci95": [
+                0.4375,
+                0.6875
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": -0.28125,
+              "ci95": [
+                -0.390625,
+                -0.171875
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.375,
+              "ci95": [
+                0.25,
+                0.5
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "canonical_support/heldout_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.046875,
+              "answer_token_nll": 7.640931333330545,
+              "recall_at_1": 0.046875,
+              "recall_at_4": 0.171875,
+              "decode_correct_residency": 0.02666666666666667,
+              "decode_query_count": 75,
+              "decode_examples": 64,
+              "switch_count_mean": 1.09375,
+              "switch_count_total": 70,
+              "retrieval_transition_count": 75,
+              "top1_switch_rate": 0.9333333333333333
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.046875,
+              "answer_token_nll": 6.953077367930249
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.089694597504355,
+              "recall_at_1": 0.046875,
+              "recall_at_4": 0.171875,
+              "decode_correct_residency": 0.07216494845360824,
+              "decode_query_count": 97,
+              "decode_examples": 64,
+              "switch_count_mean": 1.46875,
+              "switch_count_total": 94,
+              "retrieval_transition_count": 97,
+              "top1_switch_rate": 0.9690721649484536
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 11.132134860212153
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 17.084262043237686,
+            "hidden_cosine": 0.6527967341244221,
+            "no_memory_reverse_kl": 20.44686970114708,
+            "no_memory_hidden_cosine": 0.6039011008106172,
+            "first_token_reverse_kl": 32.51074542105198,
+            "first_token_hidden_cosine": 0.6369590843096375,
+            "first_token_no_memory_reverse_kl": 34.34621396660805,
+            "first_token_no_memory_hidden_cosine": 0.580173784866929,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "44d11f3b3a4679372795b6366059b2a976d15df205553602759f2132d5cb3feb",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.046875,
+              "ci95": [
+                0.0,
+                0.109375
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.046875,
+              "ci95": [
+                0.0,
+                0.109375
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.953125,
+              "ci95": [
+                0.890625,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "heldout_support/canonical_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 10.249204050410878,
+              "recall_at_1": 0.296875,
+              "recall_at_4": 0.515625,
+              "decode_correct_residency": 0.08333333333333333,
+              "decode_query_count": 192,
+              "decode_examples": 64,
+              "switch_count_mean": 2.734375,
+              "switch_count_total": 175,
+              "retrieval_transition_count": 192,
+              "top1_switch_rate": 0.9114583333333334
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.843451180241324
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 10.180064223029397,
+              "recall_at_1": 0.296875,
+              "recall_at_4": 0.515625,
+              "decode_correct_residency": 0.09895833333333333,
+              "decode_query_count": 192,
+              "decode_examples": 64,
+              "switch_count_mean": 2.609375,
+              "switch_count_total": 167,
+              "retrieval_transition_count": 192,
+              "top1_switch_rate": 0.8697916666666666
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 12.507016171108592
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 22.560419037938118,
+            "hidden_cosine": 0.5666624386794865,
+            "no_memory_reverse_kl": 23.554475337266922,
+            "no_memory_hidden_cosine": 0.5622931807301939,
+            "first_token_reverse_kl": 32.61011429131031,
+            "first_token_hidden_cosine": 0.6684551779180765,
+            "first_token_no_memory_reverse_kl": 34.164299219846725,
+            "first_token_no_memory_hidden_cosine": 0.6121389595791698,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "1e9e9ac8f8857ecb99a46e38aab27a65ebba2f2270d9960f8a0f5238a235e2b6",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": -0.015625,
+              "ci95": [
+                -0.046875,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        },
+        "heldout_support/heldout_query": {
+          "student": {
+            "real": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.40830135345459,
+              "recall_at_1": 0.0625,
+              "recall_at_4": 0.078125,
+              "decode_correct_residency": 0.046296296296296294,
+              "decode_query_count": 108,
+              "decode_examples": 64,
+              "switch_count_mean": 1.6875,
+              "switch_count_total": 108,
+              "retrieval_transition_count": 108,
+              "top1_switch_rate": 1.0
+            },
+            "oracle": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.423740901730277
+            },
+            "shuffled": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 9.970543893900784,
+              "recall_at_1": 0.0625,
+              "recall_at_4": 0.078125,
+              "decode_correct_residency": 0.05194805194805195,
+              "decode_query_count": 154,
+              "decode_examples": 64,
+              "switch_count_mean": 2.3125,
+              "switch_count_total": 148,
+              "retrieval_transition_count": 154,
+              "top1_switch_rate": 0.961038961038961
+            },
+            "empty": {
+              "count": 64,
+              "em": 0.0,
+              "answer_token_nll": 11.132134860212153
+            }
+          },
+          "alignment": {
+            "count": 64,
+            "tokens": 152,
+            "reverse_kl": 18.70626875758171,
+            "hidden_cosine": 0.6437147194519639,
+            "no_memory_reverse_kl": 20.04414711892605,
+            "no_memory_hidden_cosine": 0.6049426808021963,
+            "first_token_reverse_kl": 31.665711402893066,
+            "first_token_hidden_cosine": 0.6861996296793222,
+            "first_token_no_memory_reverse_kl": 33.52086299657822,
+            "first_token_no_memory_hidden_cosine": 0.5826306072995067,
+            "aggregation": "mean token metric per fact, then mean across facts; gold+EOS prefixes"
+          },
+          "teacher": null,
+          "records": 64,
+          "numeric_vdb_bytes": {
+            "key_bytes": 16384,
+            "value_bytes": 16384,
+            "total_bytes": 32768
+          },
+          "vdb_sha256": "1e9e9ac8f8857ecb99a46e38aab27a65ebba2f2270d9960f8a0f5238a235e2b6",
+          "paired": {
+            "real_minus_shuffled": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "real_minus_initial": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            },
+            "teacher_minus_real": {
+              "n_paired_facts": 64,
+              "phases_per_fact": 1,
+              "delta_em": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "bootstrap_samples": 5000,
+              "bootstrap_seed": 123,
+              "unit": "fact; all phases for one fact resampled together",
+              "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+            }
+          }
+        }
+      },
+      "all_conditions_real_minus_shuffled": {
+        "n_paired_facts": 64,
+        "phases_per_fact": 4,
+        "delta_em": 0.15234375,
+        "ci95": [
+          0.1171875,
+          0.1875
+        ],
+        "bootstrap_samples": 5000,
+        "bootstrap_seed": 123,
+        "unit": "fact; all phases for one fact resampled together",
+        "scope": "Conditional fact-sampling uncertainty, excludes training-seed and template-family uncertainty"
+      }
+    }
+  ],
+  "limitations": [
+    "Exploratory development-set experiment: at most 64 facts, short finite-vocabulary answers, one training seed.",
+    "No held-out confirmation claim, no checkpoint selection from development results, and no evidence of general continual-learning ability.",
+    "Four conditions reuse facts; across-condition uncertainty bootstraps fact clusters, not individual fact/phase records.",
+    "Gold+EOS prefix KL/hidden diagnostics use teacher forcing and are distinct from free-generation EM; first-token metrics expose the answer-free prefix.",
+    "Cosine hidden alignment can be high for the no-memory backbone; compare changes against that baseline instead of absolute cosine alone.",
+    "Forced-value oracle changes the readout distribution and is a diagnostic, not a guaranteed accuracy upper bound.",
+    "Token cost totals count unpadded input positions and omit backward/FLOP costs; on-policy rollouts recompute prompt/prefix positions.",
+    "Bootstrap intervals condition on this trained model and these template families; they do not estimate seed or unseen-family uncertainty."
+  ]
+}

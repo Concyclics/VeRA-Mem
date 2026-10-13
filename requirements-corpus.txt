@@ -1,0 +1,8 @@
+# Corpus track tested separately from the historical sealed experiments.
+# Install faiss-cpu instead only for CPU unit tests; do not install both variants.
+faiss-gpu==1.15.1
+pyarrow>=21
+transformers>=5.5,<6
+torch>=2.9
+numpy>=2
+pytest>=8

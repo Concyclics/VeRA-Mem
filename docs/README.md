@@ -16,10 +16,11 @@ Read [research_path.md](research_path.md) first for the experimental narrative a
 | Small-data reconstruction | [Protocol](reconstruction_protocol.md) | [Results](reconstruction_results.md) | [Key facts](results/reconstruction/key_facts.json), [registration](results/reconstruction/registration.json), [audit](results/reconstruction/independent_audit.json) |
 | QKV grouping and binding | [Protocol](qkv_protocol.md), [literature](qkv_literature.md) | [Results](qkv_results.md) | [Key facts](results/qkv/key_facts.json), [registration](results/qkv/registration.json), [audit](results/qkv/independent_audit.json) |
 | Whole-block low-rank reader | [Protocol](block_protocol.md), [literature](block_literature.md) | [Results](block_results.md) | [Key facts](results/block/key_facts.json), [registration](results/block/registration.json), [full-query audit](results/block/independent_audit.json) |
+| Full WikiText-103 first round | [Protocol](wikitext_round1_protocol.md) | [Execution record](wikitext_round1_execution.md); no completed quality claim yet | [Durable controller](../scripts/run_corpus_round.py), [corpus dependencies](../requirements-corpus.txt) |
 
 ## Interpretation and supporting material
 
-- [Memory Decoder / MLP Memory scale alignment](paper_scale_alignment.md): paper budgets, a measured H100 capacity probe, storage estimates, and the proposed corpus experiment; large-data learning has not yet been run.
+- [Memory Decoder / MLP Memory scale alignment](paper_scale_alignment.md): the original paper-budget review and capacity probe. The subsequent [full-corpus protocol](wikitext_round1_protocol.md) records implementation choices and claim boundaries.
 - [TTT training-scale review](ttt_scaling_review.md): what large-scale training evidence does and does not imply for this prototype.
 - [Hash-memory and initialization review](hash_initialization_review.md): source-backed initialization and memory-mechanism distinctions.
 - [Latest operator diagnostics](results/block/operator_diagnostics.json), [matched Q/K check](results/block/qk_matched.json), [examples](results/block/examples.json), and [training convergence](results/block/training_convergence.json).

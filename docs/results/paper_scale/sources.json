@@ -1,0 +1,53 @@
+{
+  "sources": [
+    {
+      "title": "Memory Decoder",
+      "url": "https://arxiv.org/html/2508.09874v2",
+      "type": "paper",
+      "accessed_date_utc": "2026-10-13",
+      "local_capture_sha256": "f5b81ec99bba00b3b5c3617714df438b48a04c3271a5b1219cc555bbe024fed8",
+      "capture_format": ".md"
+    },
+    {
+      "title": "MLP Memory",
+      "url": "https://arxiv.org/html/2508.01832v3",
+      "type": "paper",
+      "accessed_date_utc": "2026-10-13",
+      "local_capture_sha256": "fd4b19d364d500b1d32a289a8d1d82465055936c15f54bf094883fcf6a840645",
+      "capture_format": ".md"
+    },
+    {
+      "title": "Memory Decoder at Scale",
+      "url": "https://arxiv.org/html/2607.27919v1",
+      "type": "paper",
+      "accessed_date_utc": "2026-10-13",
+      "local_capture_sha256": "1a77db6781d55e630d89b4ec6c726601c32ad9435cfb8d278194a7aac1eba79d",
+      "capture_format": ".html"
+    },
+    {
+      "title": "MLP Memory training example",
+      "url": "https://github.com/LUMIA-Group/MLPMemory/blob/6801e43fc54a40f3217c2245a0c0019bbf137372/scripts/train_mlpmem_offline.sh",
+      "type": "official_code",
+      "accessed_date_utc": "2026-10-13",
+      "local_capture_sha256": "624522bd4875fb5244ccc4f747f18874cc9330ab4be0afac1788ded98141081e",
+      "capture_format": ".txt"
+    },
+    {
+      "title": "Memory Decoder training example",
+      "url": "https://github.com/LUMIA-Group/MemoryDecoder/blob/1aad7461e15ad4072edabf6b003d1578d31892dc/scripts/train_memdec.sh",
+      "type": "official_code",
+      "accessed_date_utc": "2026-10-13",
+      "local_capture_sha256": "58471b851e98a43eea2e1a4f0ebea28effbac7b1aacc91ba2bfed11e9e5f6b0b",
+      "capture_format": ".txt"
+    },
+    {
+      "title": "WikiText dataset metadata",
+      "url": "https://huggingface.co/datasets/Salesforce/wikitext/tree/b08601e04326c79dfdd32d625aee71d232d685c3",
+      "type": "dataset_metadata",
+      "accessed_date_utc": "2026-10-13",
+      "local_capture_sha256": "4b1745a27734bcb2904d9f8d94a794f9054b94b10eaf06c87faa4039aa104dba",
+      "capture_format": ".txt"
+    }
+  ],
+  "note": "Full source captures are retained outside the public code repository. HF markdown captures identify their arXiv versions through internal links."
+}

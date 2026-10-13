@@ -1,0 +1,79 @@
+{
+  "schema": "paper-scale-estimate-v1",
+  "classification": "arithmetic_scenarios_not_measured_end_to_end_runtime",
+  "capacity_result_sha256": "b26e4ac66036c1db2f8a546ace1897f4bb924f67062d55b9ddd22f7a0e9b1667",
+  "reference_scored_tokens_per_second": 7945.765972129939,
+  "reference_selection": "Slower of successful 1024-input-token cases; no multi-GPU scaling assumed",
+  "nominal_corpus_tokens": 100000000,
+  "kernel_equivalents": [
+    {
+      "scored_tokens": 10000000,
+      "gpu_hours": 0.34959219633713523
+    },
+    {
+      "scored_tokens": 100000000,
+      "gpu_hours": 3.4959219633713525
+    },
+    {
+      "scored_tokens": 300000000,
+      "gpu_hours": 10.487765890114057
+    },
+    {
+      "scored_tokens": 600000000,
+      "gpu_hours": 20.975531780228113
+    }
+  ],
+  "planning_multiplier": {
+    "range": [
+      2,
+      6
+    ],
+    "status": "assumption_not_measurement",
+    "excludes": "Separately measured one-time corpus/teacher/index preprocessing"
+  },
+  "storage_scenarios": [
+    {
+      "representation": "per_token_layer20_inputs_fp16",
+      "bytes": 1945600000000,
+      "decimal_GB": 1945.6,
+      "GiB": 1811.981201171875,
+      "formula": "N * 9728 * 2"
+    },
+    {
+      "representation": "per_token_hidden2560_fp16",
+      "bytes": 512000000000,
+      "decimal_GB": 512.0,
+      "GiB": 476.837158203125,
+      "formula": "N * 2560 * 2"
+    },
+    {
+      "representation": "eight_pooled_layer20_features_per_128_tokens_fp16",
+      "bytes": 121600000000,
+      "decimal_GB": 121.6,
+      "GiB": 113.24882507324219,
+      "formula": "(N / 128) * 8 * 9728 * 2"
+    },
+    {
+      "representation": "eight_kv_slots_per_128_tokens_fp16",
+      "bytes": 1600000000,
+      "decimal_GB": 1.6,
+      "GiB": 1.4901161193847656,
+      "formula": "(N / 128) * 8 * (64 + 64) * 2"
+    },
+    {
+      "representation": "sparse_targets_assuming_mean_64_entries",
+      "bytes": 39600000000,
+      "decimal_GB": 39.6,
+      "GiB": 36.88037395477295,
+      "formula": "N * (64 * (4 + 2) + 8 + 4)"
+    }
+  ],
+  "storage_exclusions": [
+    "Index structure and temporary construction files",
+    "Metadata and journal",
+    "Checkpoints",
+    "Backup copies",
+    "Runtime tensors"
+  ],
+  "new_representation_status": "Eight-slot chunk writer and its FP16 store are proposed, not implemented or quality-tested"
+}

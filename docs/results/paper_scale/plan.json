@@ -1,0 +1,137 @@
+{
+  "schema": "paper-scale-proposal-v1",
+  "status": "design_only_not_preregistered",
+  "created_at_utc": "2026-10-13T06:17:03.032334+00:00",
+  "purpose": "Test whether corpus-trained shared writers/readers enable frozen-weight online vector-memory updates",
+  "completed": [
+    "Paper and official implementation review",
+    "Synthetic single-GPU compute probe",
+    "CPU exact-search kernel probe",
+    "Checksum-verified local mirrors"
+  ],
+  "not_completed": [
+    "Corpus preparation or token counting",
+    "Generalized chunk writer/reader",
+    "ANN backend",
+    "Teacher target cache",
+    "Corpus training",
+    "New continual-memory confirmation"
+  ],
+  "backbone": {
+    "name": "Qwen/Qwen3-4B-Instruct-2507",
+    "project_pinned_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "frozen": true,
+    "layer": 20,
+    "rank": 64,
+    "key_dimension": 64
+  },
+  "corpus": {
+    "name": "Salesforce/wikitext",
+    "revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "config": "wikitext-103-raw-v1",
+    "split_policy": "Preserve official article-level train/validation/test membership",
+    "initial_training_budget": "One pass; exact Qwen supervised-token count must be measured before registration",
+    "nominal_corpus_tokens_for_planning": 100000000,
+    "development_checkpoint_scored_tokens": 10000000,
+    "tokens_actually_prepared": 0
+  },
+  "candidate_interface": {
+    "status": "new_version_required",
+    "support_chunk_tokens": 128,
+    "slots_per_chunk": 8,
+    "retrieval_candidates": 32,
+    "retrieved_complete_blocks": 4,
+    "rank": 64,
+    "key_dimension": 64,
+    "storage_dtype": "FP16 subject to validation against FP32",
+    "query_source": "Actual VeRA-layer input",
+    "writer_source": "Pooled contextual features of observed support, never generated from QA labels",
+    "offline_index_policy": "Version keys with writer and refresh whenever the projected key space changes",
+    "online_policy": "Freeze writer, reader, backbone, centers, and loss settings; append/upsert VDB only"
+  },
+  "matched_trainable_arms": [
+    "diagonal",
+    "factor_mean_outer",
+    "block_outer"
+  ],
+  "objective_components": [
+    "Corpus next-token CE",
+    "Sparse retrieval-to-student forward KL",
+    "Support/query episode learning with contextual teacher targets",
+    "Discriminative Q/K address loss",
+    "Empty/irrelevant-memory preservation examples"
+  ],
+  "registration_decisions_pending": [
+    "Corpus counts and article hashes",
+    "Training loss weights and mixture",
+    "Index and refresh cadence with measured overhead",
+    "Teacher quality and target sparsity",
+    "Storage precision validation",
+    "Final seed list and confirmation IDs",
+    "Baseline implementations and budgets",
+    "Complete runtime and storage forecast"
+  ],
+  "evaluation": {
+    "static_lm": {
+      "context_tokens": 1024,
+      "scored_tokens_per_window": 512,
+      "bank": "Training documents only",
+      "metrics": [
+        "NLL",
+        "PPL"
+      ]
+    },
+    "continual": {
+      "minimum_new_support_query_units": 1000,
+      "grouped_resampling_unit": "Source entity/article",
+      "metrics": [
+        "Free-generation EM/F1",
+        "Retrieval recall",
+        "Joint update-and-restore correctness",
+        "Retention across writes",
+        "Empty/irrelevant-memory effect"
+      ],
+      "controls": [
+        "empty",
+        "shuffled_values",
+        "stale_values",
+        "correct_block_oracle",
+        "restored_record"
+      ],
+      "forbidden": [
+        "Future-support access",
+        "Gold QA label input to writer",
+        "Online optimizer steps",
+        "Selection on confirmation outcomes"
+      ]
+    },
+    "contamination_note": "New to adapter training does not imply new to backbone pretraining"
+  },
+  "proposed_development_gates": {
+    "status": "To be fixed before running; not paper-established thresholds",
+    "em_gain_over_empty_and_shuffle_percentage_points": 10,
+    "entity_bootstrap_confidence": 0.95,
+    "em_gain_ci_lower_bound_must_exceed": 0,
+    "minimum_fraction_of_positive_oracle_em_gain_recovered": 0.5,
+    "max_empty_or_irrelevant_memory_relative_ppl_increase": 0.02
+  },
+  "replication": {
+    "primary_passes_initially": 1,
+    "final_seed_count": 3,
+    "matched_arms": 3,
+    "total_full_runs": 9,
+    "full_run_token_budget": "Actual one-pass exposure, fixed identically for all arms/seeds"
+  },
+  "later_stages": {
+    "cumulative_training_tokens_candidate": 300000000,
+    "independent_web_corpus_tokens_candidate": 600000000,
+    "requires": "Reproducible continual-memory improvement and a new measured resource budget"
+  },
+  "claim_limits": [
+    "Not an exact paper reproduction",
+    "Different backbone/tokenizer prevents direct published-PPL comparisons",
+    "Small adapter is not parameter-matched to a 1B memory",
+    "Synthetic throughput is not natural-language learning evidence",
+    "Large-data effectiveness remains unknown"
+  ]
+}

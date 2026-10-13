@@ -19,6 +19,7 @@ Read [research_path.md](research_path.md) first for the experimental narrative a
 
 ## Interpretation and supporting material
 
+- [Memory Decoder / MLP Memory scale alignment](paper_scale_alignment.md): paper budgets, a measured H100 capacity probe, storage estimates, and the proposed corpus experiment; large-data learning has not yet been run.
 - [TTT training-scale review](ttt_scaling_review.md): what large-scale training evidence does and does not imply for this prototype.
 - [Hash-memory and initialization review](hash_initialization_review.md): source-backed initialization and memory-mechanism distinctions.
 - [Latest operator diagnostics](results/block/operator_diagnostics.json), [matched Q/K check](results/block/qk_matched.json), [examples](results/block/examples.json), and [training convergence](results/block/training_convergence.json).

@@ -1,0 +1,38 @@
+{
+  "schema": "paper-scale-validation-v1",
+  "completed_at_utc": "2026-10-13T06:20:41.563888+00:00",
+  "completed_probe": {
+    "source_hashes_match_current_files": true,
+    "all_four_gpu_cases_successful": true,
+    "backbone_gradients_absent": true,
+    "query_and_value_gradients_nonzero": true,
+    "selected_gpu_released": true
+  },
+  "execution_history": {
+    "completed_capacity_probes": 1,
+    "setup_failures_before_optimization": 2,
+    "setup_fixes": [
+      "Fit query/key feature statistics",
+      "Fit pooled-value feature statistics"
+    ],
+    "failed_attempts_retained": true,
+    "scientific_corpus_training_runs": 0
+  },
+  "backup": {
+    "scope": "Only the three new probe attempts, including complete execution sources and partial/final JSON; controller logs retained locally",
+    "all_probe_mirrors_checksum_verified": true,
+    "run_count": 3,
+    "base_weights_copied": false
+  },
+  "checks": [
+    "Repository English text, JSON, links and localization provenance",
+    "160 original Git blobs verified",
+    "GPU forward/backward and optimizer execution",
+    "Probe source SHA256 matches",
+    "Throughput and storage arithmetic checked"
+  ],
+  "not_run": [
+    "Full historical pytest suite; existing runtime modules were not edited",
+    "Formal corpus learning or ANN quality evaluation"
+  ]
+}

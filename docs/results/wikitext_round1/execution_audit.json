@@ -1,0 +1,278 @@
+{
+  "status": "complete",
+  "date": "2026-10-14",
+  "training_host": "xtrah200",
+  "training_device": "NVIDIA H200 NVL, GPU index 1",
+  "training_code_commit": "147b09cf3ecdfec2c5455bdd70586dd6a0290b7e",
+  "training_source_hashes_match": {
+    "corpus_data.py": true,
+    "corpus_features.py": true,
+    "corpus_index.py": true,
+    "corpus_reader.py": true,
+    "corpus_backend.py": true,
+    "corpus_episodes.py": true,
+    "corpus_train.py": true
+  },
+  "final_checkpoint_sha256": "59f9cef46b60b460f1c0a5170c2db3da7d21bdfc760761c044cf85530cd2d243",
+  "analysis_source_sha256": "397676a12bee31c8051c518c564771a3f029aaecc0b3339047d80779667e5086",
+  "analysis_repair": "A separate CPU-only report rerun converted a NumPy scalar before threshold serialization. Original training/evaluation source snapshot and all predictions are unchanged. Original failed stage receipt and log are retained.",
+  "tests": {
+    "passed": 21,
+    "scope": "Corpus data, reader, backbone, and report regression tests"
+  },
+  "training": {
+    "cursor": 135547,
+    "lm_tokens": 124273491,
+    "episode_cursor": 135520,
+    "episode_updates": 4235,
+    "episode_tokens": 613400,
+    "updates": 33887,
+    "teacher_input_positions": 25433065,
+    "teacher_forced_tokens": 613400,
+    "teacher_forced_token_correct": 409320,
+    "checkpoint_bin": 24,
+    "complete": true,
+    "finished_at_utc": "2026-10-14T03:18:16.888478+00:00"
+  },
+  "trainable_parameters": {
+    "diagonal": 1118400,
+    "factor_mean_outer": 1126656,
+    "block_outer": 1126656,
+    "lora": 1130496
+  },
+  "stages": [
+    {
+      "name": "index",
+      "started_at_utc": "2026-10-13T08:59:42.747585+00:00",
+      "exit_code": 0,
+      "seconds": 10.409083758000634,
+      "finished_at_utc": "2026-10-13T08:59:53.156675+00:00"
+    },
+    {
+      "name": "qualify_7e4a138d0ca8",
+      "started_at_utc": "2026-10-13T08:59:53.693831+00:00",
+      "exit_code": 0,
+      "seconds": 13.44965028000297,
+      "finished_at_utc": "2026-10-13T09:00:07.143485+00:00"
+    },
+    {
+      "name": "pilot_7e4a138d0ca8",
+      "started_at_utc": "2026-10-13T09:00:07.448362+00:00",
+      "exit_code": 0,
+      "seconds": 41.98795306700049,
+      "finished_at_utc": "2026-10-13T09:00:49.436321+00:00"
+    },
+    {
+      "name": "train_to_10m",
+      "started_at_utc": "2026-10-13T09:30:41.678536+00:00",
+      "exit_code": 0,
+      "seconds": 8160.994642054997,
+      "finished_at_utc": "2026-10-13T11:46:42.673185+00:00"
+    },
+    {
+      "name": "evaluate_10m",
+      "started_at_utc": "2026-10-13T11:47:13.693472+00:00",
+      "exit_code": 0,
+      "seconds": 563.5291729329911,
+      "finished_at_utc": "2026-10-13T11:56:37.222649+00:00"
+    },
+    {
+      "name": "train_full",
+      "started_at_utc": "2026-10-13T11:57:38.346027+00:00",
+      "exit_code": 0,
+      "seconds": 55240.537586576,
+      "finished_at_utc": "2026-10-14T03:18:18.883618+00:00"
+    },
+    {
+      "name": "evaluate_full",
+      "started_at_utc": "2026-10-14T03:18:19.582670+00:00",
+      "exit_code": 0,
+      "seconds": 3567.2705020710127,
+      "finished_at_utc": "2026-10-14T04:17:46.853179+00:00"
+    },
+    {
+      "name": "analyze",
+      "started_at_utc": "2026-10-14T04:17:46.854639+00:00",
+      "exit_code": 1,
+      "seconds": 1.5213844329991844,
+      "finished_at_utc": "2026-10-14T04:17:48.376033+00:00"
+    },
+    {
+      "name": "analyze_repaired",
+      "exit_code": 0,
+      "seconds": 1.0663301160093397,
+      "started_at_utc": "2026-10-14T08:30:40.847431+00:00",
+      "finished_at_utc": "2026-10-14T08:30:41.913765+00:00",
+      "repair_of": "analyze"
+    }
+  ],
+  "time_note": "Stage timestamps are recorded by the remote host; backup verification uses the local host. Known clock offset is approximately four minutes, so wall-clock cross-host ordering is not inferred from these stamps. Durations use monotonic clocks.",
+  "environment": {
+    "python": "3.12.13 | packaged by Anaconda, Inc. | (main, Mar 19 2026, 20:20:58) [GCC 14.3.0]",
+    "torch": "2.11.0+cu130",
+    "cuda": "13.0",
+    "transformers": "5.5.4",
+    "numpy": "2.2.0",
+    "faiss": "1.15.1",
+    "packages": {
+      "huggingface-hub": "1.13.0",
+      "safetensors": "0.7.0",
+      "tokenizers": "0.22.2",
+      "pyarrow": "24.0.0",
+      "jinja2": "3.1.6"
+    },
+    "host": "xtrah200",
+    "platform": "Linux-6.8.0-146-generic-x86_64-with-glibc2.39",
+    "verified_at_utc": "2026-10-13T08:51:16.210889+00:00",
+    "cpu_tests_exit_code": 0
+  },
+  "frozen_weights_and_statistics_unchanged": true,
+  "online_parameter_digests": {
+    "diagonal": "1ad3314de91b257cafac157f036e7cbfadc227492b8198f027ee3ac666532ff0",
+    "factor_mean_outer": "d468a2f2069f7319a70a1a9229959b34966f4853146e6079d3bbea00bd21f857",
+    "block_outer": "ee355d5a98ff0f0245cff5878e5015eac16d0bc269608566500009c9395e18ab",
+    "lora": "d0e0c8538bbfe4c868b7815b936ed7cf25cb8f676e1e159a7381e522c4d36872"
+  },
+  "memory_counts": {
+    "write_events": 30,
+    "final_active_records": 985723,
+    "final_physical_records": 987723
+  },
+  "index_qualification": {
+    "prefix": {
+      "max_hidden_error": 0.0,
+      "zero_injection_error": 0.0,
+      "backbone_trainable_parameters": 0
+    },
+    "queries": 256,
+    "training_articles": 8,
+    "blocks": 984723,
+    "exact_batch_seconds": 0.6087992660031887,
+    "probes": [
+      {
+        "nprobe": 8,
+        "recall_at_32": 0.2008056640625,
+        "batch_seconds": [
+          0.03995934200065676,
+          0.0010254580120090395,
+          0.0008459180098725483
+        ],
+        "queries_per_second": 249644.54614621834
+      },
+      {
+        "nprobe": 16,
+        "recall_at_32": 0.27099609375,
+        "batch_seconds": [
+          0.0010917979961959645,
+          0.0009315979987150058,
+          0.0008354880119441077
+        ],
+        "queries_per_second": 274796.64013137866
+      },
+      {
+        "nprobe": 32,
+        "recall_at_32": 0.35693359375,
+        "batch_seconds": [
+          0.001100486988434568,
+          0.0010815880086738616,
+          0.0010474080045241863
+        ],
+        "queries_per_second": 236689.01462201157
+      },
+      {
+        "nprobe": 64,
+        "recall_at_32": 0.461669921875,
+        "batch_seconds": [
+          0.001982686997507699,
+          0.0014290569961303845,
+          0.0013349369983188808
+        ],
+        "queries_per_second": 179139.11110137627
+      },
+      {
+        "nprobe": 128,
+        "recall_at_32": 0.5819091796875,
+        "batch_seconds": [
+          0.0027107839996460825,
+          0.0022050359984859824,
+          0.0021693159942515194
+        ],
+        "queries_per_second": 116097.87784678991
+      },
+      {
+        "nprobe": 256,
+        "recall_at_32": 0.7008056640625,
+        "batch_seconds": [
+          0.004618231003405526,
+          0.0038796629960415885,
+          0.0038517219945788383
+        ],
+        "queries_per_second": 65985.11269179726
+      },
+      {
+        "nprobe": 512,
+        "recall_at_32": 0.8116455078125,
+        "batch_seconds": [
+          0.008357644008356147,
+          0.007304565995582379,
+          0.007286624997504987
+        ],
+        "queries_per_second": 35046.57226107923
+      },
+      {
+        "nprobe": 1024,
+        "recall_at_32": 0.9039306640625,
+        "batch_seconds": [
+          0.01616425800602883,
+          0.014365612005349249,
+          0.014304031996289268
+        ],
+        "queries_per_second": 17820.33371809531
+      }
+    ],
+    "chosen_search_budget": 1024,
+    "budget_name": "nprobe",
+    "backend": "ivf_gpu",
+    "selection_rule": "Smallest tested search budget with >=95% same-article-excluded recall@32; otherwise maximum and report shortfall",
+    "index_coordinate_contract": "Fixed projected training features; fine K/V recomputed during training",
+    "parameters": 1126656,
+    "query_source": "Actual layer-20 down-projection inputs from eight training windows"
+  },
+  "learned_ann_validation": {
+    "split": "validation",
+    "queries": 256,
+    "fixed_budget": true,
+    "methods": {
+      "diagonal": {
+        "recall_at_32": 0.93115234375,
+        "seconds": 0.07151527202222496,
+        "queries_per_second": 3579.6549850281253
+      },
+      "factor_mean_outer": {
+        "recall_at_32": 0.931640625,
+        "seconds": 0.0814692730200477,
+        "queries_per_second": 3142.2889944900376
+      },
+      "block_outer": {
+        "recall_at_32": 0.9302978515625,
+        "seconds": 0.015610320988344029,
+        "queries_per_second": 16399.406533097623
+      }
+    }
+  },
+  "backup": {
+    "complete": true,
+    "all_checksums_match": true,
+    "verified_files": 692,
+    "failed_files": [],
+    "experiment_status": "complete",
+    "stage": "analyze_repaired",
+    "exit_code": 0,
+    "verification": "Every remote artifact SHA-256 compared with its local mirror; base model and environment excluded."
+  },
+  "artifacts_manifest_sha256": "54e71893d52e33f5dac12c650def6c7231c605ee2a534533420f16867b5770c0",
+  "public_artifacts_sha256": {
+    "analysis.json": "95a2c7e7965b6328ecc3f82901a309e4d8165c318b52f056d48c4406dfa0bba5",
+    "report.md": "d6f9bb872dae58f43f324d793536c9aaa56eb25b3c42eb0f5cef9cf050dde6dc"
+  }
+}

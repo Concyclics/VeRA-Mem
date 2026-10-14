@@ -128,7 +128,8 @@ def analyze_evaluation(directory):
         restore = read(name, "restore_a_*")
         gain = contrast(final, empty)
         shuffled_gain = contrast(final, shuffled)
-        oracle_gain = paired(oracle, empty)[0].mean()
+        # Keep derived thresholds JSON-native (NumPy comparisons return np.bool_).
+        oracle_gain = float(paired(oracle, empty)[0].mean())
         recovery = gain["em"]["mean"] / oracle_gain if oracle_gain > 0 else None
         row = {"stream_a_vs_prewrite": contrast(first, pre), "stream_a_vs_empty": contrast(first, empty),
                "stream_a_vs_lora": contrast(first, lora), "final_a_vs_empty": gain,
@@ -220,6 +221,7 @@ def main(args):
     inputs = [p for folder in ("training", "development_10m", "confirmation", "stages")
               for p in (root / folder).rglob("*") if p.suffix in (".json", ".jsonl")]
     result = {"schema": "vera-corpus-analysis-v1", "training": training, "registration": registration,
+              "analysis_source_sha256": sha256(__file__),
               "bootstrap": {"cluster": "source article", "repetitions": 2000, "seed": 20261013,
                             "estimand": "query-weighted paired difference", "multiplicity_adjusted": False},
               "development": analyze_evaluation(root / "development_10m"),

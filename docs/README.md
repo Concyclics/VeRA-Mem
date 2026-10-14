@@ -16,7 +16,7 @@ Read [research_path.md](research_path.md) first for the experimental narrative a
 | Small-data reconstruction | [Protocol](reconstruction_protocol.md) | [Results](reconstruction_results.md) | [Key facts](results/reconstruction/key_facts.json), [registration](results/reconstruction/registration.json), [audit](results/reconstruction/independent_audit.json) |
 | QKV grouping and binding | [Protocol](qkv_protocol.md), [literature](qkv_literature.md) | [Results](qkv_results.md) | [Key facts](results/qkv/key_facts.json), [registration](results/qkv/registration.json), [audit](results/qkv/independent_audit.json) |
 | Whole-block low-rank reader | [Protocol](block_protocol.md), [literature](block_literature.md) | [Results](block_results.md) | [Key facts](results/block/key_facts.json), [registration](results/block/registration.json), [full-query audit](results/block/independent_audit.json) |
-| Full WikiText-103 first round | [Protocol](wikitext_round1_protocol.md) | [Execution record](wikitext_round1_execution.md); no completed quality claim yet | [Durable controller](../scripts/run_corpus_round.py), [corpus dependencies](../requirements-corpus.txt) |
+| Full WikiText-103 first round | [Protocol](wikitext_round1_protocol.md) | [Results](wikitext_round1_results.md): PPL improves, online recall and edits fail | [Execution record](wikitext_round1_execution.md), [paired analysis](results/wikitext_round1/analysis.json), [execution audit](results/wikitext_round1/execution_audit.json) |
 
 ## Interpretation and supporting material
 

@@ -1,6 +1,6 @@
 # WikiText-103 first-round execution record
 
-Status on 2026-10-13: **data and feature preparation completed; formal full-corpus training pending an available GPU**. This record contains preparation and engineering evidence, not a completed quality result. See the [registered protocol](wikitext_round1_protocol.md) for hypotheses, controls, and claim boundaries.
+Update on 2026-10-14: **full training and confirmation completed; the report-export error was repaired using unchanged measurements**. See the [final results](wikitext_round1_results.md) and [execution audit](results/wikitext_round1/execution_audit.json). The earlier preparation record below is retained for chronology. See the [registered protocol](wikitext_round1_protocol.md) for hypotheses, controls, and claim boundaries.
 
 ## Inputs and completed preparation
 
@@ -36,4 +36,4 @@ The H100 preparation archive is fully backed up locally; all 11 cached feature f
 
 All three VeRA readers and parameter-matched LoRA must finish the same complete corpus pass. The 10M-token evaluation is diagnostic and does not select an arm or terminate training. Completion also requires full static evaluation, frozen-weight writes/edits/restoration/retention, article-paired analysis, and locally verified backups.
 
-Until those artifacts exist, there is no new claim about WikiText PPL, improved generalization, successful continual learning at this scale, or superiority to Memory Decoder / MLP Memory. The preparation evidence above must not be presented as those results.
+These requirements are now checked in the linked final results and execution audit. The completed measurements show improved static PPL but do not establish effective online recall or counterfactual updating. The preparation evidence above must not be presented as evidence of successful continual learning or superiority to Memory Decoder / MLP Memory.
